@@ -1,0 +1,625 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0B10007E1569F76E1CAB1456 /* Pods_MyFirstGPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B90C9E859F51270B2744A7B8 /* Pods_MyFirstGPUImage.framework */; };
+		2D3A158921085257005131B8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A158821085257005131B8 /* AppDelegate.swift */; };
+		2D3A159021085258005131B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D3A158F21085258005131B8 /* Assets.xcassets */; };
+		2D3A159E21085258005131B8 /* MyFirstGPUImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A159D21085258005131B8 /* MyFirstGPUImageTests.swift */; };
+		2D3A15A921085258005131B8 /* MyFirstGPUImageUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A15A821085258005131B8 /* MyFirstGPUImageUITests.swift */; };
+		2D3A15B72108569C005131B8 /* FConViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A15B62108569C005131B8 /* FConViewController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2D3A159A21085258005131B8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2D3A157D21085257005131B8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2D3A158421085257005131B8;
+			remoteInfo = MyFirstGPUImage;
+		};
+		2D3A15A521085258005131B8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2D3A157D21085257005131B8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2D3A158421085257005131B8;
+			remoteInfo = MyFirstGPUImage;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		2D3A158521085257005131B8 /* MyFirstGPUImage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyFirstGPUImage.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D3A158821085257005131B8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		2D3A158F21085258005131B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2D3A159421085258005131B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2D3A159921085258005131B8 /* MyFirstGPUImageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyFirstGPUImageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D3A159D21085258005131B8 /* MyFirstGPUImageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFirstGPUImageTests.swift; sourceTree = "<group>"; };
+		2D3A159F21085258005131B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2D3A15A421085258005131B8 /* MyFirstGPUImageUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyFirstGPUImageUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D3A15A821085258005131B8 /* MyFirstGPUImageUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFirstGPUImageUITests.swift; sourceTree = "<group>"; };
+		2D3A15AA21085258005131B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2D3A15B62108569C005131B8 /* FConViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FConViewController.swift; sourceTree = "<group>"; };
+		6EA227A6B6B79861372E3272 /* Pods-MyFirstGPUImage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyFirstGPUImage.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyFirstGPUImage/Pods-MyFirstGPUImage.release.xcconfig"; sourceTree = "<group>"; };
+		B90C9E859F51270B2744A7B8 /* Pods_MyFirstGPUImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyFirstGPUImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB499B0F118CC40AAC7E5E06 /* Pods-MyFirstGPUImage.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyFirstGPUImage.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyFirstGPUImage/Pods-MyFirstGPUImage.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2D3A158221085257005131B8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B10007E1569F76E1CAB1456 /* Pods_MyFirstGPUImage.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2D3A159621085258005131B8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2D3A15A121085258005131B8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2D3A157C21085257005131B8 = {
+			isa = PBXGroup;
+			children = (
+				2D3A158721085257005131B8 /* MyFirstGPUImage */,
+				2D3A159C21085258005131B8 /* MyFirstGPUImageTests */,
+				2D3A15A721085258005131B8 /* MyFirstGPUImageUITests */,
+				2D3A158621085257005131B8 /* Products */,
+				37A8B1F276EF857EBE3F9D5B /* Pods */,
+				AA5F25CFB6BC38DAE45F780E /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		2D3A158621085257005131B8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2D3A158521085257005131B8 /* MyFirstGPUImage.app */,
+				2D3A159921085258005131B8 /* MyFirstGPUImageTests.xctest */,
+				2D3A15A421085258005131B8 /* MyFirstGPUImageUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2D3A158721085257005131B8 /* MyFirstGPUImage */ = {
+			isa = PBXGroup;
+			children = (
+				2D3A158821085257005131B8 /* AppDelegate.swift */,
+				2D3A158F21085258005131B8 /* Assets.xcassets */,
+				2D3A159421085258005131B8 /* Info.plist */,
+				2D3A15B62108569C005131B8 /* FConViewController.swift */,
+			);
+			path = MyFirstGPUImage;
+			sourceTree = "<group>";
+		};
+		2D3A159C21085258005131B8 /* MyFirstGPUImageTests */ = {
+			isa = PBXGroup;
+			children = (
+				2D3A159D21085258005131B8 /* MyFirstGPUImageTests.swift */,
+				2D3A159F21085258005131B8 /* Info.plist */,
+			);
+			path = MyFirstGPUImageTests;
+			sourceTree = "<group>";
+		};
+		2D3A15A721085258005131B8 /* MyFirstGPUImageUITests */ = {
+			isa = PBXGroup;
+			children = (
+				2D3A15A821085258005131B8 /* MyFirstGPUImageUITests.swift */,
+				2D3A15AA21085258005131B8 /* Info.plist */,
+			);
+			path = MyFirstGPUImageUITests;
+			sourceTree = "<group>";
+		};
+		37A8B1F276EF857EBE3F9D5B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BB499B0F118CC40AAC7E5E06 /* Pods-MyFirstGPUImage.debug.xcconfig */,
+				6EA227A6B6B79861372E3272 /* Pods-MyFirstGPUImage.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		AA5F25CFB6BC38DAE45F780E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B90C9E859F51270B2744A7B8 /* Pods_MyFirstGPUImage.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2D3A158421085257005131B8 /* MyFirstGPUImage */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2D3A15AD21085258005131B8 /* Build configuration list for PBXNativeTarget "MyFirstGPUImage" */;
+			buildPhases = (
+				6D88D277AE8385AD46B380C0 /* [CP] Check Pods Manifest.lock */,
+				2D3A158121085257005131B8 /* Sources */,
+				2D3A158221085257005131B8 /* Frameworks */,
+				2D3A158321085257005131B8 /* Resources */,
+				BBE33E35398736B73C600FE6 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MyFirstGPUImage;
+			productName = MyFirstGPUImage;
+			productReference = 2D3A158521085257005131B8 /* MyFirstGPUImage.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2D3A159821085258005131B8 /* MyFirstGPUImageTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2D3A15B021085258005131B8 /* Build configuration list for PBXNativeTarget "MyFirstGPUImageTests" */;
+			buildPhases = (
+				2D3A159521085258005131B8 /* Sources */,
+				2D3A159621085258005131B8 /* Frameworks */,
+				2D3A159721085258005131B8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2D3A159B21085258005131B8 /* PBXTargetDependency */,
+			);
+			name = MyFirstGPUImageTests;
+			productName = MyFirstGPUImageTests;
+			productReference = 2D3A159921085258005131B8 /* MyFirstGPUImageTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		2D3A15A321085258005131B8 /* MyFirstGPUImageUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2D3A15B321085258005131B8 /* Build configuration list for PBXNativeTarget "MyFirstGPUImageUITests" */;
+			buildPhases = (
+				2D3A15A021085258005131B8 /* Sources */,
+				2D3A15A121085258005131B8 /* Frameworks */,
+				2D3A15A221085258005131B8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2D3A15A621085258005131B8 /* PBXTargetDependency */,
+			);
+			name = MyFirstGPUImageUITests;
+			productName = MyFirstGPUImageUITests;
+			productReference = 2D3A15A421085258005131B8 /* MyFirstGPUImageUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2D3A157D21085257005131B8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0940;
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = LiuYong;
+				TargetAttributes = {
+					2D3A158421085257005131B8 = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+					2D3A159821085258005131B8 = {
+						CreatedOnToolsVersion = 9.4.1;
+						TestTargetID = 2D3A158421085257005131B8;
+					};
+					2D3A15A321085258005131B8 = {
+						CreatedOnToolsVersion = 9.4.1;
+						TestTargetID = 2D3A158421085257005131B8;
+					};
+				};
+			};
+			buildConfigurationList = 2D3A158021085257005131B8 /* Build configuration list for PBXProject "MyFirstGPUImage" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2D3A157C21085257005131B8;
+			productRefGroup = 2D3A158621085257005131B8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2D3A158421085257005131B8 /* MyFirstGPUImage */,
+				2D3A159821085258005131B8 /* MyFirstGPUImageTests */,
+				2D3A15A321085258005131B8 /* MyFirstGPUImageUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2D3A158321085257005131B8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2D3A159021085258005131B8 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2D3A159721085258005131B8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2D3A15A221085258005131B8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6D88D277AE8385AD46B380C0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MyFirstGPUImage-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BBE33E35398736B73C600FE6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-MyFirstGPUImage/Pods-MyFirstGPUImage-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GPUImage/GPUImage.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GPUImage.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyFirstGPUImage/Pods-MyFirstGPUImage-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2D3A158121085257005131B8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2D3A15B72108569C005131B8 /* FConViewController.swift in Sources */,
+				2D3A158921085257005131B8 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2D3A159521085258005131B8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2D3A159E21085258005131B8 /* MyFirstGPUImageTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2D3A15A021085258005131B8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2D3A15A921085258005131B8 /* MyFirstGPUImageUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2D3A159B21085258005131B8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2D3A158421085257005131B8 /* MyFirstGPUImage */;
+			targetProxy = 2D3A159A21085258005131B8 /* PBXContainerItemProxy */;
+		};
+		2D3A15A621085258005131B8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2D3A158421085257005131B8 /* MyFirstGPUImage */;
+			targetProxy = 2D3A15A521085258005131B8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		2D3A15AB21085258005131B8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		2D3A15AC21085258005131B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2D3A15AE21085258005131B8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BB499B0F118CC40AAC7E5E06 /* Pods-MyFirstGPUImage.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9A68XXWLG6;
+				INFOPLIST_FILE = MyFirstGPUImage/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "-.MyFirstGPUImage";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2D3A15AF21085258005131B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6EA227A6B6B79861372E3272 /* Pods-MyFirstGPUImage.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9A68XXWLG6;
+				INFOPLIST_FILE = MyFirstGPUImage/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "-.MyFirstGPUImage";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		2D3A15B121085258005131B8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = MyFirstGPUImageTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "-.MyFirstGPUImageTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyFirstGPUImage.app/MyFirstGPUImage";
+			};
+			name = Debug;
+		};
+		2D3A15B221085258005131B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = MyFirstGPUImageTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "-.MyFirstGPUImageTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyFirstGPUImage.app/MyFirstGPUImage";
+			};
+			name = Release;
+		};
+		2D3A15B421085258005131B8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = MyFirstGPUImageUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "-.MyFirstGPUImageUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MyFirstGPUImage;
+			};
+			name = Debug;
+		};
+		2D3A15B521085258005131B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = MyFirstGPUImageUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "-.MyFirstGPUImageUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MyFirstGPUImage;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2D3A158021085257005131B8 /* Build configuration list for PBXProject "MyFirstGPUImage" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2D3A15AB21085258005131B8 /* Debug */,
+				2D3A15AC21085258005131B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2D3A15AD21085258005131B8 /* Build configuration list for PBXNativeTarget "MyFirstGPUImage" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2D3A15AE21085258005131B8 /* Debug */,
+				2D3A15AF21085258005131B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2D3A15B021085258005131B8 /* Build configuration list for PBXNativeTarget "MyFirstGPUImageTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2D3A15B121085258005131B8 /* Debug */,
+				2D3A15B221085258005131B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2D3A15B321085258005131B8 /* Build configuration list for PBXNativeTarget "MyFirstGPUImageUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2D3A15B421085258005131B8 /* Debug */,
+				2D3A15B521085258005131B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2D3A157D21085257005131B8 /* Project object */;
+}
