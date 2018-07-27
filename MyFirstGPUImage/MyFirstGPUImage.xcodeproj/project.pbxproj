@@ -13,6 +13,11 @@
 		2D3A159E21085258005131B8 /* MyFirstGPUImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A159D21085258005131B8 /* MyFirstGPUImageTests.swift */; };
 		2D3A15A921085258005131B8 /* MyFirstGPUImageUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A15A821085258005131B8 /* MyFirstGPUImageUITests.swift */; };
 		2D3A15B72108569C005131B8 /* FConViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A15B62108569C005131B8 /* FConViewController.swift */; };
+		2D3A15C421097969005131B8 /* Propoty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A15C321097969005131B8 /* Propoty.swift */; };
+		2D3A15C621099854005131B8 /* DefaultBotomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A15C521099854005131B8 /* DefaultBotomView.swift */; };
+		2D3A15C82109A038005131B8 /* CheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A15C72109A038005131B8 /* CheckViewController.swift */; };
+		2D3A15CB2109B105005131B8 /* NewUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A15CA2109B105005131B8 /* NewUIButton.swift */; };
+		2D502351210AB8E200A7559A /* FillterSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D502350210AB8E200A7559A /* FillterSelectView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +49,11 @@
 		2D3A15A821085258005131B8 /* MyFirstGPUImageUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFirstGPUImageUITests.swift; sourceTree = "<group>"; };
 		2D3A15AA21085258005131B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2D3A15B62108569C005131B8 /* FConViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FConViewController.swift; sourceTree = "<group>"; };
+		2D3A15C321097969005131B8 /* Propoty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Propoty.swift; sourceTree = "<group>"; };
+		2D3A15C521099854005131B8 /* DefaultBotomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultBotomView.swift; sourceTree = "<group>"; };
+		2D3A15C72109A038005131B8 /* CheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckViewController.swift; sourceTree = "<group>"; };
+		2D3A15CA2109B105005131B8 /* NewUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewUIButton.swift; sourceTree = "<group>"; };
+		2D502350210AB8E200A7559A /* FillterSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillterSelectView.swift; sourceTree = "<group>"; };
 		6EA227A6B6B79861372E3272 /* Pods-MyFirstGPUImage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyFirstGPUImage.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyFirstGPUImage/Pods-MyFirstGPUImage.release.xcconfig"; sourceTree = "<group>"; };
 		B90C9E859F51270B2744A7B8 /* Pods_MyFirstGPUImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyFirstGPUImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB499B0F118CC40AAC7E5E06 /* Pods-MyFirstGPUImage.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyFirstGPUImage.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyFirstGPUImage/Pods-MyFirstGPUImage.debug.xcconfig"; sourceTree = "<group>"; };
@@ -100,10 +110,10 @@
 		2D3A158721085257005131B8 /* MyFirstGPUImage */ = {
 			isa = PBXGroup;
 			children = (
-				2D3A158821085257005131B8 /* AppDelegate.swift */,
-				2D3A158F21085258005131B8 /* Assets.xcassets */,
 				2D3A159421085258005131B8 /* Info.plist */,
-				2D3A15B62108569C005131B8 /* FConViewController.swift */,
+				2D3A15C121097943005131B8 /* Expend */,
+				2D3A15BB210974D7005131B8 /* Resource */,
+				2D3A15B9210974B2005131B8 /* Main */,
 			);
 			path = MyFirstGPUImage;
 			sourceTree = "<group>";
@@ -124,6 +134,91 @@
 				2D3A15AA21085258005131B8 /* Info.plist */,
 			);
 			path = MyFirstGPUImageUITests;
+			sourceTree = "<group>";
+		};
+		2D3A15B821097408005131B8 /* IndexCamera */ = {
+			isa = PBXGroup;
+			children = (
+				2D3A15BE21097537005131B8 /* Model */,
+				2D3A15BD21097531005131B8 /* View */,
+				2D3A15BC2109752C005131B8 /* Controller */,
+			);
+			path = IndexCamera;
+			sourceTree = "<group>";
+		};
+		2D3A15B9210974B2005131B8 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				2D3A15BA210974C3005131B8 /* Base */,
+				2D3A15B821097408005131B8 /* IndexCamera */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		2D3A15BA210974C3005131B8 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				2D3A158821085257005131B8 /* AppDelegate.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		2D3A15BB210974D7005131B8 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				2D3A158F21085258005131B8 /* Assets.xcassets */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		2D3A15BC2109752C005131B8 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2D3A15B62108569C005131B8 /* FConViewController.swift */,
+				2D3A15C72109A038005131B8 /* CheckViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		2D3A15BD21097531005131B8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2D502350210AB8E200A7559A /* FillterSelectView.swift */,
+				2D3A15C521099854005131B8 /* DefaultBotomView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2D3A15BE21097537005131B8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2D3A15C121097943005131B8 /* Expend */ = {
+			isa = PBXGroup;
+			children = (
+				2D3A15C92109B0E3005131B8 /* Extension */,
+				2D3A15C22109794F005131B8 /* PublicFunc */,
+			);
+			path = Expend;
+			sourceTree = "<group>";
+		};
+		2D3A15C22109794F005131B8 /* PublicFunc */ = {
+			isa = PBXGroup;
+			children = (
+				2D3A15C321097969005131B8 /* Propoty.swift */,
+			);
+			path = PublicFunc;
+			sourceTree = "<group>";
+		};
+		2D3A15C92109B0E3005131B8 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				2D3A15CA2109B105005131B8 /* NewUIButton.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		37A8B1F276EF857EBE3F9D5B /* Pods */ = {
@@ -313,8 +408,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D3A15CB2109B105005131B8 /* NewUIButton.swift in Sources */,
+				2D502351210AB8E200A7559A /* FillterSelectView.swift in Sources */,
 				2D3A15B72108569C005131B8 /* FConViewController.swift in Sources */,
 				2D3A158921085257005131B8 /* AppDelegate.swift in Sources */,
+				2D3A15C621099854005131B8 /* DefaultBotomView.swift in Sources */,
+				2D3A15C82109A038005131B8 /* CheckViewController.swift in Sources */,
+				2D3A15C421097969005131B8 /* Propoty.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -472,6 +572,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9A68XXWLG6;
 				INFOPLIST_FILE = MyFirstGPUImage/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -491,6 +592,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9A68XXWLG6;
 				INFOPLIST_FILE = MyFirstGPUImage/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
