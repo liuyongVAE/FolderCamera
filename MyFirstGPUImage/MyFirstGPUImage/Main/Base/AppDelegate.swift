@@ -7,6 +7,7 @@
 //
 
 import UIKit
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -19,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = FConViewController()//UINavigationController(rootViewController:MyTabViewViewController())
         self.window?.backgroundColor = UIColor.white
         window?.makeKeyAndVisible()
+        
+
         // Override point for customization after application launch.
         return true
     }

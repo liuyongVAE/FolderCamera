@@ -11,7 +11,7 @@ import Photos
 
 
 class CheckViewController: UIViewController {
-
+    
     
     //UI
     lazy var saveButton:UIButton = {
@@ -43,21 +43,16 @@ class CheckViewController: UIViewController {
     lazy var photoView:UIImageView = {
         let v = UIImageView(frame: FloatRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT*3/4))
         v.image = image
+        //v.contentMode = .center
+        v.contentMode = .scaleAspectFit
         
         return v
     }()
     
     
     //属性
-    
     let image:UIImage!
-    
-    
-    
-    
-    
-    
-    
+ 
     //初始化
     init(image:UIImage){
         self.image = image
@@ -76,46 +71,60 @@ class CheckViewController: UIViewController {
         view.addSubview(defaultBottomView)
         view.addSubview(saveButton)
         view.addSubview(backButton)
-
+        
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
 
 extension CheckViewController{
     
     //按钮点击
     
-    @objc func  savePhoto(){
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-        self.dismiss(animated: false, completion: nil)
-
-    }
-    
     @objc func back(){
         self.dismiss(animated: false, completion: nil)
         
     }
     
-
+ 
     
     
+    
+    
+}
+extension CheckViewController:UIImagePickerControllerDelegate,UINavigationControllerDelegate{
+    
+    
+    
+    @objc func  savePhoto(){
+        let authStatus = PHPhotoLibrary.authorizationStatus()
+        if authStatus != .restricted && authStatus != .denied{
+            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+            self.dismiss(animated: false, completion: nil)
+            
+        }else{
+            
+            
+        }
+        
+        
+    }
     
     
 }
