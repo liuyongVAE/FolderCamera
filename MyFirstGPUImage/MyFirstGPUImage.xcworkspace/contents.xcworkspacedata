@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:MyFirstGPUImage.xcodeproj">
+      location = "group:/Users/liuyong/Desktop/MyDemos/Paiyiha/MyFirstGPUImage/FolderCamera.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

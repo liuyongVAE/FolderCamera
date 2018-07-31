@@ -11,12 +11,10 @@ import Photos
 
 
 class CheckViewController: UIViewController {
-    
-    
     //UI
     lazy var saveButton:UIButton = {
-        let widthofme = getWidth(190)
-        var btn = UIButton(frame: CGRect(x: SCREEN_WIDTH/2 - widthofme/2 , y: getHeight(1543), width: widthofme, height: widthofme))
+        let widthofme:CGFloat = 50
+        var btn = UIButton()
         btn.layer.cornerRadius = widthofme/2
         btn.setImage(#imageLiteral(resourceName: "确认") , for: .normal)
         btn.addTarget(self, action: #selector(self.savePhoto), for: .touchUpInside)
@@ -24,7 +22,7 @@ class CheckViewController: UIViewController {
     }()
     
     lazy var backButton:UIButton = {
-        var btn = NewUIButton(frame: CGRect(x:getWidth(109), y: getHeight(1593), width:getWidth(102) , height: getHeight(171)))
+        var btn = NewUIButton()
         btn.setImage(#imageLiteral(resourceName: "返回") , for: .normal)
         btn.setTitle("返回", for: .normal)
         btn.setTitleColor(UIColor.black, for: .normal)
@@ -34,14 +32,14 @@ class CheckViewController: UIViewController {
     
     
     lazy var defaultBottomView:UIView = {
-        let v = UIView(frame: FloatRect(0, SCREEN_HEIGHT*3/4, SCREEN_WIDTH, SCREEN_HEIGHT/4))
+        let v = UIView()
         v.backgroundColor = UIColor.white
         
         return v
     }()
     
     lazy var photoView:UIImageView = {
-        let v = UIImageView(frame: FloatRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT*3/4))
+        let v = UIImageView()
         v.image = image
         //v.contentMode = .center
         v.contentMode = .scaleAspectFit
@@ -67,10 +65,7 @@ class CheckViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(photoView)
-        view.addSubview(defaultBottomView)
-        view.addSubview(saveButton)
-        view.addSubview(backButton)
+        setUI()
         
         // Do any additional setup after loading the view.
     }
@@ -95,6 +90,43 @@ class CheckViewController: UIViewController {
 
 extension CheckViewController{
     
+    
+    // UI布局
+    private func setUI(){
+        view.addSubview(photoView)
+        view.addSubview(defaultBottomView)
+        view.addSubview(saveButton)
+        view.addSubview(backButton)
+        photoView.snp.makeConstraints({
+            make in
+            make.top.width.equalToSuperview()
+            make.height.equalTo(SCREEN_HEIGHT*3/4)
+        })
+        defaultBottomView.snp.makeConstraints({
+            make in
+            make.bottom.equalToSuperview()
+            make.width.equalToSuperview()
+            make.height.equalTo(SCREEN_HEIGHT*1/4)
+        })
+        
+        let widthOfShot:CGFloat = 75
+        saveButton.snp.makeConstraints({
+            make in
+            make.center.equalTo(defaultBottomView)
+            make.width.height.equalTo(widthOfShot)
+        })
+        backButton.snp.makeConstraints({
+            make in
+            make.centerY.equalTo(saveButton).offset(20)
+            make.width.height.equalTo(widthOfShot)
+            make.left.equalToSuperview().offset(20)
+        })
+        
+    }
+    
+    
+    
+    
     //按钮点击
     
     @objc func back(){
@@ -111,14 +143,28 @@ extension CheckViewController{
 extension CheckViewController:UIImagePickerControllerDelegate,UINavigationControllerDelegate{
     
     
-    
+    //保存图片
     @objc func  savePhoto(){
         let authStatus = PHPhotoLibrary.authorizationStatus()
-        if authStatus != .restricted && authStatus != .denied{
+        if (authStatus != .restricted && authStatus != .denied){
             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
             self.dismiss(animated: false, completion: nil)
             
         }else{
+            let alertController = UIAlertController(title: "提示", message: "您已经关闭相册权限，该功能无法使用，请点击系统设置设置", preferredStyle: .alert)
+            
+            let alertAction1 = UIAlertAction(title: "取消", style: .default, handler: nil)
+            let alertAction2 = UIAlertAction(title: "系统设置", style: .default, handler: { (action) in
+                let url = URL(string: UIApplicationOpenSettingsURLString)
+                if(UIApplication.shared.canOpenURL(url!)) {
+                    UIApplication.shared.openURL(url!)
+                    
+                }
+            })
+            
+            alertController.addAction(alertAction1)
+            alertController.addAction(alertAction2)
+            self.present(alertController, animated: true, completion: nil)
             
             
         }

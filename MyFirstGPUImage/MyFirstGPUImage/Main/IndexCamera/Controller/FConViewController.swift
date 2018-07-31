@@ -14,51 +14,59 @@ import GPUImage
 class FConViewController: UIViewController {
     
     //UI
+//  拍照按钮
     lazy var shotButton:UIButton = {
-        let widthofme = getWidth(210)
-        var btn = UIButton(frame: CGRect(x: SCREEN_WIDTH/2 - widthofme/2 , y: getHeight(1543), width: widthofme, height: widthofme))
+        let widthofme:CGFloat = 75
+        var btn = UIButton()
         btn.layer.cornerRadius = widthofme/2
         btn.setImage(#imageLiteral(resourceName: "圆圈") , for: .normal)
         btn.addTarget(self, action: #selector(self.takePhoto), for: .touchUpInside)
         return btn
     }()
-    
+//  底部白色VIEW
     lazy var defaultBottomView:UIView = {
         let v = DefaultBotomView()
         v.delegate = self
-        
         return v
     }()
-    
+//    选择滤镜view
     lazy var cameraFillterView:FillterSelectView = {
-        let v = FillterSelectView(frame: FloatRect(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT/4))
+        let v = FillterSelectView()
         v.backgroundColor = UIColor.white
         
         v.filterDelegate = self
         return v
     }()
-    
+//  转换摄像头
     lazy var turnCameraButton:UIButton = {
-        let widthofme = getWidth(100)
-        var btn = UIButton(frame: CGRect(x: SCREEN_WIDTH - widthofme*2 , y: getHeight(35), width: widthofme, height: widthofme))
+        let widthofme:CGFloat = 50
+        var btn = UIButton()
         btn.layer.cornerRadius = widthofme/2
         btn.setImage(#imageLiteral(resourceName: "转换"), for: .normal)
         btn.addTarget(self, action: #selector(self.turnCamera(_:)), for: .touchUpInside)
         return btn
     }()
-    
+//    转换拍照比例
     lazy var turnScaleButton:UIButton = {
-        let widthofme = getWidth(100)
-        var btn = UIButton(frame: CGRect(x: widthofme*2 , y: getHeight(35), width: widthofme, height: widthofme))
-        btn.tag = 0;
+        let widthofme:CGFloat = 50
+        var btn = UIButton()
         btn.layer.cornerRadius = widthofme/2
         btn.setImage(#imageLiteral(resourceName: "屏幕比例"), for: .normal)
         btn.addTarget(self, action: #selector(self.turnScale), for: .touchUpInside)
         return btn
     }()
     
-    
-    
+//    lazy var Beautyslider:UISlider = {
+//        let slider = UISlider()
+//        slider.tintColor = naviColor
+//        slider.minimumValue = 0
+//        slider.maximumValue = 2
+//        slider.addTarget(self, action: #selector(self.sliderChange), for: .valueChanged)
+//        slider.isContinuous = false
+//        return slider
+//    }()
+//
+//
     
     //属性
     var mCamera:GPUImageStillCamera!
@@ -70,6 +78,8 @@ class FConViewController: UIViewController {
      在setCamera初始化
      */
     var scaleRate:Int?
+    var beautyFilter:GPUImageBeautifyFilter?
+    var isBeauty = false
     
     
     
@@ -84,23 +94,27 @@ class FConViewController: UIViewController {
     }
     
     
+    /// 拍照动作
     @objc func  takePhoto(){
-        mCamera.capturePhotoAsJPEGProcessedUp(toFilter: mFillter, withCompletionHandler: {
-            processedJPEG, error in
-            
-            if let aJPEG = processedJPEG {
-                guard var imageview = UIImage(data: aJPEG) else{  return }
-                self.present(CheckViewController(image: self.normalizedImage(image: imageview)), animated: false, completion: nil)
-            }
-        })
+        if !isBeauty{
+            mCamera.capturePhotoAsJPEGProcessedUp(toFilter: mFillter, withCompletionHandler: {
+                processedJPEG, error in
+                if let aJPEG = processedJPEG {
+                    guard var imageview = UIImage(data: aJPEG) else{  return }
+                    self.present(CheckViewController(image: self.normalizedImage(image: imageview)), animated: false, completion: nil)
+                }
+            })
+        }else{
+            mCamera.capturePhotoAsJPEGProcessedUp(toFilter: beautyFilter!, withCompletionHandler: {
+                processedJPEG, error in
+                if let aJPEG = processedJPEG {
+                    guard var imageview = UIImage(data: aJPEG) else{  return }
+                    self.present(CheckViewController(image: self.normalizedImage(image: imageview)), animated: false, completion: nil)
+                }
+            })
+        }
     }
     
-    
-    //保存图片
-    
-    func saveImage(){
-        
-    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -130,6 +144,60 @@ extension FConViewController{
         view.addSubview(shotButton)
         view.addSubview(turnCameraButton)
         view.addSubview(turnScaleButton)
+        view.addSubview(cameraFillterView)
+       // view.addSubview(Beautyslider)
+        defaultBottomView.snp.makeConstraints({
+            make in
+            make.bottom.equalToSuperview()
+            make.width.equalToSuperview()
+            make.height.equalTo(SCREEN_HEIGHT*1/4)
+        })
+        
+        let widthOfShot:CGFloat = 75
+        shotButton.snp.makeConstraints({
+            make in
+            make.center.equalTo(defaultBottomView)
+            make.width.height.equalTo(widthOfShot)
+        })
+        
+        let widthOfTop:CGFloat = 30
+
+        turnScaleButton.snp.makeConstraints({
+            make in
+            make.width.height.equalTo(widthOfTop)
+            make.left.equalToSuperview().offset(20)
+            make.top.equalToSuperview().offset(15)
+        })
+        
+        turnCameraButton.snp.makeConstraints({
+            make in
+            make.width.height.equalTo(widthOfTop)
+            make.right.equalToSuperview().offset(-20)
+            make.top.equalToSuperview().offset(15)
+        })
+        cameraFillterView.snp.makeConstraints({
+            make in
+            make.top.equalTo(SCREEN_HEIGHT)
+            make.width.equalToSuperview()
+            make.height.equalTo(SCREEN_HEIGHT*1/4)
+        })
+        mGpuimageView.snp.makeConstraints({
+            make in
+            make.top.equalToSuperview()
+            make.width.equalToSuperview()
+            make.height.equalTo(SCREEN_HEIGHT*3/4)
+        })
+        
+//        Beautyslider.isHidden = true
+//        Beautyslider.snp.makeConstraints({
+//            make in
+//            make.height.equalTo(20)
+//            make.width.equalTo(300)
+//            make.centerX.equalToSuperview()
+//            make.top.equalTo(defaultBottomView).offset(-40)
+//
+//        })
+        
         
     }
     
@@ -141,9 +209,7 @@ extension FConViewController{
         mCamera.horizontallyMirrorFrontFacingCamera = true
         //滤镜
         mFillter = GPUImageFilter()
-        
-        mGpuimageView = GPUImageView(frame: FloatRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT*3/4))
-        
+        mGpuimageView = GPUImageView()
         mCamera.addTarget(mFillter)
         mFillter.addTarget(mGpuimageView)
         mCamera.startCapture()
@@ -159,7 +225,7 @@ extension FConViewController{
             fArray.append(v)
         }
         cameraFillterView.picArray = fArray
-        view.addSubview(cameraFillterView)
+        cameraFillterView.collectionView.reloadData()
     }
     
     @objc func turnCamera(_ btn:UIButton){
@@ -175,22 +241,33 @@ extension FConViewController{
             //设置为640x480的大小
             mCamera.captureSession.beginConfiguration()
             let pre = AVCaptureSession.Preset.vga640x480
-            //  mCamera.captureSession.canSetSessionPreset(pre)
             mCamera.captureSession.sessionPreset = pre
             mCamera.captureSession.commitConfiguration()
             UIView.animate(withDuration: 0.2, animations: {
-                self.mGpuimageView.frame = FloatRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT*3/4)
+                self.mGpuimageView.transform = CGAffineTransform.identity
+                self.mGpuimageView.snp.remakeConstraints({
+                    make in
+                    make.height.equalTo(SCREEN_HEIGHT*3/4)
+                    make.width.left.top.equalToSuperview()
+                })
+                self.view.layoutIfNeeded()
                 self.defaultBottomView.center.y = SCREEN_HEIGHT*7/8
             })
         case 1:
             //设置为1280x720的大小
             mCamera.captureSession.beginConfiguration()
             let pre = AVCaptureSession.Preset.hd1280x720
-            //  mCamera.captureSession.canSetSessionPreset(pre)
             mCamera.captureSession.sessionPreset = pre
             mCamera.captureSession.commitConfiguration()
             UIView.animate(withDuration: 0.2, animations: {
-                self.mGpuimageView.frame = FloatRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+                //刷新预览视图布局
+                self.mGpuimageView.snp.remakeConstraints({
+                    make in
+                    make.width.height.equalToSuperview()
+                    make.left.top.equalToSuperview()
+                })
+                //刷新
+                self.view.layoutIfNeeded()
                 self.defaultBottomView.center.y = SCREEN_HEIGHT*9/8
             })
             
@@ -202,7 +279,6 @@ extension FConViewController{
         }
         
     }
-    
     
     //修正拍照角度
     ///
@@ -235,8 +311,11 @@ extension FConViewController{
 extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate{
     
     
-    //MARK: - 切换滤镜的方法
+
     
+    //MARK: - 切换滤镜的方法
+    ///
+    /// - Parameter index: 滤镜代码
     func switchFillter(index: Int) {
         mCamera.removeAllTargets()
         switch index {
@@ -266,8 +345,10 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
         
     }
     
+    
+    /// 切换滤镜方法
     func changeFillter() {
-        
+        isBeauty = false
         addFillter()
         view.bringSubview(toFront: shotButton)
         UIView.animate(withDuration: 0.2, animations: {
@@ -288,30 +369,47 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     /// - Parameter btn: 按钮
     func beauty(_ btn:UIButton) {
         if btn.isSelected{
+            isBeauty = true
+            //FIXME: 有问题的滑动条
+           // Beautyslider.isHidden = false
             print("美颜")
             mCamera.removeAllTargets()
             //亮度(GPUImageBrightnessFilter)和双边滤波(GPUImageBilateralFilter)这两个滤镜达到美颜效果
             let filterGroup = GPUImageFilterGroup()//创建滤镜组
             let bilateralFilter = GPUImageBilateralFilter()//磨皮
             let brightFilter = GPUImageBrightnessFilter()//美白
-            
             //添加滤镜组链
             filterGroup.addTarget(bilateralFilter)
             filterGroup.addTarget(brightFilter)
             bilateralFilter.addTarget(brightFilter)
             filterGroup.initialFilters = [bilateralFilter]
             filterGroup.terminalFilter = brightFilter
-            
-            mCamera.addTarget(filterGroup)
             filterGroup.addTarget(mGpuimageView)
+            //使用第三方美颜滤镜
+            beautyFilter = GPUImageBeautifyFilter()
+            //将美颜滤镜加入相机
+            mCamera.addTarget(beautyFilter!)
+            beautyFilter!.addTarget(mGpuimageView)
             mCamera.startCapture()
+            
+            
         }else{
             //取消美颜
+//            Beautyslider.isHidden = true
+            isBeauty = false
             mCamera.removeAllTargets()
             mCamera.addTarget(mFillter)
             mCamera.startCapture()
         }
     }
+    
+    @objc func  sliderChange(){
+//        print(Beautyslider.value)
+//        beautyFilter?.setBrightness(CGFloat(Beautyslider.value), saturation: 1.05)
+        
+    }
+    
+    
     
     
     

@@ -3,5 +3,6 @@ platform :ios, '8.4’
 use_frameworks!
 target ‘MyFirstGPUImage’ do
   pod ‘GPUImage'
+  pod 'SnapKit'
 end
 

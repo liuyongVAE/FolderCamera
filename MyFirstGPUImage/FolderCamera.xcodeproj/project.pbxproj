@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0B10007E1569F76E1CAB1456 /* Pods_MyFirstGPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B90C9E859F51270B2744A7B8 /* Pods_MyFirstGPUImage.framework */; };
+		2D1B88EE2110574E00773678 /* GPUImageBeautifyFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B88ED2110574E00773678 /* GPUImageBeautifyFilter.m */; };
 		2D3A158921085257005131B8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A158821085257005131B8 /* AppDelegate.swift */; };
 		2D3A159021085258005131B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D3A158F21085258005131B8 /* Assets.xcassets */; };
 		2D3A159E21085258005131B8 /* MyFirstGPUImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A159D21085258005131B8 /* MyFirstGPUImageTests.swift */; };
@@ -38,6 +39,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2D1B88EB2110574D00773678 /* MyFirstGPUImage-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyFirstGPUImage-Bridging-Header.h"; sourceTree = "<group>"; };
+		2D1B88EC2110574D00773678 /* GPUImageBeautifyFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageBeautifyFilter.h; sourceTree = "<group>"; };
+		2D1B88ED2110574E00773678 /* GPUImageBeautifyFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageBeautifyFilter.m; sourceTree = "<group>"; };
 		2D3A158521085257005131B8 /* MyFirstGPUImage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyFirstGPUImage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D3A158821085257005131B8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2D3A158F21085258005131B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -85,6 +89,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2D1B88EA2110572B00773678 /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				2D1B88EC2110574D00773678 /* GPUImageBeautifyFilter.h */,
+				2D1B88ED2110574E00773678 /* GPUImageBeautifyFilter.m */,
+				2D1B88EB2110574D00773678 /* MyFirstGPUImage-Bridging-Header.h */,
+			);
+			path = Framework;
+			sourceTree = "<group>";
+		};
 		2D3A157C21085257005131B8 = {
 			isa = PBXGroup;
 			children = (
@@ -199,6 +213,7 @@
 		2D3A15C121097943005131B8 /* Expend */ = {
 			isa = PBXGroup;
 			children = (
+				2D1B88EA2110572B00773678 /* Framework */,
 				2D3A15C92109B0E3005131B8 /* Extension */,
 				2D3A15C22109794F005131B8 /* PublicFunc */,
 			);
@@ -308,6 +323,7 @@
 				TargetAttributes = {
 					2D3A158421085257005131B8 = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 0940;
 					};
 					2D3A159821085258005131B8 = {
 						CreatedOnToolsVersion = 9.4.1;
@@ -319,7 +335,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 2D3A158021085257005131B8 /* Build configuration list for PBXProject "MyFirstGPUImage" */;
+			buildConfigurationList = 2D3A158021085257005131B8 /* Build configuration list for PBXProject "FolderCamera" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -391,10 +407,12 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-MyFirstGPUImage/Pods-MyFirstGPUImage-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GPUImage/GPUImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GPUImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -409,6 +427,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D3A15CB2109B105005131B8 /* NewUIButton.swift in Sources */,
+				2D1B88EE2110574E00773678 /* GPUImageBeautifyFilter.m in Sources */,
 				2D502351210AB8E200A7559A /* FillterSelectView.swift in Sources */,
 				2D3A15B72108569C005131B8 /* FConViewController.swift in Sources */,
 				2D3A158921085257005131B8 /* AppDelegate.swift in Sources */,
@@ -569,6 +588,7 @@
 			baseConfigurationReference = BB499B0F118CC40AAC7E5E06 /* Pods-MyFirstGPUImage.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9A68XXWLG6;
 				INFOPLIST_FILE = MyFirstGPUImage/Info.plist;
@@ -577,8 +597,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "-.MyFirstGPUImage";
+				PRODUCT_BUNDLE_IDENTIFIER = "-FolderCamera";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MyFirstGPUImage/Expend/Framework/MyFirstGPUImage-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -589,6 +611,7 @@
 			baseConfigurationReference = 6EA227A6B6B79861372E3272 /* Pods-MyFirstGPUImage.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9A68XXWLG6;
 				INFOPLIST_FILE = MyFirstGPUImage/Info.plist;
@@ -597,8 +620,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "-.MyFirstGPUImage";
+				PRODUCT_BUNDLE_IDENTIFIER = "-FolderCamera";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MyFirstGPUImage/Expend/Framework/MyFirstGPUImage-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -685,7 +709,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2D3A158021085257005131B8 /* Build configuration list for PBXProject "MyFirstGPUImage" */ = {
+		2D3A158021085257005131B8 /* Build configuration list for PBXProject "FolderCamera" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D3A15AB21085258005131B8 /* Debug */,
