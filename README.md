@@ -1,4 +1,4 @@
-# Pai-YihaCamera
+# FolderCamera
 a simple camera iOS App
 Using GPUImage 
 
