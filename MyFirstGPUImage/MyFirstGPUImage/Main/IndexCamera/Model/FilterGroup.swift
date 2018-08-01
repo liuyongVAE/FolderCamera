@@ -1,0 +1,99 @@
+//
+//  FilterGroup.swift
+//  MyFirstGPUImage
+//
+//  Created by LiuYong on 2018/8/1.
+//  Copyright © 2018年 LiuYong. All rights reserved.
+//
+
+import Foundation
+
+class FilterGroup {
+    
+    
+    static var count = 13
+    
+    init() {
+    }
+    
+    class func getFillterName(filterType:Int)->String{
+        var title = ""
+        switch filterType {
+        case 0:
+            title = "原图"
+        case 1:
+            title = "布拉格"
+        case 2:
+            title = "黑白"
+        case 3:
+            title = "鲜亮"
+        case 4:
+            title = "暖暖"
+        case 5:
+            title = "流年"
+        case 6:
+            title = "胶片"
+        case 7:
+            title = "维也纳"
+        case 8:
+            title = "少女"
+        case 9:
+            title = "薄暮"
+        case 10:
+            title = "时光"
+        case 11:
+            title = "白露"
+        case 12:
+            title = "Rise"
+        case 13:
+            title = "萨拉里昂"
+        default:
+            break
+            
+        }
+        return title
+    }
+    
+  class func getFillter(filterType:Int)->IFImageFilter{
+        var filter = IFImageFilter()
+        switch filterType {
+        case 0:
+            return IFNormalFilter()
+        case 1:
+            filter = IF1977Filter()
+        case 2:
+            filter = IFInkwellFilter()
+        case 3:
+            filter = IFBrannanFilter()
+        case 4:
+            filter = IFEarlybirdFilter()
+        case 5:
+            filter = IFHefeFilter()
+        case 6:
+            filter = IFHudsonFilter()
+        case 7:
+            filter = IFAmaroFilter()
+        case 8:
+            filter = IFLomofiFilter()
+        case 9:
+            filter = IFLordKelvinFilter()
+        case 10:
+            filter = IFNashvilleFilter()
+        case 11:
+            filter = IFWaldenFilter()
+        case 12:
+            filter = IFRiseFilter()
+        case 13:
+            filter = IFSierraFilter()
+        default:
+            break
+        }
+        return filter
+        
+    }
+    
+    
+
+
+}
+

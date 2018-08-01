@@ -4,3 +4,5 @@
 
 
 #import "GPUImageBeautifyFilter.h"
+
+#import "InstaFilters.h"

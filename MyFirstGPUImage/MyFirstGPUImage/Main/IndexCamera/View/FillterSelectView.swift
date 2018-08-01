@@ -22,10 +22,9 @@ class FillterSelectView: UIView {
     
     fileprivate let cell_width:CGFloat = 70
     fileprivate let cell_height:CGFloat = 70
- 
+    fileprivate var images = [UIImage]()
     fileprivate let layout = UICollectionViewFlowLayout()
     var collectionView:UICollectionView!
-    var picArray:[UIImage]?
     //滤镜选择代理
     var filterDelegate:FillterSelectViewDelegate?
     //传值闭包
@@ -41,7 +40,6 @@ class FillterSelectView: UIView {
         return btn
     }()
     
-
 
     
     
@@ -67,7 +65,7 @@ extension FillterSelectView:UICollectionViewDelegate,UICollectionViewDataSource{
         layout.minimumLineSpacing = 0
         layout.sectionInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
         collectionView = UICollectionView(frame: self.frame, collectionViewLayout: layout)
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(FilterCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         collectionView.dataSource = self
         collectionView.delegate = self
         self.backgroundColor = UIColor.white
@@ -95,10 +93,20 @@ extension FillterSelectView:UICollectionViewDelegate,UICollectionViewDataSource{
             make.width.height.equalTo(70)
             make.right.equalToSuperview().offset(-20)
         })
-        
-        
-        
+        setImage()
+    
     }
+ //设置图片
+    
+    func setImage(){
+        for i in 0...FilterGroup.count{
+            //TODO: 渲染太多滤镜导致黑屏
+          //let filter = FilterGroup.getFillter(filterType: i)
+         // let image = filter.image(byFilteringImage:#imageLiteral(resourceName: "FilterBeauty") )
+            images.append(#imageLiteral(resourceName: "FilterBeauty"))
+        }
+    }
+    
     
     
 //   返回操作
@@ -123,28 +131,18 @@ extension FillterSelectView:UICollectionViewDelegate,UICollectionViewDataSource{
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return picArray?.count ?? 0
+        return FilterGroup.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: UICollectionViewCell? = collectionView.dequeueReusableCell(withReuseIdentifier:"cell", for: indexPath)
-        let imageView = UIImageView()
-        imageView.center = (cell?.contentView.center)!
-        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier:"cell", for: indexPath) as! FilterCollectionViewCell
         
         //为每个cell添加image
-        imageView.image = picArray![indexPath.row]
-        
-        cell?.addSubview(imageView)
-        imageView.snp.makeConstraints({
-            make in
-            make.center.equalToSuperview()
-            make.width.height.equalToSuperview().offset(-4)
-        })
-        
-
-        cell?.backgroundColor = UIColor.white
-        return cell!
+        cell.filterImage.image = images[indexPath.row]
+        cell.filterLabel.text = FilterGroup.getFillterName(filterType: indexPath.row)
+   
+        cell.backgroundColor = UIColor.white
+        return cell
         
     }
     

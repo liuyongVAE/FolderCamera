@@ -71,6 +71,7 @@ class FConViewController: UIViewController {
     //属性
     var mCamera:GPUImageStillCamera!
     var mFillter:GPUImageFilter!
+    var ifFilter:IFImageFilter!
     var mGpuimageView:GPUImageView!
     /*
      拍摄比例
@@ -89,15 +90,18 @@ class FConViewController: UIViewController {
         
         setCamera()
         setDefaultView()
-        
+        beauty(shotButton)
         // Do any additional setup after loading sthe view.
     }
     
+//    override func viewDidAppear(_ animated: Bool) {
+//        mCamera.startCapture()
+//    }
     
     /// 拍照动作
     @objc func  takePhoto(){
         if !isBeauty{
-            mCamera.capturePhotoAsJPEGProcessedUp(toFilter: mFillter, withCompletionHandler: {
+            mCamera.capturePhotoAsJPEGProcessedUp(toFilter: ifFilter, withCompletionHandler: {
                 processedJPEG, error in
                 if let aJPEG = processedJPEG {
                     guard var imageview = UIImage(data: aJPEG) else{  return }
@@ -145,7 +149,7 @@ extension FConViewController{
         view.addSubview(turnCameraButton)
         view.addSubview(turnScaleButton)
         view.addSubview(cameraFillterView)
-       // view.addSubview(Beautyslider)
+        // view.addSubview(Beautyslider)
         defaultBottomView.snp.makeConstraints({
             make in
             make.bottom.equalToSuperview()
@@ -208,23 +212,18 @@ extension FConViewController{
         mCamera.outputImageOrientation = UIInterfaceOrientation.portrait
         mCamera.horizontallyMirrorFrontFacingCamera = true
         //滤镜
-        mFillter = GPUImageFilter()
+        ifFilter = IFNormalFilter()
         mGpuimageView = GPUImageView()
-        mCamera.addTarget(mFillter)
-        mFillter.addTarget(mGpuimageView)
-        mCamera.startCapture()
         view.addSubview(mGpuimageView)
+        mCamera.addTarget(ifFilter)
+        ifFilter.addTarget(mGpuimageView)
+        mCamera.startCapture()
     }
     
     
     //获取所有滤镜
     func addFillter(){
-        var  fArray = [UIImage]()
-        for _ in 0...7{
-            let v = #imageLiteral(resourceName: "FilterBeauty")
-            fArray.append(v)
-        }
-        cameraFillterView.picArray = fArray
+       
         cameraFillterView.collectionView.reloadData()
     }
     
@@ -317,31 +316,44 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     ///
     /// - Parameter index: 滤镜代码
     func switchFillter(index: Int) {
+        
         mCamera.removeAllTargets()
-        switch index {
-        case 0:
-            mFillter = GPUImageFilter()
-        case 1:
-            mFillter = GPUImageSingleComponentGaussianBlurFilter()
-        case 2:
-            mFillter = GPUImageErosionFilter()
-        case 3:
-            mFillter = GPUImageZoomBlurFilter()
-        case 4:
-            mFillter = GPUImageHueFilter()
-        case 5:
-            mFillter = GPUImageColorInvertFilter()
-        case 6:
-            mFillter = GPUImageSepiaFilter()////老照片
-        case 7:
-            mFillter = GPUImageToonFilter()////卡通效果
-        default:
-            mFillter = GPUImageFilter()
-            
-        }
-        mCamera.addTarget(mFillter)
-        mFillter.addTarget(mGpuimageView)
+        ifFilter = FilterGroup.getFillter(filterType: index)
+        ifFilter.addTarget(mGpuimageView)
+        mCamera.addTarget(ifFilter)
         mCamera.startCapture()
+        
+//        switch index {
+//        case 0:
+//            ifFilter =  IFNormalFilter()
+//        case 1:
+//             ifFilter = IF1977Filter()
+//            // mFillter = GPUImageSingleComponentGaussianBlurFilter()
+//        case 2:
+//            ifFilter = IFInkwellFilter()
+//            //mFillter = GPUImageErosionFilter()
+//        case 3:
+//            ifFilter = IFEarlybirdFilter()
+//            //mFillter = GPUImageZoomBlurFilter()
+//        case 4:
+//            ifFilter = IFHefeFilter()
+//           // mFillter = GPUImageHueFilter()
+//        case 5:
+//            ifFilter =  IFAmaroFilter()
+//            //mFillter = GPUImageColorInvertFilter()
+//        case 6:
+//            ifFilter =  IFLordKelvinFilter()
+//            //mFillter = GPUImageSepiaFilter()////老照片
+//        case 7:
+//            ifFilter =  IFNormalFilter()
+//            //mFillter = GPUImageToonFilter()////卡通效果
+//        default:
+//            mFillter = GPUImageFilter()
+//
+//        }
+        //使用自定义滤镜
+
+      
         
     }
     
@@ -353,7 +365,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
         view.bringSubview(toFront: shotButton)
         UIView.animate(withDuration: 0.2, animations: {
             self.cameraFillterView.center.y = SCREEN_HEIGHT*7/8
-            self.shotButton.center.y =  self.shotButton.center.y*16/15
+            self.shotButton.center.y =  self.defaultBottomView.center.y*16/15
             
         })
         cameraFillterView.mb = {
@@ -398,7 +410,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
 //            Beautyslider.isHidden = true
             isBeauty = false
             mCamera.removeAllTargets()
-            mCamera.addTarget(mFillter)
+            mCamera.addTarget(ifFilter)
             mCamera.startCapture()
         }
     }
