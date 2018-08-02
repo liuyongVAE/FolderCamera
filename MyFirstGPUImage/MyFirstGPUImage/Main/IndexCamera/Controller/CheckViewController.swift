@@ -24,7 +24,7 @@ class CheckViewController: UIViewController {
     lazy var backButton:UIButton = {
         var btn = NewUIButton()
         btn.setImage(#imageLiteral(resourceName: "返回") , for: .normal)
-        btn.setTitle("返回", for: .normal)
+       // btn.setTitle("返回", for: .normal)
         btn.setTitleColor(UIColor.black, for: .normal)
         btn.addTarget(self, action: #selector(self.back), for: .touchUpInside)
         return btn

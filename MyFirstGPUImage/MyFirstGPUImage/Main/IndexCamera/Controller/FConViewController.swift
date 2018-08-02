@@ -81,14 +81,23 @@ class FConViewController: UIViewController {
     var scaleRate:Int?
     var beautyFilter:GPUImageBeautifyFilter?
     var isBeauty = false
-    
+    //焦距缩放
+    var beginGestureScale:CGFloat!
+    var effectiveScale:CGFloat!
+    //聚焦层
+    var focusLayer:CALayer?
     
     
     //MARK: - 页面生命周期
     override func viewDidLoad() {
         super.viewDidLoad()
+        beginGestureScale = 1
+        effectiveScale = 1
         setCamera()
+        //设置底部view
         setDefaultView()
+        //设置聚焦图片
+        setFocusImage(#imageLiteral(resourceName: "聚焦 "))
         // Do any additional setup after loading sthe view.
     }
     
@@ -230,6 +239,7 @@ extension FConViewController{
     
     @objc func turnCamera(_ btn:UIButton){
         mCamera.rotateCamera()
+        beginGestureScale = 1 ; effectiveScale = 1
     }
     
     //拍照比例切换
@@ -309,10 +319,6 @@ extension FConViewController{
 //MARK: - 协议实现
 
 extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate{
-    
-    
-
-    
     //MARK: - 切换滤镜的方法
     ///
     /// - Parameter index: 滤镜代码
@@ -353,9 +359,6 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
 //
 //        }
         //使用自定义滤镜
-
-      
-        
     }
     
     
@@ -427,7 +430,134 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
         
     }
     
+}
+
+
+//MAKR: - 手势代理调整焦距
+extension FConViewController:UIGestureRecognizerDelegate,CAAnimationDelegate{
+   
     
+    
+    /// 设置聚焦图片，添加聚焦层Layer
+    ///
+    /// - Parameter focusImage: 图片
+    func setFocusImage(_ focusImage:UIImage){
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: focusImage.size.width/3, height: focusImage.size.height/3))
+        imageView.image = focusImage
+        let layer = imageView.layer
+        layer.isHidden = true
+        mGpuimageView.layer.addSublayer(layer)
+        focusLayer = layer
+        if focusLayer != nil{
+            mGpuimageView.isUserInteractionEnabled = true
+            let tap = UITapGestureRecognizer(target: self, action: #selector(Focus(_:)))
+            mGpuimageView.addGestureRecognizer(tap)
+            let pinch = UIPinchGestureRecognizer(target: self, action: #selector(focusDistance(pinch:)))
+            mGpuimageView.addGestureRecognizer(pinch)
+            pinch.delegate = self
+        }
+    
+    }
+    
+    
+    
+    //对焦动画
+    func layerAnimation(with point: CGPoint) {
+        if (focusLayer != nil) {
+            ///聚焦点聚焦动画设置
+            let focusLayer: CALayer? = self.focusLayer
+            focusLayer?.isHidden = false
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
+            focusLayer?.position = point
+            focusLayer?.transform = CATransform3DMakeScale(2.0, 2.0, 1.0)
+            CATransaction.commit()
+            let animation = CABasicAnimation(keyPath: "transform")
+            animation.toValue = NSValue(caTransform3D: CATransform3DMakeScale(1.0, 1.0, 1.0))
+            animation.delegate = self
+            animation.duration = 0.3
+            animation.repeatCount = 1
+            animation.isRemovedOnCompletion = false
+            animation.fillMode = kCAFillModeForwards
+            focusLayer?.add(animation, forKey: "animation")
+        }
+    }
+
+    
+    //对焦
+    @objc func Focus(_ tap:UITapGestureRecognizer){
+        mGpuimageView.isUserInteractionEnabled = false
+        var touchPoint: CGPoint = tap.location(in: tap.view)
+        layerAnimation(with: touchPoint)
+        /**
+         *下面是照相机焦点坐标轴和屏幕坐标轴的映射问题，以下是最简单的解决方案也是最准确的坐标转换方式
+         后置摄像头和前置要分别处理
+         */
+        if mCamera.cameraPosition() == AVCaptureDevice.Position.back {
+            touchPoint = CGPoint(x: (touchPoint.y) / (tap.view?.bounds.size.height )!, y: 1 - (touchPoint.x ) / (tap.view?.bounds.size.width)!)
+        } else {
+            touchPoint = CGPoint(x: (touchPoint.y ) / (tap.view?.bounds.size.height)!, y: (touchPoint.x ) / (tap.view?.bounds.size.width)!)
+        }
+        /*以下是相机的聚焦和曝光设置，前置不支持聚焦但是可以曝光处理，后置相机两者都支持，下面的方法是通过点击一个点同时设置聚焦和曝光，当然根据需要也可以分开进行处理
+        */
+        if mCamera.inputCamera.isExposurePointOfInterestSupported && mCamera.inputCamera.isExposureModeSupported(.continuousAutoExposure) {
+            if try! mCamera.inputCamera.lockForConfiguration() != nil {
+                mCamera.inputCamera.exposurePointOfInterest = touchPoint
+                mCamera.inputCamera.exposureMode = .continuousAutoExposure
+                if mCamera.inputCamera.isFocusPointOfInterestSupported && mCamera.inputCamera.isFocusModeSupported(.autoFocus) {
+                    mCamera.inputCamera.focusPointOfInterest = touchPoint
+                    mCamera.inputCamera.focusMode = .autoFocus
+                }
+                mCamera.inputCamera.unlockForConfiguration()
+            } else {
+                print("focus error")
+            }
+        }
+        
+        
+    }
+    //焦距变换
+    @objc func focusDistance(pinch:UIPinchGestureRecognizer){
+        self.effectiveScale = self.beginGestureScale*(pinch.scale)
+        if effectiveScale<1.0{
+            effectiveScale = 1.0
+        }
+        let maxScale:CGFloat = 3.0
+        // 最大倍数
+        if effectiveScale>maxScale{
+            effectiveScale = 3.0
+        }
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(0.025)
+        //解锁并开始配置
+        if ((try? mCamera.inputCamera.lockForConfiguration()) != nil) {
+            mCamera.inputCamera.videoZoomFactor = effectiveScale
+            mCamera.inputCamera.unlockForConfiguration()
+        }else{
+            print("tansmation error")
+            
+        }
+        CATransaction.commit()
+        
+    }
+    //重置Foucslayer
+    @objc func focusLayerReset(){
+        self.mGpuimageView.isUserInteractionEnabled = true
+        focusLayer?.isHidden = true
+    }
+    
+    //手势代理
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer is UIPinchGestureRecognizer{
+            beginGestureScale = effectiveScale
+        }
+        return true
+    }
+    //动画代理
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        perform(#selector(focusLayerReset), with: self, afterDelay: 0.5)
+    }
+   
     
     
     

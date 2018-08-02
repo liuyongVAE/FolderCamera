@@ -34,7 +34,7 @@ class FillterSelectView: UIView {
     lazy var backButton:UIButton = {
         var btn = NewUIButton()
         btn.setImage(#imageLiteral(resourceName: "返回"), for: .normal)
-        btn.setTitle("返回", for: .normal)
+       //btn.setTitle("返回", for: .normal)
         btn.setTitleColor(UIColor.black, for: .normal)
         btn.addTarget(self, action: #selector(self.back), for: .touchUpInside)
         return btn
@@ -89,7 +89,7 @@ extension FillterSelectView:UICollectionViewDelegate,UICollectionViewDataSource{
         })
         backButton.snp.makeConstraints({
             make in
-            make.centerY.equalToSuperview().offset(40)
+            make.centerY.equalToSuperview().offset(50)
             make.width.height.equalTo(70)
             make.right.equalToSuperview().offset(-20)
         })
@@ -156,7 +156,7 @@ extension FillterSelectView:UICollectionViewDelegate,UICollectionViewDataSource{
 //  点击cell的操作，调用代理切换滤镜
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        collectionView.cellForItem(at: indexPath)?.backgroundColor = naviColor
+        collectionView.cellForItem(at: indexPath)?.backgroundColor = bgColor
         filterDelegate?.switchFillter(index: indexPath.row)
     }
     

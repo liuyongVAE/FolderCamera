@@ -13,8 +13,8 @@ class FilterCollectionViewCell: UICollectionViewCell {
     
     lazy var filterLabel:UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.black
-        label.font = UIFont.systemFont(ofSize: 13)
+        label.textColor = UIColor.gray
+        label.font = UIFont.systemFont(ofSize: 10)
         label.textAlignment = .center
         return  label
     }()
