@@ -102,6 +102,12 @@ class FConViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
+        //检测比例显示问题
+        if scaleRate != 0{
+            scaleRate = 0
+            turnScale()
+        }
         //FIXME:不完美的黑屏解决方案
         switchFillter(index: 0)
     }
@@ -433,7 +439,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
 }
 
 
-//MAKR: - 手势代理调整焦距
+//MARK: - 手势代理调整焦距
 extension FConViewController:UIGestureRecognizerDelegate,CAAnimationDelegate{
    
     

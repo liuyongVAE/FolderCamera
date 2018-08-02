@@ -131,7 +131,6 @@ extension CheckViewController{
     
     @objc func back(){
         self.dismiss(animated: false, completion: nil)
-        
     }
     
  
