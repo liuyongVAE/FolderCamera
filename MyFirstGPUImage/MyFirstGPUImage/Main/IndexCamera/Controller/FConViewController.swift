@@ -90,7 +90,6 @@ class FConViewController: UIViewController {
         
         setCamera()
         setDefaultView()
-        beauty(shotButton)
         // Do any additional setup after loading sthe view.
     }
     
@@ -213,6 +212,7 @@ extension FConViewController{
         mCamera.horizontallyMirrorFrontFacingCamera = true
         //滤镜
         ifFilter = IFNormalFilter()
+        ifFilter.useNextFrameForImageCapture()
         mGpuimageView = GPUImageView()
         view.addSubview(mGpuimageView)
         mCamera.addTarget(ifFilter)
@@ -316,7 +316,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     ///
     /// - Parameter index: 滤镜代码
     func switchFillter(index: Int) {
-        
+        //使用INS自定义滤镜
         mCamera.removeAllTargets()
         ifFilter = FilterGroup.getFillter(filterType: index)
         ifFilter.addTarget(mGpuimageView)

@@ -8,14 +8,21 @@
 
 import Foundation
 
+
+//获取自定义滤镜组Model
 class FilterGroup {
     
     
-    static var count = 13
+    static var count = 13//滤镜个数
     
     init() {
     }
     
+    
+    /// 获取滤镜名称
+    ///
+    /// - Parameter filterType: 滤镜代码
+    /// - Returns: 滤镜名称
     class func getFillterName(filterType:Int)->String{
         var title = ""
         switch filterType {
@@ -54,6 +61,13 @@ class FilterGroup {
         return title
     }
     
+    
+    
+    
+  /// 获取滤镜
+  ///
+  /// - Parameter filterType: 滤镜代码
+  /// - Returns: 滤镜
   class func getFillter(filterType:Int)->IFImageFilter{
         var filter = IFImageFilter()
         switch filterType {
