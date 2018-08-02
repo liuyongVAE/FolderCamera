@@ -84,7 +84,7 @@ extension FillterSelectView:UICollectionViewDelegate,UICollectionViewDataSource{
             make in
             make.width.equalToSuperview()
             make.left.equalToSuperview()
-            make.top.equalToSuperview().offset(4)
+            make.top.equalToSuperview()
             make.height.equalTo(cH)
         })
         backButton.snp.makeConstraints({

@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = FConViewController()//UINavigationController(rootViewController:MyTabViewViewController())
         self.window?.backgroundColor = UIColor.white
         window?.makeKeyAndVisible()
-        
+       // UIApplication.shared.setStatusBarHidden(true, with: .none)
 
         // Override point for customization after application launch.
         return true

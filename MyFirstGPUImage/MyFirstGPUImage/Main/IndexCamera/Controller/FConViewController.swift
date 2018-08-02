@@ -68,7 +68,7 @@ class FConViewController: UIViewController {
 //
 //
     
-    //属性
+    //MAKR: - 属性
     var mCamera:GPUImageStillCamera!
     var mFillter:GPUImageFilter!
     var ifFilter:IFImageFilter!
@@ -84,19 +84,20 @@ class FConViewController: UIViewController {
     
     
     
-    
+    //MARK: - 页面生命周期
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setCamera()
         setDefaultView()
         // Do any additional setup after loading sthe view.
     }
     
-//    override func viewDidAppear(_ animated: Bool) {
-//        mCamera.startCapture()
-//    }
+    override func viewDidAppear(_ animated: Bool) {
+        //FIXME:不完美的黑屏解决方案
+        switchFillter(index: 0)
+    }
     
+    //MARK: - 自定义方法
     /// 拍照动作
     @objc func  takePhoto(){
         if !isBeauty{
@@ -224,7 +225,7 @@ extension FConViewController{
     //获取所有滤镜
     func addFillter(){
        
-        cameraFillterView.collectionView.reloadData()
+       // cameraFillterView.collectionView.reloadData()
     }
     
     @objc func turnCamera(_ btn:UIButton){
@@ -361,15 +362,20 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     /// 切换滤镜方法
     func changeFillter() {
         isBeauty = false
-        addFillter()
         view.bringSubview(toFront: shotButton)
+        //记录两个view的center点
+        let centerBottom = cameraFillterView.center
+        let centerReset = defaultBottomView.center
+        //对两个底部View做动画平移,交换位置
         UIView.animate(withDuration: 0.2, animations: {
-            self.cameraFillterView.center.y = SCREEN_HEIGHT*7/8
+            self.cameraFillterView.center = centerReset
             self.shotButton.center.y =  self.defaultBottomView.center.y*16/15
-            
+            self.defaultBottomView.center = centerBottom
         })
         cameraFillterView.mb = {
-            self.shotButton.center.y =  SCREEN_HEIGHT*7/8
+            self.shotButton.center =  centerReset
+            self.cameraFillterView.center = centerBottom
+            self.defaultBottomView.center = centerReset
         }
         
         
