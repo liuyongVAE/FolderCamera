@@ -33,7 +33,7 @@ class FConViewController: UIViewController {
     lazy var cameraFillterView:FillterSelectView = {
         let v = FillterSelectView()
         v.backgroundColor = UIColor.white
-        
+    
         v.filterDelegate = self
         return v
     }()
@@ -379,6 +379,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     }
     
     
+    
     /// 切换滤镜方法
     func changeFillter() {
         isBeauty = false
@@ -386,19 +387,28 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
         //记录两个view的center点
         let centerBottom = cameraFillterView.center
         let centerReset = defaultBottomView.center
+        let yB = cameraFillterView.frame.origin.y
+        let yR = defaultBottomView.frame.origin.y/2
         //对两个底部View做动画平移,交换位置
+    
+        cameraFillterView.addObserver(self, forKeyPath: "center", options: [.new,.old], context: nil)
+        
         UIView.animate(withDuration: 0.2, animations: {
             self.cameraFillterView.center = centerReset
             self.shotButton.center.y =  self.defaultBottomView.center.y*16/15
-            self.defaultBottomView.center = centerBottom
         })
+        
         cameraFillterView.mb = {
-            self.shotButton.center =  centerReset
-            self.cameraFillterView.center = centerBottom
-            self.defaultBottomView.center = centerReset
+            self.shotButton.center =  centerBottom
+            self.cameraFillterView.center  = centerReset
         }
         
         
+    }
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        print(keyPath ?? "")
+        print("完成回调 -- \(String(describing: cameraFillterView.value(forKey: keyPath!)))")
+
     }
     
     
@@ -573,6 +583,7 @@ extension FConViewController:UIGestureRecognizerDelegate,CAAnimationDelegate{
     }
     //动画代理
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+     
         perform(#selector(focusLayerReset), with: self, afterDelay: 0.5)
     }
    

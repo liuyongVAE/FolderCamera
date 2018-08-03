@@ -17,9 +17,9 @@ protocol FillterSelectViewDelegate {
 typealias shotPositionResetBlock = ()->(Void)
 
 
-class FillterSelectView: UIView {
+@objcMembers class FillterSelectView: UIView{
     
-    
+    @objc dynamic var centx:CGPoint
     fileprivate let cell_width:CGFloat = 70
     fileprivate let cell_height:CGFloat = 70
     fileprivate var images = [UIImage]()
@@ -42,12 +42,16 @@ class FillterSelectView: UIView {
     
 
     
-    
+   
 
 
     override init(frame: CGRect) {
+        centx = CGPoint.init()
         super.init(frame: frame)
+        
+        
         setCollectionView()
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
