@@ -14,7 +14,7 @@ import GPUImage
 class FConViewController: UIViewController {
     
     //UI
-//  拍照按钮
+    //  拍照按钮
     lazy var shotButton:UIButton = {
         let widthofme:CGFloat = 75
         var btn = UIButton()
@@ -23,13 +23,13 @@ class FConViewController: UIViewController {
         btn.addTarget(self, action: #selector(self.takePhoto), for: .touchUpInside)
         return btn
     }()
-//  底部白色VIEW
+    //  底部白色VIEW
     lazy var defaultBottomView:UIView = {
         let v = DefaultBotomView()
         v.delegate = self
         return v
     }()
-//    选择滤镜view
+    //    选择滤镜view
     lazy var cameraFillterView:FillterSelectView = {
         let v = FillterSelectView()
         v.backgroundColor = UIColor.white
@@ -37,7 +37,7 @@ class FConViewController: UIViewController {
         v.filterDelegate = self
         return v
     }()
-//  转换摄像头
+    //  转换摄像头
     lazy var turnCameraButton:UIButton = {
         let widthofme:CGFloat = 50
         var btn = UIButton()
@@ -46,7 +46,7 @@ class FConViewController: UIViewController {
         btn.addTarget(self, action: #selector(self.turnCamera(_:)), for: .touchUpInside)
         return btn
     }()
-//    转换拍照比例
+    //    转换拍照比例
     lazy var turnScaleButton:UIButton = {
         let widthofme:CGFloat = 50
         var btn = UIButton()
@@ -56,17 +56,17 @@ class FConViewController: UIViewController {
         return btn
     }()
     
-//    lazy var Beautyslider:UISlider = {
-//        let slider = UISlider()
-//        slider.tintColor = naviColor
-//        slider.minimumValue = 0
-//        slider.maximumValue = 2
-//        slider.addTarget(self, action: #selector(self.sliderChange), for: .valueChanged)
-//        slider.isContinuous = false
-//        return slider
-//    }()
-//
-//
+    //    lazy var Beautyslider:UISlider = {
+    //        let slider = UISlider()
+    //        slider.tintColor = naviColor
+    //        slider.minimumValue = 0
+    //        slider.maximumValue = 2
+    //        slider.addTarget(self, action: #selector(self.sliderChange), for: .valueChanged)
+    //        slider.isContinuous = false
+    //        return slider
+    //    }()
+    //
+    //
     
     //MAKR: - 属性
     var mCamera:GPUImageStillCamera!
@@ -105,7 +105,7 @@ class FConViewController: UIViewController {
         
         //检测相册权限
         checkCameraAuthorization()
-
+        
         //检测比例显示问题
         if scaleRate != 0{
             scaleRate = 0
@@ -179,7 +179,7 @@ class FConViewController: UIViewController {
     }
     
     
- 
+    
     
     /*
      // MARK: - Navigation
@@ -207,6 +207,7 @@ extension FConViewController{
         // view.addSubview(Beautyslider)
         defaultBottomView.snp.makeConstraints({
             make in
+            make.centerX.equalToSuperview()
             make.bottom.equalToSuperview()
             make.width.equalToSuperview()
             make.height.equalTo(SCREEN_HEIGHT*1/4)
@@ -220,7 +221,7 @@ extension FConViewController{
         })
         
         let widthOfTop:CGFloat = 30
-
+        
         turnScaleButton.snp.makeConstraints({
             make in
             make.width.height.equalTo(widthOfTop)
@@ -247,15 +248,15 @@ extension FConViewController{
             make.height.equalTo(SCREEN_HEIGHT*3/4)
         })
         
-//        Beautyslider.isHidden = true
-//        Beautyslider.snp.makeConstraints({
-//            make in
-//            make.height.equalTo(20)
-//            make.width.equalTo(300)
-//            make.centerX.equalToSuperview()
-//            make.top.equalTo(defaultBottomView).offset(-40)
-//
-//        })
+        //        Beautyslider.isHidden = true
+        //        Beautyslider.snp.makeConstraints({
+        //            make in
+        //            make.height.equalTo(20)
+        //            make.width.equalTo(300)
+        //            make.centerX.equalToSuperview()
+        //            make.top.equalTo(defaultBottomView).offset(-40)
+        //
+        //        })
         
         
     }
@@ -266,7 +267,7 @@ extension FConViewController{
         mCamera = GPUImageStillCamera(sessionPreset:AVCaptureSession.Preset.vga640x480.rawValue , cameraPosition: AVCaptureDevice.Position.front)
         mCamera.outputImageOrientation = UIInterfaceOrientation.portrait
         mCamera.horizontallyMirrorFrontFacingCamera = true
-        //滤镜
+        滤镜
         ifFilter = IFNormalFilter()
         ifFilter.useNextFrameForImageCapture()
         mGpuimageView = GPUImageView()
@@ -279,8 +280,8 @@ extension FConViewController{
     
     //获取所有滤镜
     func addFillter(){
-       
-       // cameraFillterView.collectionView.reloadData()
+        
+        // cameraFillterView.collectionView.reloadData()
     }
     
     @objc func turnCamera(_ btn:UIButton){
@@ -358,7 +359,7 @@ extension FConViewController{
     
     
     
-
+    
 }
 
 
@@ -375,7 +376,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
         ifFilter.addTarget(mGpuimageView)
         mCamera.addTarget(ifFilter)
         mCamera.startCapture()
-
+        
     }
     
     
@@ -388,14 +389,36 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
         let centerReset = defaultBottomView.center
         //对两个底部View做动画平移,交换位置
         UIView.animate(withDuration: 0.2, animations: {
-            self.cameraFillterView.center = centerReset
-            self.shotButton.center.y =  self.defaultBottomView.center.y*16/15
-            self.defaultBottomView.center = centerBottom
+            self.cameraFillterView.snp.remakeConstraints({
+                make in
+                make.width.height.top.left.equalTo(self.defaultBottomView)
+            })
+            self.shotButton.snp.remakeConstraints({
+                make in
+                make.width.height.equalTo(75)
+                make.centerX.equalToSuperview()
+                make.centerY.equalTo(centerReset.y*16/15)
+            })
+            
+            self.view.layoutIfNeeded()
+            
+            
         })
         cameraFillterView.mb = {
-            self.shotButton.center =  centerReset
-            self.cameraFillterView.center = centerBottom
-            self.defaultBottomView.center = centerReset
+            self.cameraFillterView.snp.remakeConstraints({
+                make in
+                make.center.equalTo(centerBottom)
+                make.width.equalToSuperview()
+                make.height.equalTo(SCREEN_HEIGHT*1/4)
+            })
+            self.shotButton.snp.remakeConstraints({
+                make in
+                make.width.height.equalTo(75)
+                make.centerX.equalToSuperview()
+                make.centerY.equalTo(centerReset.y)
+            })
+            self.view.layoutIfNeeded()
+            self.defaultBottomView.layoutIfNeeded()
         }
         
         
@@ -409,7 +432,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
         if btn.isSelected{
             isBeauty = true
             //FIXME: 有问题的滑动条
-           // Beautyslider.isHidden = false
+            // Beautyslider.isHidden = false
             print("美颜")
             mCamera.removeAllTargets()
             //亮度(GPUImageBrightnessFilter)和双边滤波(GPUImageBilateralFilter)这两个滤镜达到美颜效果
@@ -433,7 +456,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
             
         }else{
             //取消美颜
-//            Beautyslider.isHidden = true
+            //            Beautyslider.isHidden = true
             isBeauty = false
             mCamera.removeAllTargets()
             mCamera.addTarget(ifFilter)
@@ -442,8 +465,8 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     }
     
     @objc func  sliderChange(){
-//        print(Beautyslider.value)
-//        beautyFilter?.setBrightness(CGFloat(Beautyslider.value), saturation: 1.05)
+        //        print(Beautyslider.value)
+        //        beautyFilter?.setBrightness(CGFloat(Beautyslider.value), saturation: 1.05)
         
     }
     
@@ -452,7 +475,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
 
 //MARK: - 手势代理调整焦距
 extension FConViewController:UIGestureRecognizerDelegate,CAAnimationDelegate{
-   
+    
     
     
     /// 设置聚焦图片，添加聚焦层Layer
@@ -473,7 +496,7 @@ extension FConViewController:UIGestureRecognizerDelegate,CAAnimationDelegate{
             mGpuimageView.addGestureRecognizer(pinch)
             pinch.delegate = self
         }
-    
+        
     }
     
     
@@ -499,7 +522,7 @@ extension FConViewController:UIGestureRecognizerDelegate,CAAnimationDelegate{
             focusLayer?.add(animation, forKey: "animation")
         }
     }
-
+    
     
     //对焦
     @objc func Focus(_ tap:UITapGestureRecognizer){
@@ -516,7 +539,7 @@ extension FConViewController:UIGestureRecognizerDelegate,CAAnimationDelegate{
             touchPoint = CGPoint(x: (touchPoint.y ) / (tap.view?.bounds.size.height)!, y: (touchPoint.x ) / (tap.view?.bounds.size.width)!)
         }
         /*以下是相机的聚焦和曝光设置，前置不支持聚焦但是可以曝光处理，后置相机两者都支持，下面的方法是通过点击一个点同时设置聚焦和曝光，当然根据需要也可以分开进行处理
-        */
+         */
         if mCamera.inputCamera.isExposurePointOfInterestSupported && mCamera.inputCamera.isExposureModeSupported(.continuousAutoExposure) {
             do{
                 try mCamera.inputCamera.lockForConfiguration()
@@ -575,7 +598,7 @@ extension FConViewController:UIGestureRecognizerDelegate,CAAnimationDelegate{
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         perform(#selector(focusLayerReset), with: self, afterDelay: 0.5)
     }
-   
+    
     
     
     
