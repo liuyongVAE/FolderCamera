@@ -103,6 +103,9 @@ class FConViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         
+        //检测相册权限
+        checkCameraAuthorization()
+
         //检测比例显示问题
         if scaleRate != 0{
             scaleRate = 0
@@ -112,6 +115,12 @@ class FConViewController: UIViewController {
         switchFillter(index: 0)
     }
     
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
     //MARK: - 自定义方法
     /// 拍照动作
     @objc func  takePhoto(){
@@ -119,7 +128,7 @@ class FConViewController: UIViewController {
             mCamera.capturePhotoAsJPEGProcessedUp(toFilter: ifFilter, withCompletionHandler: {
                 processedJPEG, error in
                 if let aJPEG = processedJPEG {
-                    guard var imageview = UIImage(data: aJPEG) else{  return }
+                    guard let imageview = UIImage(data: aJPEG) else{  return }
                     self.present(CheckViewController(image: self.normalizedImage(image: imageview)), animated: false, completion: nil)
                 }
             })
@@ -127,7 +136,7 @@ class FConViewController: UIViewController {
             mCamera.capturePhotoAsJPEGProcessedUp(toFilter: beautyFilter!, withCompletionHandler: {
                 processedJPEG, error in
                 if let aJPEG = processedJPEG {
-                    guard var imageview = UIImage(data: aJPEG) else{  return }
+                    guard let imageview = UIImage(data: aJPEG) else{  return }
                     self.present(CheckViewController(image: self.normalizedImage(image: imageview)), animated: false, completion: nil)
                 }
             })
@@ -135,11 +144,42 @@ class FConViewController: UIViewController {
     }
     
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    /// 检查相机权限
+    func checkCameraAuthorization(){
+        let authStatus = AVCaptureDevice.authorizationStatus(for: .video)
+        if authStatus == .notDetermined{
+            AVCaptureDevice.requestAccess(for: .video, completionHandler: ({
+                status in
+                if status{
+                    print("同意")
+                }else{
+                    print("不同意")
+                }
+            }))
+        }else if (authStatus == .authorized ){
+            return
+        }else{
+            let alertController = UIAlertController(title: "提示", message: "您已经关闭相机权限，该功能无法使用，请点击系统设置设置", preferredStyle: .alert)
+            
+            let alertAction1 = UIAlertAction(title: "取消", style: .default, handler: nil)
+            let alertAction2 = UIAlertAction(title: "系统设置", style: .default, handler: { (action) in
+                let url = URL(string: UIApplicationOpenSettingsURLString)
+                if(UIApplication.shared.canOpenURL(url!)) {
+                    UIApplication.shared.openURL(url!)
+                }
+            })
+            alertController.addAction(alertAction1)
+            alertController.addAction(alertAction2)
+            self.present(alertController, animated: true, completion: nil)
+            
+        }
+        
+        
+        
     }
     
+    
+ 
     
     /*
      // MARK: - Navigation
@@ -335,36 +375,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
         ifFilter.addTarget(mGpuimageView)
         mCamera.addTarget(ifFilter)
         mCamera.startCapture()
-        
-//        switch index {
-//        case 0:
-//            ifFilter =  IFNormalFilter()
-//        case 1:
-//             ifFilter = IF1977Filter()
-//            // mFillter = GPUImageSingleComponentGaussianBlurFilter()
-//        case 2:
-//            ifFilter = IFInkwellFilter()
-//            //mFillter = GPUImageErosionFilter()
-//        case 3:
-//            ifFilter = IFEarlybirdFilter()
-//            //mFillter = GPUImageZoomBlurFilter()
-//        case 4:
-//            ifFilter = IFHefeFilter()
-//           // mFillter = GPUImageHueFilter()
-//        case 5:
-//            ifFilter =  IFAmaroFilter()
-//            //mFillter = GPUImageColorInvertFilter()
-//        case 6:
-//            ifFilter =  IFLordKelvinFilter()
-//            //mFillter = GPUImageSepiaFilter()////老照片
-//        case 7:
-//            ifFilter =  IFNormalFilter()
-//            //mFillter = GPUImageToonFilter()////卡通效果
-//        default:
-//            mFillter = GPUImageFilter()
-//
-//        }
-        //使用自定义滤镜
+
     }
     
     
@@ -507,7 +518,8 @@ extension FConViewController:UIGestureRecognizerDelegate,CAAnimationDelegate{
         /*以下是相机的聚焦和曝光设置，前置不支持聚焦但是可以曝光处理，后置相机两者都支持，下面的方法是通过点击一个点同时设置聚焦和曝光，当然根据需要也可以分开进行处理
         */
         if mCamera.inputCamera.isExposurePointOfInterestSupported && mCamera.inputCamera.isExposureModeSupported(.continuousAutoExposure) {
-            if try! mCamera.inputCamera.lockForConfiguration() != nil {
+            do{
+                try mCamera.inputCamera.lockForConfiguration()
                 mCamera.inputCamera.exposurePointOfInterest = touchPoint
                 mCamera.inputCamera.exposureMode = .continuousAutoExposure
                 if mCamera.inputCamera.isFocusPointOfInterestSupported && mCamera.inputCamera.isFocusModeSupported(.autoFocus) {
@@ -515,8 +527,8 @@ extension FConViewController:UIGestureRecognizerDelegate,CAAnimationDelegate{
                     mCamera.inputCamera.focusMode = .autoFocus
                 }
                 mCamera.inputCamera.unlockForConfiguration()
-            } else {
-                print("focus error")
+            } catch {
+                print(error)
             }
         }
         

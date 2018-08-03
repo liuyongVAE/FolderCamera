@@ -34,6 +34,7 @@
 		2D378ED321115C6600A51DE8 /* GPUImageFourInputFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D378ED021115C6600A51DE8 /* GPUImageFourInputFilter.m */; };
 		2D378ED52111607600A51DE8 /* FilterGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D378ED42111607600A51DE8 /* FilterGroup.swift */; };
 		2D378ED7211181CE00A51DE8 /* FilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D378ED6211181CE00A51DE8 /* FilterCollectionViewCell.swift */; };
+		2D378ED92112FB2B00A51DE8 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D378ED82112FB2B00A51DE8 /* Launch Screen.storyboard */; };
 		2D3A158921085257005131B8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A158821085257005131B8 /* AppDelegate.swift */; };
 		2D3A159021085258005131B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D3A158F21085258005131B8 /* Assets.xcassets */; };
 		2D3A159E21085258005131B8 /* MyFirstGPUImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A159D21085258005131B8 /* MyFirstGPUImageTests.swift */; };
@@ -115,6 +116,7 @@
 		2D378ED021115C6600A51DE8 /* GPUImageFourInputFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageFourInputFilter.m; sourceTree = "<group>"; };
 		2D378ED42111607600A51DE8 /* FilterGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterGroup.swift; sourceTree = "<group>"; };
 		2D378ED6211181CE00A51DE8 /* FilterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCollectionViewCell.swift; sourceTree = "<group>"; };
+		2D378ED82112FB2B00A51DE8 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		2D3A158521085257005131B8 /* MyFirstGPUImage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyFirstGPUImage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D3A158821085257005131B8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2D3A158F21085258005131B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 		2D3A158721085257005131B8 /* MyFirstGPUImage */ = {
 			isa = PBXGroup;
 			children = (
+				2D378ED82112FB2B00A51DE8 /* Launch Screen.storyboard */,
 				2D3A159421085258005131B8 /* Info.plist */,
 				2D3A15C121097943005131B8 /* Expend */,
 				2D3A15C92109B0E3005131B8 /* Extension */,
@@ -505,6 +508,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D378ED92112FB2B00A51DE8 /* Launch Screen.storyboard in Resources */,
 				2D378EC821115C2900A51DE8 /* GPUImage.InstagramFilter.bundle in Resources */,
 				2D3A159021085258005131B8 /* Assets.xcassets in Resources */,
 			);
@@ -767,7 +771,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "-FolderCamera";
+				PRODUCT_BUNDLE_IDENTIFIER = com.liuyong.FolderCamera;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "MyFirstGPUImage/Expend/Framework/MyFirstGPUImage-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -790,7 +794,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "-FolderCamera";
+				PRODUCT_BUNDLE_IDENTIFIER = com.liuyong.FolderCamera;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "MyFirstGPUImage/Expend/Framework/MyFirstGPUImage-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;

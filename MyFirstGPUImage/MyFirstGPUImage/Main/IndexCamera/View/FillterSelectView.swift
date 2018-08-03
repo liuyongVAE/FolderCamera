@@ -99,7 +99,7 @@ extension FillterSelectView:UICollectionViewDelegate,UICollectionViewDataSource{
  //设置图片
     
     func setImage(){
-        for i in 0...FilterGroup.count{
+        for _ in 0...FilterGroup.count{
             //TODO: 渲染太多滤镜导致黑屏
           //let filter = FilterGroup.getFillter(filterType: i)
          // let image = filter.image(byFilteringImage:#imageLiteral(resourceName: "FilterBeauty") )

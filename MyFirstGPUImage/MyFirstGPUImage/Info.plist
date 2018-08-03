@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<string>zh_CN</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -21,13 +21,13 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>想我看看相机好不啦</string>
+	<string>让我看看相机好不啦</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>嘿嘿</string>
+	<string>让我用用相册好不啦</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>这是相册权限</string>
+	<string>让我用用相册好不啦</string>
 	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<string>Launch Screen</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

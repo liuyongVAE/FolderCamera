@@ -145,7 +145,16 @@ extension CheckViewController:UIImagePickerControllerDelegate,UINavigationContro
     //保存图片
     @objc func  savePhoto(){
         let authStatus = PHPhotoLibrary.authorizationStatus()
-        if (authStatus != .restricted && authStatus != .denied){
+        if authStatus == .notDetermined{
+            PHPhotoLibrary.requestAuthorization({
+                status in
+                if status == PHAuthorizationStatus.authorized{
+                    print("同意")
+                }else{
+                    print("不同意")
+                }
+            })
+        }else if (authStatus == .authorized ){
             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
             self.dismiss(animated: false, completion: nil)
             
