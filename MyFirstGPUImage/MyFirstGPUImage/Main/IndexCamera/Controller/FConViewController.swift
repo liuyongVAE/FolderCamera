@@ -267,7 +267,7 @@ extension FConViewController{
         mCamera = GPUImageStillCamera(sessionPreset:AVCaptureSession.Preset.vga640x480.rawValue , cameraPosition: AVCaptureDevice.Position.front)
         mCamera.outputImageOrientation = UIInterfaceOrientation.portrait
         mCamera.horizontallyMirrorFrontFacingCamera = true
-        滤镜
+        //滤镜
         ifFilter = IFNormalFilter()
         ifFilter.useNextFrameForImageCapture()
         mGpuimageView = GPUImageView()

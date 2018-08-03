@@ -132,6 +132,7 @@
 		2D3A15C521099854005131B8 /* DefaultBotomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultBotomView.swift; sourceTree = "<group>"; };
 		2D3A15C72109A038005131B8 /* CheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckViewController.swift; sourceTree = "<group>"; };
 		2D3A15CA2109B105005131B8 /* NewUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewUIButton.swift; sourceTree = "<group>"; };
+		2D4EFB4F2114552E0065EAF9 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		2D502350210AB8E200A7559A /* FillterSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillterSelectView.swift; sourceTree = "<group>"; };
 		6EA227A6B6B79861372E3272 /* Pods-MyFirstGPUImage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyFirstGPUImage.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyFirstGPUImage/Pods-MyFirstGPUImage.release.xcconfig"; sourceTree = "<group>"; };
 		B90C9E859F51270B2744A7B8 /* Pods_MyFirstGPUImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyFirstGPUImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -603,6 +604,7 @@
 				2D378ECA21115C2900A51DE8 /* IFImageFilter.m in Sources */,
 				2D378EC421115C2900A51DE8 /* IFXproIIFilter.m in Sources */,
 				2D378EC721115C2900A51DE8 /* IFLomofiFilter.m in Sources */,
+				2D4EFB502114552E0065EAF9 /* FilterViewController.swift in Sources */,
 				2D378EBC21115C2900A51DE8 /* IFWaldenFilter.m in Sources */,
 				2D378EB721115C2900A51DE8 /* IFNashvilleFilter.m in Sources */,
 				2D378EBD21115C2900A51DE8 /* IFEarlybirdFilter.m in Sources */,
