@@ -137,6 +137,15 @@ NSString *const kGPUImageBeautifyFragmentShaderString = SHADER_STRING
 - (void)setDistanceNormalizationFactor:(CGFloat)value{
     bilateralFilter.distanceNormalizationFactor = value;
 }
+- (void)setCom:(CGFloat)value{
+    
+    combinationFilter.intensity = value;
+}
+
+- (CGFloat)getCom{
+    return  combinationFilter.intensity;
+}
+
 
 - (void)setBrightness:(CGFloat)brightness saturation:(CGFloat)saturation{
     [hsbFilter adjustBrightness:brightness];

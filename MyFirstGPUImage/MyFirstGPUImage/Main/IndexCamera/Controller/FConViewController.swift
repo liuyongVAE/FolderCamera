@@ -56,17 +56,19 @@ class FConViewController: UIViewController {
         return btn
     }()
     
-    //    lazy var Beautyslider:UISlider = {
-    //        let slider = UISlider()
-    //        slider.tintColor = naviColor
-    //        slider.minimumValue = 0
-    //        slider.maximumValue = 2
-    //        slider.addTarget(self, action: #selector(self.sliderChange), for: .valueChanged)
-    //        slider.isContinuous = false
-    //        return slider
-    //    }()
-    //
-    //
+        lazy var Beautyslider:UISlider = {
+            let slider = UISlider()
+            slider.tintColor = naviColor
+           // slider.backgroundColor = UIColor.brown
+            slider.minimumValue = 0.0
+            slider.maximumValue = 1.0
+            slider.addTarget(self, action: #selector(self.sliderChange), for: .valueChanged)
+            slider.isContinuous = false
+            slider.value = 0.5
+            return slider
+        }()
+    
+    
     
     //MAKR: - 属性
     var mCamera:GPUImageStillCamera!
@@ -139,13 +141,15 @@ class FConViewController: UIViewController {
             if let aJPEG = processedJPEG {
                 guard let imageview = UIImage(data: aJPEG) else{  return }
                 let vc  = CheckViewController(image: self.normalizedImage(image: imageview))
-                //使用闭包，在vc返回时将底部隐藏，点击切换时在取消隐藏
                 vc.willDismiss = {
+                    //将美颜状态重置
                     if (weakSelf?.isBeauty)!{
                         weakSelf?.isBeauty = false
                        weakSelf?.defaultBottomView.beautyButton.isSelected = false
                         // weakSelf?.beauty()
                     }
+                    //使用闭包，在vc返回时将底部隐藏，点击切换时在取消隐藏
+
                     if weakSelf?.scaleRate != 0{
                         weakSelf?.scaleRate = 0
                         weakSelf?.defaultBottomView.isHidden = true
@@ -204,7 +208,7 @@ extension FConViewController{
         view.addSubview(turnCameraButton)
         view.addSubview(turnScaleButton)
         view.addSubview(cameraFillterView)
-        // view.addSubview(Beautyslider)
+        view.addSubview(Beautyslider)
         defaultBottomView.snp.makeConstraints({
             make in
             make.centerX.equalToSuperview()
@@ -248,15 +252,15 @@ extension FConViewController{
             make.height.equalTo(SCREEN_HEIGHT*3/4)
         })
         
-        //        Beautyslider.isHidden = true
-        //        Beautyslider.snp.makeConstraints({
-        //            make in
-        //            make.height.equalTo(20)
-        //            make.width.equalTo(300)
-        //            make.centerX.equalToSuperview()
-        //            make.top.equalTo(defaultBottomView).offset(-40)
-        //
-        //        })
+        Beautyslider.isHidden = true
+        Beautyslider.snp.makeConstraints({
+            make in
+            make.height.equalTo(40)
+            make.width.equalTo(300)
+            make.centerX.equalToSuperview()
+            make.top.equalTo(defaultBottomView).offset(-40)
+            
+        })
         
         
     }
@@ -378,6 +382,10 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     ///
     /// - Parameter index: 滤镜代码
     func switchFillter(index: Int) {
+        //隐藏滑动条，重置美颜
+        Beautyslider.isHidden = true
+        isBeauty = false
+        defaultBottomView.beautyButton.isSelected = false
         //使用INS自定义滤镜
         mCamera.removeAllTargets()
         ifFilter = FilterGroup.getFillter(filterType: index)
@@ -391,6 +399,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     /// 切换滤镜方法
     func changeFillter() {
         isBeauty = false
+        
         view.bringSubview(toFront: shotButton)
         //记录两个view的center点
         let centerBottom = cameraFillterView.center
@@ -439,9 +448,11 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     func beauty() {
         
         if !isBeauty{
+            //初始化滑动条
+            Beautyslider.value = 0.5
             isBeauty = true
             //FIXME: 有问题的滑动条
-            // Beautyslider.isHidden = false
+             Beautyslider.isHidden = false
             print("美颜")
             mCamera.removeAllTargets()
             //亮度(GPUImageBrightnessFilter)和双边滤波(GPUImageBilateralFilter)这两个滤镜达到美颜效果
@@ -465,7 +476,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
             
         }else{
             //取消美颜
-            //            Beautyslider.isHidden = true
+            Beautyslider.isHidden = true
             isBeauty = false
             mCamera.removeAllTargets()
             mCamera.addTarget(ifFilter)
@@ -473,9 +484,14 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
         }
     }
     
+    
+    //滑动条事件
     @objc func  sliderChange(){
-        //        print(Beautyslider.value)
-        //        beautyFilter?.setBrightness(CGFloat(Beautyslider.value), saturation: 1.05)
+        //print(beautyFilter?.getCom())
+        let newCom:CGFloat = CGFloat(Beautyslider.value)
+        beautyFilter?.setCom(newCom)
+        //beautyFilter?.setBrightness(CGFloat(Beautyslider.value), saturation: 1.05)
+        
         
     }
     

@@ -22,7 +22,8 @@
  *  @param value default 2.0
  */
 - (void)setDistanceNormalizationFactor:(CGFloat)value;
-
+- (void)setCom:(CGFloat)value;
+- (CGFloat)getCom;
 /**
  *  Set brightness and saturation
  *
