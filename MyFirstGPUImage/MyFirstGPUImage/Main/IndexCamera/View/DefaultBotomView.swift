@@ -13,7 +13,7 @@ import SnapKit
 
 protocol DefaultBottomViewDelegate{
     func  changeFillter()
-    func beauty(_ btn:UIButton)
+    func beauty()
 }
 
 
@@ -87,7 +87,7 @@ class DefaultBotomView: UIView {
     @objc func beauty(_ btn:UIButton){
         
         btn.isSelected = !btn.isSelected
-        delegate?.beauty(btn)
+        delegate?.beauty()
     }
     
     

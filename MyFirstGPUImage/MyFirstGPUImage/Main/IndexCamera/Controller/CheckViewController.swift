@@ -48,14 +48,21 @@ class CheckViewController: UIViewController {
     }()
     
     
+    
     //属性
     let image:UIImage!
- 
+   //图片分辨率
+    var fixel:Int?
+    var willDismiss:(()-> Void)? = nil
+
     //初始化
     init(image:UIImage){
         self.image = image
+        self.fixel = 0
         super.init(nibName: nil, bundle: nil)
     }
+    
+
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -65,8 +72,11 @@ class CheckViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(getImageSize())
+        fixel = getImageSize().h
         setUI()
-        
+        changeImagePresent()
+
         // Do any additional setup after loading the view.
     }
     
@@ -75,6 +85,29 @@ class CheckViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    /// 获取图片像素
+    ///
+    /// - Returns: 像素元组
+    func getImageSize()->(w:Int,h:Int){
+        guard let fixelW = image.cgImage?.width else{return (0,0)}
+        guard let fixelH = image.cgImage?.height else{return (0,0)}
+        return (fixelW,fixelH)
+    }
+    
+    
+    func changeImagePresent(){
+        if fixel == 1280{
+            photoView.snp.remakeConstraints({
+                make in
+                make.top.left.bottom.width.equalToSuperview()
+            })
+            self.view.layoutIfNeeded()
+            self.defaultBottomView.isHidden = true
+        }
+        
+        
+    }
     
     /*
      // MARK: - Navigation
@@ -130,6 +163,12 @@ extension CheckViewController{
     //按钮点击
     
     @objc func back(){
+        
+        if self.willDismiss != nil{
+            willDismiss!()
+        }
+        
+        
         self.dismiss(animated: false, completion: nil)
     }
     

@@ -24,7 +24,7 @@ class FConViewController: UIViewController {
         return btn
     }()
     //  底部白色VIEW
-    lazy var defaultBottomView:UIView = {
+    lazy var defaultBottomView:DefaultBotomView = {
         let v = DefaultBotomView()
         v.delegate = self
         return v
@@ -52,7 +52,7 @@ class FConViewController: UIViewController {
         var btn = UIButton()
         btn.layer.cornerRadius = widthofme/2
         btn.setImage(#imageLiteral(resourceName: "屏幕比例"), for: .normal)
-        btn.addTarget(self, action: #selector(self.turnScale), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(turnScale), for: .touchUpInside)
         return btn
     }()
     
@@ -101,16 +101,17 @@ class FConViewController: UIViewController {
         // Do any additional setup after loading sthe view.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+      
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         
         //检测相册权限
         checkCameraAuthorization()
-        
         //检测比例显示问题
-        if scaleRate != 0{
-            scaleRate = 0
-            turnScale()
-        }
+       
+      
         //FIXME:不完美的黑屏解决方案
         switchFillter(index: 0)
     }
@@ -124,23 +125,39 @@ class FConViewController: UIViewController {
     //MARK: - 自定义方法
     /// 拍照动作
     @objc func  takePhoto(){
+        weak var  weakSelf = self
+        
+        var filter:Any?
         if !isBeauty{
-            mCamera.capturePhotoAsJPEGProcessedUp(toFilter: ifFilter, withCompletionHandler: {
-                processedJPEG, error in
-                if let aJPEG = processedJPEG {
-                    guard let imageview = UIImage(data: aJPEG) else{  return }
-                    self.present(CheckViewController(image: self.normalizedImage(image: imageview)), animated: false, completion: nil)
-                }
-            })
+            filter = ifFilter
         }else{
-            mCamera.capturePhotoAsJPEGProcessedUp(toFilter: beautyFilter!, withCompletionHandler: {
-                processedJPEG, error in
-                if let aJPEG = processedJPEG {
-                    guard let imageview = UIImage(data: aJPEG) else{  return }
-                    self.present(CheckViewController(image: self.normalizedImage(image: imageview)), animated: false, completion: nil)
-                }
-            })
+            filter = beautyFilter
         }
+        
+        mCamera.capturePhotoAsJPEGProcessedUp(toFilter: filter as! GPUImageOutput & GPUImageInput, withCompletionHandler: {
+            processedJPEG, error in
+            if let aJPEG = processedJPEG {
+                guard let imageview = UIImage(data: aJPEG) else{  return }
+                let vc  = CheckViewController(image: self.normalizedImage(image: imageview))
+                //使用闭包，在vc返回时将底部隐藏，点击切换时在取消隐藏
+                vc.willDismiss = {
+                    if (weakSelf?.isBeauty)!{
+                        weakSelf?.isBeauty = false
+                       weakSelf?.defaultBottomView.beautyButton.isSelected = false
+                        // weakSelf?.beauty()
+                    }
+                    if weakSelf?.scaleRate != 0{
+                        weakSelf?.scaleRate = 0
+                        weakSelf?.defaultBottomView.isHidden = true
+
+                    }
+                }
+                weakSelf?.present(vc, animated: true, completion: nil)
+            }
+        })
+      
+        
+        
     }
     
     
@@ -275,15 +292,18 @@ extension FConViewController{
     //拍照比例切换
     @objc func turnScale(){
         
+        let duration:Double? = 0.2
         scaleRate = (scaleRate!+1)%2
         switch scaleRate {
         case 0:
             //设置为640x480的大小
+            defaultBottomView.isHidden = false
             mCamera.captureSession.beginConfiguration()
             let pre = AVCaptureSession.Preset.vga640x480
             mCamera.captureSession.sessionPreset = pre
             mCamera.captureSession.commitConfiguration()
-            UIView.animate(withDuration: 0.2, animations: {
+            
+            UIView.animate(withDuration: duration ?? 0.2, animations: {
                 self.mGpuimageView.transform = CGAffineTransform.identity
                 self.mGpuimageView.snp.remakeConstraints({
                     make in
@@ -291,7 +311,9 @@ extension FConViewController{
                     make.width.left.top.equalToSuperview()
                 })
                 self.view.layoutIfNeeded()
+
                 self.defaultBottomView.center.y = SCREEN_HEIGHT*7/8
+
             })
         case 1:
             //设置为1280x720的大小
@@ -299,7 +321,9 @@ extension FConViewController{
             let pre = AVCaptureSession.Preset.hd1280x720
             mCamera.captureSession.sessionPreset = pre
             mCamera.captureSession.commitConfiguration()
-            UIView.animate(withDuration: 0.2, animations: {
+           // mCamera.forceProcessing(at: CGSize(width: SCREEN_WIDTH, height: SCREEN_HEIGHT))
+
+            UIView.animate(withDuration: duration ?? 0.2, animations: {
                 //刷新预览视图布局
                 self.mGpuimageView.snp.remakeConstraints({
                     make in
@@ -308,6 +332,7 @@ extension FConViewController{
                 })
                 //刷新
                 self.view.layoutIfNeeded()
+
                 self.defaultBottomView.center.y = SCREEN_HEIGHT*9/8
             })
             
@@ -411,8 +436,9 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     /// 美颜按钮
     ///
     /// - Parameter btn: 按钮
-    func beauty(_ btn:UIButton) {
-        if btn.isSelected{
+    func beauty() {
+        
+        if !isBeauty{
             isBeauty = true
             //FIXME: 有问题的滑动条
             // Beautyslider.isHidden = false

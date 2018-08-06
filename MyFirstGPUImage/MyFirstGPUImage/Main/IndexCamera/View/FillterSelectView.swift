@@ -39,11 +39,6 @@ class FillterSelectView: UIView {
         btn.addTarget(self, action: #selector(self.back), for: .touchUpInside)
         return btn
     }()
-    
-
-    
-    
-
 
     override init(frame: CGRect) {
         super.init(frame: frame)
