@@ -4,5 +4,6 @@ use_frameworks!
 target ‘MyFirstGPUImage’ do
   pod ‘GPUImage'
   pod 'SnapKit'
+  pod 'ProgressHUD'
 end
 

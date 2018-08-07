@@ -33,7 +33,7 @@ class FillterSelectView: UIView {
 //  返回按钮
     lazy var backButton:UIButton = {
         var btn = NewUIButton()
-        btn.setImage(#imageLiteral(resourceName: "返回"), for: .normal)
+        btn.setImage(#imageLiteral(resourceName: "imageback"), for: .normal)
        //btn.setTitle("返回", for: .normal)
         btn.setTitleColor(UIColor.black, for: .normal)
         btn.addTarget(self, action: #selector(self.back), for: .touchUpInside)

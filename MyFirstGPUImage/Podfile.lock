@@ -1,20 +1,24 @@
 PODS:
   - GPUImage (0.1.7)
+  - ProgressHUD (2.51)
   - SnapKit (4.0.0)
 
 DEPENDENCIES:
   - GPUImage
+  - ProgressHUD
   - SnapKit
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - GPUImage
+    - ProgressHUD
     - SnapKit
 
 SPEC CHECKSUMS:
   GPUImage: 733a5f0fab92df9de1c37ba9df520a833ccb406d
+  ProgressHUD: 54b4c2fa202bf3da7dddc1c698ae4e6376333bd9
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
 
-PODFILE CHECKSUM: afd748e1b769657687d7173fcf0af930b0862a57
+PODFILE CHECKSUM: 35e0927aa281d71657a9d73d122968c8f5e541b9
 
 COCOAPODS: 1.5.3
