@@ -42,15 +42,16 @@ class DefaultBotomView: UIView {
         return btn
     }()
     
+    
+    
     //Propoty，按钮点击的代理
     
     var delegate:DefaultBottomViewDelegate?
     
 
-    
 
-    
     init() {
+    
         super.init(frame: CGRect.zero)
         self.backgroundColor = UIColor.white
         self.addSubview(beautyButton)

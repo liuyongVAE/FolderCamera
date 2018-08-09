@@ -21,6 +21,12 @@ class FConViewController: UIViewController {
         btn.layer.cornerRadius = widthofme/2
         btn.setImage(#imageLiteral(resourceName: "圆圈") , for: .normal)
         btn.addTarget(self, action: #selector(self.takePhoto), for: .touchUpInside)
+        //长按事件
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(self.btnLong(_:)))
+        longPress.minimumPressDuration = 0.3
+        btn.addGestureRecognizer(longPress)
+        
+        
         return btn
     }()
     //  底部白色VIEW
@@ -72,6 +78,10 @@ class FConViewController: UIViewController {
     
     //MAKR: - 属性
     var mCamera:GPUImageStillCamera!
+    //拍摄视频camera
+    var videoCamera:GPUImageVideoCamera?
+    var movieWriter:GPUImageMovieWriter?
+    
     var mFillter:GPUImageFilter!
     var ifFilter:IFImageFilter!
     var mGpuimageView:GPUImageView!
@@ -93,6 +103,7 @@ class FConViewController: UIViewController {
     //MARK: - 页面生命周期
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.isHidden = true
         beginGestureScale = 1
         effectiveScale = 1
         setCamera()
@@ -100,6 +111,7 @@ class FConViewController: UIViewController {
         setDefaultView()
         //设置聚焦图片
         setFocusImage(#imageLiteral(resourceName: "聚焦 "))
+        
         // Do any additional setup after loading sthe view.
     }
     
@@ -116,6 +128,8 @@ class FConViewController: UIViewController {
       
         //FIXME:不完美的黑屏解决方案
         switchFillter(index: 0)
+        mCamera.resumeCameraCapture()
+
     }
     
     
@@ -125,6 +139,35 @@ class FConViewController: UIViewController {
     }
     
     //MARK: - 自定义方法
+    
+    
+    @objc func btnLong(_ gestureRecognizer: UILongPressGestureRecognizer?) {
+       // let temPath = URL(fileURLWithPath: NSHomeDirectory() + "/Document" + "/adfaes" ) //URL(fileURLWithPath: NSHomeDirectory())
+       //   var pathToMovie = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Documents/Movie.m4v").absoluteString
+      //  let  videoUrl = URL(fileURLWithPath: pathToMovie)
+        //unlink(pathToMovie.utf8)
+        //ifFilter.addTarget(mGpuimageView)
+        //videoCamera?.startCapture()
+        //FIXME: - 崩溃
+        if gestureRecognizer?.state == UIGestureRecognizerState.began{
+            mCamera.pauseCapture()
+          self.navigationController?.pushViewController(CaptureViewController(), animated: true)
+
+            //    self.present(CaptureViewController(), animated: true, completion: nil)
+//            print("长按")
+//            movieWriter = GPUImageMovieWriter.init(movieURL: videoUrl, size: CGSize.init(width: 640, height: 480))
+//            movieWriter?.setHasAudioTrack(true, audioSettings: nil)
+//            movieWriter?.encodingLiveVideo = true
+//            mCamera.audioEncodingTarget = movieWriter
+//            ifFilter.addTarget(movieWriter)
+//            movieWriter?.startRecording()
+        }else if gestureRecognizer?.state == UIGestureRecognizerState.cancelled{
+//            movieWriter?.finishRecording()
+//            UISaveVideoAtPathToSavedPhotosAlbum(temPath.absoluteString, nil, nil, nil)
+        }
+    }
+
+    
     /// 拍照动作
     @objc func  takePhoto(){
         weak var  weakSelf = self
@@ -275,10 +318,16 @@ extension FConViewController{
         ifFilter = IFNormalFilter()
         ifFilter.useNextFrameForImageCapture()
         mGpuimageView = GPUImageView()
+        mGpuimageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill
         view.addSubview(mGpuimageView)
         mCamera.addTarget(ifFilter)
+        //更改比例预定
+        //ifFilter = GPUImageCropFilter.init(cropRegion: )
         ifFilter.addTarget(mGpuimageView)
         mCamera.startCapture()
+        
+ 
+  
     }
     
     
@@ -399,7 +448,6 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     /// 切换滤镜方法
     func changeFillter() {
         isBeauty = false
-        
         view.bringSubview(toFront: shotButton)
         //记录两个view的center点
         let centerBottom = cameraFillterView.center
@@ -416,10 +464,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
                 make.centerX.equalToSuperview()
                 make.centerY.equalTo(centerReset.y*16/15)
             })
-            
             self.view.layoutIfNeeded()
-            
-            
         })
         cameraFillterView.mb = {
             self.cameraFillterView.snp.remakeConstraints({
@@ -451,7 +496,6 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
             //初始化滑动条
             Beautyslider.value = 0.5
             isBeauty = true
-            //FIXME: 有问题的滑动条
              Beautyslider.isHidden = false
             print("美颜")
             mCamera.removeAllTargets()
