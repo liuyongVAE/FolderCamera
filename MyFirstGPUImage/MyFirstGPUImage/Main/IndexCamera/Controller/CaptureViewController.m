@@ -41,7 +41,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [self setUIandCamera];
 
     
     // Do any additional setup after loading the view.
@@ -73,7 +73,7 @@
     [self.view addSubview:recordBtn];
     //提示label
     self.tipLabel =[[UILabel alloc]initWithFrame: CGRectZero];
-    [self.tipLabel setText:@"长按拍照键拍照"];
+    [self.tipLabel setText:@"长按拍照键录制视频"];
     [self.tipLabel setTextColor:[UIColor whiteColor]];
     [self.tipLabel setFont:[UIFont systemFontOfSize:12]];
     [self.tipLabel sizeToFit];
