@@ -10,7 +10,7 @@ import UIKit
 
 class FilterCollectionViewCell: UICollectionViewCell {
     
-    
+    //UI
     lazy var filterLabel:UILabel = {
         let label = UILabel()
         label.textColor = UIColor.gray

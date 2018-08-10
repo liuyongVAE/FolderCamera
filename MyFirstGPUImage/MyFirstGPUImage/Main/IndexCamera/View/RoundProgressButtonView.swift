@@ -82,7 +82,7 @@ class RoundProgressButtonView:UIView{
     //MAKR: - 事件处理
     
     /// 长按事件处理
-    ///
+    ///根据不同的长按事件，进行动画效果,并且传给视频页
     /// - Parameter logressPress: 长按事件
     @objc func longPress(_ logressPress:UIGestureRecognizer){
         if delegate != nil{
@@ -99,7 +99,6 @@ class RoundProgressButtonView:UIView{
             
         case .cancelled:
             stop()
-            
         case .ended:
             UIView.animate(withDuration: 0.3, animations: {
                 self.centerView.transform = CGAffineTransform(scaleX: 1, y: 1)
@@ -153,7 +152,6 @@ class RoundProgressButtonView:UIView{
         
     }
     //MAKR: - Action
-    
     func start(){
         time = Timer.scheduledTimer(timeInterval: TimeInterval(animationTime), target: self, selector: #selector(addProgress), userInfo: nil, repeats: true)
         //FIXME: -橙

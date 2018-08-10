@@ -16,7 +16,7 @@
 
 
 @interface CaptureViewController ()<ProgresssButtonDelegate>{
-    GPUImageVideoCamera *_videoCamera;  // 捕获画面
+    GPUImageStillCamera *_videoCamera;  // 捕获画面
     GPUImageView *_imageView;   // 展示画面
     GPUImageMovieWriter *_movieWriter;  // 视频编解码
     NSString *_temPath;    // 录制视频的临时缓存地址
@@ -33,6 +33,14 @@
 
 @implementation CaptureViewController
 
+
+- (instancetype)initWithCamera:(GPUImageStillCamera *)camera{
+    if(self = [super initWithNibName:nil bundle:nil]){
+        _videoCamera = camera;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -46,7 +54,7 @@
     // 卡通滤镜效果（黑色描边）
     _filter = [[GPUImageFilter alloc] init];
     
-    _videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset640x480 cameraPosition:AVCaptureDevicePositionFront];
+   // _videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset640x480 cameraPosition:AVCaptureDevicePositionFront];
     _videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
     [_videoCamera addTarget:_filter];
     [_filter addTarget:_imageView];
@@ -104,7 +112,7 @@
         [library writeVideoAtPathToSavedPhotosAlbum:viderUrl completionBlock:^(NSURL *assetURL, NSError *error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (error) {
-                    ;
+                    [ProgressHUD showError:@"保存失败"];
                 } else {
                     [ProgressHUD showSuccess:@"录制成功，已保存"];
                     //先自定义一个全局的MPMoviePlayerViewController 对象

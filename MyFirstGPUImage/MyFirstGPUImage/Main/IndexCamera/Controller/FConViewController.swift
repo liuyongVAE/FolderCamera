@@ -9,6 +9,7 @@
 import UIKit
 import Photos
 import GPUImage
+import SnapKit
 
 
 class FConViewController: UIViewController {
@@ -124,12 +125,8 @@ class FConViewController: UIViewController {
         //检测相册权限
         checkCameraAuthorization()
         //检测比例显示问题
-       
-      
         //FIXME:不完美的黑屏解决方案
         switchFillter(index: 0)
-        mCamera.resumeCameraCapture()
-
     }
     
     
@@ -140,7 +137,7 @@ class FConViewController: UIViewController {
     
     //MARK: - 自定义方法
     
-    
+    //长按处理，本来想直接在本页面进行录制，但swift调用方法存在崩溃，没找到解决办法，选择了跳转至OC页面录制
     @objc func btnLong(_ gestureRecognizer: UILongPressGestureRecognizer?) {
        // let temPath = URL(fileURLWithPath: NSHomeDirectory() + "/Document" + "/adfaes" ) //URL(fileURLWithPath: NSHomeDirectory())
        //   var pathToMovie = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Documents/Movie.m4v").absoluteString
@@ -150,8 +147,7 @@ class FConViewController: UIViewController {
         //videoCamera?.startCapture()
         //FIXME: - 崩溃
         if gestureRecognizer?.state == UIGestureRecognizerState.began{
-            mCamera.pauseCapture()
-          self.navigationController?.pushViewController(CaptureViewController(), animated: true)
+            pushVideo()
 
             //    self.present(CaptureViewController(), animated: true, completion: nil)
 //            print("长按")
@@ -427,6 +423,13 @@ extension FConViewController{
 //MARK: - 协议实现
 
 extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate{
+   
+    //跳转到视频拍摄
+    func pushVideo() {
+       // mCamera.pauseCapture()
+        let vc = CaptureViewController.init(camera:mCamera)
+        self.navigationController?.pushViewController(vc!, animated: true)
+    }
     //MARK: - 切换滤镜的方法
     ///
     /// - Parameter index: 滤镜代码

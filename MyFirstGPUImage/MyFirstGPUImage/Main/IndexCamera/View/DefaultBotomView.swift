@@ -14,6 +14,7 @@ import SnapKit
 protocol DefaultBottomViewDelegate{
     func  changeFillter()
     func beauty()
+    func pushVideo()
 }
 
 
@@ -41,7 +42,15 @@ class DefaultBotomView: UIView {
         btn.addTarget(self, action: #selector(self.beauty), for: .touchUpInside)
         return btn
     }()
-    
+//  视频按钮
+    lazy var videoButton:UIButton = {
+        //CGRect(x:SCREEN_WIDTH - getWidth(109) - getWidth(78), y: getHeight(150), width:getWidth(78) , height: getHeight(154))
+        var btn = UIButton()
+        btn.setTitle("录制", for: .normal)
+        btn.setTitleColor(UIColor.black, for: .normal)
+        btn.addTarget(self, action: #selector(self.pushVideo), for: .touchUpInside)
+        return btn
+    }()
     
     
     //Propoty，按钮点击的代理
@@ -56,6 +65,7 @@ class DefaultBotomView: UIView {
         self.backgroundColor = UIColor.white
         self.addSubview(beautyButton)
         self.addSubview(fillterButton)
+        self.addSubview(videoButton)
         fillterButton.snp.makeConstraints({
             (make) in
             make.centerY.equalToSuperview()
@@ -67,6 +77,12 @@ class DefaultBotomView: UIView {
             make.centerY.equalToSuperview()
             make.width.height.equalTo(70)
             make.right.equalToSuperview().offset(-20)
+        })
+       videoButton.snp.makeConstraints({
+            (make) in
+            make.centerX.equalToSuperview()
+            make.width.height.equalTo(44)
+            make.bottom.equalToSuperview().offset(52)
         })
     }
     
@@ -89,6 +105,9 @@ class DefaultBotomView: UIView {
         
         btn.isSelected = !btn.isSelected
         delegate?.beauty()
+    }
+    @objc func pushVideo(){
+        delegate?.pushVideo()
     }
     
     
