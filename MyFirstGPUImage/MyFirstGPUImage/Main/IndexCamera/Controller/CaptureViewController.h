@@ -12,6 +12,6 @@
 
 //优化，此处传入上一个页面的Camera，无需再次新建；
 @interface CaptureViewController : UIViewController
-- (instancetype)initWithCamera:(GPUImageStillCamera *)camera; //andFilter:(IFFilter);
+- (instancetype)initWithCamera:(GPUImageStillCamera *)camera andFilter:(GPUImageFilterGroup *)filter;
 @end
 

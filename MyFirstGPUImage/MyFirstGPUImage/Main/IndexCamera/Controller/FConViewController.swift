@@ -26,6 +26,7 @@ class FConViewController: UIViewController {
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(self.btnLong(_:)))
         longPress.minimumPressDuration = 0.3
         btn.addGestureRecognizer(longPress)
+
         
         
         return btn
@@ -83,8 +84,8 @@ class FConViewController: UIViewController {
     var videoCamera:GPUImageVideoCamera?
     var movieWriter:GPUImageMovieWriter?
     
-    var mFillter:GPUImageFilter!
-    var ifFilter:IFImageFilter!
+   // var mFillter:GPUImageFilterGroup!
+    var ifFilter:GPUImageFilterGroup!
     var mGpuimageView:GPUImageView!
     /*
      拍摄比例
@@ -92,7 +93,8 @@ class FConViewController: UIViewController {
      在setCamera初始化
      */
     var scaleRate:Int?
-    var beautyFilter:GPUImageBeautifyFilter?
+    var ifaddFilter:Bool!
+   // var beautyFilter:GPUImageBeautifyFilter?
     var isBeauty = false
     //焦距缩放
     var beginGestureScale:CGFloat!
@@ -126,7 +128,9 @@ class FConViewController: UIViewController {
         checkCameraAuthorization()
         //检测比例显示问题
         //FIXME:不完美的黑屏解决方案
-        switchFillter(index: 0)
+        if !ifaddFilter{
+            switchFillter(index:0);
+        }
     }
     
     
@@ -168,14 +172,14 @@ class FConViewController: UIViewController {
     @objc func  takePhoto(){
         weak var  weakSelf = self
         
-        var filter:Any?
-        if !isBeauty{
-            filter = ifFilter
-        }else{
-            filter = beautyFilter
-        }
+//        var filter:Any?
+//        if !isBeauty{
+//            filter = ifFilter
+//        }else{
+//            filter = beautyFilter
+//        }
         
-        mCamera.capturePhotoAsJPEGProcessedUp(toFilter: filter as! GPUImageOutput & GPUImageInput, withCompletionHandler: {
+        mCamera.capturePhotoAsJPEGProcessedUp(toFilter: ifFilter, withCompletionHandler: {
             processedJPEG, error in
             if let aJPEG = processedJPEG {
                 guard let imageview = UIImage(data: aJPEG) else{  return }
@@ -321,7 +325,7 @@ extension FConViewController{
         //ifFilter = GPUImageCropFilter.init(cropRegion: )
         ifFilter.addTarget(mGpuimageView)
         mCamera.startCapture()
-        
+        ifaddFilter = false
  
   
     }
@@ -427,7 +431,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     //跳转到视频拍摄
     func pushVideo() {
        // mCamera.pauseCapture()
-        let vc = CaptureViewController.init(camera:mCamera)
+        let vc = CaptureViewController.init(camera: mCamera, andFilter: ifFilter)
         self.navigationController?.pushViewController(vc!, animated: true)
     }
     //MARK: - 切换滤镜的方法
@@ -442,6 +446,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
         mCamera.removeAllTargets()
         ifFilter = FilterGroup.getFillter(filterType: index)
         ifFilter.addTarget(mGpuimageView)
+        ifaddFilter = true
         mCamera.addTarget(ifFilter)
         mCamera.startCapture()
         
@@ -514,10 +519,10 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
             filterGroup.terminalFilter = brightFilter
             filterGroup.addTarget(mGpuimageView)
             //使用第三方美颜滤镜
-            beautyFilter = GPUImageBeautifyFilter()
+            ifFilter = GPUImageBeautifyFilter()
             //将美颜滤镜加入相机
-            mCamera.addTarget(beautyFilter!)
-            beautyFilter!.addTarget(mGpuimageView)
+            mCamera.addTarget(ifFilter!)
+            ifFilter!.addTarget(mGpuimageView)
             mCamera.startCapture()
             
             
@@ -536,7 +541,10 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     @objc func  sliderChange(){
         //print(beautyFilter?.getCom())
         let newCom:CGFloat = CGFloat(Beautyslider.value)
-        beautyFilter?.setCom(newCom)
+        if  let filter =  ifFilter as? GPUImageBeautifyFilter{
+            filter.setCom(newCom)
+            ifFilter = filter
+        }
         //beautyFilter?.setBrightness(CGFloat(Beautyslider.value), saturation: 1.05)
         
         

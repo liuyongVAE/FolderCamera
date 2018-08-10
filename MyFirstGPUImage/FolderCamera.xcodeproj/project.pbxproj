@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0B10007E1569F76E1CAB1456 /* Pods_MyFirstGPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B90C9E859F51270B2744A7B8 /* Pods_MyFirstGPUImage.framework */; };
+		2D0396A0211D70B9004E87C0 /* DesignedGPUImageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D03969F211D70B9004E87C0 /* DesignedGPUImageFilter.m */; };
 		2D1B88EE2110574E00773678 /* GPUImageBeautifyFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B88ED2110574E00773678 /* GPUImageBeautifyFilter.m */; };
 		2D378EB721115C2900A51DE8 /* IFNashvilleFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D378E9021115C2500A51DE8 /* IFNashvilleFilter.m */; };
 		2D378EB821115C2900A51DE8 /* IFInkwellFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D378E9221115C2500A51DE8 /* IFInkwellFilter.m */; };
@@ -68,6 +69,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2D03969E211D70B9004E87C0 /* DesignedGPUImageFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DesignedGPUImageFilter.h; sourceTree = "<group>"; };
+		2D03969F211D70B9004E87C0 /* DesignedGPUImageFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DesignedGPUImageFilter.m; sourceTree = "<group>"; };
 		2D1B88EB2110574D00773678 /* MyFirstGPUImage-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyFirstGPUImage-Bridging-Header.h"; sourceTree = "<group>"; };
 		2D1B88EC2110574D00773678 /* GPUImageBeautifyFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageBeautifyFilter.h; sourceTree = "<group>"; };
 		2D1B88ED2110574E00773678 /* GPUImageBeautifyFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageBeautifyFilter.m; sourceTree = "<group>"; };
@@ -174,10 +177,8 @@
 		2D1B88EA2110572B00773678 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
-				2D378E3C2111516A00A51DE8 /* Filter */,
-				2D1B88EC2110574D00773678 /* GPUImageBeautifyFilter.h */,
-				2D1B88ED2110574E00773678 /* GPUImageBeautifyFilter.m */,
 				2D1B88EB2110574D00773678 /* MyFirstGPUImage-Bridging-Header.h */,
+				2D378E3C2111516A00A51DE8 /* Filter */,
 			);
 			path = Framework;
 			sourceTree = "<group>";
@@ -185,7 +186,11 @@
 		2D378E3C2111516A00A51DE8 /* Filter */ = {
 			isa = PBXGroup;
 			children = (
+				2D1B88EC2110574D00773678 /* GPUImageBeautifyFilter.h */,
+				2D1B88ED2110574E00773678 /* GPUImageBeautifyFilter.m */,
 				2D378E462111519D00A51DE8 /* FilterSource */,
+				2D03969E211D70B9004E87C0 /* DesignedGPUImageFilter.h */,
+				2D03969F211D70B9004E87C0 /* DesignedGPUImageFilter.m */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -624,6 +629,7 @@
 				2D378EBD21115C2900A51DE8 /* IFEarlybirdFilter.m in Sources */,
 				2D3A15C82109A038005131B8 /* CheckViewController.swift in Sources */,
 				2D3A15C421097969005131B8 /* Propoty.swift in Sources */,
+				2D0396A0211D70B9004E87C0 /* DesignedGPUImageFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -20,7 +20,7 @@
     GPUImageView *_imageView;   // 展示画面
     GPUImageMovieWriter *_movieWriter;  // 视频编解码
     NSString *_temPath;    // 录制视频的临时缓存地址
-    GPUImageFilter *_filter;  // 滤镜效果
+    GPUImageFilterGroup *_filter;  // 滤镜效果
 }
 @property (nonatomic, strong) RoundProgressButtonView *recordBtn;
 @property (nonatomic, strong) UILabel *tipLabel;
@@ -34,9 +34,10 @@
 @implementation CaptureViewController
 
 
-- (instancetype)initWithCamera:(GPUImageStillCamera *)camera{
+- (instancetype)initWithCamera:(GPUImageStillCamera *)camera andFilter:(GPUImageFilterGroup *)filter{
     if(self = [super initWithNibName:nil bundle:nil]){
         _videoCamera = camera;
+        _filter = filter;
     }
     return self;
 }
@@ -52,7 +53,7 @@
     [self.view addSubview:_imageView];
     
     // 卡通滤镜效果（黑色描边）
-    _filter = [[GPUImageFilter alloc] init];
+   // _filter = [[GPUImageFilter alloc] init];
     
    // _videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset640x480 cameraPosition:AVCaptureDevicePositionFront];
     _videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
@@ -78,7 +79,7 @@
     
     self.backButton =[[UIButton alloc]initWithFrame: CGRectMake(0, 0, 50, 50)];
     [self.backButton setCenter:CGPointMake(self.view.bounds.size.width / 2.0 + 100, recordBtn.center.y)];
-    [_backButton setImage:[UIImage imageNamed:@"imageback"] forState:UIControlStateNormal];
+    [_backButton setImage:[UIImage imageNamed:@"whiteback"] forState:UIControlStateNormal];
     [_backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_backButton];
     
