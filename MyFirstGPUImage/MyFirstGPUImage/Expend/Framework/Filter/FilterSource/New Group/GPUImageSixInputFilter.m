@@ -70,10 +70,10 @@ NSString *const kGPUImageSixInputTextureVertexShaderString = SHADER_STRING
     
     runSynchronouslyOnVideoProcessingQueue(^{
         [GPUImageContext useImageProcessingContext];
-        filterSixthTextureCoordinateAttribute = [filterProgram attributeIndex:@"inputTextureCoordinate6"];
+        self->filterSixthTextureCoordinateAttribute = [self->filterProgram attributeIndex:@"inputTextureCoordinate6"];
         
-        filterInputTextureUniform6 = [filterProgram uniformIndex:@"inputImageTexture6"]; // This does assume a name of "inputImageTexture6" for the third input texture in the fragment shader
-        glEnableVertexAttribArray(filterSixthTextureCoordinateAttribute);
+        self->filterInputTextureUniform6 = [self->filterProgram uniformIndex:@"inputImageTexture6"]; // This does assume a name of "inputImageTexture6" for the third input texture in the fragment shader
+        glEnableVertexAttribArray(self->filterSixthTextureCoordinateAttribute);
     });
     
     return self;

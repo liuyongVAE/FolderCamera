@@ -9,5 +9,8 @@
 #import <GPUImage/GPUImage.h>
 
 @interface DesignedGPUImageFilter : GPUImageFilter
+{
+}
+
 
 @end

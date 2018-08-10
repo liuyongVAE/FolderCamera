@@ -26,14 +26,11 @@
 @property (nonatomic, strong) UILabel *tipLabel;
 @property (nonatomic, strong) UIButton *backButton;
 
-
-
-
 @end
 
 @implementation CaptureViewController
 
-
+//初始化
 - (instancetype)initWithCamera:(GPUImageStillCamera *)camera andFilter:(GPUImageFilterGroup *)filter{
     if(self = [super initWithNibName:nil bundle:nil]){
         _videoCamera = camera;
@@ -45,17 +42,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+
+    
+    // Do any additional setup after loading the view.
+}
+
+
+/**
+ 布局UI
+ */
+- (void)setUIandCamera{
     
     CGFloat width = self.view.bounds.size.width;
     CGFloat height = self.view.bounds.size.height;
     _imageView = [[GPUImageView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
     _imageView.center = self.view.center;
     [self.view addSubview:_imageView];
-    
-    // 卡通滤镜效果（黑色描边）
-   // _filter = [[GPUImageFilter alloc] init];
-    
-   // _videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset640x480 cameraPosition:AVCaptureDevicePositionFront];
+
     _videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
     [_videoCamera addTarget:_filter];
     [_filter addTarget:_imageView];
@@ -68,7 +71,7 @@
     [recordBtn setUserInteractionEnabled:YES];
     recordBtn.delegate = self;
     [self.view addSubview:recordBtn];
-    
+    //提示label
     self.tipLabel =[[UILabel alloc]initWithFrame: CGRectZero];
     [self.tipLabel setText:@"长按拍照键拍照"];
     [self.tipLabel setTextColor:[UIColor whiteColor]];
@@ -76,13 +79,13 @@
     [self.tipLabel sizeToFit];
     [self.tipLabel setCenter:CGPointMake(recordBtn.center.x, height - 160)];
     [self.view addSubview:_tipLabel];
-    
+    //返回按钮
     self.backButton =[[UIButton alloc]initWithFrame: CGRectMake(0, 0, 50, 50)];
     [self.backButton setCenter:CGPointMake(self.view.bounds.size.width / 2.0 + 100, recordBtn.center.y)];
     [_backButton setImage:[UIImage imageNamed:@"whiteback"] forState:UIControlStateNormal];
     [_backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_backButton];
-    
+    //转换摄像头
     UIButton *lensBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     lensBtn.frame = CGRectMake(self.view.bounds.size.width - 50,15,30,30);
     [lensBtn setImage:[UIImage imageNamed:@"转换"] forState:UIControlStateNormal];
@@ -96,8 +99,6 @@
     
     [self.view addSubview:lensBtn];
     
-    
-    // Do any additional setup after loading the view.
 }
 
 - (void)recordBtnFinish{
@@ -139,9 +140,7 @@
     [_movieWriter cancelRecording];
 }
 - (void)recordBtnAction{
-    
 
-    
     // 录像
     _temPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Movie.mov"];
     unlink([_temPath UTF8String]);
@@ -149,7 +148,6 @@
     
     NSURL *movieURL = [NSURL fileURLWithPath:_temPath];
     
-
     //判断屏幕状态（横屏）
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
@@ -158,18 +156,16 @@
         _movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:movieURL size:_imageView.frame.size];
     }
     
-    
-    
+    //初始化movieWirter
     [_movieWriter setHasAudioTrack:YES audioSettings:nil];
     _movieWriter.encodingLiveVideo = YES;
     _movieWriter.shouldPassthroughAudio = YES;
     _videoCamera.audioEncodingTarget = _movieWriter;
     [_filter addTarget:_movieWriter];
-    
     [_movieWriter startRecording];
 }
 
-
+//转换摄像头
 - (void)lensBtnAction:(UIButton *)sender{
     
     [_videoCamera rotateCamera];
@@ -177,7 +173,6 @@
 }
 
 - (void)back{
-    
     [self.navigationController popViewControllerAnimated:true];
 }
 
@@ -198,28 +193,32 @@
  */
 
 
-
+//Protocol 实现
 - (void)videoControlWithControl:(RoundProgressButtonView * _Nonnull)control gest:(UIGestureRecognizer * _Nonnull)gest {
     if ([NSStringFromClass([gest class]) isEqualToString:@"UITapGestureRecognizer"]) {
         // [self recordBtnAction]
     }
     switch (gest.state) {
         case UIGestureRecognizerStateBegan:{
+            //开始长按，开始录制
              _tipLabel.hidden = YES;
             [self recordBtnAction];
         }
             break;
         case UIGestureRecognizerStateCancelled:{
+            //取消录制
             [self recordCanceld];
             break;
             
         }
         case UIGestureRecognizerStateEnded:{
+           //判断是够已开始长按
             if (_tipLabel.hidden){
                 [self recordBtnFinish];
                 _tipLabel.hidden = NO;
 
             }else{
+                //不作操作
             }
             //            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             //                [self removeScaleTemp];

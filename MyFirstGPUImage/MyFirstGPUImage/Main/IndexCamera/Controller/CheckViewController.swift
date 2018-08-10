@@ -19,7 +19,7 @@ class CheckViewController: UIViewController {
         btn.addTarget(self, action: #selector(self.savePhoto), for: .touchUpInside)
         return btn
     }()
-    
+    //返回按钮
     lazy var backButton:UIButton = {
         var btn = NewUIButton()
         btn.setImage(#imageLiteral(resourceName: "imageback") , for: .normal)
@@ -257,17 +257,15 @@ extension CheckViewController{
             self.present(alertController, animated: true, completion: nil)
         }
     }
-    
-    
- 
-    
-    
-    
+  
     
 }
 extension CheckViewController:FillterSelectViewDelegate{
   
     
+    /// 切换滤镜
+    ///
+    /// - Parameter index: 滤镜代码
     func switchFillter(index: Int) {
         ifFilter =  FilterGroup.getFillter(filterType: index)
         image =  ifFilter?.image(byFilteringImage:imageNormal )

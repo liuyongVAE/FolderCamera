@@ -8,11 +8,23 @@
 
 #import "DesignedGPUImageFilter.h"
 #import "GPUImageFilter.h"
-@implementation DesignedGPUImageFilter{
-    GLint aspectRationUniform,radiousUniform,centerUniform,scaleUniform;
+
+
+
+
+@implementation DesignedGPUImageFilter
+- (id)init {
+    if (self = [super initWithFragmentShaderFromFile:@"myShader"]) {
+ 
+        return self;
+    }else{
+        return nil;
+    }
+   
 }
 
-@propoty()
+
 
 
 @end
+

@@ -7,3 +7,4 @@
 
 #import "InstaFilters.h"
 #import "CaptureViewController.h"
+#import "DesignedGPUImageFilter.h"

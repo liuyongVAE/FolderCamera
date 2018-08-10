@@ -67,10 +67,10 @@ NSString *const kGPUImageFiveInputTextureVertexShaderString = SHADER_STRING
     
     runSynchronouslyOnVideoProcessingQueue(^{
         [GPUImageContext useImageProcessingContext];
-        filterFifthTextureCoordinateAttribute = [filterProgram attributeIndex:@"inputTextureCoordinate5"];
+        self->filterFifthTextureCoordinateAttribute = [self->filterProgram attributeIndex:@"inputTextureCoordinate5"];
         
-        filterInputTextureUniform5 = [filterProgram uniformIndex:@"inputImageTexture5"]; // This does assume a name of "inputImageTexture5" for the third input texture in the fragment shader
-        glEnableVertexAttribArray(filterFifthTextureCoordinateAttribute);
+        self->filterInputTextureUniform5 = [self->filterProgram uniformIndex:@"inputImageTexture5"]; // This does assume a name of "inputImageTexture5" for the third input texture in the fragment shader
+        glEnableVertexAttribArray(self->filterFifthTextureCoordinateAttribute);
     });
     
     return self;

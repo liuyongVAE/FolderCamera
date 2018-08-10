@@ -395,7 +395,6 @@ extension FConViewController{
             break
             
         }
-        
     }
     
     //修正拍照角度
@@ -417,10 +416,6 @@ extension FConViewController{
         
         return img
     }
-    
-    
-    
-    
 }
 
 
@@ -445,14 +440,20 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
         //使用INS自定义滤镜
         mCamera.removeAllTargets()
         ifFilter = FilterGroup.getFillter(filterType: index)
+        if index == 13{
+            let f = DesignedGPUImageFilter()
+            f.addTarget(mGpuimageView)
+            mCamera.addTarget(f)
+            
+        }
+        
+        
         ifFilter.addTarget(mGpuimageView)
         ifaddFilter = true
         mCamera.addTarget(ifFilter)
         mCamera.startCapture()
         
     }
-    
-    
     /// 切换滤镜方法
     func changeFillter() {
         isBeauty = false
