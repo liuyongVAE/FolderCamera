@@ -11,6 +11,7 @@
 		2D0396A0211D70B9004E87C0 /* DesignedGPUImageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D03969F211D70B9004E87C0 /* DesignedGPUImageFilter.m */; };
 		2D1B88EE2110574E00773678 /* GPUImageBeautifyFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B88ED2110574E00773678 /* GPUImageBeautifyFilter.m */; };
 		2D2D6D99211D7A9C005F8371 /* myShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 2D2D6D98211D7923005F8371 /* myShader.fsh */; };
+		2D2D6D9B211D8561005F8371 /* topVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2D6D9A211D8561005F8371 /* topVIew.swift */; };
 		2D378EB721115C2900A51DE8 /* IFNashvilleFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D378E9021115C2500A51DE8 /* IFNashvilleFilter.m */; };
 		2D378EB821115C2900A51DE8 /* IFInkwellFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D378E9221115C2500A51DE8 /* IFInkwellFilter.m */; };
 		2D378EB921115C2900A51DE8 /* IFBrannanFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D378E9421115C2500A51DE8 /* IFBrannanFilter.m */; };
@@ -76,6 +77,7 @@
 		2D1B88EC2110574D00773678 /* GPUImageBeautifyFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageBeautifyFilter.h; sourceTree = "<group>"; };
 		2D1B88ED2110574E00773678 /* GPUImageBeautifyFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageBeautifyFilter.m; sourceTree = "<group>"; };
 		2D2D6D98211D7923005F8371 /* myShader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = myShader.fsh; sourceTree = "<group>"; };
+		2D2D6D9A211D8561005F8371 /* topVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = topVIew.swift; sourceTree = "<group>"; };
 		2D378E8F21115C2500A51DE8 /* IFRiseFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFRiseFilter.h; sourceTree = "<group>"; };
 		2D378E9021115C2500A51DE8 /* IFNashvilleFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFNashvilleFilter.m; sourceTree = "<group>"; };
 		2D378E9121115C2500A51DE8 /* IFEarlybirdFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFEarlybirdFilter.h; sourceTree = "<group>"; };
@@ -366,6 +368,7 @@
 				2D3A15C521099854005131B8 /* DefaultBotomView.swift */,
 				2D378ED6211181CE00A51DE8 /* FilterCollectionViewCell.swift */,
 				2D396A1C211ABE2F0049FE40 /* RoundProgressButtonView.swift */,
+				2D2D6D9A211D8561005F8371 /* topVIew.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -632,6 +635,7 @@
 				2D378EB721115C2900A51DE8 /* IFNashvilleFilter.m in Sources */,
 				2D378EBD21115C2900A51DE8 /* IFEarlybirdFilter.m in Sources */,
 				2D3A15C82109A038005131B8 /* CheckViewController.swift in Sources */,
+				2D2D6D9B211D8561005F8371 /* topVIew.swift in Sources */,
 				2D3A15C421097969005131B8 /* Propoty.swift in Sources */,
 				2D0396A0211D70B9004E87C0 /* DesignedGPUImageFilter.m in Sources */,
 			);

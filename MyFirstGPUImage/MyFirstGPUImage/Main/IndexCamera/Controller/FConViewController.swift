@@ -9,7 +9,8 @@
 import UIKit
 import Photos
 import GPUImage
-import SnapKit
+import ProgressHUD
+
 
 
 class FConViewController: UIViewController {
@@ -26,9 +27,6 @@ class FConViewController: UIViewController {
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(self.btnLong(_:)))
         longPress.minimumPressDuration = 0.3
         btn.addGestureRecognizer(longPress)
-
-        
-        
         return btn
     }()
     //  底部白色VIEW
@@ -46,37 +44,26 @@ class FConViewController: UIViewController {
         return v
     }()
     //  转换摄像头
-    lazy var turnCameraButton:UIButton = {
-        let widthofme:CGFloat = 50
-        var btn = UIButton()
-        btn.layer.cornerRadius = widthofme/2
-        btn.setImage(#imageLiteral(resourceName: "转换"), for: .normal)
-        btn.addTarget(self, action: #selector(self.turnCamera(_:)), for: .touchUpInside)
-        return btn
+    lazy var topView:TopView = {
+        let v = TopView()
+        v.backgroundColor = UIColor.clear
+        v.delegate = self
+        return v
     }()
-    //    转换拍照比例
-    lazy var turnScaleButton:UIButton = {
-        let widthofme:CGFloat = 50
-        var btn = UIButton()
-        btn.layer.cornerRadius = widthofme/2
-        btn.setImage(#imageLiteral(resourceName: "屏幕比例"), for: .normal)
-        btn.addTarget(self, action: #selector(turnScale), for: .touchUpInside)
-        return btn
+
+    lazy var Beautyslider:UISlider = {
+        let slider = UISlider()
+        slider.tintColor = naviColor
+        // slider.backgroundColor = UIColor.brown
+        slider.minimumValue = 0.0
+        slider.maximumValue = 1.0
+        slider.addTarget(self, action: #selector(self.sliderChange), for: .valueChanged)
+        slider.isContinuous = false
+        slider.value = 0.5
+        return slider
     }()
     
-        lazy var Beautyslider:UISlider = {
-            let slider = UISlider()
-            slider.tintColor = naviColor
-           // slider.backgroundColor = UIColor.brown
-            slider.minimumValue = 0.0
-            slider.maximumValue = 1.0
-            slider.addTarget(self, action: #selector(self.sliderChange), for: .valueChanged)
-            slider.isContinuous = false
-            slider.value = 0.5
-            return slider
-        }()
-    
-    
+
     
     //MAKR: - 属性
     var mCamera:GPUImageStillCamera!
@@ -248,8 +235,7 @@ extension FConViewController{
     func setDefaultView(){
         view.addSubview(defaultBottomView)
         view.addSubview(shotButton)
-        view.addSubview(turnCameraButton)
-        view.addSubview(turnScaleButton)
+        view.addSubview(topView)
         view.addSubview(cameraFillterView)
         view.addSubview(Beautyslider)
         defaultBottomView.snp.makeConstraints({
@@ -267,21 +253,7 @@ extension FConViewController{
             make.width.height.equalTo(widthOfShot)
         })
         
-        let widthOfTop:CGFloat = 30
-        
-        turnScaleButton.snp.makeConstraints({
-            make in
-            make.width.height.equalTo(widthOfTop)
-            make.left.equalToSuperview().offset(20)
-            make.top.equalToSuperview().offset(15)
-        })
-        
-        turnCameraButton.snp.makeConstraints({
-            make in
-            make.width.height.equalTo(widthOfTop)
-            make.right.equalToSuperview().offset(-20)
-            make.top.equalToSuperview().offset(15)
-        })
+  
         cameraFillterView.snp.makeConstraints({
             make in
             make.top.equalTo(SCREEN_HEIGHT)
@@ -293,6 +265,12 @@ extension FConViewController{
             make.top.equalToSuperview()
             make.width.equalToSuperview()
             make.height.equalTo(SCREEN_HEIGHT*3/4)
+        })
+        
+        topView.snp.makeConstraints({
+            make in
+            make.left.right.top.equalToSuperview()
+            make.height.equalTo(55)
         })
         
         Beautyslider.isHidden = true
@@ -337,65 +315,7 @@ extension FConViewController{
         // cameraFillterView.collectionView.reloadData()
     }
     
-    @objc func turnCamera(_ btn:UIButton){
-        mCamera.rotateCamera()
-        beginGestureScale = 1 ; effectiveScale = 1
-    }
     
-    //拍照比例切换
-    @objc func turnScale(){
-        
-        let duration:Double? = 0.2
-        scaleRate = (scaleRate!+1)%2
-        switch scaleRate {
-        case 0:
-            //设置为640x480的大小
-            defaultBottomView.isHidden = false
-            mCamera.captureSession.beginConfiguration()
-            let pre = AVCaptureSession.Preset.vga640x480
-            mCamera.captureSession.sessionPreset = pre
-            mCamera.captureSession.commitConfiguration()
-            
-            UIView.animate(withDuration: duration ?? 0.2, animations: {
-                self.mGpuimageView.transform = CGAffineTransform.identity
-                self.mGpuimageView.snp.remakeConstraints({
-                    make in
-                    make.height.equalTo(SCREEN_HEIGHT*3/4)
-                    make.width.left.top.equalToSuperview()
-                })
-                self.view.layoutIfNeeded()
-
-                self.defaultBottomView.center.y = SCREEN_HEIGHT*7/8
-
-            })
-        case 1:
-            //设置为1280x720的大小
-            mCamera.captureSession.beginConfiguration()
-            let pre = AVCaptureSession.Preset.hd1280x720
-            mCamera.captureSession.sessionPreset = pre
-            mCamera.captureSession.commitConfiguration()
-           // mCamera.forceProcessing(at: CGSize(width: SCREEN_WIDTH, height: SCREEN_HEIGHT))
-
-            UIView.animate(withDuration: duration ?? 0.2, animations: {
-                //刷新预览视图布局
-                self.mGpuimageView.snp.remakeConstraints({
-                    make in
-                    make.width.height.equalToSuperview()
-                    make.left.top.equalToSuperview()
-                })
-                //刷新
-                self.view.layoutIfNeeded()
-
-                self.defaultBottomView.center.y = SCREEN_HEIGHT*9/8
-            })
-            
-        case 2:
-            break
-        default:
-            break
-            
-        }
-    }
     
     //修正拍照角度
     ///
@@ -532,7 +452,9 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
             Beautyslider.isHidden = true
             isBeauty = false
             mCamera.removeAllTargets()
+            ifFilter = IFNormalFilter()
             mCamera.addTarget(ifFilter)
+            ifFilter.addTarget(mGpuimageView)
             mCamera.startCapture()
         }
     }
@@ -554,10 +476,113 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
 }
 
 
+//MARK: - topViewDelegate
+extension FConViewController:topViewDelegate{
+    
+    
+    //切换闪光灯
+    func flashMode() {
+        
+        if mCamera.inputCamera.hasFlash && mCamera.inputCamera.hasTorch{
+        switch mCamera.inputCamera.flashMode {
+        case .off:
+            if (try? mCamera.inputCamera.lockForConfiguration()) != nil{
+                mCamera.inputCamera.flashMode = .on
+                mCamera.inputCamera.torchMode = .auto
+                mCamera.inputCamera.unlockForConfiguration()
+                topView.flashButton.setImage(#imageLiteral(resourceName: "闪光灯打开"), for: .normal)
+            }
+        case .on:
+            
+            if (try? mCamera.inputCamera.lockForConfiguration()) != nil{
+                mCamera.inputCamera.flashMode = .auto
+                mCamera.inputCamera.torchMode = .auto
+                mCamera.inputCamera.unlockForConfiguration()
+                topView.flashButton.setImage(#imageLiteral(resourceName: "闪光灯自动"), for: .normal)
+            }
+            
+        case .auto:
+            
+            if (try? mCamera.inputCamera.lockForConfiguration()) != nil{
+                mCamera.inputCamera.flashMode = .off
+                mCamera.inputCamera.torchMode = .off
+                topView.flashButton.setImage(#imageLiteral(resourceName: "闪光灯关闭"), for: .normal)
+                mCamera.inputCamera.unlockForConfiguration()
+            }
+        }
+        //
+        }else{
+            ProgressHUD.showError("仅后置摄像头支持闪光灯哦")
+        }
+}
+    
+    
+    func turnCamera(){
+        mCamera.rotateCamera()
+        beginGestureScale = 1 ; effectiveScale = 1
+    }
+    
+    //拍照比例切换
+     func turnScale(){
+        
+        let duration:Double? = 0.2
+        scaleRate = (scaleRate!+1)%2
+        switch scaleRate {
+        case 0:
+            //设置为640x480的大小
+            defaultBottomView.isHidden = false
+            mCamera.captureSession.beginConfiguration()
+            let pre = AVCaptureSession.Preset.vga640x480
+            mCamera.captureSession.sessionPreset = pre
+            mCamera.captureSession.commitConfiguration()
+            
+            UIView.animate(withDuration: duration ?? 0.2, animations: {
+                self.mGpuimageView.transform = CGAffineTransform.identity
+                self.mGpuimageView.snp.remakeConstraints({
+                    make in
+                    make.height.equalTo(SCREEN_HEIGHT*3/4)
+                    make.width.left.top.equalToSuperview()
+                })
+                self.view.layoutIfNeeded()
+                
+                self.defaultBottomView.center.y = SCREEN_HEIGHT*7/8
+                
+            })
+        case 1:
+            //设置为1280x720的大小
+            mCamera.captureSession.beginConfiguration()
+            let pre = AVCaptureSession.Preset.hd1280x720
+            mCamera.captureSession.sessionPreset = pre
+            mCamera.captureSession.commitConfiguration()
+            // mCamera.forceProcessing(at: CGSize(width: SCREEN_WIDTH, height: SCREEN_HEIGHT))
+            
+            UIView.animate(withDuration: duration ?? 0.2, animations: {
+                //刷新预览视图布局
+                self.mGpuimageView.snp.remakeConstraints({
+                    make in
+                    make.width.height.equalToSuperview()
+                    make.left.top.equalToSuperview()
+                })
+                //刷新
+                self.view.layoutIfNeeded()
+                
+                self.defaultBottomView.center.y = SCREEN_HEIGHT*9/8
+            })
+            
+        case 2:
+            break
+        default:
+            break
+            
+        }
+    }
+    
+    
+}
+
+
 //MARK: - 手势代理调整焦距
 extension FConViewController:UIGestureRecognizerDelegate,CAAnimationDelegate{
-    
-    
     
     /// 设置聚焦图片，添加聚焦层Layer
     ///
@@ -679,8 +704,5 @@ extension FConViewController:UIGestureRecognizerDelegate,CAAnimationDelegate{
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         perform(#selector(focusLayerReset), with: self, afterDelay: 0.5)
     }
-    
-    
-    
     
 }
