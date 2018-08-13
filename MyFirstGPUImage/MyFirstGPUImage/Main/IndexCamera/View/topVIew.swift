@@ -9,16 +9,6 @@
 import Foundation
 import UIKit
 
-
-//闪光灯状态
-enum CameraFlashMode {
-    case auto;
-    case open;
-    case close;
-}
-
-
-
 protocol topViewDelegate{
     func  turnScale()
     func  turnCamera()
@@ -28,8 +18,6 @@ protocol topViewDelegate{
 
 
 class TopView: UIView {
-    
-    var flashMode = CameraFlashMode.self
     
     let widthofme:CGFloat = 50
     //MARK: - lazy loading

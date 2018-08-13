@@ -51,7 +51,7 @@ class CheckViewController: UIViewController {
         
         return v
     }()
-    
+    //照片页面
     lazy var photoView:UIImageView = {
         let v = UIImageView()
         v.image = image
@@ -60,9 +60,17 @@ class CheckViewController: UIViewController {
         
         return v
     }()
+    //视频预览
+    lazy var playView:VideoPlayView = {
+        let v = VideoPlayView()
+        return v
+    }()
+    
+    //视频地址
+    var videoUrl:URL?
     
     //属性
-    var image:UIImage!
+    var image:UIImage?
     var imageNormal:UIImage!
    //图片分辨率
     var fixel:Int?
@@ -70,16 +78,27 @@ class CheckViewController: UIViewController {
     //滤镜
     var ifFilter:IFImageFilter?
 
+    
+    
     //初始化
-    init(image:UIImage){
-        self.image = image
-        self.imageNormal = image
-        self.fixel = 0
+    init(image:UIImage?){
+        if image != nil{
+            self.image = image
+            self.imageNormal = image
+            self.fixel = 0
+        }
         super.init(nibName: nil, bundle: nil)
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    convenience init(){
+        self.init(image: nil)
+    }
+    
+    
+ 
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,7 +107,7 @@ class CheckViewController: UIViewController {
         fixel = getImageSize().h
         setUI()
         changeImagePresent()
-
+  
         // Do any additional setup after loading the view.
     }
     
@@ -102,8 +121,8 @@ class CheckViewController: UIViewController {
     ///
     /// - Returns: 像素元组
     func getImageSize()->(w:Int,h:Int){
-        guard let fixelW = image.cgImage?.width else{return (0,0)}
-        guard let fixelH = image.cgImage?.height else{return (0,0)}
+        guard let fixelW = image?.cgImage?.width else{return (0,0)}
+        guard let fixelH = image?.cgImage?.height else{return (0,0)}
         return (fixelW,fixelH)
     }
     
@@ -182,6 +201,21 @@ extension CheckViewController{
             make.width.height.equalTo(70)
             make.right.equalToSuperview().offset(-20)
         })
+        if self.videoUrl != nil {
+            
+            self.view.addSubview(playView)
+            playView.snp.makeConstraints({
+                make in
+                make.top.width.equalToSuperview()
+                make.height.equalTo(SCREEN_HEIGHT*3/4)
+            })
+            playView.playerLayer?.frame = self.view.layer.bounds
+            playView.videoUrl = videoUrl
+            
+            
+            playView.play()
+        }
+
         
         
     }
@@ -238,7 +272,7 @@ extension CheckViewController{
             })
         }else if (authStatus == .authorized ){
             ProgressHUD.show("保存中")
-            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+            UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
             ProgressHUD.showSuccess("保存成功")
             self.dismiss(animated: false, completion: nil)
             

@@ -755,11 +755,15 @@ extension FConViewController:ProgresssButtonDelegate{
     
     func recordBtnFinish() {
         // 录像状态结束
-        ProgressHUD.show("保存中")
+        //ProgressHUD.show("保存中")
         movieWriter?.finishRecording()
+        let vc = CheckViewController()
+        vc.videoUrl = videoUrl
+        self.present(vc, animated: true, completion: nil)
+        return
         //let library = ALAssetsLibrary()
         print("视频录制完成 地址是这个 \(String(describing: videoUrl?.absoluteString))")
-
+        
         //延迟存储
         let when  = DispatchTime.now() + 0.1
         weak var weakSelf = self
