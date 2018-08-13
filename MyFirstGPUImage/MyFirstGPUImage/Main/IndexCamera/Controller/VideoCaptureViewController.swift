@@ -34,6 +34,7 @@ class VideoCaptureViewController: UIViewController {
         videoCamera.outputImageOrientation = UIInterfaceOrientation.portrait
         videoCamera.addTarget(filter)
         filter.addTarget(imageView)
+
         // GPUImageVideoCamera 开始捕获画面展示在 GPUImageView
         videoCamera.startCapture()
         // 调解滤镜值
@@ -89,20 +90,42 @@ class VideoCaptureViewController: UIViewController {
             //                print(error)
             //            }
 
-            temPath = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Documents/Movie2213.m4v").absoluteString
-            // 判断路径是否存在，如果存在就删除路径下的文件，否则是没法缓存新的数据的。
-            let movieURL = URL(fileURLWithPath: temPath)
-            let uu = NSURL.fileURL(withPath: NSHomeDirectory()).appendingPathComponent("stream.mp4")
-            unlink(uu.path)
-            movieWriter = GPUImageMovieWriter(movieURL: movieURL, size: CGSize(width: 640.0, height: 480.0))
+            
+//            if !(fileManage?.fileExists(atPath: path) ?? false) {
+//                           try? fileManage?.createDirectory(atPath: path, withIntermediateDirectories: false, attributes: [:])
+////                        }
+//            temPath = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("/Documents/").absoluteString
+//            // 判断路径是否存在，如果存在就删除路径下的文件，否则是没法缓存新的数据的。
+//            let fullPath = NSHomeDirectory().appending("/Documents/").appending("image.jpeg")
+//
+//            let movieURL = URL(fileURLWithPath: fullPath)
+//
+//            unlink(movieURL.path)
+//            let imageData = UIImageJPEGRepresentation(#imageLiteral(resourceName: "闪光灯关闭"), 40)
+//            do{
+//
+//                try imageData?.write(to: URL.init(fileURLWithPath: fullPath))
+//
+//            }catch{
+//                print(error)
+//            }
+//
+//            if let savedImage = UIImage(contentsOfFile: fullPath) {
+//                  print(savedImage)
+//            } else {
+//                print("文件不存在")
+//            }
+            
+            let url = URL(fileURLWithPath: "\(NSTemporaryDirectory())liyng_demo.mp4")
+            unlink(url.path)
+            
+            movieWriter = GPUImageMovieWriter(movieURL: url, size: CGSize(width: 640.0, height: 480.0));
+            
+            movieWriter.encodingLiveVideo = true
             movieWriter.setHasAudioTrack(true, audioSettings: nil)
             filter.addTarget(movieWriter)
             self.videoCamera.audioEncodingTarget = self.movieWriter
             self.movieWriter.startRecording()
-            
-          
-          
-
         }
         sender?.isSelected = !(sender?.isSelected ?? false)
     }

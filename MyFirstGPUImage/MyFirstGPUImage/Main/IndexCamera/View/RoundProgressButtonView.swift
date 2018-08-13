@@ -26,6 +26,13 @@ class RoundProgressButtonView:UIView{
     private var animationIncr:CGFloat = 0.0
     private var duration:Int? = 2
     var centerViewWidth:CGFloat = 55
+    lazy var tipLabel:UILabel = {
+        let label = UILabel()
+        label.text = "长按拍照键录制"
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.sizeToFit()
+        return label
+    }()
     //delegate
     @objc weak var delegate:ProgresssButtonDelegate?
 
@@ -65,9 +72,7 @@ class RoundProgressButtonView:UIView{
         centerView.addGestureRecognizer(longpress)
         centerView.addGestureRecognizer(tap)
         outView.addSubview(centerView)
-        
         width = 5
-        
         progressLayer = CAShapeLayer()
         outView.layer.addSublayer(progressLayer)
         progressLayer.fillColor = nil
@@ -75,6 +80,13 @@ class RoundProgressButtonView:UIView{
         progressLayer.frame = outView.bounds
         progressLayer.lineWidth = width
         progressLayer.strokeColor = UIColor.red.cgColor
+        self.addSubview(tipLabel)
+        tipLabel.snp.makeConstraints({
+            make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalTo(self.snp.top).offset(-20)
+        })
+        
         setProgress()
         //设置持续时间默认值
         setDuratuin(10)
@@ -128,7 +140,7 @@ class RoundProgressButtonView:UIView{
     @objc func addProgress(){
         //主线程添加,控制进度
         DispatchQueue.main.async {
-            print(self.progress)
+            //print(self.progress)
             self.progress = self.progress +  self.animationIncr
             self.updateProgress()
             if self.progress > 1{

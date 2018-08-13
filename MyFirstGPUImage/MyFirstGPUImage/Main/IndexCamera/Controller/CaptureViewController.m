@@ -128,9 +128,6 @@
             });
         }];
     }
-    
-    
-    
     [_videoCamera removeTarget:_movieWriter];
     
     

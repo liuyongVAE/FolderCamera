@@ -17,16 +17,20 @@ class FConViewController: UIViewController {
     
     //UI
     //  拍照按钮
-    lazy var shotButton:UIButton = {
+    lazy var shotButton:RoundProgressButtonView = {
         let widthofme:CGFloat = 75
-        var btn = UIButton()
+        var btn = RoundProgressButtonView(frame: CGRect(x: 0, y: 0, width: widthofme, height: widthofme))
         btn.layer.cornerRadius = widthofme/2
-        btn.setImage(#imageLiteral(resourceName: "圆圈") , for: .normal)
-        btn.addTarget(self, action: #selector(self.takePhoto), for: .touchUpInside)
+        btn.delegate = self
+        //btn.frame = CGRect.init(x: 0, y: 0, width: widthofme, height: widthofme)
+        btn.center = self.defaultBottomView.center
+       // btn.frame.height = widthofme
+        //btn.setImage(#imageLiteral(resourceName: "圆圈") , for: .normal)
+        //btn.addTarget(self, action: #selector(self.takePhoto), for: .touchUpInside)
         //长按事件
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(self.btnLong(_:)))
-        longPress.minimumPressDuration = 0.3
-        btn.addGestureRecognizer(longPress)
+       // let longPress = UILongPressGestureRecognizer(target: self, action: #selector(self.btnLong(_:)))
+        //longPress.minimumPressDuration = 0.3
+        //btn.addGestureRecognizer(longPress)
         return btn
     }()
     //  底部白色VIEW
@@ -68,9 +72,8 @@ class FConViewController: UIViewController {
     //MAKR: - 属性
     var mCamera:GPUImageStillCamera!
     //拍摄视频camera
-    var videoCamera:GPUImageVideoCamera?
     var movieWriter:GPUImageMovieWriter?
-    
+    var videoUrl:URL?
    // var mFillter:GPUImageFilterGroup!
     var ifFilter:GPUImageFilterGroup!
     var mGpuimageView:GPUImageView!
@@ -704,5 +707,90 @@ extension FConViewController:UIGestureRecognizerDelegate,CAAnimationDelegate{
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         perform(#selector(focusLayerReset), with: self, afterDelay: 0.5)
     }
+    }
+
+
+//MARK: - 拍照按钮代理,视频拍摄工厂方法
+extension FConViewController:ProgresssButtonDelegate{
+    func videoControl(control: RoundProgressButtonView, gest: UIGestureRecognizer) {
+        //
+        print(gest.state.hashValue)
+        switch gest.state {
+        case .began:
+             control.tipLabel.isHidden = true
+             startRecord()
+        case.ended:
+            if control.tipLabel.isHidden {
+                recordBtnFinish()
+                control.tipLabel.isHidden = false
+            }else{
+                takePhoto()
+            }
+        default:
+            break
+        }
+        
+        
+        
+    }
+    
+    func startRecord(){
+        mCamera.addAudioInputsAndOutputs()//避免录制第一帧黑屏
+        videoUrl = URL(fileURLWithPath: "\(NSTemporaryDirectory())folder_demo.mp4")
+        unlink(videoUrl?.path)
+        //获取视频大小，作为size
+        let orientation: UIInterfaceOrientation = UIApplication.shared.statusBarOrientation
+        if orientation == .portrait || orientation == .portraitUpsideDown {
+            movieWriter = GPUImageMovieWriter(movieURL:videoUrl, size: mGpuimageView.frame.size)
+        } else {
+            movieWriter = GPUImageMovieWriter(movieURL:videoUrl, size: mGpuimageView.frame.size)
+        }
+
+        movieWriter?.encodingLiveVideo = true
+        movieWriter?.setHasAudioTrack(true, audioSettings: nil)
+        ifFilter.addTarget(movieWriter)
+        self.mCamera.audioEncodingTarget = self.movieWriter
+        self.movieWriter?.startRecording()
+    }
+    
+    func recordBtnFinish() {
+        // 录像状态结束
+        ProgressHUD.show("保存中")
+        movieWriter?.finishRecording()
+        //let library = ALAssetsLibrary()
+        print("视频录制完成 地址是这个 \(String(describing: videoUrl?.absoluteString))")
+
+        //延迟存储
+        let when  = DispatchTime.now() + 0.1
+        weak var weakSelf = self
+        DispatchQueue.main.asyncAfter(deadline: when, execute: {
+            if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum((weakSelf?.videoUrl?.path)!){
+                UISaveVideoAtPathToSavedPhotosAlbum((weakSelf?.videoUrl?.path)!, self,#selector(weakSelf?.saveVideo(videoPath:didFinishSavingWithError:contextInfo:)), nil)
+            }
+        })
+    
+        mCamera?.removeTarget(movieWriter)
+        
+    }
+    
+    
+    @objc  func saveVideo(videoPath:String,didFinishSavingWithError:NSError,contextInfo info:AnyObject){
+       print(didFinishSavingWithError.code)
+        if didFinishSavingWithError.code == 0{
+            print("success！！！！！！！！！！！！！！！！！")
+            //print(info)
+            ProgressHUD.showSuccess("保存成功")
+        }else{
+            ProgressHUD.showError("保存失败")
+        }
+        
+    }
+    
     
 }
+
+
+
+
+
+
