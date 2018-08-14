@@ -318,6 +318,7 @@
 				2D2D6D98211D7923005F8371 /* myShader.fsh */,
 				2D378ED82112FB2B00A51DE8 /* Launch Screen.storyboard */,
 				2D3A159421085258005131B8 /* Info.plist */,
+				2D3A15BA210974C3005131B8 /* Base */,
 				2D3A15C121097943005131B8 /* Expend */,
 				2D3A15C92109B0E3005131B8 /* Extension */,
 				2D3A15BB210974D7005131B8 /* Resource */,
@@ -358,7 +359,6 @@
 			isa = PBXGroup;
 			children = (
 				2D2D6D9E21215CD4005F8371 /* CheckComfirm */,
-				2D3A15BA210974C3005131B8 /* Base */,
 				2D3A15B821097408005131B8 /* IndexCamera */,
 			);
 			path = Main;
