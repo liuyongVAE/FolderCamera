@@ -349,8 +349,8 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     //跳转到视频拍摄
     func pushVideo() {
        // mCamera.pauseCapture()
-        let vc = CaptureViewController.init(camera: mCamera, andFilter: ifFilter)
-        self.navigationController?.pushViewController(vc!, animated: true)
+       // let vc = CaptureViewController.init(camera: mCamera, andFilter: ifFilter)
+       // self.navigationController?.pushViewController(vc!, animated: true)
     }
     //MARK: - 切换滤镜的方法
     ///
@@ -381,6 +381,8 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     func changeFillter() {
         isBeauty = false
         view.bringSubview(toFront: shotButton)
+        
+        self.shotButton.tipLabel.isHidden = true
         //记录两个view的center点
         let centerBottom = cameraFillterView.center
         let centerReset = defaultBottomView.center
@@ -399,6 +401,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
             self.view.layoutIfNeeded()
         })
         cameraFillterView.mb = {
+            self.shotButton.tipLabel.isHidden = false
             self.cameraFillterView.snp.remakeConstraints({
                 make in
                 make.center.equalTo(centerBottom)
@@ -718,11 +721,13 @@ extension FConViewController:ProgresssButtonDelegate{
         switch gest.state {
         case .began:
              control.tipLabel.isHidden = true
+             control.ifRecord = true
              startRecord()
         case.ended:
-            if control.tipLabel.isHidden {
+            if control.ifRecord {
                 recordBtnFinish()
                 control.tipLabel.isHidden = false
+                control.ifRecord = false
             }else{
                 takePhoto()
             }
@@ -759,36 +764,35 @@ extension FConViewController:ProgresssButtonDelegate{
         movieWriter?.finishRecording()
         let vc = CheckViewController()
         vc.videoUrl = videoUrl
+        vc.movieWriter = movieWriter
         self.present(vc, animated: true, completion: nil)
-        return
-        //let library = ALAssetsLibrary()
-        print("视频录制完成 地址是这个 \(String(describing: videoUrl?.absoluteString))")
-        
-        //延迟存储
-        let when  = DispatchTime.now() + 0.1
-        weak var weakSelf = self
-        DispatchQueue.main.asyncAfter(deadline: when, execute: {
-            if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum((weakSelf?.videoUrl?.path)!){
-                UISaveVideoAtPathToSavedPhotosAlbum((weakSelf?.videoUrl?.path)!, self,#selector(weakSelf?.saveVideo(videoPath:didFinishSavingWithError:contextInfo:)), nil)
-            }
-        })
-    
-        mCamera?.removeTarget(movieWriter)
-        
-    }
-    
-    
-    @objc  func saveVideo(videoPath:String,didFinishSavingWithError:NSError,contextInfo info:AnyObject){
-       print(didFinishSavingWithError.code)
-        if didFinishSavingWithError.code == 0{
-            print("success！！！！！！！！！！！！！！！！！")
-            //print(info)
-            ProgressHUD.showSuccess("保存成功")
-        }else{
-            ProgressHUD.showError("保存失败")
-        }
+//        movieWriter?.failureBlock = {
+//            error in
+//            print(error.debugDescription)
+//        }
+//
+//        weak var weakSelf = self
+//        print("合成结束")
+//        //存储文件
+//        //延迟存储
+//        let when  = DispatchTime.now() + 0.1
+//        DispatchQueue.main.asyncAfter(deadline: when, execute: {
+//            weakSelf?.ifFilter?.removeTarget(weakSelf?.movieWriter)
+//            if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum((weakSelf?.videoUrl?.path)!){
+//                UISaveVideoAtPathToSavedPhotosAlbum((weakSelf?.videoUrl?.path)!, self,#selector(weakSelf?.saveVideo(videoPath:didFinishSavingWithError:contextInfo:)), nil)
+//            }
+//
+//        })
+//
+//
+//        movieWriter?.completionBlock = {
+//
+//        }
+
         
     }
+  
+       
     
     
 }

@@ -8,13 +8,13 @@
 
 import UIKit
 
-class VideoPlayView: UIView {
+class VideoPlayView: UIView{
 
-    
-    
+
     var player:AVPlayer?
     var playerItem:AVPlayerItem?
     var playerLayer:AVPlayerLayer?
+    //视频地址
     var videoUrl:URL?{
         didSet{
             playerItem = AVPlayerItem(url: videoUrl!)
@@ -22,8 +22,8 @@ class VideoPlayView: UIView {
             playerLayer = AVPlayerLayer(player: player!)
             playerLayer?.videoGravity = .resizeAspectFill
             playerLayer?.frame = self.bounds
-            playerLayer?.backgroundColor = UIColor.blue.cgColor
             self.layer.addSublayer(playerLayer!)
+            addNotification()
         }
     }
 
@@ -31,8 +31,8 @@ class VideoPlayView: UIView {
     init(){
         super.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT*3/4))
     }
-    
-    
+
+    //视频播放器控制
     func play(){
         player?.play()
     }
@@ -41,10 +41,23 @@ class VideoPlayView: UIView {
         player?.pause()
     }
     
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
 
+}
+//添加播放通知
+extension VideoPlayView{
+    
+    func addNotification(){
+        NotificationCenter.default.addObserver(self, selector: #selector(didFinished), name:.AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
+    }
+    @objc func didFinished(){
+        player?.seek(to: CMTime.init(value: 0, timescale: 1))
+        player?.play()
+    }
+    
+    
+    
 }

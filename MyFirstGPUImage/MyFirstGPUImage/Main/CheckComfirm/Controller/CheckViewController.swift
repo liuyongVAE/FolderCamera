@@ -23,7 +23,7 @@ class CheckViewController: UIViewController {
     lazy var backButton:UIButton = {
         var btn = NewUIButton()
         btn.setImage(#imageLiteral(resourceName: "imageback") , for: .normal)
-       btn.setTitle("返回", for: .normal)
+        btn.setTitle("返回", for: .normal)
         btn.setTitleColor(UIColor.black, for: .normal)
         btn.addTarget(self, action: #selector(self.back), for: .touchUpInside)
         return btn
@@ -72,12 +72,15 @@ class CheckViewController: UIViewController {
     //属性
     var image:UIImage?
     var imageNormal:UIImage!
-   //图片分辨率
+    //图片分辨率
     var fixel:Int?
     var willDismiss:(()-> Void)? = nil
     //滤镜
     var ifFilter:IFImageFilter?
-
+    //视频
+    var movieWriter:GPUImageMovieWriter?
+    var movieFile:GPUImageMovie?
+    var moviePreview:GPUImageView?
     
     
     //初始化
@@ -98,7 +101,7 @@ class CheckViewController: UIViewController {
     }
     
     
- 
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,8 +110,16 @@ class CheckViewController: UIViewController {
         fixel = getImageSize().h
         setUI()
         changeImagePresent()
-  
+        
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if image == nil{
+            switchFillter(index: 0)
+           // self.present(ViewController(), animated: true, completion: nil)
+            //  setPreview()
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -137,8 +148,6 @@ class CheckViewController: UIViewController {
             self.view.layoutIfNeeded()
             self.defaultBottomView.isHidden = true
         }
-        
-        
     }
     
     /*
@@ -164,7 +173,7 @@ extension CheckViewController{
         view.addSubview(backButton)
         view.addSubview(filterButton)
         view.addSubview(cameraFilterView)
-
+        
         photoView.snp.makeConstraints({
             make in
             make.top.width.equalToSuperview()
@@ -202,24 +211,47 @@ extension CheckViewController{
             make.right.equalToSuperview().offset(-20)
         })
         if self.videoUrl != nil {
-            
-            self.view.addSubview(playView)
-            playView.snp.makeConstraints({
-                make in
-                make.top.width.equalToSuperview()
-                make.height.equalTo(SCREEN_HEIGHT*3/4)
-            })
-            playView.playerLayer?.frame = self.view.layer.bounds
-            playView.videoUrl = videoUrl
-            
-            
-            playView.play()
+            setPreview()
+            filterButton.isHidden = true
         }
-
-        
-        
     }
     
+    
+    func setPreview(){
+        //带声音的视频播放
+        //            self.view.addSubview(playView)
+        //            playView.snp.makeConstraints({
+        //                make in
+        //                make.top.width.equalToSuperview()
+        //                make.height.equalTo(SCREEN_HEIGHT*3/4)
+        //            })
+        //            playView.playerLayer?.frame = self.view.layer.bounds
+        //            playView.videoUrl = videoUrl
+        //
+        //            playView.play()
+        
+        //初始化滤镜页面
+        ifFilter = IFNormalFilter()
+        moviePreview = GPUImageView()
+        movieFile  = GPUImageMovie.init(url: videoUrl)
+        movieFile?.runBenchmark = true
+        movieFile?.playAtActualSpeed = false
+        //movieFile?.addTarget(ifFilter)
+        movieFile?.addTarget(moviePreview)
+        self.view.addSubview(moviePreview!)
+        moviePreview?.snp.makeConstraints({
+            make in
+            make.top.left.width.equalToSuperview()
+            make.height.equalTo(SCREEN_HEIGHT*3/4)
+        })
+        //ifFilter?.addTarget(moviePreview)
+        //movieWriter = GPUImageMovieWriter.init(movieURL: videoUrl, size: CGSize(width:480, height: 640))
+        //movieWriter?.startRecording()
+        movieFile?.startProcessing()
+        movieFile?.shouldRepeat = true
+        //movieWriter?.finishRecording()
+        //ifFilter?.removeTarget(movieWriter)
+    }
     
     
     
@@ -272,9 +304,13 @@ extension CheckViewController{
             })
         }else if (authStatus == .authorized ){
             ProgressHUD.show("保存中")
-            UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
-            ProgressHUD.showSuccess("保存成功")
-            self.dismiss(animated: false, completion: nil)
+            if image != nil{
+                UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
+                ProgressHUD.showSuccess("保存成功")
+                self.dismiss(animated: false, completion: nil)
+            }else{
+                finishEdit()
+            }
             
         }else{
             let alertController = UIAlertController(title: "提示", message: "您已经关闭相册权限，该功能无法使用，请点击系统设置设置", preferredStyle: .alert)
@@ -291,24 +327,113 @@ extension CheckViewController{
             self.present(alertController, animated: true, completion: nil)
         }
     }
-  
+    
+    
+
+    func finishEdit(){
+        
+//
+//        movieWriter = GPUImageMovieWriter.init(movieURL: videoUrl, size: CGSize(width:480, height: 640))
+//        unlink(videoUrl?.path)
+//        ifFilter?.addTarget(movieWriter)
+//        movieWriter?.shouldPassthroughAudio = true
+//        movieFile?.enableSynchronizedEncoding(using: movieWriter)
+//        movieWriter?.startRecording()
+//        movieWriter?.finishRecording()
+//
+//        movieWriter?.failureBlock = {
+//            error in
+//            print(error.debugDescription)
+//        }
+//
+        
+        weak var weakSelf = self
+        print("合成结束")
+        //存储文件
+        //延迟存储
+        ifFilter?.removeAllTargets()
+        movieFile?.removeAllTargets()
+        movieFile?.cancelProcessing()
+        let when  = DispatchTime.now() + 0.1
+        DispatchQueue.main.asyncAfter(deadline: when, execute: {
+            //weakSelf?.ifFilter?.removeTarget(weakSelf?.movieWriter)
+ 
+            if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum((weakSelf?.videoUrl?.path)!){
+                UISaveVideoAtPathToSavedPhotosAlbum((weakSelf?.videoUrl?.path)!, self,#selector(weakSelf?.saveVideo(videoPath:didFinishSavingWithError:contextInfo:)), nil)
+            }
+            
+            
+        })
+ 
+    }
+    
+@objc  func saveVideo(videoPath:String,didFinishSavingWithError:NSError,contextInfo info:AnyObject){
+    print(didFinishSavingWithError.code)
+    if didFinishSavingWithError.code == 0{
+        print("success！！！！！！！！！！！！！！！！！")
+        //print(info)
+        ProgressHUD.showSuccess("保存成功")
+        self.dismiss(animated: true, completion: nil)
+    }else{
+        ProgressHUD.showError("保存失败")
+    }
     
 }
+
+
+
+}
 extension CheckViewController:FillterSelectViewDelegate{
-  
+    
     
     /// 切换滤镜
     ///
     /// - Parameter index: 滤镜代码
     func switchFillter(index: Int) {
         ifFilter =  FilterGroup.getFillter(filterType: index)
-        image =  ifFilter?.image(byFilteringImage:imageNormal )
-        //主线程修改image
-        DispatchQueue.main.async {
-            self.photoView.image = self.image
+        if image != nil{
+            image =  ifFilter?.image(byFilteringImage:imageNormal )
+            //主线程修改image
+            DispatchQueue.main.async {
+                self.photoView.image = self.image
+            }
+        }else{
+            // movieFile = GPUImageMovie.init(url: videoUrl)
+            movieFile?.shouldRepeat = true
+            movieFile?.runBenchmark = true
+            movieFile?.playAtActualSpeed = false
+            movieFile?.cancelProcessing()
+            movieFile?.removeAllTargets()
+            ifFilter?.removeAllTargets()
+            movieFile?.addTarget(ifFilter)
+            ifFilter?.addTarget(moviePreview)
+            movieFile?.startProcessing()
+            
+            //           let filterView = GPUImageView()
+            //            self.view.addSubview(filterView)
+            //            filterView.snp.makeConstraints({
+            //                    make in
+            //                    make.top.width.equalToSuperview()
+            //                    make.height.equalTo(SCREEN_HEIGHT*3/4)
+            //                })
+            //            unlink(videoUrl?.path)
+            //            movieWriter?.startRecording()
+            //            movieFile?.startProcessing()
+            //            movieFile?.shouldRepeat = true
+            //            movieWriter?.finishRecording()
+            //            ifFilter?.removeTarget(movieWriter)
+            // movieWriter
+            //let writer = GPUImageMovieWriter.init(movieURL: videoUrl, size: CGSize(width:480, height: 640))
+            //writer?.startRecording()
+            //  movieFile?.shouldRepeat = true
+            // writer?.finishRecording()
+            //ifFilter?.removeTarget(writer)
+            
+            
         }
     }
     
- 
+    
+    
     
 }

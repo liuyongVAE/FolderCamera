@@ -26,6 +26,7 @@ class RoundProgressButtonView:UIView{
     private var animationIncr:CGFloat = 0.0
     private var duration:Int? = 2
     var centerViewWidth:CGFloat = 55
+    var ifRecord:Bool = false
     lazy var tipLabel:UILabel = {
         let label = UILabel()
         label.text = "长按拍照键录制"
