@@ -100,9 +100,7 @@ class CheckViewController: UIViewController {
         self.init(image: nil)
     }
     
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
