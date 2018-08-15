@@ -17,6 +17,7 @@ class VideoPlayView: UIView{
     //视频地址
     var videoUrl:URL?{
         didSet{
+            
             playerItem = AVPlayerItem(url: videoUrl!)
             player = AVPlayer(playerItem: playerItem!)
             playerLayer = AVPlayerLayer(player: player!)
@@ -34,7 +35,12 @@ class VideoPlayView: UIView{
 
     //视频播放器控制
     func play(){
-        player?.play()
+        if player != nil{
+          player!.play()
+        }else{
+            
+        }
+        
     }
 
     func pause(){
@@ -45,8 +51,9 @@ class VideoPlayView: UIView{
         fatalError("init(coder:) has not been implemented")
     }
     
-    deinit {
+    func deadlloc() {
         player = nil
+        NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
     }
     
 

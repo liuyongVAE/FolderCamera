@@ -101,6 +101,7 @@ class CheckViewController: UIViewController {
         self.init(image: nil)
     }
     
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,10 +113,16 @@ class CheckViewController: UIViewController {
         
         // Do any additional setup after loading the view.
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        playView.deadlloc()
+    }
+    
     
     override func viewDidAppear(_ animated: Bool) {
         if image == nil{
-            switchFillter(index: 0)
+            setPreview()
+            playView.play()
+            //switchFillter(index: 0)
             // self.present(ViewController(), animated: true, completion: nil)
             //  setPreview()
         }
@@ -220,10 +227,9 @@ extension CheckViewController{
             make.right.equalToSuperview().offset(-20)
         })
         if self.videoUrl != nil {
-            setPreview()
-            filterButton.isHidden = true
+           // setPreview()
+           // filterButton.isHidden = true
             moviePreview?.fillMode = kGPUImageFillModeStretch
-            
         }
     }
     
@@ -238,19 +244,20 @@ extension CheckViewController{
         //            })
         //            playView.playerLayer?.frame = self.view.layer.bounds
         playView.videoUrl = videoUrl
-        
         //
-        playView.play()
-        
         //初始化滤镜页面
-        ifFilter = IFNormalFilter()
+        //ifFilter = IFNormalFilter()
         moviePreview = GPUImageView()
         
-        movieFile  = GPUImageMovie.init(playerItem: playView.playerItem)
-        movieFile?.runBenchmark = true
+       // movieFile  = GPUImageMovie.init(playerItem: playView.playerItem!)
+         movieFile  = GPUImageMovie.init(playerItem: playView.playerItem!)
+
+        //playView.play()
+     //   movieFile?.runBenchmark = true
         movieFile?.playAtActualSpeed = false
         //movieFile?.addTarget(ifFilter)
         movieFile?.addTarget(moviePreview)
+        
         self.view.addSubview(moviePreview!)
         moviePreview?.snp.makeConstraints({
             make in
@@ -263,6 +270,7 @@ extension CheckViewController{
         //movieWriter?.startRecording()
         movieFile?.startProcessing()
         movieFile?.shouldRepeat = true
+      
         //movieWriter?.finishRecording()
         //ifFilter?.removeTarget(movieWriter)
     }

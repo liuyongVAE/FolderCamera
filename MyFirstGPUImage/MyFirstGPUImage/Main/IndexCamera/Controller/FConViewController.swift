@@ -713,6 +713,7 @@ extension FConViewController:ProgresssButtonDelegate{
     }
     
     func startRecord(){
+        shotButton.reStartCount()
         mCamera.addAudioInputsAndOutputs()//避免录制第一帧黑屏
         videoUrl = URL(fileURLWithPath: "\(NSTemporaryDirectory())folder_demo.mp4")
         unlink(videoUrl?.path)
@@ -734,20 +735,63 @@ extension FConViewController:ProgresssButtonDelegate{
         
         
         movieWriter = GPUImageMovieWriter(movieURL:videoUrl, size: size)
-
-
+       //解决录制MP4帧失败的问题
+        movieWriter?.assetWriter.movieFragmentInterval = kCMTimeInvalid
         movieWriter?.encodingLiveVideo = true
         movieWriter?.setHasAudioTrack(true, audioSettings: nil)
+        //movieWriter?.shouldPassthroughAudio = true
         ifFilter.addTarget(movieWriter)
         self.mCamera.audioEncodingTarget = self.movieWriter
         self.movieWriter?.startRecording()
     }
     
+    
     func recordBtnFinish() {
         // 录像状态结束
         //ProgressHUD.show("保存中")
         movieWriter?.finishRecording()
-        let vc = CheckViewController()
+        print(shotButton.timeCounter)
+        if shotButton.timeCounter < 1{
+            takePhoto()
+            return
+        }
+        
+        
+        
+//        let moviePlaye = MPMoviePlayerViewController(contentURL: videoUrl!)
+//        moviePlaye?.moviePlayer.prepareToPlay()
+//        moviePlaye?.view.frame = self.view.bounds
+//        self.present(moviePlaye!, animated: true, completion: nil)
+        
+//        let avView = VideoPlayView()
+//        avView.videoUrl = videoUrl!
+//        let vcc = CheckViewController()
+//        vcc.view.addSubview(avView)
+//        avView.snp.makeConstraints({
+//            make in
+//            make.width.left.top.equalToSuperview()
+//            make.height.equalTo(SCREEN_HEIGHT*3/4)
+//        })
+//        avView.play()
+//        self.present(vcc, animated: true, completion: nil)
+//
+//
+//        return
+        
+//
+//        weak var weakSelf = self
+//        print("合成结束")
+        //存储文件
+        //延迟存储
+//        let when  = DispatchTime.now() + 0.1
+//        DispatchQueue.main.asyncAfter(deadline: when, execute: {
+//            weakSelf?.ifFilter?.removeTarget(weakSelf?.movieWriter)
+//            if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum((weakSelf?.videoUrl?.path)!){
+//                UISaveVideoAtPathToSavedPhotosAlbum((weakSelf?.videoUrl?.path)!, self,nil, nil)
+//            }
+//
+//        })
+        let vc = CheckViewController()//videoCheckViewController.init(videoUrl: videoUrl!)
         vc.videoUrl = videoUrl
         vc.movieWriter = movieWriter
         self.present(vc, animated: true, completion: nil)
@@ -756,18 +800,7 @@ extension FConViewController:ProgresssButtonDelegate{
 //            print(error.debugDescription)
 //        }
 //
-//        weak var weakSelf = self
-//        print("合成结束")
-//        //存储文件
-//        //延迟存储
-//        let when  = DispatchTime.now() + 0.1
-//        DispatchQueue.main.asyncAfter(deadline: when, execute: {
-//            weakSelf?.ifFilter?.removeTarget(weakSelf?.movieWriter)
-//            if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum((weakSelf?.videoUrl?.path)!){
-//                UISaveVideoAtPathToSavedPhotosAlbum((weakSelf?.videoUrl?.path)!, self,#selector(weakSelf?.saveVideo(videoPath:didFinishSavingWithError:contextInfo:)), nil)
-//            }
-//
-//        })
+  
 //
 //
 //        movieWriter?.completionBlock = {

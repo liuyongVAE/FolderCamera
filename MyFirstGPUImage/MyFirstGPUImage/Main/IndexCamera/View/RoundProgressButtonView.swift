@@ -27,6 +27,7 @@ class RoundProgressButtonView:UIView{
     private var duration:Int? = 2
     var centerViewWidth:CGFloat = 55
     var ifRecord:Bool = false
+    var timeCounter = 0.0
     lazy var tipLabel:UILabel = {
         let label = UILabel()
         label.text = "长按拍照键录制"
@@ -153,12 +154,13 @@ class RoundProgressButtonView:UIView{
     //MARK: - Progress
     func setProgress(){
         progress = 0
-        
         let progressPath = UIBezierPath(arcCenter: centerView.center, radius: (outView.frame.size.width - (1.5*width))/3, startAngle: CGFloat(Double.pi/2*3), endAngle: CGFloat(-Double.pi/2), clockwise: true)
         //定义完贝塞尔曲线，添加到layer
         progressLayer.path = progressPath.cgPath
     }
     func updateProgress(){
+        timeCounter =  0.01 + timeCounter
+
         let progressPath = UIBezierPath(arcCenter: centerView.center, radius: (outView.frame.size.width - (1.5*width))/3, startAngle: CGFloat(Double.pi/2*3), endAngle: CGFloat(Double.pi*2)*progress + CGFloat(-Double.pi/2), clockwise: true)
         //定义完贝塞尔曲线，添加到layer，更新path
         progressLayer.path = progressPath.cgPath
@@ -178,6 +180,9 @@ class RoundProgressButtonView:UIView{
         setProgress()
     }
     
+    func reStartCount(){
+        timeCounter = 0.0
+    }
     
     
     
