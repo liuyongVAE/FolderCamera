@@ -96,11 +96,12 @@ class CheckViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+  
     convenience init(){
         self.init(image: nil)
     }
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
@@ -115,7 +116,7 @@ class CheckViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         if image == nil{
             switchFillter(index: 0)
-           // self.present(ViewController(), animated: true, completion: nil)
+            // self.present(ViewController(), animated: true, completion: nil)
             //  setPreview()
         }
     }
@@ -132,6 +133,8 @@ class CheckViewController: UIViewController {
     func getImageSize()->(w:Int,h:Int){
         guard let fixelW = image?.cgImage?.width else{return (0,0)}
         guard let fixelH = image?.cgImage?.height else{return (0,0)}
+        //  let fx  = movieFile?.
+        
         return (fixelW,fixelH)
     }
     
@@ -145,6 +148,14 @@ class CheckViewController: UIViewController {
             })
             self.view.layoutIfNeeded()
             self.defaultBottomView.isHidden = true
+        }else{
+            photoView.contentMode = .scaleAspectFill
+            photoView.snp.remakeConstraints({
+                make in
+                make.top.left.width.equalToSuperview()
+                make.height.equalTo(SCREEN_HEIGHT*3/4)
+            })
+            self.view.layoutIfNeeded()
         }
     }
     
@@ -211,6 +222,8 @@ extension CheckViewController{
         if self.videoUrl != nil {
             setPreview()
             filterButton.isHidden = true
+            moviePreview?.fillMode = kGPUImageFillModeStretch
+            
         }
     }
     
@@ -224,14 +237,16 @@ extension CheckViewController{
         //                make.height.equalTo(SCREEN_HEIGHT*3/4)
         //            })
         //            playView.playerLayer?.frame = self.view.layer.bounds
-        //            playView.videoUrl = videoUrl
+        playView.videoUrl = videoUrl
+        
         //
-        //            playView.play()
+        playView.play()
         
         //初始化滤镜页面
         ifFilter = IFNormalFilter()
         moviePreview = GPUImageView()
-        movieFile  = GPUImageMovie.init(url: videoUrl)
+        
+        movieFile  = GPUImageMovie.init(playerItem: playView.playerItem)
         movieFile?.runBenchmark = true
         movieFile?.playAtActualSpeed = false
         //movieFile?.addTarget(ifFilter)
@@ -242,6 +257,7 @@ extension CheckViewController{
             make.top.left.width.equalToSuperview()
             make.height.equalTo(SCREEN_HEIGHT*3/4)
         })
+        //moviePreview?.backgroundColor = UIColor.blue
         //ifFilter?.addTarget(moviePreview)
         //movieWriter = GPUImageMovieWriter.init(movieURL: videoUrl, size: CGSize(width:480, height: 640))
         //movieWriter?.startRecording()
@@ -285,6 +301,8 @@ extension CheckViewController{
         if self.willDismiss != nil{
             willDismiss!()
         }
+        playView.pause()
+        playView.player = nil
         self.dismiss(animated: false, completion: nil)
     }
     //保存图片
@@ -327,23 +345,21 @@ extension CheckViewController{
     }
     
     
-
+    
     func finishEdit(){
-        
-//
-//        movieWriter = GPUImageMovieWriter.init(movieURL: videoUrl, size: CGSize(width:480, height: 640))
-//        unlink(videoUrl?.path)
-//        ifFilter?.addTarget(movieWriter)
-//        movieWriter?.shouldPassthroughAudio = true
-//        movieFile?.enableSynchronizedEncoding(using: movieWriter)
-//        movieWriter?.startRecording()
-//        movieWriter?.finishRecording()
-//
-//        movieWriter?.failureBlock = {
-//            error in
-//            print(error.debugDescription)
-//        }
-//
+        //        movieWriter = GPUImageMovieWriter.init(movieURL: videoUrl, size: CGSize(width:480, height: 640))
+        //        unlink(videoUrl?.path)
+        //        ifFilter?.addTarget(movieWriter)
+        //        movieWriter?.shouldPassthroughAudio = true
+        //        movieFile?.enableSynchronizedEncoding(using: movieWriter)
+        //        movieWriter?.startRecording()
+        //        movieWriter?.finishRecording()
+        //
+        //        movieWriter?.failureBlock = {
+        //            error in
+        //            print(error.debugDescription)
+        //        }
+        //
         
         weak var weakSelf = self
         print("合成结束")
@@ -355,31 +371,33 @@ extension CheckViewController{
         let when  = DispatchTime.now() + 0.1
         DispatchQueue.main.asyncAfter(deadline: when, execute: {
             //weakSelf?.ifFilter?.removeTarget(weakSelf?.movieWriter)
- 
+            
             if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum((weakSelf?.videoUrl?.path)!){
                 UISaveVideoAtPathToSavedPhotosAlbum((weakSelf?.videoUrl?.path)!, self,#selector(weakSelf?.saveVideo(videoPath:didFinishSavingWithError:contextInfo:)), nil)
             }
             
             
         })
- 
+        
     }
     
-@objc  func saveVideo(videoPath:String,didFinishSavingWithError:NSError,contextInfo info:AnyObject){
-    print(didFinishSavingWithError.code)
-    if didFinishSavingWithError.code == 0{
-        print("success！！！！！！！！！！！！！！！！！")
-        //print(info)
-        ProgressHUD.showSuccess("保存成功")
-        self.dismiss(animated: true, completion: nil)
-    }else{
-        ProgressHUD.showError("保存失败")
+    @objc  func saveVideo(videoPath:String,didFinishSavingWithError:NSError,contextInfo info:AnyObject){
+        print(didFinishSavingWithError.code)
+        if didFinishSavingWithError.code == 0{
+            print("success！！！！！！！！！！！！！！！！！")
+            //print(info)
+            ProgressHUD.showSuccess("保存成功")
+            self.dismiss(animated: true, completion: nil)
+        }else{
+            ProgressHUD.showError("保存失败")
+        }
+        
     }
     
-}
-
-
-
+    
+    
+    
+    
 }
 extension CheckViewController:FillterSelectViewDelegate{
     
@@ -430,6 +448,7 @@ extension CheckViewController:FillterSelectViewDelegate{
             
         }
     }
+    
     
     
     

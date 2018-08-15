@@ -45,6 +45,10 @@ class VideoPlayView: UIView{
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        player = nil
+    }
+    
 
 }
 //添加播放通知

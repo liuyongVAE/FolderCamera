@@ -104,7 +104,7 @@ class FConViewController: UIViewController {
         setDefaultView()
         //设置聚焦图片
         setFocusImage(#imageLiteral(resourceName: "聚焦 "))
-        
+       // mCamera.forceProcessing(atSizeRespectingAspectRatio: <#T##CGSize#>)
         // Do any additional setup after loading sthe view.
     }
     
@@ -130,33 +130,6 @@ class FConViewController: UIViewController {
     }
     
     //MARK: - 自定义方法
-    
-    //长按处理，本来想直接在本页面进行录制，但swift调用方法存在崩溃，没找到解决办法，选择了跳转至OC页面录制
-    @objc func btnLong(_ gestureRecognizer: UILongPressGestureRecognizer?) {
-       // let temPath = URL(fileURLWithPath: NSHomeDirectory() + "/Document" + "/adfaes" ) //URL(fileURLWithPath: NSHomeDirectory())
-       //   var pathToMovie = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Documents/Movie.m4v").absoluteString
-      //  let  videoUrl = URL(fileURLWithPath: pathToMovie)
-        //unlink(pathToMovie.utf8)
-        //ifFilter.addTarget(mGpuimageView)
-        //videoCamera?.startCapture()
-        //FIXME: - 崩溃
-        if gestureRecognizer?.state == UIGestureRecognizerState.began{
-            pushVideo()
-
-            //    self.present(CaptureViewController(), animated: true, completion: nil)
-//            print("长按")
-//            movieWriter = GPUImageMovieWriter.init(movieURL: videoUrl, size: CGSize.init(width: 640, height: 480))
-//            movieWriter?.setHasAudioTrack(true, audioSettings: nil)
-//            movieWriter?.encodingLiveVideo = true
-//            mCamera.audioEncodingTarget = movieWriter
-//            ifFilter.addTarget(movieWriter)
-//            movieWriter?.startRecording()
-        }else if gestureRecognizer?.state == UIGestureRecognizerState.cancelled{
-//            movieWriter?.finishRecording()
-//            UISaveVideoAtPathToSavedPhotosAlbum(temPath.absoluteString, nil, nil, nil)
-        }
-    }
-
     
     /// 拍照动作
     @objc func  takePhoto(){
@@ -744,12 +717,24 @@ extension FConViewController:ProgresssButtonDelegate{
         videoUrl = URL(fileURLWithPath: "\(NSTemporaryDirectory())folder_demo.mp4")
         unlink(videoUrl?.path)
         //获取视频大小，作为size
+        var size = mGpuimageView.frame.size
+        
         let orientation: UIInterfaceOrientation = UIApplication.shared.statusBarOrientation
         if orientation == .portrait || orientation == .portraitUpsideDown {
-            movieWriter = GPUImageMovieWriter(movieURL:videoUrl, size: mGpuimageView.frame.size)
         } else {
-            movieWriter = GPUImageMovieWriter(movieURL:videoUrl, size: mGpuimageView.frame.size)
+            size = CGSize.init(width: size.width, height: size.height)
         }
+        //解决Size不是16的倍数，出现绿边
+//        while (size.width.truncatingRemainder(dividingBy: 16) > 0) {
+//            size.width = size.width+1
+//        }
+//        while (size.height.truncatingRemainder(dividingBy: 16) > 0) {
+//            size.height = size.height+1
+//        }
+        
+        
+        movieWriter = GPUImageMovieWriter(movieURL:videoUrl, size: size)
+
 
         movieWriter?.encodingLiveVideo = true
         movieWriter?.setHasAudioTrack(true, audioSettings: nil)
