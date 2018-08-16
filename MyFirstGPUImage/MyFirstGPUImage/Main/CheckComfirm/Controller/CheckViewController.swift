@@ -121,7 +121,7 @@ class CheckViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         if image == nil{
             setPreview()
-            //playView.play()
+            playView.play()
             
             //switchFillter(index: 0)
            //self.present(ViewController(), animated: true, completion: nil)
@@ -244,7 +244,7 @@ extension CheckViewController{
         //ifFilter = IFNormalFilter()
         moviePreview = GPUImageView()
         
-       // movieFile  = GPUImageMovie.init(playerItem: playView.playerItem!)
+        //movieFile  = GPUImageMovie.init(url:videoUrl)
         movieFile  = GPUImageMovie.init(playerItem: playView.playerItem!)
 
         //playView.play()
@@ -351,43 +351,45 @@ extension CheckViewController{
     func finishEdit(){
     
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let videopath = paths[0].appendingPathComponent("TmpVideo.mp4")
+        let videopath = paths[0].appendingPathComponent("TmpVideo").appendingPathComponent("my.mp4")
         try? FileManager.default.removeItem(at: videopath)
-        
+        let url2 = videopath//URL(fileURLWithPath: "\(NSTemporaryDirectory())folder_mmmm.mp4")
+        unlink(url2.path)
         movieFile = GPUImageMovie(url: videoUrl)
+       // let movieFile2 = GPUImageMovie.init(url: videopath)
+        unlink(self.videoUrl?.path)
+
         movieFile?.shouldRepeat = false
         movieFile?.playAtActualSpeed = true
-        let url2 = videopath
-            //URL(fileURLWithPath: "\(NSTemporaryDirectory())folder_video.mp4")
-        //unlink(url2.path)
+
         movieWriter = GPUImageMovieWriter.init(movieURL: url2, size: CGSize(width:480, height: 640))
         movieWriter?.encodingLiveVideo = false
         movieWriter?.shouldPassthroughAudio = false
         movieFile?.addTarget(ifFilter)
         ifFilter?.addTarget(movieWriter)
         movieFile?.enableSynchronizedEncoding(using: movieWriter)
+      //根据这个已录制的url，如果先unlink在创建movieFile，然后write写入，会提示目录无文件，但是不unlink又会提示重复写入
         movieWriter?.startRecording()
         movieFile?.startProcessing()
         weak var weakSelf = self
         movieWriter?.completionBlock = {
             print("OK")
+            
+            let 
+            
             weakSelf?.movieWriter?.finishRecording()
+            weakSelf?.movieFile?.cancelProcessing()
             weakSelf?.ifFilter?.removeTarget(weakSelf?.movieWriter)
         }
         movieWriter?.completionBlock()
         
-    
         let when  = DispatchTime.now() + 0.1
         DispatchQueue.main.asyncAfter(deadline: when, execute: {
             //weakSelf?.ifFilter?.removeTarget(weakSelf?.movieWriter)
-            
             if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum((url2.path)){
                 UISaveVideoAtPathToSavedPhotosAlbum((url2.path), self,#selector(weakSelf?.saveVideo(videoPath:didFinishSavingWithError:contextInfo:)), nil)
             }
-            
-            
         })
-        
     }
     
     @objc  func saveVideo(videoPath:String,didFinishSavingWithError:NSError,contextInfo info:AnyObject){
@@ -425,7 +427,7 @@ extension CheckViewController:FillterSelectViewDelegate{
         }else{
             // movieFile = GPUImageMovie.init(url: videoUrl)
             movieFile?.shouldRepeat = true
-            movieFile?.runBenchmark = true
+            movieFile?.runBenchmark = false
             movieFile?.playAtActualSpeed = false
             movieFile?.cancelProcessing()
             movieFile?.removeAllTargets()

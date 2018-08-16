@@ -732,7 +732,7 @@ extension FConViewController:ProgresssButtonDelegate{
 //        while (size.height.truncatingRemainder(dividingBy: 16) > 0) {
 //            size.height = size.height+1
 //        }
-        
+      
         
         movieWriter = GPUImageMovieWriter(movieURL:videoUrl, size: size)
        //解决录制MP4帧失败的问题
@@ -756,27 +756,7 @@ extension FConViewController:ProgresssButtonDelegate{
             return
         }
         
-        
-        
-//        let moviePlaye = MPMoviePlayerViewController(contentURL: videoUrl!)
-//        moviePlaye?.moviePlayer.prepareToPlay()
-//        moviePlaye?.view.frame = self.view.bounds
-//        self.present(moviePlaye!, animated: true, completion: nil)
-        
-//        let avView = VideoPlayView()
-//        avView.videoUrl = videoUrl!
-//        let vcc = CheckViewController()
-//        vcc.view.addSubview(avView)
-//        avView.snp.makeConstraints({
-//            make in
-//            make.width.left.top.equalToSuperview()
-//            make.height.equalTo(SCREEN_HEIGHT*3/4)
-//        })
-//        avView.play()
-//        self.present(vcc, animated: true, completion: nil)
-//
-//
-//        return
+
         
 //
 //        weak var weakSelf = self
@@ -796,10 +776,7 @@ extension FConViewController:ProgresssButtonDelegate{
         //self.navigationController?.navigationBar.isHidden = false
         vc.movieWriter = movieWriter
         self.present(vc, animated: true, completion: nil)
-//        movieWriter?.failureBlock = {
-//            error in
-//            print(error.debugDescription)
-//        }
+
 //
   
 //
