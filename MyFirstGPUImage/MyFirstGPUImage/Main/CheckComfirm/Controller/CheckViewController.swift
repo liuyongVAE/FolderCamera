@@ -393,49 +393,6 @@ extension CheckViewController{
     }
     
     
-    func finishEdit(){
-    
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let videopath = paths[0].appendingPathComponent("TmpVideo.m4v")
-        try? FileManager.default.removeItem(at: videopath)
-        let url2 =  videopath//URL(fileURLWithPath: "\(NSTemporaryDirectory())folderVideo2.mp4")
-        unlink(url2.path)
-       // movieFile = GPUImageMovie(url: videoUrl)
-       // let movieFile = GPUImageMovie.init(url: videopath)
-       // unlink(self.videoUrl?.path)
-        //根据这个已录制的url，如果先unlink在创建movieFile，然后write写入，会提示目录无文件，但是不unlink又会提示重复写入
-        movieFile?.shouldRepeat = false
-        movieFile?.playAtActualSpeed = true
-    
-        movieWriter = GPUImageMovieWriter.init(movieURL: url2, size: CGSize.init(width: 480, height: 640), fileType: AVFileType.mp4.rawValue, outputSettings: nil)
-        movieWriter?.encodingLiveVideo =  true
-        movieWriter?.shouldPassthroughAudio = true
-        //movieWriter?.assetWriter.movieFragmentInterval = kCMTimeInvalid
-
-        movieFile?.addTarget(ifFilter)
-        ifFilter?.addTarget(movieWriter)
-        movieFile?.enableSynchronizedEncoding(using: movieWriter)
-        movieWriter?.startRecording()
-        movieFile?.startProcessing()
-        weak var weakSelf = self
-        movieWriter?.completionBlock = {
-            weakSelf?.ifFilter?.removeTarget(weakSelf?.movieWriter)
-            weakSelf?.movieWriter?.finishRecording()
-            //print(weakSelf?.movieWriter?.assetWriter.outputURL)
-            weakSelf?.movieFile?.cancelProcessing()
-            print("OK")
-            let when  = DispatchTime.now() + 0.1
-            DispatchQueue.main.asyncAfter(deadline: when, execute: {
-                //weakSelf?.ifFilter?.removeTarget(weakSelf?.movieWriter)
-                if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum((url2.path)){
-                    UISaveVideoAtPathToSavedPhotosAlbum((url2.path), self,#selector(weakSelf?.saveVideo(videoPath:didFinishSavingWithError:contextInfo:)), nil)
-                }
-            })
-        }
-        //movieWriter?.completionBlock()
- 
-    }
-    
     @objc  func saveVideo(videoPath:String,didFinishSavingWithError:NSError,contextInfo info:AnyObject){
         print(didFinishSavingWithError.code)
         if didFinishSavingWithError.code == 0{
