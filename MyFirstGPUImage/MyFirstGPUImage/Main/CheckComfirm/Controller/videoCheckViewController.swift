@@ -8,295 +8,187 @@
 
 import UIKit
 import ProgressHUD
-class videoCheckViewController: UIViewController {
+import AssetsLibrary
+class videoCheckViewController: UIViewController,GPUImageMovieDelegate{
     
+    var movie: GPUImageMovie!
+    //播放
+    var filter: GPUImageFilter!
+    //滤镜
+    var filterView: GPUImageView! = {
+ 
+          let  filter = GPUImageView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - 44))
     
-    var movieFile: GPUImageMovie!
-    //保存用
-    var saveMovie: GPUImageMovie?
-    //预览用的滤镜
-    var filter: (GPUImageOutput & GPUImageInput)?
-    //保存用的滤镜
-    var savefilter: (GPUImageOutput & GPUImageInput)?
-    var saveWrite: GPUImageMovieWriter?
-    var filterView:GPUImageView!
-    var url:URL!
-    
-    
-    //UI
-    lazy var saveButton:UIButton = {
-        let widthofme:CGFloat = 35
-        var btn = UIButton()
-        btn.setImage(#imageLiteral(resourceName: "下载"), for: .normal)
-        btn.addTarget(self, action: #selector(self.savePhoto), for: .touchUpInside)
-        return btn
+        return filter
     }()
-    //返回按钮
-    lazy var backButton:UIButton = {
-        var btn = NewUIButton()
-        btn.setImage(#imageLiteral(resourceName: "imageback") , for: .normal)
-        btn.setTitle("返回", for: .normal)
-        btn.setTitleColor(UIColor.black, for: .normal)
-        btn.addTarget(self, action: #selector(self.back), for: .touchUpInside)
-        return btn
-    }()
-    //   滤镜选择按钮
-    lazy var filterButton:UIButton = {
-        var btn = NewUIButton()
-        btn.setImage(#imageLiteral(resourceName: "滤镜") , for: .normal)
-        btn.setTitle("风格滤镜", for: .normal)
-        btn.setTitleColor(UIColor.black, for: .normal)
-        btn.addTarget(self, action: #selector(self.changeFilter), for: .touchUpInside)
-        return btn
-    }()
-    //滤镜页面
-    lazy var cameraFilterView:FillterSelectView = {
-        let v = FillterSelectView()
-        v.backgroundColor = UIColor.white
-        
-        v.filterDelegate = self
-        return v
-    }()
-    lazy var defaultBottomView:UIView = {
-        let v = UIView()
-        v.backgroundColor = UIColor.white
-        
-        return v
-    }()
+    //播放视图
+    var writer: GPUImageMovieWriter!
     
-    
-    init(videoUrl:URL){
-        url = videoUrl
-        super.init(nibName: nil, bundle: nil)
-        
+    var url:URL!{
+        didSet{
+            saveVideo()
+            
+        }
     }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // unlink(url.path)
-        movieFile = GPUImageMovie(url: url)
-        //设置预览重复播放
-        movieFile.shouldRepeat = true
-        movieFile.runBenchmark = true
-        //设置渲染速度与视屏播放速度一致
-        movieFile.playAtActualSpeed = true
-        //初始化磨皮滤镜
-        filter = GPUImageBeautifyFilter()
-        //原图
-        filter = GPUImageBrightnessFilter()
-        (filter as? GPUImageBrightnessFilter)?.brightness = 0
-        savefilter = GPUImageBrightnessFilter()
-        (savefilter as? GPUImageBrightnessFilter)?.brightness = 0
-        //把滤镜添加到GPUImageMovie中
-        movieFile.addTarget(filter)
-        // Only rotate the video for display, leave orientation the same for recording
-        //创建预览的GPUImageView并显示
-        filterView = GPUImageView()
-        // filterView.frame = CGRect(x: 0, y: 64, width: SCREEN_HEIGHT, height: SCREEN_WIDTH)
-        //    filterView.transform = CGAffineTransformMakeRotation(90 * M_PI/180.0);
-        view.addSubview(filterView)
-        filterView.snp.makeConstraints({
-            make in
-            make.left.width.top.equalToSuperview()
-            make.height.equalTo(SCREEN_HEIGHT*3/4)
-        })
-        // view.sendSubview(toBack: filterView)
-        //把滤镜内容显示到预览中
-        filter?.addTarget(filterView)
-        //开始预览
-        movieFile.startProcessing()
-        view.addSubview(backButton)
-        view.addSubview(saveButton)
-        saveButton.snp.makeConstraints({
-            make in
-            make.center.equalToSuperview()
-            make.width.height.equalTo(70)
-        })
-        backButton.snp.makeConstraints({
-            make in
-            make.centerY.equalTo(saveButton).offset(10)
-            make.width.height.equalTo(70)
-            make.left.equalToSuperview().offset(20)
-        })
-        //setUI()
-        
-        // Do any additional setup after loading the view.
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
-    
-    //MARK: - 按钮点击
-    //切换滤镜
-    @objc func changeFilter(){
-        //let centerBottom = cameraFilterView.center
-        //let centerReset = defaultBottomView.center
-        weak var weakSelf  = self
-        //底部View做动画平移
-        UIView.animate(withDuration: 0.2, animations: {
-            weakSelf?.cameraFilterView.snp.remakeConstraints({
-                make in
-                make.width.height.top.left.equalTo((weakSelf?.defaultBottomView)!)
-            })
-            weakSelf?.view.layoutIfNeeded()
-        })
-        cameraFilterView.mb = {
-            weakSelf?.cameraFilterView.snp.remakeConstraints({
-                make in
-                make.left.equalToSuperview()
-                make.top.equalTo(SCREEN_HEIGHT)
-                make.width.equalToSuperview()
-                make.height.equalTo(SCREEN_HEIGHT*1/4)
-            })
-            weakSelf?.view.layoutIfNeeded()
-        }
-        
-    }
-    //返回按钮
-    @objc func back(){
-        //        //触发返回闭包
-        //        if self.willDismiss != nil{
-        //            willDismiss!()
-        //        }
-        //        playView.pause()
-        //        playView.player = nil
-        self.dismiss(animated: false, completion: nil)
-    }
-    //保存图片
-    @objc func  savePhoto(){
-        
-    }
-    
-    
-    
-    func finishEdit(){
-        //        movieWriter = GPUImageMovieWriter.init(movieURL: videoUrl, size: CGSize(width:480, height: 640))
-        
-        
-    }
-    
-    @objc  func saveVideo(videoPath:String,didFinishSavingWithError:NSError,contextInfo info:AnyObject){
-        print(didFinishSavingWithError.code)
-        if didFinishSavingWithError.code == 0{
-            print("success！！！！！！！！！！！！！！！！！")
-            //print(info)
-            ProgressHUD.showSuccess("保存成功")
-            self.dismiss(animated: true, completion: nil)
-        }else{
-            ProgressHUD.showError("保存失败")
-        }
-        
-    }
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
-}
+        let button = UIButton(frame: CGRect(x: 0, y: view.frame.size.height - 44, width: 44, height: 44))
+        view.addSubview(button)
+        button.backgroundColor = UIColor.red
+        button.addTarget(self, action: #selector(self.changeFilter), for: .touchUpInside)
 
-extension videoCheckViewController{
-    // UI布局
-    private func setUI(){
-        view.addSubview(defaultBottomView)
-        view.addSubview(saveButton)
-        view.addSubview(backButton)
-        view.addSubview(filterButton)
-        view.addSubview(cameraFilterView)
-        view.addSubview(backButton)
+        
+        
+    }
+    
+    func playVideo() {
+        /**
+         */
+        let sampleURL: URL? = url
+        /**
+         *  初始化 movie
+         */
+        if let anURL = sampleURL {
+            movie = GPUImageMovie(url: anURL)
+        }
+        /**
+         *  是否重复播放
+         */
+        movie.shouldRepeat = false
+        movie.playAtActualSpeed = true
+        /**
+         *  设置代理 GPUImageMovieDelegate，只有一个方法 didCompletePlayingMovie
+         */
+        movie.delegate = self
+        /**
+         *  This enables the benchmarking mode, which logs out instantaneous and average frame times to the console
+         *
+         *  这使当前视频处于基准测试的模式，记录并输出瞬时和平均帧时间到控制台
+         *
+         *  每隔一段时间打印： Current frame time : 51.256001 ms，直到播放或加滤镜等操作完毕
+         */
+        movie.runBenchmark = true
+        /**
+         *  添加卡通滤镜
+         */
+        filter = GPUImageToonFilter()
+        movie.addTarget(filter)
+        /**
+         *  添加显示视图
+         */
+        filter.addTarget(filterView)
+        view.addSubview(filterView)
+        /**
+         *  视频处理后输出到 GPUImageView 预览时不支持播放声音，需要自行添加声音播放功能
+         *
+         *  开始处理并播放...
+         */
+        movie.startProcessing()
+
+    }
+    
+    func didCompletePlayingMovie() {
+        print("播放完成")
+        let pathToMovie = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Documents/Movie.mov")
+        unlink(pathToMovie.path)
+        // If a file already exists, AVAssetWriter won't let you record new frames, so delete the old movie
+        let movieURL = URL(fileURLWithPath: pathToMovie.path)
+        print("pathToMovie:  \(pathToMovie)")
+        writer = GPUImageMovieWriter(movieURL: movieURL, size: CGSize(width: 320, height: 480))
+        writer.encodingLiveVideo = false
+        writer.shouldPassthroughAudio = false
+        filter.addTarget(writer)
+        movie.enableSynchronizedEncoding(using: writer)
+        movie.audioEncodingTarget = writer
+        writer.startRecording()
+        writer.completionBlock = {
+            
+        }
+        writer.failureBlock = { error in
+            if let anError = error {
+                print("失败！！！ \(anError)")
+            }
+        }
+    }
 
    
-        defaultBottomView.snp.makeConstraints({
-            make in
-            make.left.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalTo(SCREEN_HEIGHT*1/4)
-        })
-        cameraFilterView.snp.makeConstraints({
-            make in
-            
-            make.top.equalTo(SCREEN_HEIGHT)
-            make.width.left.equalToSuperview()
-            make.height.equalTo(SCREEN_HEIGHT*1/4)
-        })
-        let widthOfShot:CGFloat = 70
-        saveButton.snp.makeConstraints({
-            make in
-            make.center.equalTo(defaultBottomView)
-            make.width.height.equalTo(widthOfShot)
-        })
-        backButton.snp.makeConstraints({
-            make in
-            make.centerY.equalTo(saveButton).offset(10)
-            make.width.height.equalTo(70)
-            make.left.equalToSuperview().offset(20)
-        })
-     
-        filterButton.snp.makeConstraints({
-            (make) in
-            make.centerY.equalTo(saveButton).offset(10)
-            make.width.height.equalTo(70)
-            make.right.equalToSuperview().offset(-20)
-        })
-
+    
+    @objc func changeFilter() {
+        let index: Int = Int(arc4random() % 8)
+        switchCameraFilter(index)
+    }
+    
+    
+    //  Converted to Swift 4 by Swiftify v4.1.6792 - https://objectivec2swift.com/
+    func switchCameraFilter(_ index: Int) {
+        movie.removeAllTargets()
+        switch index {
+        case 0:
+            filter = GPUImageBilateralFilter()
+        case 1:
+            filter = GPUImageHueFilter()
+        case 2:
+            filter = GPUImageColorInvertFilter()
+        case 3:
+            filter = GPUImageSepiaFilter()
+        case 4:
+            filter = GPUImageGaussianBlurPositionFilter()
+            (filter as? GPUImageGaussianBlurPositionFilter)?.blurRadius = 40.0 / 320.0
+        case 5:
+            filter = GPUImageMedianFilter()
+        case 6:
+            filter = GPUImageVignetteFilter()
+        case 7:
+            filter = GPUImageKuwaharaRadius3Filter()
+        default:
+            filter = GPUImageBilateralFilter()
         }
+        movie.addTarget(filter)
+        if filterView != nil {
+            filterView.removeFromSuperview()
+        }
+        filter.addTarget(filterView)
+        view.addSubview(filterView)
     }
-    
-    
-    func setPreview(){
-    
+    //  Converted to Swift 4 by Swiftify v4.1.6792 - https://objectivec2swift.com/
+    func saveVideo() {
+        let sampleURL: URL? = url
+        // 初始化 movie
+        if let anURL = sampleURL {
+            movie = GPUImageMovie(url: anURL)
+        }
+        movie.shouldRepeat = false
+        movie.playAtActualSpeed = true
+        // 设置加滤镜视频保存路径
+        let pathToMovie = URL(fileURLWithPath: "\(NSTemporaryDirectory())folder_video.mp4")
+        unlink(pathToMovie.path)
+        let movieURL = pathToMovie
+        
+        
+        
+        // 初始化
+        writer = GPUImageMovieWriter(movieURL: movieURL, size: CGSize(width: 480, height: 640))
+        writer.encodingLiveVideo = false
+        writer.shouldPassthroughAudio = false
+
+        // 添加滤镜
+        let filter = GPUImageToonFilter()
+        movie.addTarget(filter)
+        filter.addTarget(writer)
+        movie.enableSynchronizedEncoding(using: writer)
+        writer.startRecording()
+        movie.startProcessing()
+        weak var weakSelf = self
+        writer.completionBlock = {
+            print("OK")
+            filter.removeTarget(weakSelf?.writer)
+            weakSelf?.writer.finishRecording()
+        }
+        writer.completionBlock()
     }
+
+
     
-
-
-
-extension videoCheckViewController:FillterSelectViewDelegate{
-    
-    
-    /// 切换滤镜
-    ///
-    /// - Parameter index: 滤镜代码
-    func switchFillter(index: Int) {
-//        ifFilter =  FilterGroup.getFillter(filterType: index)
-//        if image != nil{
-//            image =  ifFilter?.image(byFilteringImage:imageNormal )
-//            //主线程修改image
-//            DispatchQueue.main.async {
-//                self.photoView.image = self.image
-//            }
-//        }else{
-//            // movieFile = GPUImageMovie.init(url: videoUrl)
-//            movieFile?.shouldRepeat = true
-//            movieFile?.runBenchmark = true
-//            movieFile?.playAtActualSpeed = false
-//            movieFile?.cancelProcessing()
-//            movieFile?.removeAllTargets()
-//            ifFilter?.removeAllTargets()
-//            movieFile?.addTarget(ifFilter)
-//            ifFilter?.addTarget(moviePreview)
-//            movieFile?.startProcessing()
-//
-//            //ifFilter?.removeTarget(writer)
-//
-//
-//        }
-   }
-
 }
 

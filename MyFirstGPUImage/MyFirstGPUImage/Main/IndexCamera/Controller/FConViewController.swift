@@ -791,8 +791,9 @@ extension FConViewController:ProgresssButtonDelegate{
 //            }
 //
 //        })
-        let vc = CheckViewController()//videoCheckViewController.init(videoUrl: videoUrl!)
+        let vc =  CheckViewController() //CheckViewController()//videoCheckViewController.init(videoUrl: videoUrl!)
         vc.videoUrl = videoUrl
+        //self.navigationController?.navigationBar.isHidden = false
         vc.movieWriter = movieWriter
         self.present(vc, animated: true, completion: nil)
 //        movieWriter?.failureBlock = {

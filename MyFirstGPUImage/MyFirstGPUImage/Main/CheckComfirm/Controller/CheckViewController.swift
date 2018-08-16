@@ -121,9 +121,10 @@ class CheckViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         if image == nil{
             setPreview()
-            playView.play()
+            //playView.play()
+            
             //switchFillter(index: 0)
-            // self.present(ViewController(), animated: true, completion: nil)
+           //self.present(ViewController(), animated: true, completion: nil)
             //  setPreview()
         }
     }
@@ -236,13 +237,7 @@ extension CheckViewController{
     
     func setPreview(){
         //带声音的视频播放
-        //            self.view.addSubview(playView)
-        //            playView.snp.makeConstraints({
-        //                make in
-        //                make.top.width.equalToSuperview()
-        //                make.height.equalTo(SCREEN_HEIGHT*3/4)
-        //            })
-        //            playView.playerLayer?.frame = self.view.layer.bounds
+
         playView.videoUrl = videoUrl
         //
         //初始化滤镜页面
@@ -250,10 +245,10 @@ extension CheckViewController{
         moviePreview = GPUImageView()
         
        // movieFile  = GPUImageMovie.init(playerItem: playView.playerItem!)
-         movieFile  = GPUImageMovie.init(playerItem: playView.playerItem!)
+        movieFile  = GPUImageMovie.init(playerItem: playView.playerItem!)
 
         //playView.play()
-     //   movieFile?.runBenchmark = true
+       //movieFile?.runBenchmark = true
         movieFile?.playAtActualSpeed = false
         //movieFile?.addTarget(ifFilter)
         movieFile?.addTarget(moviePreview)
@@ -301,7 +296,6 @@ extension CheckViewController{
             })
             weakSelf?.view.layoutIfNeeded()
         }
-        
     }
     //返回按钮
     @objc func back(){
@@ -355,33 +349,40 @@ extension CheckViewController{
     
     
     func finishEdit(){
-        //        movieWriter = GPUImageMovieWriter.init(movieURL: videoUrl, size: CGSize(width:480, height: 640))
-        //        unlink(videoUrl?.path)
-        //        ifFilter?.addTarget(movieWriter)
-        //        movieWriter?.shouldPassthroughAudio = true
-        //        movieFile?.enableSynchronizedEncoding(using: movieWriter)
-        //        movieWriter?.startRecording()
-        //        movieWriter?.finishRecording()
-        //
-        //        movieWriter?.failureBlock = {
-        //            error in
-        //            print(error.debugDescription)
-        //        }
-        //
+    
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let videopath = paths[0].appendingPathComponent("TmpVideo.mp4")
+        try? FileManager.default.removeItem(at: videopath)
         
+        movieFile = GPUImageMovie(url: videoUrl)
+        movieFile?.shouldRepeat = false
+        movieFile?.playAtActualSpeed = true
+        let url2 = videopath
+            //URL(fileURLWithPath: "\(NSTemporaryDirectory())folder_video.mp4")
+        //unlink(url2.path)
+        movieWriter = GPUImageMovieWriter.init(movieURL: url2, size: CGSize(width:480, height: 640))
+        movieWriter?.encodingLiveVideo = false
+        movieWriter?.shouldPassthroughAudio = false
+        movieFile?.addTarget(ifFilter)
+        ifFilter?.addTarget(movieWriter)
+        movieFile?.enableSynchronizedEncoding(using: movieWriter)
+        movieWriter?.startRecording()
+        movieFile?.startProcessing()
         weak var weakSelf = self
-        print("合成结束")
-        //存储文件
-        //延迟存储
-        ifFilter?.removeAllTargets()
-        movieFile?.removeAllTargets()
-        movieFile?.cancelProcessing()
+        movieWriter?.completionBlock = {
+            print("OK")
+            weakSelf?.movieWriter?.finishRecording()
+            weakSelf?.ifFilter?.removeTarget(weakSelf?.movieWriter)
+        }
+        movieWriter?.completionBlock()
+        
+    
         let when  = DispatchTime.now() + 0.1
         DispatchQueue.main.asyncAfter(deadline: when, execute: {
             //weakSelf?.ifFilter?.removeTarget(weakSelf?.movieWriter)
             
-            if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum((weakSelf?.videoUrl?.path)!){
-                UISaveVideoAtPathToSavedPhotosAlbum((weakSelf?.videoUrl?.path)!, self,#selector(weakSelf?.saveVideo(videoPath:didFinishSavingWithError:contextInfo:)), nil)
+            if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum((url2.path)){
+                UISaveVideoAtPathToSavedPhotosAlbum((url2.path), self,#selector(weakSelf?.saveVideo(videoPath:didFinishSavingWithError:contextInfo:)), nil)
             }
             
             
@@ -432,6 +433,8 @@ extension CheckViewController:FillterSelectViewDelegate{
             movieFile?.addTarget(ifFilter)
             ifFilter?.addTarget(moviePreview)
             movieFile?.startProcessing()
+          
+            
             
             //           let filterView = GPUImageView()
             //            self.view.addSubview(filterView)
