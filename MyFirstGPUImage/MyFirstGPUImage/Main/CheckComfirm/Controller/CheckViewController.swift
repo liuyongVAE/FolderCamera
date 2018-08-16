@@ -76,7 +76,8 @@ class CheckViewController: UIViewController {
     var fixel:Int?
     var willDismiss:(()-> Void)? = nil
     //滤镜
-    var ifFilter:IFImageFilter?
+    var ifFilter:GPUImageFilterGroup?
+    var filterIndex:Int = 0
     //视频
     var movieWriter:GPUImageMovieWriter?
     var movieFile:GPUImageMovie?
@@ -327,7 +328,8 @@ extension CheckViewController{
                 ProgressHUD.showSuccess("保存成功")
                 self.dismiss(animated: false, completion: nil)
             }else{
-                finishEdit()
+                 stopEc()
+                //finishEdit()
             }
             
         }else{
@@ -348,48 +350,90 @@ extension CheckViewController{
     
     
     
+    func stopEc(){
+
+        movieFile = GPUImageMovie(url: videoUrl)
+        //重新初始化滤镜，去掉不必要的链条
+        ifFilter = FilterGroup.getFillter(filterType: filterIndex)
+        let pixellateFilter = ifFilter ?? GPUImageFilter()
+        //movie添加滤镜链
+        movieFile?.addTarget(pixellateFilter as! GPUImageInput)
+        let pathToMovie = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Documents/Movie.m4v")
+       //创建新路径存储渲染后的视频
+        unlink(pathToMovie.path)
+        let movieURL = URL(fileURLWithPath: pathToMovie.path)
+        //初始化Write
+        movieWriter = GPUImageMovieWriter(movieURL: movieURL, size: CGSize(width: 480.0, height: 640.0))
+        pixellateFilter.addTarget(movieWriter)
+        movieWriter?.shouldPassthroughAudio = true
+        movieFile?.audioEncodingTarget = movieWriter
+        movieFile?.enableSynchronizedEncoding(using: movieWriter)
+        //开始录制，开始渲染
+        movieWriter?.startRecording()
+        movieFile?.startProcessing()
+        //成功回调
+        
+        weak var weakSelf = self
+        movieWriter?.completionBlock = {
+            pixellateFilter.removeTarget(weakSelf?.movieWriter)
+            weakSelf?.movieWriter?.finishRecording()
+            print("done")
+            UISaveVideoAtPathToSavedPhotosAlbum((movieURL.path), self,#selector(self.saveVideo(videoPath:didFinishSavingWithError:contextInfo:)), nil)
+        }
+        //失败回调
+        movieWriter?.failureBlock = {
+            error in
+            print(error ?? "")
+            ProgressHUD.showError("保存失败")
+            pixellateFilter.removeTarget(self.movieWriter)
+            self.movieWriter?.finishRecording()
+        }
+
+        
+    }
+    
+    
     func finishEdit(){
     
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let videopath = paths[0].appendingPathComponent("TmpVideo").appendingPathComponent("my.mp4")
+        let videopath = paths[0].appendingPathComponent("TmpVideo.m4v")
         try? FileManager.default.removeItem(at: videopath)
-        let url2 = videopath//URL(fileURLWithPath: "\(NSTemporaryDirectory())folder_mmmm.mp4")
+        let url2 =  videopath//URL(fileURLWithPath: "\(NSTemporaryDirectory())folderVideo2.mp4")
         unlink(url2.path)
-        movieFile = GPUImageMovie(url: videoUrl)
-       // let movieFile2 = GPUImageMovie.init(url: videopath)
-        unlink(self.videoUrl?.path)
-
+       // movieFile = GPUImageMovie(url: videoUrl)
+       // let movieFile = GPUImageMovie.init(url: videopath)
+       // unlink(self.videoUrl?.path)
+        //根据这个已录制的url，如果先unlink在创建movieFile，然后write写入，会提示目录无文件，但是不unlink又会提示重复写入
         movieFile?.shouldRepeat = false
         movieFile?.playAtActualSpeed = true
+    
+        movieWriter = GPUImageMovieWriter.init(movieURL: url2, size: CGSize.init(width: 480, height: 640), fileType: AVFileType.mp4.rawValue, outputSettings: nil)
+        movieWriter?.encodingLiveVideo =  true
+        movieWriter?.shouldPassthroughAudio = true
+        //movieWriter?.assetWriter.movieFragmentInterval = kCMTimeInvalid
 
-        movieWriter = GPUImageMovieWriter.init(movieURL: url2, size: CGSize(width:480, height: 640))
-        movieWriter?.encodingLiveVideo = false
-        movieWriter?.shouldPassthroughAudio = false
         movieFile?.addTarget(ifFilter)
         ifFilter?.addTarget(movieWriter)
         movieFile?.enableSynchronizedEncoding(using: movieWriter)
-      //根据这个已录制的url，如果先unlink在创建movieFile，然后write写入，会提示目录无文件，但是不unlink又会提示重复写入
         movieWriter?.startRecording()
         movieFile?.startProcessing()
         weak var weakSelf = self
         movieWriter?.completionBlock = {
-            print("OK")
-            
-            let 
-            
-            weakSelf?.movieWriter?.finishRecording()
-            weakSelf?.movieFile?.cancelProcessing()
             weakSelf?.ifFilter?.removeTarget(weakSelf?.movieWriter)
+            weakSelf?.movieWriter?.finishRecording()
+            //print(weakSelf?.movieWriter?.assetWriter.outputURL)
+            weakSelf?.movieFile?.cancelProcessing()
+            print("OK")
+            let when  = DispatchTime.now() + 0.1
+            DispatchQueue.main.asyncAfter(deadline: when, execute: {
+                //weakSelf?.ifFilter?.removeTarget(weakSelf?.movieWriter)
+                if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum((url2.path)){
+                    UISaveVideoAtPathToSavedPhotosAlbum((url2.path), self,#selector(weakSelf?.saveVideo(videoPath:didFinishSavingWithError:contextInfo:)), nil)
+                }
+            })
         }
-        movieWriter?.completionBlock()
-        
-        let when  = DispatchTime.now() + 0.1
-        DispatchQueue.main.asyncAfter(deadline: when, execute: {
-            //weakSelf?.ifFilter?.removeTarget(weakSelf?.movieWriter)
-            if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum((url2.path)){
-                UISaveVideoAtPathToSavedPhotosAlbum((url2.path), self,#selector(weakSelf?.saveVideo(videoPath:didFinishSavingWithError:contextInfo:)), nil)
-            }
-        })
+        //movieWriter?.completionBlock()
+ 
     }
     
     @objc  func saveVideo(videoPath:String,didFinishSavingWithError:NSError,contextInfo info:AnyObject){
@@ -417,6 +461,7 @@ extension CheckViewController:FillterSelectViewDelegate{
     ///
     /// - Parameter index: 滤镜代码
     func switchFillter(index: Int) {
+        filterIndex = index
         ifFilter =  FilterGroup.getFillter(filterType: index)
         if image != nil{
             image =  ifFilter?.image(byFilteringImage:imageNormal )
@@ -428,36 +473,14 @@ extension CheckViewController:FillterSelectViewDelegate{
             // movieFile = GPUImageMovie.init(url: videoUrl)
             movieFile?.shouldRepeat = true
             movieFile?.runBenchmark = false
-            movieFile?.playAtActualSpeed = false
+            movieFile?.playAtActualSpeed = true
             movieFile?.cancelProcessing()
             movieFile?.removeAllTargets()
             ifFilter?.removeAllTargets()
             movieFile?.addTarget(ifFilter)
             ifFilter?.addTarget(moviePreview)
             movieFile?.startProcessing()
-          
-            
-            
-            //           let filterView = GPUImageView()
-            //            self.view.addSubview(filterView)
-            //            filterView.snp.makeConstraints({
-            //                    make in
-            //                    make.top.width.equalToSuperview()
-            //                    make.height.equalTo(SCREEN_HEIGHT*3/4)
-            //                })
-            //            unlink(videoUrl?.path)
-            //            movieWriter?.startRecording()
-            //            movieFile?.startProcessing()
-            //            movieFile?.shouldRepeat = true
-            //            movieWriter?.finishRecording()
-            //            ifFilter?.removeTarget(movieWriter)
-            // movieWriter
-            //let writer = GPUImageMovieWriter.init(movieURL: videoUrl, size: CGSize(width:480, height: 640))
-            //writer?.startRecording()
-            //  movieFile?.shouldRepeat = true
-            // writer?.finishRecording()
-            //ifFilter?.removeTarget(writer)
-            
+        
             
         }
     }
