@@ -731,10 +731,8 @@ extension FConViewController:ProgresssButtonDelegate{
 //        }
 //        while (size.height.truncatingRemainder(dividingBy: 16) > 0) {
 //            size.height = size.height+1
-//        }
-      
-        
-        movieWriter = GPUImageMovieWriter(movieURL:videoUrl, size: size)
+//        }CGSize(width: 480, height: 640)
+        movieWriter = GPUImageMovieWriter(movieURL:videoUrl, size:size )
        //解决录制MP4帧失败的问题
         movieWriter?.assetWriter.movieFragmentInterval = kCMTimeInvalid
         movieWriter?.encodingLiveVideo = true
@@ -755,37 +753,28 @@ extension FConViewController:ProgresssButtonDelegate{
             takePhoto()
             return
         }
-        
-
-        
-//
-//        weak var weakSelf = self
-//        print("合成结束")
-        //存储文件
-        //延迟存储
-//        let when  = DispatchTime.now() + 0.1
-//        DispatchQueue.main.asyncAfter(deadline: when, execute: {
-//            weakSelf?.ifFilter?.removeTarget(weakSelf?.movieWriter)
-//            if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum((weakSelf?.videoUrl?.path)!){
-//                UISaveVideoAtPathToSavedPhotosAlbum((weakSelf?.videoUrl?.path)!, self,nil, nil)
-//            }
-//
-//        })
         let vc =  CheckViewController() //CheckViewController()//videoCheckViewController.init(videoUrl: videoUrl!)
         vc.videoUrl = videoUrl
         //self.navigationController?.navigationBar.isHidden = false
-        vc.movieWriter = movieWriter
+        vc.videoScale = self.scaleRate
+        weak var weakSelf = self
+        vc.willDismiss = {
+            //将美颜状态重置
+            if (weakSelf?.isBeauty)!{
+                weakSelf?.isBeauty = false
+                weakSelf?.defaultBottomView.beautyButton.isSelected = false
+                // weakSelf?.beauty()
+            }
+            //使用闭包，在vc返回时将底部隐藏，点击切换时在取消隐藏
+            
+            if weakSelf?.scaleRate != 0{
+               // weakSelf?.scaleRate = 0
+                weakSelf?.defaultBottomView.isHidden = true
+                
+            }
+        }
         self.present(vc, animated: true, completion: nil)
 
-//
-  
-//
-//
-//        movieWriter?.completionBlock = {
-//
-//        }
-
-        
     }
   
        

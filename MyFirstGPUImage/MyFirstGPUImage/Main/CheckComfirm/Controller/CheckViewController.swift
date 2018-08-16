@@ -74,6 +74,7 @@ class CheckViewController: UIViewController {
     var imageNormal:UIImage!
     //图片分辨率
     var fixel:Int?
+    var videoScale:Int?
     var willDismiss:(()-> Void)? = nil
     //滤镜
     var ifFilter:GPUImageFilterGroup?
@@ -103,7 +104,6 @@ class CheckViewController: UIViewController {
     }
     
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
@@ -182,9 +182,10 @@ class CheckViewController: UIViewController {
 
 extension CheckViewController{
     
-    
     // UI布局
     private func setUI(){
+        view.backgroundColor = UIColor.clear
+        photoView.backgroundColor = UIColor.clear
         view.addSubview(photoView)
         view.addSubview(defaultBottomView)
         view.addSubview(saveButton)
@@ -235,42 +236,42 @@ extension CheckViewController{
         }
     }
     
-    
+    //创建视频预览页面
     func setPreview(){
         //带声音的视频播放
-
         playView.videoUrl = videoUrl
         //
         //初始化滤镜页面
-        //ifFilter = IFNormalFilter()
         moviePreview = GPUImageView()
         
         //movieFile  = GPUImageMovie.init(url:videoUrl)
-        movieFile  = GPUImageMovie.init(playerItem: playView.playerItem!)
-
-        //playView.play()
-       //movieFile?.runBenchmark = true
+        movieFile = GPUImageMovie.init(playerItem: playView.playerItem!)
         movieFile?.playAtActualSpeed = false
         //movieFile?.addTarget(ifFilter)
         movieFile?.addTarget(moviePreview)
-        
+        moviePreview?.backgroundColor = UIColor.clear
         self.view.addSubview(moviePreview!)
-        moviePreview?.snp.makeConstraints({
-            make in
-            make.top.left.width.equalToSuperview()
-            make.height.equalTo(SCREEN_HEIGHT*3/4)
-        })
-        //moviePreview?.backgroundColor = UIColor.blue
-        //ifFilter?.addTarget(moviePreview)
-        //movieWriter = GPUImageMovieWriter.init(movieURL: videoUrl, size: CGSize(width:480, height: 640))
-        //movieWriter?.startRecording()
+        
+        if videoScale == 0{
+            moviePreview?.snp.makeConstraints({
+                make in
+                make.top.left.width.equalToSuperview()
+                make.height.equalTo(SCREEN_HEIGHT*3/4)
+            })
+        }else{
+            moviePreview?.snp.makeConstraints({
+                make in
+                make.top.left.width.height.equalToSuperview()
+            })
+            //将该view加到最后面
+            self.view.sendSubview(toBack: moviePreview!)
+            moviePreview?.contentMode = .scaleToFill
+            self.defaultBottomView.backgroundColor = UIColor.clear
+        }
+        
         movieFile?.startProcessing()
         movieFile?.shouldRepeat = true
-      
-        //movieWriter?.finishRecording()
-        //ifFilter?.removeTarget(movieWriter)
     }
-    
     
     
     //MARK: - 按钮点击
@@ -328,6 +329,7 @@ extension CheckViewController{
                 ProgressHUD.showSuccess("保存成功")
                 self.dismiss(animated: false, completion: nil)
             }else{
+                //如果没有传图片，进入此方法存储视频
                  stopEc()
                 //finishEdit()
             }
@@ -349,9 +351,8 @@ extension CheckViewController{
     }
     
     
-    
+    /// 文件存储函数
     func stopEc(){
-
         movieFile = GPUImageMovie(url: videoUrl)
         //重新初始化滤镜，去掉不必要的链条
         ifFilter = FilterGroup.getFillter(filterType: filterIndex)
@@ -412,7 +413,6 @@ extension CheckViewController{
     
 }
 extension CheckViewController:FillterSelectViewDelegate{
-    
     
     /// 切换滤镜
     ///
