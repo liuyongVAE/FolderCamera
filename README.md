@@ -1,20 +1,17 @@
 > 本项目基于GPUImage实现
+
+
 # FolderGamera # 折纸相机
 [![Support](https://img.shields.io/badge/support-iOS%208%2B%20-blue.svg?style=flat)](https://www.apple.com/nl/ios/)
 ![](https://img.shields.io/badge/lanuage-Swift-brightgreen.svg)
 
 ![image](https://i.imgur.com/ooykcPB.png)
 >
-
 ---
 # Description
 - 折纸相机是基于GPUImage实现的具有滤镜和美颜功能、支持短视频拍摄的相机APP。
 - 本项目基于GPUImage实现。
 - 开发者博客:[Ly's Blog](https://www.liuyongvae.com)
-# Get Started
-```
-git clone https://github.com/liuyongVAE/FolderCamera.git
-```
 # Frame
 ![image](https://i.imgur.com/EmiLpd3.jpg)
 ## Features
@@ -28,6 +25,7 @@ git clone https://github.com/liuyongVAE/FolderCamera.git
 - [ ] 高级美颜
 - [ ] 设置页
 - [ ] 水印
+
 # Contact Me
 ly@liuyongvae.com
 
