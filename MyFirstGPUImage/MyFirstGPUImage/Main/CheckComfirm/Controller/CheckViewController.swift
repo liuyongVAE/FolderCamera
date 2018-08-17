@@ -265,7 +265,7 @@ extension CheckViewController{
             })
             //将该view加到最后面
             self.view.sendSubview(toBack: moviePreview!)
-            moviePreview?.contentMode = .scaleToFill
+            moviePreview?.contentMode = .scaleAspectFill
             self.defaultBottomView.backgroundColor = UIColor.clear
         }
         
@@ -421,6 +421,7 @@ extension CheckViewController:FillterSelectViewDelegate{
         filterIndex = index
         ifFilter =  FilterGroup.getFillter(filterType: index)
         if image != nil{
+            //GPUImageFilterGroup的实例对象有这样的方法返回UIimage对象
             image =  ifFilter?.image(byFilteringImage:imageNormal )
             //主线程修改image
             DispatchQueue.main.async {

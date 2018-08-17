@@ -24,13 +24,6 @@ class FConViewController: UIViewController {
         btn.delegate = self
         //btn.frame = CGRect.init(x: 0, y: 0, width: widthofme, height: widthofme)
         btn.center = self.defaultBottomView.center
-       // btn.frame.height = widthofme
-        //btn.setImage(#imageLiteral(resourceName: "圆圈") , for: .normal)
-        //btn.addTarget(self, action: #selector(self.takePhoto), for: .touchUpInside)
-        //长按事件
-       // let longPress = UILongPressGestureRecognizer(target: self, action: #selector(self.btnLong(_:)))
-        //longPress.minimumPressDuration = 0.3
-        //btn.addGestureRecognizer(longPress)
         return btn
     }()
     //  底部白色VIEW
@@ -104,7 +97,6 @@ class FConViewController: UIViewController {
         setDefaultView()
         //设置聚焦图片
         setFocusImage(#imageLiteral(resourceName: "聚焦 "))
-       // mCamera.forceProcessing(atSizeRespectingAspectRatio: <#T##CGSize#>)
         // Do any additional setup after loading sthe view.
     }
     
@@ -157,7 +149,7 @@ class FConViewController: UIViewController {
                     //使用闭包，在vc返回时将底部隐藏，点击切换时在取消隐藏
 
                     if weakSelf?.scaleRate != 0{
-                        weakSelf?.scaleRate = 0
+                        //weakSelf?.scaleRate = 0
                         weakSelf?.defaultBottomView.isHidden = true
 
                     }
@@ -166,8 +158,6 @@ class FConViewController: UIViewController {
             }
         })
       
-        
-        
     }
     
     
