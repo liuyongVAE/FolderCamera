@@ -67,6 +67,10 @@ class FConViewController: UIViewController {
     //拍摄视频camera
     var movieWriter:GPUImageMovieWriter?
     var videoUrl:URL?
+    //长视频
+    var videoUrls = [URL]()
+    var saveManager:SaveVieoManager?
+
    // var mFillter:GPUImageFilterGroup!
     var ifFilter:GPUImageFilterGroup!
     var mGpuimageView:GPUImageView!
@@ -308,12 +312,23 @@ extension FConViewController{
 //MARK: - 协议实现
 
 extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate{
-   
+    
+    func finishLongVideoRecord() {
+          finishRecordLongVideo()
+    }
+    
+    func deletePrevious() {
+        print("删除上段")
+    }
+    
+    
     //跳转到视频拍摄
-    func pushVideo() {
-       // mCamera.pauseCapture()
-       // let vc = CaptureViewController.init(camera: mCamera, andFilter: ifFilter)
-       // self.navigationController?.pushViewController(vc!, animated: true)
+    func pushVideo(btn:UIButton) {
+        shotButton.ifLongRecord = !btn.isSelected
+        shotButton.tipLabel.isHidden = !btn.isSelected
+        if btn.isSelected{
+          shotButton.stop()
+        }
     }
     //MARK: - 切换滤镜的方法
     ///
@@ -447,8 +462,6 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
 
 //MARK: - topViewDelegate
 extension FConViewController:topViewDelegate{
-    
-    
     //切换闪光灯
     func flashMode() {
         
@@ -678,6 +691,9 @@ extension FConViewController:UIGestureRecognizerDelegate,CAAnimationDelegate{
 
 //MARK: - 拍照按钮代理,视频拍摄工厂方法
 extension FConViewController:ProgresssButtonDelegate{
+   
+
+    
     func videoControl(control: RoundProgressButtonView, gest: UIGestureRecognizer) {
         //
         print(gest.state.hashValue)
@@ -705,7 +721,8 @@ extension FConViewController:ProgresssButtonDelegate{
     func startRecord(){
         shotButton.reStartCount()
         mCamera.addAudioInputsAndOutputs()//避免录制第一帧黑屏
-        videoUrl = URL(fileURLWithPath: "\(NSTemporaryDirectory())folder_demo.mp4")
+        let name = String(Int(arc4random() % 1000))
+        videoUrl = URL(fileURLWithPath: "\(NSTemporaryDirectory())folder_demo\(name).mp4")
         unlink(videoUrl?.path)
         //获取视频大小，作为size
         var size = mGpuimageView.frame.size
@@ -760,15 +777,79 @@ extension FConViewController:ProgresssButtonDelegate{
             if weakSelf?.scaleRate != 0{
                // weakSelf?.scaleRate = 0
                 weakSelf?.defaultBottomView.isHidden = true
-                
             }
         }
         self.present(vc, animated: true, completion: nil)
 
     }
   
-       
+    //MARK: - 拍摄分段长视频
+    func touchRecordButton(isRecord:Bool) {
+        if isRecord{
+            startRecord()
+            videoUrls.append(videoUrl!)
+        }else{
+           movieWriter?.finishRecording()
+        }
+    }
     
+
+    func finishRecordLongVideo() {
+        
+        
+        weak var weakSelf = self
+        //动画
+        UIView.animate(withDuration: 0.3, animations: {
+            weakSelf?.defaultBottomView.recordButton.snp.remakeConstraints({
+                make in
+                make.centerX.equalToSuperview()
+                make.height.equalTo(25)
+                make.centerY.equalTo((weakSelf?.defaultBottomView.snp.bottom)!).offset(-25)
+            })
+            
+            weakSelf?.defaultBottomView.recordBackView.snp.remakeConstraints({
+                make in
+                make.width.height.left.equalToSuperview()
+                make.top.equalTo((weakSelf?.defaultBottomView.snp.bottom)!)
+            })
+            
+           weakSelf?.defaultBottomView.layoutIfNeeded()
+        })
+        
+        //视频合成
+        ProgressHUD.show("合成中")
+        saveManager = SaveVieoManager(urls: videoUrls)
+        let newUrl = URL(fileURLWithPath: "\(NSTemporaryDirectory())folder_all.mp4")
+        unlink(newUrl.path)
+        if let com =  saveManager?.combineVideos(){
+            saveManager?.store(com, storeUrl: newUrl, success: {
+                print("combine success")
+                ProgressHUD.showSuccess("合成成功")
+                let vc =  CheckViewController() //CheckViewController()//videoCheckViewController.init(videoUrl: videoUrl!)
+                vc.videoUrl = newUrl
+                //self.navigationController?.navigationBar.isHidden = false
+                vc.videoScale = self.scaleRate
+                weak var weakSelf = self
+                vc.willDismiss = {
+                    //将美颜状态重置
+                    if (weakSelf?.isBeauty)!{
+                        weakSelf?.isBeauty = false
+                        weakSelf?.defaultBottomView.beautyButton.isSelected = false
+                        // weakSelf?.beauty()
+                    }
+                    //使用闭包，在vc返回时将底部隐藏，点击切换时在取消隐藏
+                    if weakSelf?.scaleRate != 0{
+                        // weakSelf?.scaleRate = 0
+                        weakSelf?.defaultBottomView.isHidden = true
+                    }
+                }
+                self.present(vc, animated: true, completion: nil)
+            })
+            
+        }
+        
+    }
+
     
 }
 

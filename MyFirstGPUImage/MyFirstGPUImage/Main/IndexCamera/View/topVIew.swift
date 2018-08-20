@@ -13,7 +13,6 @@ protocol topViewDelegate{
     func  turnScale()
     func  turnCamera()
     func  flashMode()
-    func  pushVideo()
 }
 
 
@@ -102,7 +101,6 @@ class TopView: UIView {
         delegate?.turnCamera()
     }
     @objc func pushVideo(){
-        delegate?.pushVideo()
     }
     
     

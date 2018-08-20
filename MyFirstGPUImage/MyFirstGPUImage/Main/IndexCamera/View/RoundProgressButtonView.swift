@@ -11,6 +11,8 @@ import UIKit
 
 @objc protocol ProgresssButtonDelegate{
     func videoControl(control:RoundProgressButtonView,gest:UIGestureRecognizer)
+    func touchRecordButton(isRecord:Bool)
+    func finishRecordLongVideo()
 }
 class RoundProgressButtonView:UIView{
 
@@ -27,14 +29,22 @@ class RoundProgressButtonView:UIView{
     private var duration:Int? = 2
     var centerViewWidth:CGFloat = 55
     var ifRecord:Bool = false
+    var ifLongRecord:Bool?{
+        didSet{
+           setDuratuin(30)
+        }
+    }
     var timeCounter = 0.0
+    var pauseTime:Timer?
     lazy var tipLabel:UILabel = {
         let label = UILabel()
-        label.text = "长按拍照键录制"
+       // label.text = "长按拍照键录制"
         label.font = UIFont.systemFont(ofSize: 12)
         label.sizeToFit()
         return label
     }()
+    
+    
     //delegate
     @objc weak var delegate:ProgresssButtonDelegate?
 
@@ -89,6 +99,7 @@ class RoundProgressButtonView:UIView{
             make.centerY.equalTo(self.snp.top).offset(-20)
         })
         
+
         setProgress()
         //设置持续时间默认值
         setDuratuin(10)
@@ -123,19 +134,31 @@ class RoundProgressButtonView:UIView{
         default:
             break
         }
-        
-        
-        
     }
+    
+    //视频按钮点击
+    ///
+    ///
+    /// - Parameter isRecord: true表示要开始录制，false暂停
+    func touchRecord(isRecord:Bool){
+        delegate?.touchRecordButton(isRecord: isRecord)
+    }
+    
     
     
     /// 触摸点击事件
     ///
     /// - Parameter gest: 触摸
     @objc func tapAction(_ gest:UIGestureRecognizer){
-        if delegate != nil{
+        //判断是否在拍摄长视频
+        if ifLongRecord ?? false {
+            tapPress(gest as! UITapGestureRecognizer)
+        }
+        
+        if delegate != nil && !(ifLongRecord ?? false){
             delegate?.videoControl(control: self, gest: gest)
         }
+        
     }
     
     
@@ -160,16 +183,16 @@ class RoundProgressButtonView:UIView{
     }
     func updateProgress(){
         timeCounter =  0.01 + timeCounter
-
         let progressPath = UIBezierPath(arcCenter: centerView.center, radius: (outView.frame.size.width - (1.5*width))/3, startAngle: CGFloat(Double.pi/2*3), endAngle: CGFloat(Double.pi*2)*progress + CGFloat(-Double.pi/2), clockwise: true)
         //定义完贝塞尔曲线，添加到layer，更新path
         progressLayer.path = progressPath.cgPath
-        
     }
+    
+    
+    
     //MAKR: - Action
     func start(){
         time = Timer.scheduledTimer(timeInterval: TimeInterval(animationTime), target: self, selector: #selector(addProgress), userInfo: nil, repeats: true)
-        //FIXME: -橙
         //RunLoop.current.add(time!, forMode: .commonModes)
         //RunLoop.current.run()
     }
@@ -177,15 +200,55 @@ class RoundProgressButtonView:UIView{
     func stop(){
         time?.invalidate()
         time = nil
+        UIView.animate(withDuration: 0.3, animations: {
+            self.centerView.transform = CGAffineTransform(scaleX: 1, y: 1)
+            self.outView.transform = CGAffineTransform(scaleX: 1, y: 1)
+        })
+        setDuratuin(10)
         setProgress()
     }
     
     func reStartCount(){
         timeCounter = 0.0
     }
-    
-    
-    
-    
-
 }
+//MARK: - 断点拍摄
+extension RoundProgressButtonView{
+    
+ 
+    func tapPress(_ tap:UITapGestureRecognizer){
+        switch tap.state {
+        case .began:
+            print("beginTap")
+        case .ended:
+            if time != nil{
+                pauseRecord()
+                touchRecord(isRecord: false)
+            }else{
+                start()
+                touchRecord(isRecord: true)
+            }
+            UIView.animate(withDuration: 0.3, animations: {
+                self.centerView.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+                self.outView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            })
+        default:
+            break
+        }
+    }
+    
+    func pauseRecord(){
+        //pauseTime = time
+        time?.invalidate()
+        time = nil
+    }
+    
+    func resume(){
+        //time = pauseTime
+    }
+    
+ 
+    
+    
+}
+
