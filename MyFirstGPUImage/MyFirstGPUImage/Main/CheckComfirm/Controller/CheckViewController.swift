@@ -17,6 +17,7 @@ class CheckViewController: UIViewController {
         var btn = UIButton()
        //btn.backgroundColor = UIColor.blue
         btn.setImage(UIImage.init(named: "下载"), for: .normal)
+        btn.setBackgroundImage(#imageLiteral(resourceName: "下载"), for: .normal)
         // btn.setImage(#imageLiteral(resourceName: "下载"), for: .normal)
         btn.addTarget(self, action: #selector(self.savePhoto), for: .touchUpInside)
         return btn

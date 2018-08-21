@@ -319,6 +319,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     
     func deletePrevious() {
         print("删除上段")
+        deletePreviousImple()
     }
     
     
@@ -526,8 +527,8 @@ extension FConViewController:topViewDelegate{
                     make.width.left.top.equalToSuperview()
                 })
                 self.view.layoutIfNeeded()
-                
-                self.defaultBottomView.center.y = SCREEN_HEIGHT*7/8
+                self.defaultBottomView.hideMyself(isHidden: false)
+                //self.defaultBottomView.center.y = SCREEN_HEIGHT*7/8
                 
             })
         case 1:
@@ -547,8 +548,8 @@ extension FConViewController:topViewDelegate{
                 })
                 //刷新
                 self.view.layoutIfNeeded()
-                
-                self.defaultBottomView.center.y = SCREEN_HEIGHT*9/8
+                self.defaultBottomView.hideMyself(isHidden: true)
+                //self.defaultBottomView.center.y = SCREEN_HEIGHT*9/8
             })
             
         case 2:
@@ -721,7 +722,7 @@ extension FConViewController:ProgresssButtonDelegate{
     func startRecord(){
         shotButton.reStartCount()
         mCamera.addAudioInputsAndOutputs()//避免录制第一帧黑屏
-        let name = String(Int(arc4random() % 1000))
+        let name = String(Int(arc4random() % 100000))
         videoUrl = URL(fileURLWithPath: "\(NSTemporaryDirectory())folder_demo\(name).mp4")
         unlink(videoUrl?.path)
         //获取视频大小，作为size
@@ -797,26 +798,29 @@ extension FConViewController:ProgresssButtonDelegate{
     func finishRecordLongVideo() {
         
         
-        weak var weakSelf = self
+ //       weak var weakSelf = self
         //动画
-        UIView.animate(withDuration: 0.3, animations: {
-            weakSelf?.defaultBottomView.recordButton.snp.remakeConstraints({
-                make in
-                make.centerX.equalToSuperview()
-                make.height.equalTo(25)
-                make.centerY.equalTo((weakSelf?.defaultBottomView.snp.bottom)!).offset(-25)
-            })
-            
-            weakSelf?.defaultBottomView.recordBackView.snp.remakeConstraints({
-                make in
-                make.width.height.left.equalToSuperview()
-                make.top.equalTo(SCREEN_HEIGHT)
-            })
-            
-           weakSelf?.defaultBottomView.layoutIfNeeded()
-        })
-        shotButton.stop()
-        
+//        UIView.animate(withDuration: 0.3, animations: {
+//            weakSelf?.defaultBottomView.recordButton.snp.remakeConstraints({
+//                make in
+//                make.centerX.equalToSuperview()
+//                make.height.equalTo(25)
+//                make.centerY.equalTo((weakSelf?.defaultBottomView.snp.bottom)!).offset(-25)
+//            })
+//
+//            weakSelf?.defaultBottomView.recordBackView.snp.remakeConstraints({
+//                make in
+//                make.width.height.left.equalToSuperview()
+//                make.top.equalTo(SCREEN_HEIGHT)
+//            })
+//
+//           weakSelf?.defaultBottomView.layoutIfNeeded()
+//        })
+//        defaultBottomView.recordButton.isSelected = false
+         shotButton.stop()
+        if videoUrls.count <= 0{
+            return
+        }
         //视频合成
         ProgressHUD.show("合成中")
         saveManager = SaveVieoManager(urls: videoUrls)
@@ -825,29 +829,42 @@ extension FConViewController:ProgresssButtonDelegate{
         if let com =  saveManager?.combineVideos(){
             saveManager?.store(com, storeUrl: newUrl, success: {
                 print("combine success")
-                let vc =  CheckViewController()
-                vc.videoUrl = newUrl
-                vc.videoScale = self.scaleRate
-                weak var weakSelf = self
-                vc.willDismiss = {
-                    //将美颜状态重置
-                    if (weakSelf?.isBeauty)!{
-                        weakSelf?.isBeauty = false
-                        weakSelf?.defaultBottomView.beautyButton.isSelected = false
-                        // weakSelf?.beauty()
+               
+                DispatchQueue.main.async {
+                    let vc =  CheckViewController()
+                    vc.videoUrl = newUrl
+                    vc.videoScale = self.scaleRate
+                    weak var weakSelf = self
+                    vc.willDismiss = {
+                        //将美颜状态重置
+                        if (weakSelf?.isBeauty)!{
+                            weakSelf?.isBeauty = false
+                            weakSelf?.defaultBottomView.beautyButton.isSelected = false
+                            // weakSelf?.beauty()
+                        }
+                        //使用闭包，在vc返回时将底部隐藏，点击切换时在取消隐藏
+                        if weakSelf?.scaleRate != 0{
+                            // weakSelf?.scaleRate = 0
+                            weakSelf?.defaultBottomView.isHidden = true
+                        }
                     }
-                    //使用闭包，在vc返回时将底部隐藏，点击切换时在取消隐藏
-                    if weakSelf?.scaleRate != 0{
-                        // weakSelf?.scaleRate = 0
-                        weakSelf?.defaultBottomView.isHidden = true
-                    }
+                    ProgressHUD.showSuccess("合成成功")
+                    weakSelf?.videoUrls.removeAll()
+                    self.present(vc, animated: true, completion: nil)
                 }
-                ProgressHUD.showSuccess("合成成功")
-                self.present(vc, animated: true, completion: nil)
             })
             
         }
-        
+    }
+    
+    //删除上段方法实现
+    func deletePreviousImple(){
+        if videoUrls.count>0{
+            videoUrls.removeLast()
+            shotButton.deletrLast()
+        }else{
+            shotButton.stop()
+        }
     }
 
     

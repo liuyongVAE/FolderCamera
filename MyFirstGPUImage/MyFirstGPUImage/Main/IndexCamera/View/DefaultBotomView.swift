@@ -164,6 +164,22 @@ class DefaultBotomView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //更该比例
+    func hideMyself(isHidden:Bool){
+        
+        if isHidden{
+            self.backgroundColor = UIColor.clear
+            self.recordBackView.backgroundColor = UIColor.clear
+            self.beautyButton.isHidden = true
+            self.fillterButton.isHidden = true
+        }else{
+            self.backgroundColor = UIColor.white
+            self.recordBackView.backgroundColor = UIColor.white
+            self.beautyButton.isHidden = false
+            self.fillterButton.isHidden = false
+        }
+        
+    }
     
     
     

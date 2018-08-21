@@ -21,7 +21,11 @@ class RoundProgressButtonView:UIView{
     private var progressLayer:CAShapeLayer!
     private var time:Timer?
     private var progress:CGFloat = 0.0
+    //长视频录制变量
+    private var progressPause:[CGFloat]? = [CGFloat]()
     private var width:CGFloat = 0.0
+    //进度条暂停间隔
+    private var  whiteOverlay = [CAShapeLayer]()
     //动画调用间隔
     private var animationTime:CGFloat = 0.0
     //动画调用增量
@@ -186,21 +190,22 @@ class RoundProgressButtonView:UIView{
         let progressPath = UIBezierPath(arcCenter: centerView.center, radius: (outView.frame.size.width - (1.5*width))/3, startAngle: CGFloat(Double.pi/2*3), endAngle: CGFloat(Double.pi*2)*progress + CGFloat(-Double.pi/2), clockwise: true)
         //定义完贝塞尔曲线，添加到layer，更新path
         progressLayer.path = progressPath.cgPath
+        progressLayer.strokeColor = UIColor.red.cgColor
+
     }
     
     func addIntervalPath(){
         let progressLayer2 = CAShapeLayer()
-        outView.layer.addSublayer(progressLayer)
         progressLayer2.fillColor = nil
         progressLayer2.lineCap = kCALineCapSquare//线端点类型
         progressLayer2.frame = outView.bounds
         progressLayer2.lineWidth = width
         progressLayer2.strokeColor = UIColor.white.cgColor
-    
-        let progressPath = UIBezierPath(arcCenter: centerView.center, radius: (outView.frame.size.width - (1.5*width))/3, startAngle: CGFloat(Double.pi*2)*progress + CGFloat(-Double.pi/2), endAngle:CGFloat(Double.pi*2)*(progress+0.05) + CGFloat(-Double.pi/2) , clockwise: true)
-        progress = progress+0.05
-
-        progressLayer2.path = progressPath.cgPath
+        whiteOverlay.append(progressLayer2)
+        outView.layer.addSublayer(whiteOverlay.last!)
+        let progressPath = UIBezierPath(arcCenter: centerView.center, radius: (outView.frame.size.width - (1.5*width))/3, startAngle: CGFloat(Double.pi*2)*progress + CGFloat(-Double.pi/2), endAngle:CGFloat(Double.pi*2)*(progress+0.0005) + CGFloat(-Double.pi/2) , clockwise: true)
+        progress = progress+0.0005
+        whiteOverlay.last?.path = progressPath.cgPath
     }
 
     
@@ -211,7 +216,7 @@ class RoundProgressButtonView:UIView{
         //RunLoop.current.add(time!, forMode: .commonModes)
         //RunLoop.current.run()
     }
-    
+    //停止录制
     func stop(){
         time?.invalidate()
         time = nil
@@ -219,6 +224,9 @@ class RoundProgressButtonView:UIView{
             self.centerView.transform = CGAffineTransform(scaleX: 1, y: 1)
             self.outView.transform = CGAffineTransform(scaleX: 1, y: 1)
         })
+        for i in whiteOverlay{
+            i.removeFromSuperlayer()
+        }
         setDuratuin(10)
         setProgress()
     }
@@ -238,10 +246,11 @@ extension RoundProgressButtonView{
         case .ended:
             if time != nil{
                 pauseRecord()
-              //  addIntervalPath()
+                addIntervalPath()
                 touchRecord(isRecord: false)
             }else{
                 start()
+                progressPause?.append(progress)
                 touchRecord(isRecord: true)
             }
             UIView.animate(withDuration: 0.3, animations: {
@@ -254,13 +263,29 @@ extension RoundProgressButtonView{
     }
     
     func pauseRecord(){
-        //pauseTime = time
+        pauseTime = time
         time?.invalidate()
         time = nil
     }
     
-    func resume(){
+    //删除上一段
+    func deletrLast(){
         //time = pauseTime
+        let progressPath = UIBezierPath(arcCenter: centerView.center, radius: (outView.frame.size.width - (1.5*width))/3, startAngle: CGFloat(Double.pi*2)*(progressPause?.last ?? 0) + CGFloat(-Double.pi/2), endAngle:CGFloat(Double.pi*3)/2, clockwise: true)
+        progressPath.stroke()
+        progressLayer.strokeColor = naviColor.cgColor
+        progressLayer.path = progressPath.cgPath
+        progress = progressPause?.last ?? progress
+        updateProgress()
+        
+        if let c = progressPause?.count,c>0{
+           progressPause?.removeLast()
+        }
+        if whiteOverlay.count>0{
+            whiteOverlay.last?.removeFromSuperlayer()
+            whiteOverlay.removeLast()
+        }
+        
     }
     
  
