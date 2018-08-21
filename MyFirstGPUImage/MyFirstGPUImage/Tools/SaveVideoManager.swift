@@ -53,7 +53,7 @@ class SaveVieoManager:NSObject{
              */
             //            var error:Error?
             //            var tbBool:Bool? = nil
-            if let aindex = videoAsset?.tracks(withMediaType: .video)[0]{
+            if let aindex = videoAsset?.tracks(withMediaType: .video).first{
                 try? a_compositionVideoTrack?.insertTimeRange(video_timeRange, of: aindex, at: CMTimeMakeWithSeconds(temDuration, 0))
             }
             if let audioindex = videoAsset?.tracks(withMediaType: .audio).first{

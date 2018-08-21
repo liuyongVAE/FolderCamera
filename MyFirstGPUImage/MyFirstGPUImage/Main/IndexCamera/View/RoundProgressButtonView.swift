@@ -188,6 +188,21 @@ class RoundProgressButtonView:UIView{
         progressLayer.path = progressPath.cgPath
     }
     
+    func addIntervalPath(){
+        let progressLayer2 = CAShapeLayer()
+        outView.layer.addSublayer(progressLayer)
+        progressLayer2.fillColor = nil
+        progressLayer2.lineCap = kCALineCapSquare//线端点类型
+        progressLayer2.frame = outView.bounds
+        progressLayer2.lineWidth = width
+        progressLayer2.strokeColor = UIColor.white.cgColor
+    
+        let progressPath = UIBezierPath(arcCenter: centerView.center, radius: (outView.frame.size.width - (1.5*width))/3, startAngle: CGFloat(Double.pi*2)*progress + CGFloat(-Double.pi/2), endAngle:CGFloat(Double.pi*2)*(progress+0.05) + CGFloat(-Double.pi/2) , clockwise: true)
+        progress = progress+0.05
+
+        progressLayer2.path = progressPath.cgPath
+    }
+
     
     
     //MAKR: - Action
@@ -223,6 +238,7 @@ extension RoundProgressButtonView{
         case .ended:
             if time != nil{
                 pauseRecord()
+              //  addIntervalPath()
                 touchRecord(isRecord: false)
             }else{
                 start()

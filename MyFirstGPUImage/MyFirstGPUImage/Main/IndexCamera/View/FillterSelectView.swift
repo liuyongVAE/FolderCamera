@@ -160,7 +160,8 @@ extension FillterSelectView:UICollectionViewDelegate,UICollectionViewDataSource{
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        collectionView.cellForItem(at: indexPath)?.backgroundColor = UIColor.white
+         collectionView.reloadItems(at: [indexPath])
+         collectionView.cellForItem(at: indexPath)?.backgroundColor = UIColor.white
     }
     
 }

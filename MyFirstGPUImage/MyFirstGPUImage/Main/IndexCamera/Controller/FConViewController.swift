@@ -810,11 +810,12 @@ extension FConViewController:ProgresssButtonDelegate{
             weakSelf?.defaultBottomView.recordBackView.snp.remakeConstraints({
                 make in
                 make.width.height.left.equalToSuperview()
-                make.top.equalTo((weakSelf?.defaultBottomView.snp.bottom)!)
+                make.top.equalTo(SCREEN_HEIGHT)
             })
             
            weakSelf?.defaultBottomView.layoutIfNeeded()
         })
+        shotButton.stop()
         
         //视频合成
         ProgressHUD.show("合成中")
@@ -824,10 +825,8 @@ extension FConViewController:ProgresssButtonDelegate{
         if let com =  saveManager?.combineVideos(){
             saveManager?.store(com, storeUrl: newUrl, success: {
                 print("combine success")
-                ProgressHUD.showSuccess("合成成功")
-                let vc =  CheckViewController() //CheckViewController()//videoCheckViewController.init(videoUrl: videoUrl!)
+                let vc =  CheckViewController()
                 vc.videoUrl = newUrl
-                //self.navigationController?.navigationBar.isHidden = false
                 vc.videoScale = self.scaleRate
                 weak var weakSelf = self
                 vc.willDismiss = {
@@ -843,6 +842,7 @@ extension FConViewController:ProgresssButtonDelegate{
                         weakSelf?.defaultBottomView.isHidden = true
                     }
                 }
+                ProgressHUD.showSuccess("合成成功")
                 self.present(vc, animated: true, completion: nil)
             })
             
