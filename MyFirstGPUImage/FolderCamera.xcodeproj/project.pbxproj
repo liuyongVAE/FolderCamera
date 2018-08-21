@@ -51,6 +51,7 @@
 		2D3A15CB2109B105005131B8 /* NewUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A15CA2109B105005131B8 /* NewUIButton.swift */; };
 		2D502351210AB8E200A7559A /* FillterSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D502350210AB8E200A7559A /* FillterSelectView.swift */; };
 		2D85F24F212A97E5008AD54D /* SaveVideoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D85F24E212A97E5008AD54D /* SaveVideoManager.swift */; };
+		2DC6576F212C09AE001A2571 /* LineProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC6576E212C09AE001A2571 /* LineProgress.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -146,6 +147,7 @@
 		2D3A15CA2109B105005131B8 /* NewUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewUIButton.swift; sourceTree = "<group>"; };
 		2D502350210AB8E200A7559A /* FillterSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillterSelectView.swift; sourceTree = "<group>"; };
 		2D85F24E212A97E5008AD54D /* SaveVideoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveVideoManager.swift; sourceTree = "<group>"; };
+		2DC6576E212C09AE001A2571 /* LineProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineProgress.swift; sourceTree = "<group>"; };
 		6EA227A6B6B79861372E3272 /* Pods-MyFirstGPUImage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyFirstGPUImage.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyFirstGPUImage/Pods-MyFirstGPUImage.release.xcconfig"; sourceTree = "<group>"; };
 		B90C9E859F51270B2744A7B8 /* Pods_MyFirstGPUImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyFirstGPUImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB499B0F118CC40AAC7E5E06 /* Pods-MyFirstGPUImage.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyFirstGPUImage.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyFirstGPUImage/Pods-MyFirstGPUImage.debug.xcconfig"; sourceTree = "<group>"; };
@@ -399,6 +401,7 @@
 				2D378ED6211181CE00A51DE8 /* FilterCollectionViewCell.swift */,
 				2D396A1C211ABE2F0049FE40 /* RoundProgressButtonView.swift */,
 				2D2D6D9A211D8561005F8371 /* topVIew.swift */,
+				2DC6576E212C09AE001A2571 /* LineProgress.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -649,6 +652,7 @@
 				2D378ED321115C6600A51DE8 /* GPUImageFourInputFilter.m in Sources */,
 				2D1B88EE2110574E00773678 /* GPUImageBeautifyFilter.m in Sources */,
 				2D378EC021115C2900A51DE8 /* IFSierraFilter.m in Sources */,
+				2DC6576F212C09AE001A2571 /* LineProgress.swift in Sources */,
 				2D502351210AB8E200A7559A /* FillterSelectView.swift in Sources */,
 				2D85F24F212A97E5008AD54D /* SaveVideoManager.swift in Sources */,
 				2D396A1D211ABE2F0049FE40 /* RoundProgressButtonView.swift in Sources */,

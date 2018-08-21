@@ -18,6 +18,9 @@ class RoundProgressButtonView:UIView{
 
     private var outView:UIView!
     private var centerView:UIView!
+    //直线进度条
+    let progressLineLayer:CAShapeLayer = CAShapeLayer()
+    //圆形
     private var progressLayer:CAShapeLayer!
     private var time:Timer?
     private var progress:CGFloat = 0.0
@@ -26,6 +29,7 @@ class RoundProgressButtonView:UIView{
     private var width:CGFloat = 0.0
     //进度条暂停间隔
     private var  whiteOverlay = [CAShapeLayer]()
+
     //动画调用间隔
     private var animationTime:CGFloat = 0.0
     //动画调用增量
@@ -172,6 +176,7 @@ class RoundProgressButtonView:UIView{
             //print(self.progress)
             self.progress = self.progress +  self.animationIncr
             self.updateProgress()
+            self.updateLinePath()
             if self.progress > 1{
                 self.stop()
             }
@@ -197,15 +202,22 @@ class RoundProgressButtonView:UIView{
     func addIntervalPath(){
         let progressLayer2 = CAShapeLayer()
         progressLayer2.fillColor = nil
-        progressLayer2.lineCap = kCALineCapSquare//线端点类型
-        progressLayer2.frame = outView.bounds
+        progressLayer2.lineCap = kCALineCapButt//线端点类型
+        progressLayer2.frame = CGRect.init(x: -100, y: -100, width: SCREEN_WIDTH, height: 5)
         progressLayer2.lineWidth = width
         progressLayer2.strokeColor = UIColor.white.cgColor
         whiteOverlay.append(progressLayer2)
-        outView.layer.addSublayer(whiteOverlay.last!)
-        let progressPath = UIBezierPath(arcCenter: centerView.center, radius: (outView.frame.size.width - (1.5*width))/3, startAngle: CGFloat(Double.pi*2)*progress + CGFloat(-Double.pi/2), endAngle:CGFloat(Double.pi*2)*(progress+0.0005) + CGFloat(-Double.pi/2) , clockwise: true)
-        progress = progress+0.0005
+        let progressPath = UIBezierPath()
+        progressPath.move(to: CGPoint(x:SCREEN_WIDTH*(progress+0.02),y:0))
+       // let progressPath = UIBezierPath(arcCenter: centerView.center, radius: (outView.frame.size.width - (1.5*width))/3, startAngle: CGFloat(Double.pi*2)*progress + CGFloat(-Double.pi/2), endAngle:CGFloat(Double.pi*2)*(progress+0.0005) + CGFloat(-Double.pi/2) , clockwise: true)
+        progress = progress+0.01
+        progressPath.addLine(to: CGPoint(x:progress*SCREEN_WIDTH,y:0))
+       // progressPath.stroke()
         whiteOverlay.last?.path = progressPath.cgPath
+        outView.layer.addSublayer(whiteOverlay.last!)
+//        let point = UIView.init(frame: CGRect.init(x: -100 + SCREEN_WIDTH*(progress), y: -100, width: 5, height: 5))
+//        point.backgroundColor = UIColor.white
+//        outView.addSubview(point)
     }
 
     
@@ -214,6 +226,7 @@ class RoundProgressButtonView:UIView{
     func start(){
         if ifLongRecord ?? false{
             setDuratuin(30)
+            setLinePath()
         }else{
             setDuratuin(10)
         }
@@ -294,8 +307,32 @@ extension RoundProgressButtonView{
         
     }
     
- 
+}
+//直线进度条
+extension RoundProgressButtonView{
+    func setLinePath(){
+        progressLineLayer.fillColor = nil
+        progressLineLayer.lineCap = kCALineCapSquare//线端点类型
+        progressLineLayer.frame = CGRect.init(x: -100, y: -100, width: SCREEN_WIDTH, height: 5)
+        progressLineLayer.lineWidth = width
+        progressLineLayer.strokeColor = bgColor.cgColor
+        let progressPath = UIBezierPath()
+        progressPath.move(to: CGPoint(x:0,y:0))
+        progressPath.addLine(to: CGPoint(x:0,y:0))
+        outView.layer.addSublayer(progressLineLayer)
+        
+            //UIBezierPath(arcCenter: centerView.center, radius: (outView.frame.size.width - (1.5*width))/3, startAngle: CGFloat(Double.pi*2)*progress + CGFloat(-Double.pi/2), endAngle:CGFloat(Double.pi*2)*(progress+0.0005) + CGFloat(-Double.pi/2) , clockwise: true)
+       // progress = progress+0.0005
+        progressLineLayer.path = progressPath.cgPath
+    }
     
+    func updateLinePath(){
+        let progressPath = UIBezierPath()
+        progressPath.move(to: CGPoint(x:0,y:0))
+        progressPath.addLine(to: CGPoint(x:progress*SCREEN_WIDTH,y:0))
+        progressLineLayer.path = progressPath.cgPath
+    }
     
 }
+
 
