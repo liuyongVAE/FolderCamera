@@ -11,8 +11,6 @@ import Photos
 import GPUImage
 import ProgressHUD
 
-
-
 class FConViewController: UIViewController {
     
     //UI
@@ -796,28 +794,7 @@ extension FConViewController:ProgresssButtonDelegate{
     
 
     func finishRecordLongVideo() {
-        
-        
- //       weak var weakSelf = self
-        //动画
-//        UIView.animate(withDuration: 0.3, animations: {
-//            weakSelf?.defaultBottomView.recordButton.snp.remakeConstraints({
-//                make in
-//                make.centerX.equalToSuperview()
-//                make.height.equalTo(25)
-//                make.centerY.equalTo((weakSelf?.defaultBottomView.snp.bottom)!).offset(-25)
-//            })
-//
-//            weakSelf?.defaultBottomView.recordBackView.snp.remakeConstraints({
-//                make in
-//                make.width.height.left.equalToSuperview()
-//                make.top.equalTo(SCREEN_HEIGHT)
-//            })
-//
-//           weakSelf?.defaultBottomView.layoutIfNeeded()
-//        })
-//        defaultBottomView.recordButton.isSelected = false
-         shotButton.stop()
+        shotButton.stop()
         if videoUrls.count <= 0{
             return
         }

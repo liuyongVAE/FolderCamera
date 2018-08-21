@@ -212,6 +212,12 @@ class RoundProgressButtonView:UIView{
     
     //MAKR: - Action
     func start(){
+        if ifLongRecord ?? false{
+            setDuratuin(30)
+        }else{
+            setDuratuin(10)
+        }
+        
         time = Timer.scheduledTimer(timeInterval: TimeInterval(animationTime), target: self, selector: #selector(addProgress), userInfo: nil, repeats: true)
         //RunLoop.current.add(time!, forMode: .commonModes)
         //RunLoop.current.run()
@@ -272,7 +278,7 @@ extension RoundProgressButtonView{
     func deletrLast(){
         //time = pauseTime
         let progressPath = UIBezierPath(arcCenter: centerView.center, radius: (outView.frame.size.width - (1.5*width))/3, startAngle: CGFloat(Double.pi*2)*(progressPause?.last ?? 0) + CGFloat(-Double.pi/2), endAngle:CGFloat(Double.pi*3)/2, clockwise: true)
-        progressPath.stroke()
+        //progressPath.stroke()
         progressLayer.strokeColor = naviColor.cgColor
         progressLayer.path = progressPath.cgPath
         progress = progressPause?.last ?? progress
