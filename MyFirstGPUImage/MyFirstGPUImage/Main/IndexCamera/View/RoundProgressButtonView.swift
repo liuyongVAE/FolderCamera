@@ -175,7 +175,9 @@ class RoundProgressButtonView:UIView{
         DispatchQueue.main.async {
             //print(self.progress)
             self.progress = self.progress +  self.animationIncr
+            if !(self.ifLongRecord ?? false){
             self.updateProgress()
+            }
             self.updateLinePath()
             if self.progress > 1{
                 self.stop()
@@ -199,26 +201,6 @@ class RoundProgressButtonView:UIView{
 
     }
     
-    func addIntervalPath(){
-        let progressLayer2 = CAShapeLayer()
-        progressLayer2.fillColor = nil
-        progressLayer2.lineCap = kCALineCapButt//线端点类型
-        progressLayer2.frame = CGRect.init(x: -100, y: -100, width: SCREEN_WIDTH, height: 5)
-        progressLayer2.lineWidth = width
-        progressLayer2.strokeColor = UIColor.white.cgColor
-        whiteOverlay.append(progressLayer2)
-        let progressPath = UIBezierPath()
-        progressPath.move(to: CGPoint(x:SCREEN_WIDTH*(progress+0.02),y:0))
-       // let progressPath = UIBezierPath(arcCenter: centerView.center, radius: (outView.frame.size.width - (1.5*width))/3, startAngle: CGFloat(Double.pi*2)*progress + CGFloat(-Double.pi/2), endAngle:CGFloat(Double.pi*2)*(progress+0.0005) + CGFloat(-Double.pi/2) , clockwise: true)
-        progress = progress+0.01
-        progressPath.addLine(to: CGPoint(x:progress*SCREEN_WIDTH,y:0))
-       // progressPath.stroke()
-        whiteOverlay.last?.path = progressPath.cgPath
-        outView.layer.addSublayer(whiteOverlay.last!)
-//        let point = UIView.init(frame: CGRect.init(x: -100 + SCREEN_WIDTH*(progress), y: -100, width: 5, height: 5))
-//        point.backgroundColor = UIColor.white
-//        outView.addSubview(point)
-    }
 
     
     
@@ -248,6 +230,7 @@ class RoundProgressButtonView:UIView{
         }
         setDuratuin(10)
         setProgress()
+        setLinePath()
     }
     
     func reStartCount(){
@@ -267,15 +250,20 @@ extension RoundProgressButtonView{
                 pauseRecord()
                 addIntervalPath()
                 touchRecord(isRecord: false)
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.centerView.transform = CGAffineTransform(scaleX: 1, y: 1)
+                    self.outView.transform = CGAffineTransform(scaleX: 1, y: 1)
+                })
             }else{
                 start()
                 progressPause?.append(progress)
                 touchRecord(isRecord: true)
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.centerView.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+                   // self.outView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+                })
             }
-            UIView.animate(withDuration: 0.3, animations: {
-                self.centerView.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
-                self.outView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
-            })
+      
         default:
             break
         }
@@ -294,9 +282,10 @@ extension RoundProgressButtonView{
         //progressPath.stroke()
         progressLayer.strokeColor = naviColor.cgColor
         progressLayer.path = progressPath.cgPath
-        progress = progressPause?.last ?? progress
+        progress = (progressPause?.last  ?? progress ) - 0.01
+        print(progress,progressPause)
         updateProgress()
-        
+        updateLinePath()
         if let c = progressPause?.count,c>0{
            progressPause?.removeLast()
         }
@@ -313,7 +302,7 @@ extension RoundProgressButtonView{
     func setLinePath(){
         progressLineLayer.fillColor = nil
         progressLineLayer.lineCap = kCALineCapSquare//线端点类型
-        progressLineLayer.frame = CGRect.init(x: -100, y: -100, width: SCREEN_WIDTH, height: 5)
+        progressLineLayer.frame = CGRect.init(x: -152, y: -543, width: SCREEN_WIDTH, height: 5)
         progressLineLayer.lineWidth = width
         progressLineLayer.strokeColor = bgColor.cgColor
         let progressPath = UIBezierPath()
@@ -325,6 +314,30 @@ extension RoundProgressButtonView{
        // progress = progress+0.0005
         progressLineLayer.path = progressPath.cgPath
     }
+    
+    
+    func addIntervalPath(){
+        let progressLayer2 = CAShapeLayer()
+        progressLayer2.fillColor = nil
+        progressLayer2.lineCap = kCALineCapButt//线端点类型
+        progressLayer2.frame = CGRect.init(x: -152, y: -543, width: SCREEN_WIDTH, height: 5)
+        progressLayer2.lineWidth = width
+        progressLayer2.strokeColor = UIColor.white.cgColor
+        progressLayer2.zPosition = 2
+        whiteOverlay.append(progressLayer2)
+        let progressPath = UIBezierPath()
+        progressPath.move(to: CGPoint(x:SCREEN_WIDTH*(progress+0.005),y:0))
+        // let progressPath = UIBezierPath(arcCenter: centerView.center, radius: (outView.frame.size.width - (1.5*width))/3, startAngle: CGFloat(Double.pi*2)*progress + CGFloat(-Double.pi/2), endAngle:CGFloat(Double.pi*2)*(progress+0.0005) + CGFloat(-Double.pi/2) , clockwise: true)
+        progress = progress+0.01
+        progressPath.addLine(to: CGPoint(x:progress*SCREEN_WIDTH,y:0))
+        progress = progress+0.005
+        // progressPath.stroke()
+        whiteOverlay.last?.path = progressPath.cgPath
+        outView.layer.addSublayer(whiteOverlay.last!)
+ 
+    }
+
+    
     
     func updateLinePath(){
         let progressPath = UIBezierPath()
