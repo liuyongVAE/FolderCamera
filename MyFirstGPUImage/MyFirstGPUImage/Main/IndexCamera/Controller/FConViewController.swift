@@ -330,6 +330,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
         shotButton.tipLabel.isHidden = !btn.isSelected
         if btn.isSelected{
           shotButton.stop()
+          shotButton.ifLongRecord = false
         }
     }
     //MARK: - 切换滤镜的方法
@@ -841,7 +842,7 @@ extension FConViewController:ProgresssButtonDelegate{
                         //使用闭包，在vc返回时将底部隐藏，点击切换时在取消隐藏
                         if weakSelf?.scaleRate != 0{
                             // weakSelf?.scaleRate = 0
-                            weakSelf?.defaultBottomView.isHidden = true
+                            weakSelf?.defaultBottomView.backgroundColor = UIColor.clear
                         }
                     }
                     ProgressHUD.showSuccess("合成成功")

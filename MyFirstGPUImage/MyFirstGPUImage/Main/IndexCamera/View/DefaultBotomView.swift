@@ -62,7 +62,7 @@ class DefaultBotomView: UIView {
         let button = UIButton()
         button.setTitle("视频", for: .normal)
         button.setTitle("取消录制", for: .selected)
-        button.setTitleColor(bgColor, for: .selected)
+        button.setTitleColor(naviColor, for: .selected)
         button.setTitleColor(UIColor.black, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         button.addTarget(self, action: #selector(startLongRecord), for: .touchUpInside)
@@ -238,7 +238,6 @@ class DefaultBotomView: UIView {
         if isSelected{
    
             UIView.animate(withDuration: 0.3, animations: {
-                
                 weakSelf?.finishButton.alpha = 1
                 weakSelf?.deletePreviousButton.alpha = 1
 //                weakSelf?.recordBackView.snp.remakeConstraints({
@@ -247,7 +246,7 @@ class DefaultBotomView: UIView {
 //                })
             
                 //按钮大小缩放
-               // weakSelf?.beautyButton.transform = CGAffineTransform.translatedBy(<#T##CGAffineTransform#>)
+               // weakSelf?.beautyButton.transform = CGAffineTransform.translatedBy()
                // weakSelf?.fillterButton.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
                 
                 

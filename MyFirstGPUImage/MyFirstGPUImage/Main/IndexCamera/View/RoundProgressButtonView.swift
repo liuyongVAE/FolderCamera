@@ -231,7 +231,6 @@ class RoundProgressButtonView:UIView{
         for i in whiteOverlay{
             i.removeFromSuperlayer()
         }
-        ifLongRecord = false
         setDuratuin(10)
         setProgress()
         setLinePath()
