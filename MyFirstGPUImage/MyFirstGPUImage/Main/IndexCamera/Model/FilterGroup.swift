@@ -68,8 +68,8 @@ class FilterGroup {
   ///
   /// - Parameter filterType: 滤镜代码
   /// - Returns: 滤镜
-  class func getFillter(filterType:Int)->IFImageFilter{
-        var filter = IFImageFilter()
+  class func getFillter(filterType:Int)->GPUImageFilterGroup{
+        var filter = GPUImageFilterGroup()
         switch filterType {
         case 0:
             return IFNormalFilter()
@@ -99,6 +99,8 @@ class FilterGroup {
             filter = IFRiseFilter()
         case 13:
             filter = IFSierraFilter()
+        case 14:
+            filter = GPUImageBeautifyFilter()
         default:
             break
         }

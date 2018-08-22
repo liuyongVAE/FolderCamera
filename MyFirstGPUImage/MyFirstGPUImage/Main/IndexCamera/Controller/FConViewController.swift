@@ -79,7 +79,7 @@ class FConViewController: UIViewController {
      */
     var scaleRate:Int?
     var ifaddFilter:Bool!
-   // var beautyFilter:GPUImageBeautifyFilter?
+    var beautyFilter:GPUImageBeautifyFilter?
     var isBeauty = false
     //焦距缩放
     var beginGestureScale:CGFloat!
@@ -113,6 +113,7 @@ class FConViewController: UIViewController {
         //检测比例显示问题
         //FIXME:不完美的黑屏解决方案
         if !ifaddFilter{
+            //默认美颜滤镜
             switchFillter(index:0);
         }
     }
@@ -248,7 +249,6 @@ extension FConViewController{
             make.width.equalTo(300)
             make.centerX.equalToSuperview()
             make.top.equalTo(defaultBottomView).offset(-40)
-            
         })
         
         
@@ -321,7 +321,10 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     }
     
     
-    //跳转到视频拍摄
+    
+    /// 跳转到视频拍摄
+    ///
+    /// - Parameter btn: 点击页面上的视频按钮
     func pushVideo(btn:UIButton) {
         shotButton.ifLongRecord = !btn.isSelected
         shotButton.tipLabel.isHidden = !btn.isSelected
@@ -336,18 +339,27 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
         //隐藏滑动条，重置美颜
         Beautyslider.isHidden = true
         isBeauty = false
-        defaultBottomView.beautyButton.isSelected = false
+        //defaultBottomView.beautyButton.isSelected = false
         //使用INS自定义滤镜
         mCamera.removeAllTargets()
-        ifFilter = FilterGroup.getFillter(filterType: index)
-        if index == 13{
-            let f = DesignedGPUImageFilter()
-            f.addTarget(mGpuimageView)
-            mCamera.addTarget(f)
-            
-        }
-        
-        
+        let filterGroup = GPUImageFilterGroup()//创建滤镜组
+        beautyFilter = GPUImageBeautifyFilter()//美颜
+        let ifFilter2 = FilterGroup.getFillter(filterType: index)
+
+        //添加滤镜组链
+        filterGroup.addTarget(beautyFilter!)
+        filterGroup.addTarget(ifFilter2)
+        beautyFilter?.addTarget(ifFilter2)
+        filterGroup.initialFilters = [beautyFilter!]
+        filterGroup.terminalFilter = ifFilter2
+        ifFilter = filterGroup
+        //ifFilter.addFilter(GPUImageBeautifyFilter())
+        //自定义滤镜
+//        if index == 13{
+//            let f = DesignedGPUImageFilter()
+//            f.addTarget(mGpuimageView)
+//            mCamera.addTarget(f)
+//        }
         ifFilter.addTarget(mGpuimageView)
         ifaddFilter = true
         mCamera.addTarget(ifFilter)
@@ -357,6 +369,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     /// 切换滤镜方法
     func changeFillter() {
         isBeauty = false
+        defaultBottomView.beautyButton.isSelected = isBeauty
         view.bringSubview(toFront: shotButton)
         
         self.shotButton.tipLabel.isHidden = true
@@ -375,6 +388,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
                 make.centerX.equalToSuperview()
                 make.centerY.equalTo(centerReset.y*16/15)
             })
+            self.shotButton.moveLine()
             self.view.layoutIfNeeded()
         })
         cameraFillterView.mb = {
@@ -391,6 +405,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
                 make.centerX.equalToSuperview()
                 make.centerY.equalTo(centerReset.y)
             })
+            self.shotButton.reSetLine()
             self.view.layoutIfNeeded()
             self.defaultBottomView.layoutIfNeeded()
         }
@@ -403,42 +418,42 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     ///
     /// - Parameter btn: 按钮
     func beauty() {
-        
+        print(isBeauty)
         if !isBeauty{
             //初始化滑动条
             Beautyslider.value = 0.5
             isBeauty = true
              Beautyslider.isHidden = false
-            print("美颜")
-            mCamera.removeAllTargets()
-            //亮度(GPUImageBrightnessFilter)和双边滤波(GPUImageBilateralFilter)这两个滤镜达到美颜效果
-            let filterGroup = GPUImageFilterGroup()//创建滤镜组
-            let bilateralFilter = GPUImageBilateralFilter()//磨皮
-            let brightFilter = GPUImageBrightnessFilter()//美白
-            //添加滤镜组链
-            filterGroup.addTarget(bilateralFilter)
-            filterGroup.addTarget(brightFilter)
-            bilateralFilter.addTarget(brightFilter)
-            filterGroup.initialFilters = [bilateralFilter]
-            filterGroup.terminalFilter = brightFilter
-            filterGroup.addTarget(mGpuimageView)
-            //使用第三方美颜滤镜
-            ifFilter = GPUImageBeautifyFilter()
-            //将美颜滤镜加入相机
-            mCamera.addTarget(ifFilter!)
-            ifFilter!.addTarget(mGpuimageView)
-            mCamera.startCapture()
+//            print("美颜")
+//            mCamera.removeAllTargets()
+//            //亮度(GPUImageBrightnessFilter)和双边滤波(GPUImageBilateralFilter)这两个滤镜达到美颜效果
+//            let filterGroup = GPUImageFilterGroup()//创建滤镜组
+//            let bilateralFilter = GPUImageBilateralFilter()//磨皮
+//            let brightFilter = GPUImageBrightnessFilter()//美白
+//            //添加滤镜组链
+//            filterGroup.addTarget(bilateralFilter)
+//            filterGroup.addTarget(brightFilter)
+//            bilateralFilter.addTarget(brightFilter)
+//            filterGroup.initialFilters = [bilateralFilter]
+//            filterGroup.terminalFilter = brightFilter
+//            filterGroup.addTarget(mGpuimageView)
+//            //使用第三方美颜滤镜
+//            ifFilter = GPUImageBeautifyFilter()
+//            //将美颜滤镜加入相机
+//            mCamera.addTarget(ifFilter!)
+//            ifFilter!.addTarget(mGpuimageView)
+//            mCamera.startCapture()
             
             
         }else{
             //取消美颜
             Beautyslider.isHidden = true
             isBeauty = false
-            mCamera.removeAllTargets()
-            ifFilter = IFNormalFilter()
-            mCamera.addTarget(ifFilter)
-            ifFilter.addTarget(mGpuimageView)
-            mCamera.startCapture()
+//            mCamera.removeAllTargets()
+//            ifFilter = IFNormalFilter()
+//            mCamera.addTarget(ifFilter)
+//            ifFilter.addTarget(mGpuimageView)
+//            mCamera.startCapture()
         }
     }
     
@@ -447,9 +462,9 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     @objc func  sliderChange(){
         //print(beautyFilter?.getCom())
         let newCom:CGFloat = CGFloat(Beautyslider.value)
-        if  let filter =  ifFilter as? GPUImageBeautifyFilter{
-            filter.setCom(newCom)
-            ifFilter = filter
+
+        if  beautyFilter != nil{
+            beautyFilter?.setCom(newCom)
         }
         //beautyFilter?.setBrightness(CGFloat(Beautyslider.value), saturation: 1.05)
         
@@ -784,11 +799,15 @@ extension FConViewController:ProgresssButtonDelegate{
   
     //MARK: - 拍摄分段长视频
     func touchRecordButton(isRecord:Bool) {
+        weak var weakSelf = self
         if isRecord{
-            startRecord()
-            videoUrls.append(videoUrl!)
+            //录制时升起空白页
+          weakSelf?.defaultBottomView.recordBackView.isHidden = false
+                startRecord()
+                videoUrls.append(videoUrl!)
         }else{
-           movieWriter?.finishRecording()
+            weakSelf?.defaultBottomView.recordBackView.isHidden = true
+            movieWriter?.finishRecording()
         }
     }
     
@@ -841,6 +860,8 @@ extension FConViewController:ProgresssButtonDelegate{
             shotButton.deletrLast()
         }else{
             shotButton.stop()
+            defaultBottomView.transmationAction(isSelected: false)
+            defaultBottomView.recordButton.isSelected = false
         }
     }
 

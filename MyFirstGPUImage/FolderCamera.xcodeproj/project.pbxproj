@@ -11,7 +11,7 @@
 		2D0396A0211D70B9004E87C0 /* DesignedGPUImageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D03969F211D70B9004E87C0 /* DesignedGPUImageFilter.m */; };
 		2D1B88EE2110574E00773678 /* GPUImageBeautifyFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B88ED2110574E00773678 /* GPUImageBeautifyFilter.m */; };
 		2D2D6D99211D7A9C005F8371 /* myShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 2D2D6D98211D7923005F8371 /* myShader.fsh */; };
-		2D2D6D9B211D8561005F8371 /* topVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2D6D9A211D8561005F8371 /* topVIew.swift */; };
+		2D2D6D9B211D8561005F8371 /* TopVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2D6D9A211D8561005F8371 /* TopVIew.swift */; };
 		2D2D6DA321215D3E005F8371 /* playView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2D6DA221215D3E005F8371 /* playView.swift */; };
 		2D378EB721115C2900A51DE8 /* IFNashvilleFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D378E9021115C2500A51DE8 /* IFNashvilleFilter.m */; };
 		2D378EB821115C2900A51DE8 /* IFInkwellFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D378E9221115C2500A51DE8 /* IFInkwellFilter.m */; };
@@ -78,7 +78,7 @@
 		2D1B88EC2110574D00773678 /* GPUImageBeautifyFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageBeautifyFilter.h; sourceTree = "<group>"; };
 		2D1B88ED2110574E00773678 /* GPUImageBeautifyFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageBeautifyFilter.m; sourceTree = "<group>"; };
 		2D2D6D98211D7923005F8371 /* myShader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = myShader.fsh; sourceTree = "<group>"; };
-		2D2D6D9A211D8561005F8371 /* topVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = topVIew.swift; sourceTree = "<group>"; };
+		2D2D6D9A211D8561005F8371 /* TopVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopVIew.swift; sourceTree = "<group>"; };
 		2D2D6DA221215D3E005F8371 /* playView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = playView.swift; sourceTree = "<group>"; };
 		2D378E8F21115C2500A51DE8 /* IFRiseFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFRiseFilter.h; sourceTree = "<group>"; };
 		2D378E9021115C2500A51DE8 /* IFNashvilleFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFNashvilleFilter.m; sourceTree = "<group>"; };
@@ -325,7 +325,6 @@
 				2D3A15C92109B0E3005131B8 /* Extension */,
 				2D3A15C121097943005131B8 /* Expend */,
 				2D3A15BA210974C3005131B8 /* Base */,
-				2D85F250212A9808008AD54D /* Tools */,
 				2D3A15BB210974D7005131B8 /* Resource */,
 				2D3A15B9210974B2005131B8 /* Main */,
 			);
@@ -372,6 +371,7 @@
 		2D3A15BA210974C3005131B8 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				2D85F250212A9808008AD54D /* Tools */,
 				2D3A158821085257005131B8 /* AppDelegate.swift */,
 			);
 			path = Base;
@@ -400,7 +400,7 @@
 				2D3A15C521099854005131B8 /* DefaultBotomView.swift */,
 				2D378ED6211181CE00A51DE8 /* FilterCollectionViewCell.swift */,
 				2D396A1C211ABE2F0049FE40 /* RoundProgressButtonView.swift */,
-				2D2D6D9A211D8561005F8371 /* topVIew.swift */,
+				2D2D6D9A211D8561005F8371 /* TopVIew.swift */,
 				2DC6576E212C09AE001A2571 /* LineProgress.swift */,
 			);
 			path = View;
@@ -418,17 +418,8 @@
 			isa = PBXGroup;
 			children = (
 				2D1B88EA2110572B00773678 /* Framework */,
-				2D3A15C22109794F005131B8 /* PublicFunc */,
 			);
 			path = Expend;
-			sourceTree = "<group>";
-		};
-		2D3A15C22109794F005131B8 /* PublicFunc */ = {
-			isa = PBXGroup;
-			children = (
-				2D3A15C321097969005131B8 /* Propoty.swift */,
-			);
-			path = PublicFunc;
 			sourceTree = "<group>";
 		};
 		2D3A15C92109B0E3005131B8 /* Extension */ = {
@@ -442,6 +433,7 @@
 		2D85F250212A9808008AD54D /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				2D3A15C321097969005131B8 /* Propoty.swift */,
 				2D85F24E212A97E5008AD54D /* SaveVideoManager.swift */,
 			);
 			path = Tools;
@@ -677,7 +669,7 @@
 				2D378EB721115C2900A51DE8 /* IFNashvilleFilter.m in Sources */,
 				2D378EBD21115C2900A51DE8 /* IFEarlybirdFilter.m in Sources */,
 				2D3A15C82109A038005131B8 /* CheckViewController.swift in Sources */,
-				2D2D6D9B211D8561005F8371 /* topVIew.swift in Sources */,
+				2D2D6D9B211D8561005F8371 /* TopVIew.swift in Sources */,
 				2D3A15C421097969005131B8 /* Propoty.swift in Sources */,
 				2D0396A0211D70B9004E87C0 /* DesignedGPUImageFilter.m in Sources */,
 			);

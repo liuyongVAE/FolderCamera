@@ -39,10 +39,11 @@ class DefaultBotomView: UIView {
     lazy var beautyButton:UIButton = {
         //CGRect(x:SCREEN_WIDTH - getWidth(109) - getWidth(78), y: getHeight(150), width:getWidth(78) , height: getHeight(154))
         var btn = NewUIButton()
-        btn.setImage(#imageLiteral(resourceName: "美颜"), for: .normal)
-        btn.setTitle("折纸轻美颜", for: .normal)
+        btn.setImage(#imageLiteral(resourceName: "美颜1"), for: .normal)
+        btn.setTitle("轻美颜", for: .normal)
         btn.setImage(#imageLiteral(resourceName: "美颜2"), for: .selected)
         btn.setTitleColor(UIColor.black, for: .normal)
+        
         btn.addTarget(self, action: #selector(self.beauty), for: .touchUpInside)
         return btn
     }()
@@ -87,6 +88,7 @@ class DefaultBotomView: UIView {
     
     lazy var recordBackView:UIView = {
         let b = UIView()
+        b.isHidden = true
         b.backgroundColor = UIColor.white
         return b
     }()
@@ -107,22 +109,23 @@ class DefaultBotomView: UIView {
         self.backgroundColor = UIColor.white
         self.addSubview(beautyButton)
         self.addSubview(fillterButton)
-        self.addSubview(recordBackView)
         self.addSubview(videoButton)
         self.addSubview(recordButton)
-        recordBackView.addSubview(finishButton)
-        recordBackView.addSubview(deletePreviousButton)
+        self.addSubview(finishButton)
+        self.addSubview(deletePreviousButton)
+        self.addSubview(recordBackView)
+
         fillterButton.snp.makeConstraints({
             (make) in
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(70)
-            make.left.equalToSuperview().offset(20)
+            make.width.height.equalTo(49)
+            make.left.equalToSuperview().offset(70)
         })
        beautyButton.snp.makeConstraints({
             (make) in
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(70)
-            make.right.equalToSuperview().offset(-20)
+            make.width.height.equalTo(49)
+            make.right.equalToSuperview().offset(-70)
         })
        videoButton.snp.makeConstraints({
             (make) in
@@ -138,24 +141,25 @@ class DefaultBotomView: UIView {
         })
         recordBackView.snp.makeConstraints({
            make in
-           make.width.height.left.equalToSuperview()
-           make.top.equalTo(self.snp.bottom)
+           make.width.height.left.top.equalToSuperview()
+           //make.top.equalTo(self.snp.bottom)
         })
         
         finishButton.snp.makeConstraints({
             make in
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(70)
-            make.right.equalToSuperview().offset(-20)
+            make.width.height.equalTo(49)
+            make.right.equalToSuperview().offset(-10)
         })
         
         deletePreviousButton.snp.makeConstraints({
             make in
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(70)
-            make.left.equalToSuperview().offset(20)
+            make.width.height.equalTo(49)
+            make.left.equalToSuperview().offset(10)
         })
-        
+        finishButton.alpha = 0
+        deletePreviousButton.alpha = 0
         
         
     }
@@ -220,42 +224,52 @@ class DefaultBotomView: UIView {
         delegate?.pushVideo(btn: btn)
         btn.isSelected = !btn.isSelected
         //位置变换动画
+        transmationAction(isSelected: btn.isSelected)
+      
+        
+    }
+    
+    
+    /// 转换按钮位置动画函数
+    ///
+    /// - Parameter isSelected: 是否转换
+    func transmationAction(isSelected:Bool){
         weak var weakSelf = self
-        if btn.isSelected{
+        if isSelected{
+   
             UIView.animate(withDuration: 0.3, animations: {
-                btn.snp.remakeConstraints({
-                    make in
-                    make.centerX.equalToSuperview()
-                    make.height.equalTo(25)
-                    make.centerY.equalTo((weakSelf?.snp.top)!).offset(15)
-                })
                 
-                weakSelf?.recordBackView.snp.remakeConstraints({
-                    make in
-                    make.width.height.left.top.equalToSuperview()
-                })
+                weakSelf?.finishButton.alpha = 1
+                weakSelf?.deletePreviousButton.alpha = 1
+//                weakSelf?.recordBackView.snp.remakeConstraints({
+//                    make in
+//                    make.width.height.left.top.equalToSuperview()
+//                })
+            
+                //按钮大小缩放
+               // weakSelf?.beautyButton.transform = CGAffineTransform.translatedBy(<#T##CGAffineTransform#>)
+               // weakSelf?.fillterButton.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
                 
-                weakSelf?.layoutIfNeeded()
+                
+              //  weakSelf?.layoutIfNeeded()
             })
         }else{
             UIView.animate(withDuration: 0.3, animations: {
-                btn.snp.remakeConstraints({
-                    make in
-                    make.centerX.equalToSuperview()
-                    make.height.equalTo(25)
-                    make.centerY.equalTo((weakSelf?.snp.bottom)!).offset(-25)
-                })
-                
-                weakSelf?.recordBackView.snp.remakeConstraints({
-                    make in
-                    make.width.height.left.equalToSuperview()
-                    make.top.equalTo((weakSelf?.snp.bottom)!)
-                })
-                
-                weakSelf?.layoutIfNeeded()
+                weakSelf?.finishButton.alpha = 0
+                weakSelf?.deletePreviousButton.alpha = 0
+//                weakSelf?.recordBackView.snp.remakeConstraints({
+//                    make in
+//                    make.width.height.left.equalToSuperview()
+//                    make.top.equalTo((weakSelf?.snp.bottom)!)
+//                })
+//
+//                weakSelf?.layoutIfNeeded()
             })
         }
         
+        
     }
+    
+    
 
 }

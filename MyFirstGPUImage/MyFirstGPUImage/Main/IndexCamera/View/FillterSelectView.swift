@@ -94,7 +94,8 @@ extension FillterSelectView:UICollectionViewDelegate,UICollectionViewDataSource{
  //设置图片
     
     func setImage(){
-        for _ in 0...FilterGroup.count{
+        images.append(#imageLiteral(resourceName: "斜线"))
+        for _ in 1...FilterGroup.count{
             //TODO: 渲染太多滤镜导致黑屏
           //let filter = FilterGroup.getFillter(filterType: i)
          // let image = filter.image(byFilteringImage:#imageLiteral(resourceName: "FilterBeauty") )
@@ -151,7 +152,7 @@ extension FillterSelectView:UICollectionViewDelegate,UICollectionViewDataSource{
 //  点击cell的操作，调用代理切换滤镜
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        collectionView.cellForItem(at: indexPath)?.backgroundColor = bgColor
+        collectionView.cellForItem(at: indexPath)?.backgroundColor = filterSelectedColor
         filterDelegate?.switchFillter(index: indexPath.row)
     }
     

@@ -25,7 +25,7 @@ class NewUIButton: UIButton {
     func commonInit() {
         self.titleLabel?.textAlignment = .center
         self.imageView?.contentMode = .scaleAspectFit
-        self.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+        self.titleLabel?.font = UIFont.systemFont(ofSize: 10)
     }
     
     //调整系统UIButton的文字的位置

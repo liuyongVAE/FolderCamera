@@ -90,7 +90,7 @@ class RoundProgressButtonView:UIView{
         let longpress = UILongPressGestureRecognizer(target: self, action: #selector(self.longPress(_:)))
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.tapAction(_:)))
         centerView.addGestureRecognizer(longpress)
-        centerView.addGestureRecognizer(tap)
+        self.addGestureRecognizer(tap)
         outView.addSubview(centerView)
         width = 5
         progressLayer = CAShapeLayer()
@@ -99,7 +99,7 @@ class RoundProgressButtonView:UIView{
         progressLayer.lineCap = kCALineCapSquare//线端点类型
         progressLayer.frame = outView.bounds
         progressLayer.lineWidth = width
-        progressLayer.strokeColor = UIColor.red.cgColor
+        progressLayer.strokeColor = lightPink.cgColor
         self.addSubview(tipLabel)
         tipLabel.snp.makeConstraints({
             make in
@@ -118,6 +118,9 @@ class RoundProgressButtonView:UIView{
     ///根据不同的长按事件，进行动画效果,并且传给视频页
     /// - Parameter logressPress: 长按事件
     @objc func longPress(_ logressPress:UIGestureRecognizer){
+        if ifLongRecord ?? false {
+            return
+        }
         if delegate != nil{
             delegate?.videoControl(control: self, gest: logressPress)
         }
@@ -197,7 +200,7 @@ class RoundProgressButtonView:UIView{
         let progressPath = UIBezierPath(arcCenter: centerView.center, radius: (outView.frame.size.width - (1.5*width))/3, startAngle: CGFloat(Double.pi/2*3), endAngle: CGFloat(Double.pi*2)*progress + CGFloat(-Double.pi/2), clockwise: true)
         //定义完贝塞尔曲线，添加到layer，更新path
         progressLayer.path = progressPath.cgPath
-        progressLayer.strokeColor = UIColor.red.cgColor
+        progressLayer.strokeColor = lightPink.cgColor
 
     }
     
@@ -228,6 +231,7 @@ class RoundProgressButtonView:UIView{
         for i in whiteOverlay{
             i.removeFromSuperlayer()
         }
+        ifLongRecord = false
         setDuratuin(10)
         setProgress()
         setLinePath()
@@ -259,7 +263,7 @@ extension RoundProgressButtonView{
                 progressPause?.append(progress)
                 touchRecord(isRecord: true)
                 UIView.animate(withDuration: 0.3, animations: {
-                    self.centerView.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+                    self.centerView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
                    // self.outView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
                 })
             }
@@ -278,13 +282,13 @@ extension RoundProgressButtonView{
     //删除上一段
     func deletrLast(){
         //time = pauseTime
-        let progressPath = UIBezierPath(arcCenter: centerView.center, radius: (outView.frame.size.width - (1.5*width))/3, startAngle: CGFloat(Double.pi*2)*(progressPause?.last ?? 0) + CGFloat(-Double.pi/2), endAngle:CGFloat(Double.pi*3)/2, clockwise: true)
+       // let progressPath = UIBezierPath(arcCenter: centerView.center, radius: (outView.frame.size.width - (1.5*width))/3, startAngle: CGFloat(Double.pi*2)*(progressPause?.last ?? 0) + CGFloat(-Double.pi/2), endAngle:CGFloat(Double.pi*3)/2, clockwise: true)
         //progressPath.stroke()
         progressLayer.strokeColor = naviColor.cgColor
-        progressLayer.path = progressPath.cgPath
-        progress = (progressPause?.last  ?? progress ) - 0.01
+        //progressLayer.path = progressPath.cgPath
+        progress = (progressPause?.last  ?? progress ) - 0.015
         print(progress,progressPause)
-        updateProgress()
+        //updateProgress()
         updateLinePath()
         if let c = progressPause?.count,c>0{
            progressPause?.removeLast()
@@ -336,8 +340,6 @@ extension RoundProgressButtonView{
         outView.layer.addSublayer(whiteOverlay.last!)
  
     }
-
-    
     
     func updateLinePath(){
         let progressPath = UIBezierPath()
@@ -345,6 +347,24 @@ extension RoundProgressButtonView{
         progressPath.addLine(to: CGPoint(x:progress*SCREEN_WIDTH,y:0))
         progressLineLayer.path = progressPath.cgPath
     }
+    
+    //滤镜页面升起时，调用此方法将进度条移动到顶部
+    func moveLine(){
+        progressLineLayer.frame = CGRect.init(x: -152, y: -583, width: SCREEN_WIDTH, height: 5)
+        for i in whiteOverlay{
+            i.frame = CGRect.init(x: -152, y: -583, width: SCREEN_WIDTH, height: 5)
+        }
+
+    }
+    //重设进度条位置
+    func reSetLine(){
+        progressLineLayer.frame = CGRect.init(x: -152, y: -543, width: SCREEN_WIDTH, height: 5)
+        for i in whiteOverlay{
+            i.frame = CGRect.init(x: -152, y: -543, width: SCREEN_WIDTH, height: 5)
+        }
+
+    }
+    
     
 }
 
