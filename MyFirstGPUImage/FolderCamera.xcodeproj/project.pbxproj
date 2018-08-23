@@ -12,6 +12,10 @@
 		2D2D6D99211D7A9C005F8371 /* myShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 2D2D6D98211D7923005F8371 /* myShader.fsh */; };
 		2D2D6D9B211D8561005F8371 /* TopVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2D6D9A211D8561005F8371 /* TopVIew.swift */; };
 		2D2D6DA321215D3E005F8371 /* playView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2D6DA221215D3E005F8371 /* playView.swift */; };
+		2D363D5E212E7A3F00F24ED2 /* GPUImageBeautifyFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D363D5C212E7A3F00F24ED2 /* GPUImageBeautifyFilter.m */; };
+		2D363D61212E7D3800F24ED2 /* FaceArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D363D60212E7D3800F24ED2 /* FaceArea.swift */; };
+		2D363D64212E7E0100F24ED2 /* FaceLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D363D63212E7E0100F24ED2 /* FaceLayerView.swift */; };
+		2D363D66212E80D500F24ED2 /* LayerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D363D65212E80D500F24ED2 /* LayerExtension.swift */; };
 		2D378EB721115C2900A51DE8 /* IFNashvilleFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D378E9021115C2500A51DE8 /* IFNashvilleFilter.m */; };
 		2D378EB821115C2900A51DE8 /* IFInkwellFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D378E9221115C2500A51DE8 /* IFInkwellFilter.m */; };
 		2D378EB921115C2900A51DE8 /* IFBrannanFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D378E9421115C2500A51DE8 /* IFBrannanFilter.m */; };
@@ -51,8 +55,6 @@
 		2D502351210AB8E200A7559A /* FillterSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D502350210AB8E200A7559A /* FillterSelectView.swift */; };
 		2D85F24F212A97E5008AD54D /* SaveVideoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D85F24E212A97E5008AD54D /* SaveVideoManager.swift */; };
 		2DC6576F212C09AE001A2571 /* LineProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC6576E212C09AE001A2571 /* LineProgress.swift */; };
-		2DC65773212E5E2C001A2571 /* ProcessManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC65772212E5E2C001A2571 /* ProcessManager.swift */; };
-		2DC65776212E72B6001A2571 /* GPUImageBeautifyFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DC65775212E72B6001A2571 /* GPUImageBeautifyFilter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +81,11 @@
 		2D2D6D98211D7923005F8371 /* myShader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = myShader.fsh; sourceTree = "<group>"; };
 		2D2D6D9A211D8561005F8371 /* TopVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopVIew.swift; sourceTree = "<group>"; };
 		2D2D6DA221215D3E005F8371 /* playView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = playView.swift; sourceTree = "<group>"; };
+		2D363D5C212E7A3F00F24ED2 /* GPUImageBeautifyFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageBeautifyFilter.m; sourceTree = "<group>"; };
+		2D363D5D212E7A3F00F24ED2 /* GPUImageBeautifyFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageBeautifyFilter.h; sourceTree = "<group>"; };
+		2D363D60212E7D3800F24ED2 /* FaceArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceArea.swift; sourceTree = "<group>"; };
+		2D363D63212E7E0100F24ED2 /* FaceLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceLayerView.swift; sourceTree = "<group>"; };
+		2D363D65212E80D500F24ED2 /* LayerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerExtension.swift; sourceTree = "<group>"; };
 		2D378E8F21115C2500A51DE8 /* IFRiseFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFRiseFilter.h; sourceTree = "<group>"; };
 		2D378E9021115C2500A51DE8 /* IFNashvilleFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFNashvilleFilter.m; sourceTree = "<group>"; };
 		2D378E9121115C2500A51DE8 /* IFEarlybirdFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFEarlybirdFilter.h; sourceTree = "<group>"; };
@@ -147,9 +154,6 @@
 		2D502350210AB8E200A7559A /* FillterSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillterSelectView.swift; sourceTree = "<group>"; };
 		2D85F24E212A97E5008AD54D /* SaveVideoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveVideoManager.swift; sourceTree = "<group>"; };
 		2DC6576E212C09AE001A2571 /* LineProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineProgress.swift; sourceTree = "<group>"; };
-		2DC65772212E5E2C001A2571 /* ProcessManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessManager.swift; sourceTree = "<group>"; };
-		2DC65774212E72B5001A2571 /* GPUImageBeautifyFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageBeautifyFilter.h; sourceTree = "<group>"; };
-		2DC65775212E72B6001A2571 /* GPUImageBeautifyFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageBeautifyFilter.m; sourceTree = "<group>"; };
 		6EA227A6B6B79861372E3272 /* Pods-MyFirstGPUImage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyFirstGPUImage.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyFirstGPUImage/Pods-MyFirstGPUImage.release.xcconfig"; sourceTree = "<group>"; };
 		B90C9E859F51270B2744A7B8 /* Pods_MyFirstGPUImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyFirstGPUImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB499B0F118CC40AAC7E5E06 /* Pods-MyFirstGPUImage.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyFirstGPUImage.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyFirstGPUImage/Pods-MyFirstGPUImage.debug.xcconfig"; sourceTree = "<group>"; };
@@ -223,11 +227,19 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		2D363D62212E7DE500F24ED2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2D363D63212E7E0100F24ED2 /* FaceLayerView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		2D378E3C2111516A00A51DE8 /* Filter */ = {
 			isa = PBXGroup;
 			children = (
-				2DC65774212E72B5001A2571 /* GPUImageBeautifyFilter.h */,
-				2DC65775212E72B6001A2571 /* GPUImageBeautifyFilter.m */,
+				2D363D5D212E7A3F00F24ED2 /* GPUImageBeautifyFilter.h */,
+				2D363D5C212E7A3F00F24ED2 /* GPUImageBeautifyFilter.m */,
 				2D378E462111519D00A51DE8 /* FilterSource */,
 				2D03969E211D70B9004E87C0 /* DesignedGPUImageFilter.h */,
 				2D03969F211D70B9004E87C0 /* DesignedGPUImageFilter.m */,
@@ -354,7 +366,7 @@
 		2D3A15B821097408005131B8 /* IndexCamera */ = {
 			isa = PBXGroup;
 			children = (
-				2DC65770212E5E07001A2571 /* ProcessFace */,
+				2DC65770212E5E07001A2571 /* FaceDetection */,
 				2D3A15BE21097537005131B8 /* Model */,
 				2D3A15BD21097531005131B8 /* View */,
 				2D3A15BC2109752C005131B8 /* Controller */,
@@ -429,6 +441,7 @@
 			isa = PBXGroup;
 			children = (
 				2D3A15CA2109B105005131B8 /* NewUIButton.swift */,
+				2D363D65212E80D500F24ED2 /* LayerExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -442,12 +455,13 @@
 			path = Tools;
 			sourceTree = "<group>";
 		};
-		2DC65770212E5E07001A2571 /* ProcessFace */ = {
+		2DC65770212E5E07001A2571 /* FaceDetection */ = {
 			isa = PBXGroup;
 			children = (
-				2DC65772212E5E2C001A2571 /* ProcessManager.swift */,
+				2D363D62212E7DE500F24ED2 /* View */,
+				2D363D60212E7D3800F24ED2 /* FaceArea.swift */,
 			);
-			path = ProcessFace;
+			path = FaceDetection;
 			sourceTree = "<group>";
 		};
 		37A8B1F276EF857EBE3F9D5B /* Pods */ = {
@@ -645,7 +659,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2DC65776212E72B6001A2571 /* GPUImageBeautifyFilter.m in Sources */,
+				2D363D5E212E7A3F00F24ED2 /* GPUImageBeautifyFilter.m in Sources */,
 				2D378EB821115C2900A51DE8 /* IFInkwellFilter.m in Sources */,
 				2D378ED52111607600A51DE8 /* FilterGroup.swift in Sources */,
 				2D378EBF21115C2900A51DE8 /* IFRiseFilter.m in Sources */,
@@ -656,12 +670,14 @@
 				2D378ED321115C6600A51DE8 /* GPUImageFourInputFilter.m in Sources */,
 				2D378EC021115C2900A51DE8 /* IFSierraFilter.m in Sources */,
 				2DC6576F212C09AE001A2571 /* LineProgress.swift in Sources */,
+				2D363D64212E7E0100F24ED2 /* FaceLayerView.swift in Sources */,
 				2D502351210AB8E200A7559A /* FillterSelectView.swift in Sources */,
 				2D85F24F212A97E5008AD54D /* SaveVideoManager.swift in Sources */,
 				2D396A1D211ABE2F0049FE40 /* RoundProgressButtonView.swift in Sources */,
 				2D378EC621115C2900A51DE8 /* IFToasterFilter.m in Sources */,
 				2D378EC121115C2900A51DE8 /* IFValenciaFilter.m in Sources */,
 				2D378ED221115C6600A51DE8 /* GPUImageSixInputFilter.m in Sources */,
+				2D363D61212E7D3800F24ED2 /* FaceArea.swift in Sources */,
 				2D3A15B72108569C005131B8 /* FConViewController.swift in Sources */,
 				2D378EC521115C2900A51DE8 /* IFHudsonFilter.m in Sources */,
 				2D378ED121115C6600A51DE8 /* GPUImageFiveInputFilter.m in Sources */,
@@ -678,10 +694,10 @@
 				2D378EBC21115C2900A51DE8 /* IFWaldenFilter.m in Sources */,
 				2D2D6DA321215D3E005F8371 /* playView.swift in Sources */,
 				2D378EB721115C2900A51DE8 /* IFNashvilleFilter.m in Sources */,
-				2DC65773212E5E2C001A2571 /* ProcessManager.swift in Sources */,
 				2D378EBD21115C2900A51DE8 /* IFEarlybirdFilter.m in Sources */,
 				2D3A15C82109A038005131B8 /* CheckViewController.swift in Sources */,
 				2D2D6D9B211D8561005F8371 /* TopVIew.swift in Sources */,
+				2D363D66212E80D500F24ED2 /* LayerExtension.swift in Sources */,
 				2D3A15C421097969005131B8 /* Propoty.swift in Sources */,
 				2D0396A0211D70B9004E87C0 /* DesignedGPUImageFilter.m in Sources */,
 			);

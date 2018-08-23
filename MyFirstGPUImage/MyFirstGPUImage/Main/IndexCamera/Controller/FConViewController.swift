@@ -86,9 +86,21 @@ class FConViewController: UIViewController {
     var effectiveScale:CGFloat!
     //聚焦层
     var focusLayer:CALayer?
+    //人脸识别层
+    lazy var layersView: FaceLayerView = {
+        let view = FaceLayerView(frame: mGpuimageView.frame)
+        return view
+    }()
     
-    var faceBox:UIView?
-    
+    lazy var detector: CIDetector = {
+        let context = CIContext()
+        let options: [String : Any] = [
+            CIDetectorAccuracy: CIDetectorAccuracyHigh,
+            CIDetectorTracking: true
+        ]
+        let detector = CIDetector(ofType: CIDetectorTypeFace, context: context, options: options)!
+        return detector
+    }()
     
     
     //MARK: - 页面生命周期
@@ -102,6 +114,7 @@ class FConViewController: UIViewController {
         setDefaultView()
         //设置聚焦图片
         setFocusImage(#imageLiteral(resourceName: "聚焦 "))
+        setFaceDetectionImage()
         // Do any additional setup after loading sthe view.
     }
     
@@ -262,7 +275,8 @@ extension FConViewController{
         scaleRate = 0//默认设置为640大小比例
         mCamera = GPUImageStillCamera(sessionPreset:AVCaptureSession.Preset.vga640x480.rawValue , cameraPosition: AVCaptureDevice.Position.front)
         mCamera.outputImageOrientation = UIInterfaceOrientation.portrait
-        mCamera.horizontallyMirrorFrontFacingCamera = true
+        //MARK: - 开启镜面，人脸识别正常
+        mCamera.horizontallyMirrorFrontFacingCamera = false
         //滤镜
         ifFilter = IFNormalFilter()
         ifFilter.useNextFrameForImageCapture()
@@ -277,6 +291,7 @@ extension FConViewController{
         ifaddFilter = false
  
         mCamera.delegate = self
+    
 
     }
     
@@ -719,11 +734,13 @@ extension FConViewController:ProgresssButtonDelegate{
         switch gest.state {
         case .began:
              control.tipLabel.isHidden = true
+             defaultBottomView.recordBackView.isHidden = false
              control.ifRecord = true
              startRecord()
         case.ended:
             if control.ifRecord {
                 recordBtnFinish()
+                defaultBottomView.recordBackView.isHidden = true
                 control.tipLabel.isHidden = false
                 control.ifRecord = false
             }else{
@@ -874,66 +891,46 @@ extension FConViewController:ProgresssButtonDelegate{
 //MARK: - 人脸识别
 extension FConViewController:GPUImageVideoCameraDelegate{
     
-    
-    func setFaceBox(){
-         faceBox = UIView(frame: self.view.bounds)
-         faceBox!.layer.borderWidth = 3
-         faceBox!.layer.borderColor = UIColor.red.cgColor
-         faceBox!.backgroundColor = UIColor.clear
-        mGpuimageView.addSubview(faceBox!)
-    }
-   
     func willOutputSampleBuffer(_ sampleBuffer: CMSampleBuffer!) {
-        // 避免内存问题产生，此处Copy一份Buffer用作处理；
-       // CMSampleBufferCreateCopy((CFAllocatorGetDefault() as! CFAllocator), sampleBuffer, &picCopy)
-        if let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer){
-            //let ciImage = CIImage.init(cvPixelBuffer: pixelBuffer, options: nil)
+        // 创建buffer的拷贝
+        var bufferCopy:CMSampleBuffer?
+        let err = CMSampleBufferCreateCopy(kCFAllocatorDefault, sampleBuffer, &bufferCopy)
+        if err == noErr{
+            detect(bufferCopy!)
         }
     }
     
-    func detect(_ sampleBuffer: CMSampleBuffer!) {
-        let personciImage = CIImage.init(cvPixelBuffer: sampleBuffer as! CVPixelBuffer, options: nil)
-        let accuracy = [CIDetectorAccuracy: CIDetectorAccuracyHigh]
-        let faceDetector = CIDetector(ofType: CIDetectorTypeFace, context: nil, options: accuracy)
-        let faces = faceDetector?.features(in: personciImage)
+    
+    func  setFaceDetectionImage(){
+        self.mGpuimageView.addSubview(layersView)
+    }
+    
+    func detect(_ sampleBuffer: CMSampleBuffer) {
         
-        // Convert Core Image Coordinate to UIView Coordinate
-        let ciImageSize = personciImage.extent.size
-        var transform = CGAffineTransform(scaleX: 1, y: -1)
-        transform = transform.translatedBy(x: 0, y: -ciImageSize.height)
+        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
+        else {return}
+        let personciImage = CIImage.init(cvPixelBuffer: pixelBuffer)
+        let cvImageHeight = CGFloat(CVPixelBufferGetHeight(pixelBuffer))
+        let ratio = mGpuimageView.frame.width/cvImageHeight
         
-        for face in faces as! [CIFaceFeature] {
-            
-            print("Found bounds are \(face.bounds)")
-            
-            // Apply the transform to convert the coordinates
-            var faceViewBounds = face.bounds.applying(transform)
-            // Calculate the actual position and size of the rectangle in the image view
-            let viewSize = mGpuimageView.bounds.size
-            let scale = min(viewSize.width / ciImageSize.width,
-                            viewSize.height / ciImageSize.height)
-            let offsetX = (viewSize.width - ciImageSize.width * scale) / 2
-            let offsetY = (viewSize.height - ciImageSize.height * scale) / 2
-            
-            faceViewBounds = faceViewBounds.applying(CGAffineTransform(scaleX: scale, y: scale))
-            faceViewBounds.origin.x += offsetX
-            faceViewBounds.origin.y += offsetY
+        //识别变量
+       
+        let featureDetectorOptions: [String : Any] = [
+            CIDetectorImageOrientation: 6,   // Assuming portrait in this sample
+        ]
         
-            DispatchQueue.main.async {
-                self.faceBox?.frame = faceViewBounds
+        let faceAreas = detector
+            .features(in: personciImage, options: featureDetectorOptions)
+            .compactMap{$0 as? CIFaceFeature}
+            .map{ FaceArea(faceFeature: $0, applyingRatio: ratio) }
+        
+        //主线程刷新UI并设置延迟
+        DispatchQueue.main.async {
+            self.layersView.update(areas: faceAreas)
 
-            }
-            
-            
-            
-            if face.hasLeftEyePosition {
-                print("Left eye bounds are \(face.leftEyePosition)")
-            }
-            
-            if face.hasRightEyePosition {
-                print("Right eye bounds are \(face.rightEyePosition)")
-            }
         }
+
+    
     }
     
 

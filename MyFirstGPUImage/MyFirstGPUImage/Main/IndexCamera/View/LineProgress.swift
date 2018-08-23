@@ -42,7 +42,6 @@ class lineProgress:UIView{
         progressPath.move(to: CGPoint(x:0,y:0))
         progressPath.addLine(to: CGPoint(x:0,y:0))
         //outView.layer.addSublayer(progressLineLayer)
-        
         //UIBezierPath(arcCenter: centerView.center, radius: (outView.frame.size.width - (1.5*width))/3, startAngle: CGFloat(Double.pi*2)*progress + CGFloat(-Double.pi/2), endAngle:CGFloat(Double.pi*2)*(progress+0.0005) + CGFloat(-Double.pi/2) , clockwise: true)
         // progress = progress+0.0005
         progressLineLayer.path = progressPath.cgPath
