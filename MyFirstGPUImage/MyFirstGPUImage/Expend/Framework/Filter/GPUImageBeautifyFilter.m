@@ -109,10 +109,13 @@ NSString *const kGPUImageBeautifyFragmentShaderString = SHADER_STRING
 #pragma mark -
 #pragma mark GPUImageInput protocol
 
-- (void)newFrameReadyAtTime:(CMTime)frameTime atIndex:(NSInteger)textureIndex {
-    for (GPUImageOutput<GPUImageInput> *currentFilter in self.initialFilters) {
-        if (currentFilter != self.inputFilterToIgnoreForUpdates) {
-            if (currentFilter == self.combinationFilter) {
+- (void)newFrameReadyAtTime:(CMTime)frameTime atIndex:(NSInteger)textureIndex;
+{
+    for (GPUImageOutput<GPUImageInput> *currentFilter in self.initialFilters)
+    {
+        if (currentFilter != self.inputFilterToIgnoreForUpdates)
+        {
+            if (currentFilter == combinationFilter) {
                 textureIndex = 2;
             }
             [currentFilter newFrameReadyAtTime:frameTime atIndex:textureIndex];
@@ -120,25 +123,33 @@ NSString *const kGPUImageBeautifyFragmentShaderString = SHADER_STRING
     }
 }
 
-- (void)setInputFramebuffer:(GPUImageFramebuffer *)newInputFramebuffer atIndex:(NSInteger)textureIndex {
-    for (GPUImageOutput<GPUImageInput> *currentFilter in self.initialFilters) {
-        if (currentFilter == self.combinationFilter) {
+- (void)setInputFramebuffer:(GPUImageFramebuffer *)newInputFramebuffer atIndex:(NSInteger)textureIndex;
+{
+    for (GPUImageOutput<GPUImageInput> *currentFilter in self.initialFilters)
+    {
+        if (currentFilter == combinationFilter) {
             textureIndex = 2;
         }
         [currentFilter setInputFramebuffer:newInputFramebuffer atIndex:textureIndex];
     }
 }
 
-- (void)updateMask:(CGRect)mask {
-    [self.combinationFilter setMask:mask];
+- (void)setDistanceNormalizationFactor:(CGFloat)value{
+    bilateralFilter.distanceNormalizationFactor = value;
 }
-
 - (void)setCom:(CGFloat)value{
     
-    _combinationFilter.intensity = value;
+    combinationFilter.intensity = value;
 }
 
 - (CGFloat)getCom{
-    return  _combinationFilter.intensity;
+    return  combinationFilter.intensity;
 }
+
+
+- (void)setBrightness:(CGFloat)brightness saturation:(CGFloat)saturation{
+    [hsbFilter adjustBrightness:brightness];
+    [hsbFilter adjustSaturation:saturation];
+}
+
 @end
