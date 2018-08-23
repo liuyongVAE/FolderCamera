@@ -87,6 +87,9 @@ class FConViewController: UIViewController {
     //聚焦层
     var focusLayer:CALayer?
     
+    var faceBox:UIView?
+    
+    
     
     //MARK: - 页面生命周期
     override func viewDidLoad() {
@@ -273,7 +276,8 @@ extension FConViewController{
         mCamera.startCapture()
         ifaddFilter = false
  
-  
+        mCamera.delegate = self
+
     }
     
     
@@ -865,7 +869,77 @@ extension FConViewController:ProgresssButtonDelegate{
             defaultBottomView.recordButton.isSelected = false
         }
     }
+}
 
+//MARK: - 人脸识别
+extension FConViewController:GPUImageVideoCameraDelegate{
+    
+    
+    func setFaceBox(){
+         faceBox = UIView(frame: self.view.bounds)
+         faceBox!.layer.borderWidth = 3
+         faceBox!.layer.borderColor = UIColor.red.cgColor
+         faceBox!.backgroundColor = UIColor.clear
+        mGpuimageView.addSubview(faceBox!)
+    }
+   
+    func willOutputSampleBuffer(_ sampleBuffer: CMSampleBuffer!) {
+        // 避免内存问题产生，此处Copy一份Buffer用作处理；
+       // CMSampleBufferCreateCopy((CFAllocatorGetDefault() as! CFAllocator), sampleBuffer, &picCopy)
+        if let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer){
+            //let ciImage = CIImage.init(cvPixelBuffer: pixelBuffer, options: nil)
+        }
+    }
+    
+    func detect(_ sampleBuffer: CMSampleBuffer!) {
+        let personciImage = CIImage.init(cvPixelBuffer: sampleBuffer as! CVPixelBuffer, options: nil)
+        let accuracy = [CIDetectorAccuracy: CIDetectorAccuracyHigh]
+        let faceDetector = CIDetector(ofType: CIDetectorTypeFace, context: nil, options: accuracy)
+        let faces = faceDetector?.features(in: personciImage)
+        
+        // Convert Core Image Coordinate to UIView Coordinate
+        let ciImageSize = personciImage.extent.size
+        var transform = CGAffineTransform(scaleX: 1, y: -1)
+        transform = transform.translatedBy(x: 0, y: -ciImageSize.height)
+        
+        for face in faces as! [CIFaceFeature] {
+            
+            print("Found bounds are \(face.bounds)")
+            
+            // Apply the transform to convert the coordinates
+            var faceViewBounds = face.bounds.applying(transform)
+            // Calculate the actual position and size of the rectangle in the image view
+            let viewSize = mGpuimageView.bounds.size
+            let scale = min(viewSize.width / ciImageSize.width,
+                            viewSize.height / ciImageSize.height)
+            let offsetX = (viewSize.width - ciImageSize.width * scale) / 2
+            let offsetY = (viewSize.height - ciImageSize.height * scale) / 2
+            
+            faceViewBounds = faceViewBounds.applying(CGAffineTransform(scaleX: scale, y: scale))
+            faceViewBounds.origin.x += offsetX
+            faceViewBounds.origin.y += offsetY
+        
+            DispatchQueue.main.async {
+                self.faceBox?.frame = faceViewBounds
+
+            }
+            
+            
+            
+            if face.hasLeftEyePosition {
+                print("Left eye bounds are \(face.leftEyePosition)")
+            }
+            
+            if face.hasRightEyePosition {
+                print("Right eye bounds are \(face.rightEyePosition)")
+            }
+        }
+    }
+    
+
+    
+   
+    
     
 }
 
