@@ -1,35 +1,20 @@
 //
 //  GPUImageBeautifyFilter.h
-//  BeautifyFace
+//  VJFaceDetection
 //
-//  Created by ClaudeLi on 16/5/19.
-//  Copyright © 2016年 ClaudeLi. All rights reserved.
-//
+//  Created by Vincent·Ge on 2018/6/14.
+//  Copyright © 2018年 Filelife. All rights reserved.
 
 #import <GPUImage/GPUImage.h>
 
 @class GPUImageCombinationFilter;
-@interface GPUImageBeautifyFilter : GPUImageFilterGroup{
-    GPUImageBilateralFilter          *bilateralFilter;
-    GPUImageCannyEdgeDetectionFilter *cannyEdgeFilter;
-    GPUImageCombinationFilter        *combinationFilter;
-    GPUImageHSBFilter                *hsbFilter;
-}
 
-/**
- *  A normalization factor for the distance between central color and sample color
- *
- *  @param value default 2.0
- */
-- (void)setDistanceNormalizationFactor:(CGFloat)value;
-- (void)setCom:(CGFloat)value;
-- (CGFloat)getCom;
-/**
- *  Set brightness and saturation
- *
- *  @param brightness [0.0, 2.0], default 1.05
- *  @param saturation [0.0, 2.0], default 1.05
- */
-- (void)setBrightness:(CGFloat)brightness saturation:(CGFloat)saturation;
+@interface GPUImageBeautifyFilter : GPUImageFilterGroup {
+}
+@property (nonatomic, strong)GPUImageBilateralFilter *bilateralFilter;
+@property (nonatomic, strong)GPUImageCannyEdgeDetectionFilter *cannyEdgeFilter;
+@property (nonatomic, strong)GPUImageCombinationFilter *combinationFilter;
+@property (nonatomic, strong)GPUImageHSBFilter *hsbFilter;
+- (void)updateMask:(CGRect)mask;
 
 @end
