@@ -15,6 +15,22 @@ extension CAShapeLayer {
         layer.path = UIBezierPath.init(ovalIn: rect).cgPath
         return layer
     }
+    
+    static func square(width: CGFloat) -> CAShapeLayer {
+        let layer = CAShapeLayer()
+        layer.lineWidth = 2
+        //let rect = CGRect(x: 0, y: 0, width: width, height: width)
+        let path = UIBezierPath()
+        path.lineCapStyle = .square
+        path.lineJoinStyle = .round
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: 0, y: width))
+        path.addLine(to: CGPoint(x:width,y:width))
+        path.addLine(to: CGPoint(x:width,y:0))
+        path.close()
+        layer.path = path.cgPath
+        return layer
+    }
 }
 
 extension CGRect {

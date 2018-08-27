@@ -90,9 +90,9 @@ final class FaceLayerView: UIView {
         
         
         let bounds = area.bounds
-        let radius: CGFloat = (bounds.maxX - bounds.minX) / 2.0
-        let circleLayer = CAShapeLayer.circle(radius: radius)
-        circleLayer.frame = CGRect(x: 0, y: 0, width: radius * 2, height: radius * 2)
+        let radius: CGFloat = (bounds.maxX - bounds.minX)
+        let circleLayer = CAShapeLayer.square(width: radius)
+        circleLayer.frame = CGRect(x: 0, y: 0, width: radius, height: radius)
         circleLayer.position = bounds.center
         circleLayer.fillColor = UIColor.clear.cgColor
        
