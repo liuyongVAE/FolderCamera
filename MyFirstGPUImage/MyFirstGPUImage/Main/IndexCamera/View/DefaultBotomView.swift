@@ -14,7 +14,7 @@ import SnapKit
 protocol DefaultBottomViewDelegate{
     func changeFillter()
     func beauty()
-    func pushVideo(btn:UIButton)
+    func pushVideo(isRecord:Bool)
     //长视频按钮
     func finishLongVideoRecord()
     func deletePrevious()
@@ -65,7 +65,7 @@ class DefaultBotomView: UIView {
         button.setTitleColor(naviColor, for: .selected)
         button.setTitleColor(UIColor.black, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-        button.addTarget(self, action: #selector(startLongRecord), for: .touchUpInside)
+       // button.addTarget(self, action: #selector(startLongRecord), for: .touchUpInside)
         return button
     }()
     lazy var finishButton:UIButton = {
@@ -93,6 +93,11 @@ class DefaultBotomView: UIView {
         return b
     }()
     
+    lazy var selectionView:UIView = {
+        let v = SelectionView.init(frame: CGRect.init(x: 0, y: 0, width: 120, height: 40), titles: ["拍照","视频"], parentViewController: nil)
+        v.delegate = self
+        return v
+    }()
     
     
     
@@ -110,22 +115,23 @@ class DefaultBotomView: UIView {
         self.addSubview(beautyButton)
         self.addSubview(fillterButton)
         self.addSubview(videoButton)
-        self.addSubview(recordButton)
+        //self.addSubview(recordButton)
         self.addSubview(finishButton)
         self.addSubview(deletePreviousButton)
         self.addSubview(recordBackView)
+        self.addSubview(selectionView)
 
         fillterButton.snp.makeConstraints({
             (make) in
             make.centerY.equalToSuperview()
             make.width.height.equalTo(49)
-            make.left.equalToSuperview().offset(70)
+            make.left.equalToSuperview().offset(30)
         })
        beautyButton.snp.makeConstraints({
             (make) in
             make.centerY.equalToSuperview()
             make.width.height.equalTo(49)
-            make.right.equalToSuperview().offset(-70)
+            make.right.equalToSuperview().offset(-30)
         })
        videoButton.snp.makeConstraints({
             (make) in
@@ -133,12 +139,12 @@ class DefaultBotomView: UIView {
             make.width.height.equalTo(44)
             make.bottom.equalToSuperview().offset(52)
         })
-        recordButton.snp.makeConstraints({
-            make in
-            make.centerX.equalToSuperview()
-            make.height.equalTo(25)
-            make.centerY.equalTo(self.snp.bottom).offset(-25)
-        })
+//        recordButton.snp.makeConstraints({
+//            make in
+//            make.centerX.equalToSuperview()
+//            make.height.equalTo(25)
+//            make.centerY.equalTo(self.snp.bottom).offset(-25)
+//        })
         recordBackView.snp.makeConstraints({
            make in
            make.width.height.left.top.equalToSuperview()
@@ -158,6 +164,16 @@ class DefaultBotomView: UIView {
             make.width.height.equalTo(49)
             make.left.equalToSuperview().offset(10)
         })
+        
+        selectionView.snp.makeConstraints({
+            make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.width.equalToSuperview()
+            make.height.equalTo(60)
+            
+        })
+
         finishButton.alpha = 0
         deletePreviousButton.alpha = 0
         
@@ -219,12 +235,11 @@ class DefaultBotomView: UIView {
     
     /// 打开长视频录制页
     ///
-    /// - Parameter btn: button
-    @objc func startLongRecord(_ btn:UIButton){
-        delegate?.pushVideo(btn: btn)
-        btn.isSelected = !btn.isSelected
+    /// - Parameter isRecord:
+    func startLongRecord(isRecord:Bool){
+        delegate?.pushVideo(isRecord:isRecord)
         //位置变换动画
-        transmationAction(isSelected: btn.isSelected)
+        transmationAction(isSelected: isRecord)
       
         
     }
@@ -236,19 +251,14 @@ class DefaultBotomView: UIView {
     func transmationAction(isSelected:Bool){
         weak var weakSelf = self
         if isSelected{
-   
+           //视频
             UIView.animate(withDuration: 0.3, animations: {
                 weakSelf?.finishButton.alpha = 1
                 weakSelf?.deletePreviousButton.alpha = 1
-//                weakSelf?.recordBackView.snp.remakeConstraints({
-//                    make in
-//                    make.width.height.left.top.equalToSuperview()
-//                })
-            
-                //按钮大小缩放
-               // weakSelf?.beautyButton.transform = CGAffineTransform.translatedBy()
-               // weakSelf?.fillterButton.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
-                
+
+            //平移滤镜和我美颜按钮
+                weakSelf?.fillterButton.transform = CGAffineTransform(translationX: 40 , y: (weakSelf?.fillterButton.transform.ty)!)
+                weakSelf?.beautyButton.transform = CGAffineTransform(translationX: -40 , y: (weakSelf?.beautyButton.transform.ty)!)
                 
               //  weakSelf?.layoutIfNeeded()
             })
@@ -256,19 +266,33 @@ class DefaultBotomView: UIView {
             UIView.animate(withDuration: 0.3, animations: {
                 weakSelf?.finishButton.alpha = 0
                 weakSelf?.deletePreviousButton.alpha = 0
-//                weakSelf?.recordBackView.snp.remakeConstraints({
-//                    make in
-//                    make.width.height.left.equalToSuperview()
-//                    make.top.equalTo((weakSelf?.snp.bottom)!)
-//                })
-//
-//                weakSelf?.layoutIfNeeded()
+                //平移滤镜和我美颜按钮
+                weakSelf?.fillterButton.transform = CGAffineTransform(translationX: 0 , y: (weakSelf?.fillterButton.transform.ty)!)
+                weakSelf?.beautyButton.transform = CGAffineTransform(translationX: 0 , y: (weakSelf?.beautyButton.transform.ty)!)
             })
         }
         
         
     }
     
-    
-
 }
+ //MARK: - selectionviewDelegate
+ extension DefaultBotomView:selectedDelegate{
+    
+    func didSelected(index: Int) {
+        switch index {
+        case 0://left
+            startLongRecord(isRecord:true )
+            
+        case 1://right
+            startLongRecord(isRecord:false )
+
+        default:
+            break
+        }
+    }
+    
+    
+    
+    
+ }

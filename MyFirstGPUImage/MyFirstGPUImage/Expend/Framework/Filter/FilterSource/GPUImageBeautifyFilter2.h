@@ -9,7 +9,7 @@
 
 @class GPUImageCombinationFilter;
 
-@interface GPUImageBeautifyFilter : GPUImageFilterGroup {
+@interface GPUImageBeautifyFilter2 : GPUImageFilterGroup {
 }
 @property (nonatomic, strong)GPUImageBilateralFilter *bilateralFilter;
 @property (nonatomic, strong)GPUImageCannyEdgeDetectionFilter *cannyEdgeFilter;

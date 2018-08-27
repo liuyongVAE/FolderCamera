@@ -51,13 +51,14 @@ class FConViewController: UIViewController {
         slider.tintColor = naviColor
         // slider.backgroundColor = UIColor.brown
         slider.minimumValue = 0.0
-        slider.maximumValue = 1.0
+        slider.maximumValue = 0.8
         slider.addTarget(self, action: #selector(self.sliderChange), for: .valueChanged)
         slider.isContinuous = false
         slider.value = 0.5
         return slider
     }()
     
+ 
 
     
     //MAKR: - 属性
@@ -145,14 +146,7 @@ class FConViewController: UIViewController {
     /// 拍照动作
     @objc func  takePhoto(){
         weak var  weakSelf = self
-        
-//        var filter:Any?
-//        if !isBeauty{
-//            filter = ifFilter
-//        }else{
-//            filter = beautyFilter
-//        }
-        
+
         mCamera.capturePhotoAsJPEGProcessedUp(toFilter: ifFilter, withCompletionHandler: {
             processedJPEG, error in
             if let aJPEG = processedJPEG {
@@ -223,6 +217,7 @@ extension FConViewController{
         view.addSubview(topView)
         view.addSubview(cameraFillterView)
         view.addSubview(Beautyslider)
+        
         defaultBottomView.snp.makeConstraints({
             make in
             make.centerX.equalToSuperview()
@@ -266,6 +261,7 @@ extension FConViewController{
             make.centerX.equalToSuperview()
             make.top.equalTo(defaultBottomView).offset(-40)
         })
+   
         
         
     }
@@ -344,10 +340,10 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     /// 跳转到视频拍摄
     ///
     /// - Parameter btn: 点击页面上的视频按钮
-    func pushVideo(btn:UIButton) {
-        shotButton.ifLongRecord = !btn.isSelected
-        shotButton.tipLabel.isHidden = !btn.isSelected
-        if btn.isSelected{
+    func pushVideo(isRecord:Bool) {
+        shotButton.ifLongRecord = isRecord
+        shotButton.tipLabel.isHidden = isRecord
+        if !isRecord{
           shotButton.stop()
           shotButton.ifLongRecord = false
         }
@@ -444,36 +440,12 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
             Beautyslider.value = 0.5
             isBeauty = true
              Beautyslider.isHidden = false
-//            print("美颜")
-//            mCamera.removeAllTargets()
-//            //亮度(GPUImageBrightnessFilter)和双边滤波(GPUImageBilateralFilter)这两个滤镜达到美颜效果
-//            let filterGroup = GPUImageFilterGroup()//创建滤镜组
-//            let bilateralFilter = GPUImageBilateralFilter()//磨皮
-//            let brightFilter = GPUImageBrightnessFilter()//美白
-//            //添加滤镜组链
-//            filterGroup.addTarget(bilateralFilter)
-//            filterGroup.addTarget(brightFilter)
-//            bilateralFilter.addTarget(brightFilter)
-//            filterGroup.initialFilters = [bilateralFilter]
-//            filterGroup.terminalFilter = brightFilter
-//            filterGroup.addTarget(mGpuimageView)
-//            //使用第三方美颜滤镜
-//            ifFilter = GPUImageBeautifyFilter()
-//            //将美颜滤镜加入相机
-//            mCamera.addTarget(ifFilter!)
-//            ifFilter!.addTarget(mGpuimageView)
-//            mCamera.startCapture()
-            
             
         }else{
             //取消美颜
             Beautyslider.isHidden = true
             isBeauty = false
-//            mCamera.removeAllTargets()
-//            ifFilter = IFNormalFilter()
-//            mCamera.addTarget(ifFilter)
-//            ifFilter.addTarget(mGpuimageView)
-//            mCamera.startCapture()
+
         }
     }
     
@@ -919,10 +891,17 @@ extension FConViewController:GPUImageVideoCameraDelegate{
             CIDetectorImageOrientation: 6,   // Assuming portrait in this sample
         ]
         
+        
         let faceAreas = detector
             .features(in: personciImage, options: featureDetectorOptions)
             .compactMap{$0 as? CIFaceFeature}
             .map{ FaceArea(faceFeature: $0, applyingRatio: ratio) }
+        
+        for i in faceAreas {
+            //扩大识别范围给美颜滤镜工作用
+            let rect = CGRect(x: i.bounds.origin.x, y: i.bounds.origin.y, width: i.bounds.width*3/2, height: (i.bounds.height*3/2 + 10))
+            beautyFilter?.updateMask(rect)
+        }
         
         //主线程刷新UI并设置延迟
         DispatchQueue.main.async {
