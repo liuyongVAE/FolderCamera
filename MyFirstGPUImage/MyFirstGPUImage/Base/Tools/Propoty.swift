@@ -18,3 +18,7 @@ let lightPink = UIColor.init(red: 252/255, green: 228/255, blue: 236/255, alpha:
 let filterSelectedColor = UIColor(red: 255/255, green: 224/255, blue: 130/255, alpha: 1)
 //240 207 120
 //e89abe
+
+//获取屏幕旋转方向
+
+

@@ -10,7 +10,7 @@ import UIKit
 import Photos
 import GPUImage
 import ProgressHUD
-
+import CoreMotion
 class FConViewController: UIViewController {
     
     //UI
@@ -103,6 +103,10 @@ class FConViewController: UIViewController {
         return detector
     }()
     
+    //陀螺仪判断屏幕方向
+    var motionManager = CMMotionManager()
+    var result = "unknown"
+    var timer:Timer!
     
     //MARK: - 页面生命周期
     override func viewDidLoad() {
@@ -135,6 +139,14 @@ class FConViewController: UIViewController {
         }
     }
     
+    //MARK: - 析构注销函数()
+    deinit{
+        timer.invalidate()
+        motionManager.stopGyroUpdates()
+        motionManager.stopDeviceMotionUpdates()
+        motionManager.stopAccelerometerUpdates()
+        motionManager.stopMagnetometerUpdates()
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -272,7 +284,7 @@ extension FConViewController{
         mCamera = GPUImageStillCamera(sessionPreset:AVCaptureSession.Preset.vga640x480.rawValue , cameraPosition: AVCaptureDevice.Position.front)
         mCamera.outputImageOrientation = UIInterfaceOrientation.portrait
         //MARK: - 开启镜面，人脸识别正常
-        mCamera.horizontallyMirrorFrontFacingCamera = false
+        mCamera.horizontallyMirrorFrontFacingCamera = true
         //滤镜
         ifFilter = IFNormalFilter()
         ifFilter.useNextFrameForImageCapture()
@@ -306,6 +318,7 @@ extension FConViewController{
     /// - Returns: 调整完毕的image
     func normalizedImage(image:UIImage) -> UIImage{
         var img = image
+        print(img.imageOrientation)
         if img.imageOrientation == .up{
             return img
         }
@@ -722,8 +735,6 @@ extension FConViewController:ProgresssButtonDelegate{
             break
         }
         
-        
-        
     }
     
     func startRecord(){
@@ -875,6 +886,7 @@ extension FConViewController:GPUImageVideoCameraDelegate{
     
     func  setFaceDetectionImage(){
         self.mGpuimageView.addSubview(layersView)
+        getOrientation()
     }
     
     func detect(_ sampleBuffer: CMSampleBuffer) {
@@ -882,23 +894,38 @@ extension FConViewController:GPUImageVideoCameraDelegate{
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
         else {return}
         let personciImage = CIImage.init(cvPixelBuffer: pixelBuffer)
+        //let testImage = UIImage.init(ciImage: personciImage)
+       // print(testImage.imageOrientation.rawValue)
+        
         let cvImageHeight = CGFloat(CVPixelBufferGetHeight(pixelBuffer))
         let ratio = mGpuimageView.frame.width/cvImageHeight
+        //使用陀螺仪判断屏幕旋转方向，然后给ciimage设置图片方向
+        let featureDetectorOptions: [String : Any] = {
+            if result == "right"{
+               return [ CIDetectorImageOrientation: 1, ]
+            }else if result == "left"{
+                return [ CIDetectorImageOrientation: 3, ]
+            }
+            return [ CIDetectorImageOrientation: 6, ]  // Assuming portrait in this sample
+            
+        }()
         
-        //识别变量
-       
-        let featureDetectorOptions: [String : Any] = [
-            CIDetectorImageOrientation: 6,   // Assuming portrait in this sample
-        ]
-        
+        let iffront:Bool = {
+            if mCamera.cameraPosition() == .front{
+                return true
+            }else{
+                return false
+            }
+        }()
         
         let faceAreas = detector
             .features(in: personciImage, options: featureDetectorOptions)
             .compactMap{$0 as? CIFaceFeature}
-            .map{ FaceArea(faceFeature: $0, applyingRatio: ratio) }
+            .map{ FaceArea(faceFeature: $0, applyingRatio: ratio, ifFront: iffront) }
         
         for i in faceAreas {
-            //扩大识别范围给美颜滤镜工作用
+            //扩大识别范围给美颜滤镜工作 用
+           // print(i.bounds)
             let rect = CGRect(x: i.bounds.origin.x, y: i.bounds.origin.y, width: i.bounds.width*3/2, height: (i.bounds.height*3/2 + 10))
             beautyFilter?.updateMask(rect)
         }
@@ -906,13 +933,54 @@ extension FConViewController:GPUImageVideoCameraDelegate{
         //主线程刷新UI并设置延迟
         DispatchQueue.main.async {
             self.layersView.update(areas: faceAreas)
-
         }
-
-    
     }
     
+    
+    //注册陀螺仪和timer
+    func getOrientation(){
+        motionManager.startAccelerometerUpdates()
+        motionManager.startGyroUpdates()
+        motionManager.startMagnetometerUpdates()
+        motionManager.startDeviceMotionUpdates()
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(update), userInfo: nil, repeats: true)
+    }
+    
+    @objc func update() {
 
+        if let motion = motionManager.deviceMotion {
+            //print(deviceMotion)
+            let x = motion.gravity.x
+            
+            let y = motion.gravity.y
+            
+            if fabs(y) >= fabs(x) {
+                
+                if y >= 0 {
+                    result =  "updown"
+                    // UIDeviceOrientationPortraitUpsideDown;
+                } else {
+                    result =  "updown"
+                    // UIDeviceOrientationPortrait;
+                }
+                
+            } else {
+                if x >= 0 {
+                    result = "right"
+                    // UIDeviceOrientationLandscapeRight;
+                } else {
+                    result = "left"
+                    // UIDeviceOrientationLandscapeLeft;
+                }
+            }
+        }
+    }
+    
+    
+  
+    
+    
+    
     
    
     
