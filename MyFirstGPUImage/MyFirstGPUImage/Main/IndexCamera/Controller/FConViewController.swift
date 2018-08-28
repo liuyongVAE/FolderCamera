@@ -901,21 +901,11 @@ extension FConViewController:GPUImageVideoCameraDelegate{
         let ratio = mGpuimageView.frame.width/cvImageHeight
         //使用陀螺仪判断屏幕旋转方向，然后给ciimage设置图片方向
         let featureDetectorOptions: [String : Any] = {
-            if result == "right"{
-               return [ CIDetectorImageOrientation: 1, ]
-            }else if result == "left"{
-                return [ CIDetectorImageOrientation: 3, ]
-            }
-            return [ CIDetectorImageOrientation: 6, ]  // Assuming portrait in this sample
-            
+            return getRow_Col().0
         }()
         
         let iffront:Bool = {
-            if mCamera.cameraPosition() == .front{
-                return true
-            }else{
-                return false
-            }
+           return getRow_Col().1
         }()
         
         let faceAreas = detector
@@ -946,8 +936,35 @@ extension FConViewController:GPUImageVideoCameraDelegate{
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(update), userInfo: nil, repeats: true)
     }
     
+    
+    func getRow_Col()->([String : Any],Bool){
+        var emumIndex = 6
+        let isFront = mCamera.cameraPosition() == .front
+        if isFront{
+            switch result{
+            case "left":
+                emumIndex = 3
+            case "right":
+                emumIndex = 1
+            default:
+                break
+            }
+        }else{
+            switch result{
+            case "left":
+                emumIndex = 1
+            case "right":
+                emumIndex = 3
+            default:
+                break
+            }
+        }
+        return ([ CIDetectorImageOrientation: emumIndex, ],isFront)
+    }
+    
     @objc func update() {
 
+   
         if let motion = motionManager.deviceMotion {
             //print(deviceMotion)
             let x = motion.gravity.x
