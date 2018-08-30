@@ -37,6 +37,8 @@ class RoundProgressButtonView:UIView{
     private var duration:Int? = 2
     var centerViewWidth:CGFloat = 55
     var ifRecord:Bool = false
+    var ifLivePhoto:Bool = false
+
     var ifLongRecord:Bool?{
         didSet{
            setDuratuin(30)
@@ -212,8 +214,10 @@ class RoundProgressButtonView:UIView{
         if ifLongRecord ?? false{
             setDuratuin(30)
             setLinePath()
-        }else{
+        }else if !ifLivePhoto{
             setDuratuin(10)
+        }else{
+            setDuratuin(3)
         }
         
         time = Timer.scheduledTimer(timeInterval: TimeInterval(animationTime), target: self, selector: #selector(addProgress), userInfo: nil, repeats: true)
@@ -231,7 +235,7 @@ class RoundProgressButtonView:UIView{
         for i in whiteOverlay{
             i.removeFromSuperlayer()
         }
-        setDuratuin(10)
+        //setDuratuin(10)
         setProgress()
         setLinePath()
     }
@@ -286,7 +290,7 @@ extension RoundProgressButtonView{
         progressLayer.strokeColor = naviColor.cgColor
         //progressLayer.path = progressPath.cgPath
         progress = (progressPause?.last  ?? progress ) - 0.015
-        print(progress,progressPause)
+        //print(progress,progressPause ?? progress)
         //updateProgress()
         updateLinePath()
         if let c = progressPause?.count,c>0{

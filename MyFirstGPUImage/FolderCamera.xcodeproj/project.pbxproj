@@ -55,6 +55,12 @@
 		2D3A15CB2109B105005131B8 /* NewUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A15CA2109B105005131B8 /* NewUIButton.swift */; };
 		2D502351210AB8E200A7559A /* FillterSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D502350210AB8E200A7559A /* FillterSelectView.swift */; };
 		2D85F24F212A97E5008AD54D /* SaveVideoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D85F24E212A97E5008AD54D /* SaveVideoManager.swift */; };
+		2DB116A7213541E100D17A70 /* LivePhotoPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB116A6213541E100D17A70 /* LivePhotoPreviewViewController.swift */; };
+		2DB116AB2135440F00D17A70 /* JPEG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB116AA2135440F00D17A70 /* JPEG.swift */; };
+		2DB116AD2135441900D17A70 /* QuickTimeMov.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB116AC2135441900D17A70 /* QuickTimeMov.swift */; };
+		2DB116AF213639C300D17A70 /* DeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB116AE213639C300D17A70 /* DeviceExtension.swift */; };
+		2DB116B12136B36E00D17A70 /* MTMov.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DB116B02136B36E00D17A70 /* MTMov.m */; };
+		2DB116B52136B37D00D17A70 /* MTImageTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DB116B42136B37D00D17A70 /* MTImageTool.m */; };
 		2DC6576F212C09AE001A2571 /* LineProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC6576E212C09AE001A2571 /* LineProgress.swift */; };
 /* End PBXBuildFile section */
 
@@ -155,6 +161,14 @@
 		2D3A15CA2109B105005131B8 /* NewUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewUIButton.swift; sourceTree = "<group>"; };
 		2D502350210AB8E200A7559A /* FillterSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillterSelectView.swift; sourceTree = "<group>"; };
 		2D85F24E212A97E5008AD54D /* SaveVideoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveVideoManager.swift; sourceTree = "<group>"; };
+		2DB116A6213541E100D17A70 /* LivePhotoPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivePhotoPreviewViewController.swift; sourceTree = "<group>"; };
+		2DB116AA2135440F00D17A70 /* JPEG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JPEG.swift; sourceTree = "<group>"; };
+		2DB116AC2135441900D17A70 /* QuickTimeMov.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickTimeMov.swift; sourceTree = "<group>"; };
+		2DB116AE213639C300D17A70 /* DeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceExtension.swift; sourceTree = "<group>"; };
+		2DB116B02136B36E00D17A70 /* MTMov.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTMov.m; sourceTree = "<group>"; };
+		2DB116B22136B37500D17A70 /* MTMov.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTMov.h; sourceTree = "<group>"; };
+		2DB116B32136B37D00D17A70 /* MTImageTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTImageTool.h; sourceTree = "<group>"; };
+		2DB116B42136B37D00D17A70 /* MTImageTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTImageTool.m; sourceTree = "<group>"; };
 		2DC6576E212C09AE001A2571 /* LineProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineProgress.swift; sourceTree = "<group>"; };
 		6EA227A6B6B79861372E3272 /* Pods-MyFirstGPUImage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyFirstGPUImage.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyFirstGPUImage/Pods-MyFirstGPUImage.release.xcconfig"; sourceTree = "<group>"; };
 		B90C9E859F51270B2744A7B8 /* Pods_MyFirstGPUImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyFirstGPUImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -196,14 +210,14 @@
 			path = Framework;
 			sourceTree = "<group>";
 		};
-		2D2D6D9E21215CD4005F8371 /* CheckComfirm */ = {
+		2D2D6D9E21215CD4005F8371 /* CheckConfirm */ = {
 			isa = PBXGroup;
 			children = (
 				2D2D6DA121215CF9005F8371 /* Model */,
 				2D2D6DA021215CF4005F8371 /* View */,
 				2D2D6D9F21215CE8005F8371 /* Controller */,
 			);
-			path = CheckComfirm;
+			path = CheckConfirm;
 			sourceTree = "<group>";
 		};
 		2D2D6D9F21215CE8005F8371 /* Controller */ = {
@@ -379,7 +393,8 @@
 		2D3A15B9210974B2005131B8 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				2D2D6D9E21215CD4005F8371 /* CheckComfirm */,
+				2DB116A32135417400D17A70 /* LivePhoto */,
+				2D2D6D9E21215CD4005F8371 /* CheckConfirm */,
 				2D3A15B821097408005131B8 /* IndexCamera */,
 			);
 			path = Main;
@@ -445,6 +460,7 @@
 			children = (
 				2D3A15CA2109B105005131B8 /* NewUIButton.swift */,
 				2D363D65212E80D500F24ED2 /* LayerExtension.swift */,
+				2DB116AE213639C300D17A70 /* DeviceExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -452,10 +468,24 @@
 		2D85F250212A9808008AD54D /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				2DB116B32136B37D00D17A70 /* MTImageTool.h */,
+				2DB116B42136B37D00D17A70 /* MTImageTool.m */,
+				2DB116B22136B37500D17A70 /* MTMov.h */,
+				2DB116B02136B36E00D17A70 /* MTMov.m */,
 				2D3A15C321097969005131B8 /* Propoty.swift */,
 				2D85F24E212A97E5008AD54D /* SaveVideoManager.swift */,
 			);
 			path = Tools;
+			sourceTree = "<group>";
+		};
+		2DB116A32135417400D17A70 /* LivePhoto */ = {
+			isa = PBXGroup;
+			children = (
+				2DB116AC2135441900D17A70 /* QuickTimeMov.swift */,
+				2DB116AA2135440F00D17A70 /* JPEG.swift */,
+				2DB116A6213541E100D17A70 /* LivePhotoPreviewViewController.swift */,
+			);
+			path = LivePhoto;
 			sourceTree = "<group>";
 		};
 		2DC65770212E5E07001A2571 /* FaceDetection */ = {
@@ -667,6 +697,7 @@
 				2D378EBF21115C2900A51DE8 /* IFRiseFilter.m in Sources */,
 				2D378EC921115C2900A51DE8 /* IFNormalFilter.m in Sources */,
 				2D378EB921115C2900A51DE8 /* IFBrannanFilter.m in Sources */,
+				2DB116AF213639C300D17A70 /* DeviceExtension.swift in Sources */,
 				2D2716452133C64900A93EDB /* SelectionView.swift in Sources */,
 				2D3A15CB2109B105005131B8 /* NewUIButton.swift in Sources */,
 				2D378ED7211181CE00A51DE8 /* FilterCollectionViewCell.swift in Sources */,
@@ -674,6 +705,7 @@
 				2D378EC021115C2900A51DE8 /* IFSierraFilter.m in Sources */,
 				2DC6576F212C09AE001A2571 /* LineProgress.swift in Sources */,
 				2D363D64212E7E0100F24ED2 /* FaceLayerView.swift in Sources */,
+				2DB116B12136B36E00D17A70 /* MTMov.m in Sources */,
 				2D502351210AB8E200A7559A /* FillterSelectView.swift in Sources */,
 				2D85F24F212A97E5008AD54D /* SaveVideoManager.swift in Sources */,
 				2D396A1D211ABE2F0049FE40 /* RoundProgressButtonView.swift in Sources */,
@@ -686,6 +718,7 @@
 				2D378ED121115C6600A51DE8 /* GPUImageFiveInputFilter.m in Sources */,
 				2D378EBA21115C2900A51DE8 /* IFLordKelvinFilter.m in Sources */,
 				2D378EC221115C2900A51DE8 /* IF1977Filter.m in Sources */,
+				2DB116B52136B37D00D17A70 /* MTImageTool.m in Sources */,
 				2D378EC321115C2900A51DE8 /* IFHefeFilter.m in Sources */,
 				2D3A158921085257005131B8 /* AppDelegate.swift in Sources */,
 				2D378EBE21115C2900A51DE8 /* IFAmaroFilter.m in Sources */,
@@ -693,14 +726,17 @@
 				2D378EBB21115C2900A51DE8 /* IFSutroFilter.m in Sources */,
 				2D378ECA21115C2900A51DE8 /* IFImageFilter.m in Sources */,
 				2D378EC421115C2900A51DE8 /* IFXproIIFilter.m in Sources */,
+				2DB116A7213541E100D17A70 /* LivePhotoPreviewViewController.swift in Sources */,
 				2D378EC721115C2900A51DE8 /* IFLomofiFilter.m in Sources */,
 				2D378EBC21115C2900A51DE8 /* IFWaldenFilter.m in Sources */,
 				2D2716422133B2E900A93EDB /* GPUImageBeautifyFilter.m in Sources */,
+				2DB116AB2135440F00D17A70 /* JPEG.swift in Sources */,
 				2D2D6DA321215D3E005F8371 /* playView.swift in Sources */,
 				2D378EB721115C2900A51DE8 /* IFNashvilleFilter.m in Sources */,
 				2D378EBD21115C2900A51DE8 /* IFEarlybirdFilter.m in Sources */,
 				2D3A15C82109A038005131B8 /* CheckViewController.swift in Sources */,
 				2D2D6D9B211D8561005F8371 /* TopVIew.swift in Sources */,
+				2DB116AD2135441900D17A70 /* QuickTimeMov.swift in Sources */,
 				2D363D66212E80D500F24ED2 /* LayerExtension.swift in Sources */,
 				2D3A15C421097969005131B8 /* Propoty.swift in Sources */,
 				2D0396A0211D70B9004E87C0 /* DesignedGPUImageFilter.m in Sources */,
@@ -863,7 +899,7 @@
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 9A68XXWLG6;
 				INFOPLIST_FILE = MyFirstGPUImage/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -887,7 +923,7 @@
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 9A68XXWLG6;
 				INFOPLIST_FILE = MyFirstGPUImage/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

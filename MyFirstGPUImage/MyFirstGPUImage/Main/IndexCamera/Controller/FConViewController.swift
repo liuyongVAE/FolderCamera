@@ -108,6 +108,9 @@ class FConViewController: UIViewController {
     var result = "unknown"
     var timer:Timer!
     
+    //判断是否正在拍摄livePhoto
+    var isLivePhoto = false
+    
     //MARK: - 页面生命周期
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -158,12 +161,13 @@ class FConViewController: UIViewController {
     /// 拍照动作
     @objc func  takePhoto(){
         weak var  weakSelf = self
-
+   
+        
         mCamera.capturePhotoAsJPEGProcessedUp(toFilter: ifFilter, withCompletionHandler: {
             processedJPEG, error in
             if let aJPEG = processedJPEG {
                 guard let imageview = UIImage(data: aJPEG) else{  return }
-                let vc  = CheckViewController(image: self.normalizedImage(image: imageview))
+                let vc  = CheckViewController(image: self.normalizedImage(image: imageview),type:0)
                 vc.willDismiss = {
                     //将美颜状态重置
                     if (weakSelf?.isBeauty)!{
@@ -523,6 +527,17 @@ extension FConViewController:topViewDelegate{
         beginGestureScale = 1 ; effectiveScale = 1
     }
     
+    func liveMode(){
+        if !isLivePhoto{
+            isLivePhoto = true
+            shotButton.setDuratuin(3)
+        }else{
+            isLivePhoto = false
+            shotButton.setDuratuin(10)
+        }
+        
+    }
+    
     //拍照比例切换
      func turnScale(){
         
@@ -739,25 +754,34 @@ extension FConViewController:ProgresssButtonDelegate{
     
     func startRecord(){
         shotButton.reStartCount()
+    
+        shotButton.ifLivePhoto  = isLivePhoto
+
+        
         mCamera.addAudioInputsAndOutputs()//避免录制第一帧黑屏
         let name = String(Int(arc4random() % 100000))
         videoUrl = URL(fileURLWithPath: "\(NSTemporaryDirectory())folder_demo\(name).mp4")
         unlink(videoUrl?.path)
         //获取视频大小，作为size
-        var size = mGpuimageView.frame.size
-        
-        let orientation: UIInterfaceOrientation = UIApplication.shared.statusBarOrientation
-        if orientation == .portrait || orientation == .portraitUpsideDown {
-        } else {
-            size = CGSize.init(width: size.width, height: size.height)
+        var size = CGSize(width: 480, height: 640)
+        if scaleRate == 1{
+            size = CGSize(width: 720, height: 1280)
         }
+        
+//        let orientation: UIInterfaceOrientation = UIApplication.shared.statusBarOrientation
+//        if orientation == .portrait || orientation == .portraitUpsideDown {
+//        } else {
+//            size = CGSize.init(width: size.width, height: size.height)
+//        }
         //解决Size不是16的倍数，出现绿边
 //        while (size.width.truncatingRemainder(dividingBy: 16) > 0) {
+//            print(size.width)
 //            size.width = size.width+1
 //        }
 //        while (size.height.truncatingRemainder(dividingBy: 16) > 0) {
 //            size.height = size.height+1
-//        }CGSize(width: 480, height: 640)
+//        }
+        //CGSize(width: 480, height: 640)
         movieWriter = GPUImageMovieWriter(movieURL:videoUrl, size:size )
        //解决录制MP4帧失败的问题
         movieWriter?.assetWriter.movieFragmentInterval = kCMTimeInvalid
@@ -775,11 +799,22 @@ extension FConViewController:ProgresssButtonDelegate{
         //ProgressHUD.show("保存中")
         movieWriter?.finishRecording()
         print(shotButton.timeCounter)
-        if shotButton.timeCounter < 1{
-            takePhoto()
-            return
-        }
-        let vc =  CheckViewController() //CheckViewController()//videoCheckViewController.init(videoUrl: videoUrl!)
+//        if shotButton.timeCounter < 1{
+//            takePhoto()
+//            return
+//        }
+        let vc:CheckViewController = {
+            if isLivePhoto {
+                //LivePhoto拍摄
+                return CheckViewController(image: nil, type: 2)
+                
+            } else {
+                return CheckViewController(image: nil, type: 1)
+            }
+
+        }()
+
+        
         vc.videoUrl = videoUrl
         //self.navigationController?.navigationBar.isHidden = false
         vc.videoScale = self.scaleRate
@@ -798,6 +833,8 @@ extension FConViewController:ProgresssButtonDelegate{
                 weakSelf?.defaultBottomView.isHidden = true
             }
         }
+        
+    
         self.present(vc, animated: true, completion: nil)
 
     }

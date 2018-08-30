@@ -36,6 +36,7 @@ class SaveVieoManager:NSObject{
     
     func combineVideos()->AVMutableComposition{
         let mixComposition = AVMutableComposition()
+        
         let a_compositionVideoTrack:AVMutableCompositionTrack? = mixComposition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid)
         let audio = mixComposition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)
         var temDuration = Float64(0.0)
@@ -73,7 +74,7 @@ class SaveVieoManager:NSObject{
      *  @param failureBlcok   failureBlcok
      */
     func store(_ mixComposition:AVMutableComposition,storeUrl:URL,success successBlock:@escaping ()->()){
-        weak var weakSelf = self
+        //weak var weakSelf = self
         var assetExport: AVAssetExportSession? = nil
         assetExport = AVAssetExportSession.init(asset: mixComposition, presetName: AVAssetExportPreset640x480)
         assetExport?.outputFileType = AVFileType("com.apple.quicktime-movie")
@@ -84,6 +85,8 @@ class SaveVieoManager:NSObject{
         })
         
     }
+    
+
     
     @objc  func saveVideo(videoPath:String,didFinishSavingWithError:NSError,contextInfo info:AnyObject){
         print(didFinishSavingWithError.code)

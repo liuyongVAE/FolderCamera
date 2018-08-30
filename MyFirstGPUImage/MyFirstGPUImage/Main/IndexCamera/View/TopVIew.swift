@@ -8,11 +8,13 @@
 
 import Foundation
 import UIKit
+import ProgressHUD
 
 protocol topViewDelegate{
     func  turnScale()
     func  turnCamera()
     func  flashMode()
+    func  liveMode()
 }
 
 
@@ -45,6 +47,16 @@ class TopView: UIView {
         return btn
     }()
     
+    lazy var liveButton:UIButton = {
+        var btn = UIButton()
+        btn.layer.cornerRadius = widthofme/2
+        btn.setImage(#imageLiteral(resourceName: "live"), for: .normal)
+        btn.setImage(#imageLiteral(resourceName: "live1"), for: .selected)
+        btn.addTarget(self, action: #selector(self.liveMode(_:)), for: .touchUpInside)
+        
+        return btn
+    }()
+    
     
     
     //Propoty，按钮点击的代理
@@ -59,6 +71,7 @@ class TopView: UIView {
         self.addSubview(turnCameraButton)
         self.addSubview(turnScaleButton)
         self.addSubview(flashButton)
+        self.addSubview(liveButton)
         let widthOfTop:CGFloat = 30
         turnScaleButton.snp.makeConstraints({
             make in
@@ -79,6 +92,13 @@ class TopView: UIView {
             make.width.height.equalTo(widthOfTop)
             make.left.equalTo(turnScaleButton.snp.right).offset(20)
             make.top.equalToSuperview().offset(15)
+        })
+        liveButton.snp.makeConstraints({
+            make in
+            make.width.height.equalTo(widthOfTop)
+            make.right.equalTo(turnCameraButton.snp.left).offset(-20)
+            make.top.equalToSuperview().offset(15)
+            
         })
     }
     
@@ -102,7 +122,18 @@ class TopView: UIView {
     }
     @objc func pushVideo(){
     }
-    
+    @objc func liveMode(_ btn:UIButton){
+        
+        let deviceName = UIDevice.current.modelName
+        if deviceName == "iPhone 5c" || deviceName == "iPhone 5s" || deviceName == "iPhone 4s" || deviceName == "iPhone "{
+            ProgressHUD.showError("当前设备不支持LivePhoto")
+        }else{
+            btn.isSelected = !btn.isSelected
+            delegate?.liveMode()
+        }
+        
+        
+    }
     
     
 }

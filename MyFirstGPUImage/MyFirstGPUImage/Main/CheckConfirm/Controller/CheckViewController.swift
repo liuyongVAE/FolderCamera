@@ -9,6 +9,17 @@
 import UIKit
 import Photos
 import ProgressHUD
+import PhotosUI
+import MobileCoreServices
+
+struct FilePaths {
+    //LivePhoto 路径
+    static let documentsPath : AnyObject = NSSearchPathForDirectoriesInDomains(.cachesDirectory,.userDomainMask,true)[0] as AnyObject
+    struct VidToLive {
+        static var livePath = FilePaths.documentsPath.appending("/")
+    }
+}
+
 
 class CheckViewController: UIViewController {
     //UI
@@ -61,6 +72,7 @@ class CheckViewController: UIViewController {
         //v.contentMode = .center
         v.contentMode = .scaleAspectFit
         
+        
         return v
     }()
     //视频预览
@@ -68,6 +80,17 @@ class CheckViewController: UIViewController {
         let v = VideoPlayView()
         return v
     }()
+    
+    
+    lazy var livePhotoView: PHLivePhotoView =  {
+        let v = PHLivePhotoView()
+        return v
+    }()
+    
+    //展示类型
+    //0:image,1:video,2:livePhoto
+    var type:Int!
+    
     
     //视频地址
     var videoUrl:URL?
@@ -89,7 +112,8 @@ class CheckViewController: UIViewController {
     
     
     //初始化
-    init(image:UIImage?){
+    init(image:UIImage?,type:Int){
+        self.type = type
         if image != nil{
             self.image = image
             self.imageNormal = image
@@ -103,7 +127,7 @@ class CheckViewController: UIViewController {
     
   
     convenience init(){
-        self.init(image: nil)
+        self.init(image: nil, type: 1)
     }
     
 
@@ -123,12 +147,14 @@ class CheckViewController: UIViewController {
     
     
     override func viewDidAppear(_ animated: Bool) {
-        if image == nil{
+        if type == 1{
             setPreview()
             playView.play()
             //switchFillter(index: 0)
            //self.present(ViewController(), animated: true, completion: nil)
             //  setPreview()
+        }else if type == 2{
+            loadVideoWithVideoURL(videoUrl!)
         }
 
     }
@@ -317,14 +343,16 @@ extension CheckViewController{
             })
         }else if (authStatus == .authorized ){
             ProgressHUD.show("保存中")
-            if image != nil{
+            if type ==  0{
                 UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
                 ProgressHUD.showSuccess("保存成功")
                 self.dismiss(animated: false, completion: nil)
-            }else{
+            }else if type == 1{
                 //如果没有传图片，进入此方法存储视频
                  stopEc()
                 //finishEdit()
+            }else if type == 2{
+                self.exportLivePhoto()
             }
             
         }else{
@@ -364,6 +392,7 @@ extension CheckViewController{
         movieFile?.enableSynchronizedEncoding(using: movieWriter)
         //开始录制，开始渲染
         movieWriter?.startRecording()
+        movieWriter?.assetWriter.metadata
         movieFile?.startProcessing()
         //成功回调
         
@@ -420,7 +449,7 @@ extension CheckViewController:FillterSelectViewDelegate{
             DispatchQueue.main.async {
                 self.photoView.image = self.image
             }
-        }else{
+        }else if type == 1{
             // movieFile = GPUImageMovie.init(url: videoUrl)
             movieFile?.shouldRepeat = true
             movieFile?.runBenchmark = false
@@ -432,12 +461,151 @@ extension CheckViewController:FillterSelectViewDelegate{
             ifFilter?.addTarget(moviePreview)
             movieFile?.startProcessing()
         
+        }else if type == 2{
+            let asset = AVURLAsset(url: videoUrl!)
+            let generator = AVAssetImageGenerator(asset: asset)
+            generator.appliesPreferredTrackTransform = true
+            let time = NSValue(time: CMTimeMakeWithSeconds(CMTimeGetSeconds(asset.duration)/2, asset.duration.timescale))
+            generator.generateCGImagesAsynchronously(forTimes: [time]) { [weak self] _, image, _, _, _ in
+                
+                //生成livePhoto封面图
+                if let image = image, let data = UIImagePNGRepresentation((self?.ifFilter?.image(byFilteringImage: UIImage(cgImage: image)))!) {
+                    let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+                    let imageURL = urls[0].appendingPathComponent("image2.jpg")
+                    
+                    try? data.write(to: imageURL, options: [.atomic])
+                    
+                    let image = imageURL.path
+                    let mov = self!.videoUrl!.path
+                    let output = FilePaths.VidToLive.livePath
+                    let assetIdentifier = UUID().uuidString
+                    let _ = try? FileManager.default.createDirectory(atPath: output, withIntermediateDirectories: true, attributes: nil)
+                    do {
+                        try FileManager.default.removeItem(atPath: output + "/IMG2.JPG")
+                        try FileManager.default.removeItem(atPath: output + "/IMG2.MOV")
+                        
+                    } catch {
+                        
+                    }
+                    JPEG(path: image).write(output + "/IMG2.JPG",
+                                            assetIdentifier: assetIdentifier)
+                    QuickTimeMov(path: mov).write(output + "/IMG2.MOV", assetIdentifier: assetIdentifier, filter: nil)
+                    
+                      //MTMov.init(path: mov).write(toDirectory:output + "/IMG2.MOV" , withAssetIdentifier: assetIdentifier, filter: self?.ifFilter)
+                    
+                    _ =  DispatchQueue.main.sync {
+                        PHLivePhoto.request(withResourceFileURLs: [ URL(fileURLWithPath: FilePaths.VidToLive.livePath + "/IMG2.MOV"), URL(fileURLWithPath: FilePaths.VidToLive.livePath + "/IMG2.JPG")],
+                                            placeholderImage: nil,
+                                            targetSize: self!.view.bounds.size,
+                                            contentMode: PHImageContentMode.aspectFit,
+                                            resultHandler: { (livePhoto, info) -> Void in
+                                                self?.livePhotoView.livePhoto = livePhoto
+                                                self?.saveButton.isHidden = false
+                        })
+                    }
+                }
+            }
+            
             
         }
     }
     
+}
+//MARK: livePhoto
+extension CheckViewController{
     
     
+    @available(iOS 9.1, *)
+    func loadVideoWithVideoURL(_ videoURL: URL) {
+        self.saveButton.isHidden = true
+       // self.filterButton.isHidden = true
+        
+        self.view.addSubview(livePhotoView)
+       
+        if videoScale == 0{
+            livePhotoView.snp.makeConstraints({
+                make in
+                make.width.left.top.height.equalTo(photoView)
+            })
+        }else{
+            livePhotoView.snp.makeConstraints({
+                make in
+                make.top.left.width.height.equalToSuperview()
+            })
+            //将该view加到最后面
+            self.view.sendSubview(toBack: livePhotoView)
+            livePhotoView.contentMode = .scaleAspectFill
+            self.defaultBottomView.backgroundColor = UIColor.clear
+        }
+        
+        
+        livePhotoView.livePhoto = nil
+        let asset = AVURLAsset(url: videoURL)
+        let generator = AVAssetImageGenerator(asset: asset)
+        generator.appliesPreferredTrackTransform = true
+        let time = NSValue(time: CMTimeMakeWithSeconds(CMTimeGetSeconds(asset.duration)/2, asset.duration.timescale))
+        generator.generateCGImagesAsynchronously(forTimes: [time]) { [weak self] _, image, _, _, _ in
+            
+            //生成livePhoto封面图
+            if let image = image, let data = UIImagePNGRepresentation(UIImage(cgImage: image)) {
+                let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+                let imageURL = urls[0].appendingPathComponent("image.jpg")
+                try? data.write(to: imageURL, options: [.atomic])
+                
+                let image = imageURL.path
+                let mov = videoURL.path
+                let output = FilePaths.VidToLive.livePath
+                let assetIdentifier = UUID().uuidString
+                let _ = try? FileManager.default.createDirectory(atPath: output, withIntermediateDirectories: true, attributes: nil)
+                do {
+                    try FileManager.default.removeItem(atPath: output + "/IMG.JPG")
+                    try FileManager.default.removeItem(atPath: output + "/IMG.MOV")
+                    
+                } catch {
+                    
+                }
+                JPEG(path: image).write(output + "/IMG.JPG",
+                                        assetIdentifier: assetIdentifier)
+                
+             
+                QuickTimeMov(path: mov).write(output + "/IMG.MOV",assetIdentifier: assetIdentifier,filter: nil)
+                
+               _ =  DispatchQueue.main.sync {
+                    PHLivePhoto.request(withResourceFileURLs: [ URL(fileURLWithPath: FilePaths.VidToLive.livePath + "/IMG.MOV"), URL(fileURLWithPath: FilePaths.VidToLive.livePath + "/IMG.JPG")],
+                                        placeholderImage: nil,
+                                        targetSize: self!.view.bounds.size,
+                                        contentMode: PHImageContentMode.aspectFit,
+                                        resultHandler: { (livePhoto, info) -> Void in
+                                            self?.livePhotoView.livePhoto = livePhoto
+                                            self?.saveButton.isHidden = false
+                    })
+                }
+            }
+        }
+    }
     
     
+    //保存livePhoto
+    func exportLivePhoto () {
+        PHPhotoLibrary.shared().performChanges({ () -> Void in
+            let creationRequest = PHAssetCreationRequest.forAsset()
+            let options = PHAssetResourceCreationOptions()
+            
+            
+            creationRequest.addResource(with: PHAssetResourceType.pairedVideo, fileURL: URL(fileURLWithPath: FilePaths.VidToLive.livePath + "/IMG.MOV"), options: options)
+            creationRequest.addResource(with: PHAssetResourceType.photo, fileURL: URL(fileURLWithPath: FilePaths.VidToLive.livePath + "/IMG.JPG"), options: options)
+            
+        }, completionHandler: { (success, error) -> Void in
+            if !success {
+                print((error?.localizedDescription)!)
+                ProgressHUD.showError("保存失败")
+
+            }else{
+                ProgressHUD.showSuccess("保存成功")
+
+            }
+        })
+    }
+    
+
 }
