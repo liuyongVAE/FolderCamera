@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+
 class VideoPlayView: UIView{
 
 
@@ -45,14 +47,20 @@ class VideoPlayView: UIView{
 
     func pause(){
         player?.pause()
+        player?.seek(to: CMTime.init(value: 0, timescale: 1))
     }
     
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     func deadlloc() {
         player = nil
+        NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
+    }
+    
+    func removeNotification(){
         NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
     }
     

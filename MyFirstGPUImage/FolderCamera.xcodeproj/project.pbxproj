@@ -59,8 +59,7 @@
 		2DB116AB2135440F00D17A70 /* JPEG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB116AA2135440F00D17A70 /* JPEG.swift */; };
 		2DB116AD2135441900D17A70 /* QuickTimeMov.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB116AC2135441900D17A70 /* QuickTimeMov.swift */; };
 		2DB116AF213639C300D17A70 /* DeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB116AE213639C300D17A70 /* DeviceExtension.swift */; };
-		2DB116B12136B36E00D17A70 /* MTMov.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DB116B02136B36E00D17A70 /* MTMov.m */; };
-		2DB116B52136B37D00D17A70 /* MTImageTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DB116B42136B37D00D17A70 /* MTImageTool.m */; };
+		2DB116B821378B0F00D17A70 /* FDLivePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB116B721378B0F00D17A70 /* FDLivePhotoView.swift */; };
 		2DC6576F212C09AE001A2571 /* LineProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC6576E212C09AE001A2571 /* LineProgress.swift */; };
 /* End PBXBuildFile section */
 
@@ -165,10 +164,7 @@
 		2DB116AA2135440F00D17A70 /* JPEG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JPEG.swift; sourceTree = "<group>"; };
 		2DB116AC2135441900D17A70 /* QuickTimeMov.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickTimeMov.swift; sourceTree = "<group>"; };
 		2DB116AE213639C300D17A70 /* DeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceExtension.swift; sourceTree = "<group>"; };
-		2DB116B02136B36E00D17A70 /* MTMov.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTMov.m; sourceTree = "<group>"; };
-		2DB116B22136B37500D17A70 /* MTMov.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTMov.h; sourceTree = "<group>"; };
-		2DB116B32136B37D00D17A70 /* MTImageTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTImageTool.h; sourceTree = "<group>"; };
-		2DB116B42136B37D00D17A70 /* MTImageTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTImageTool.m; sourceTree = "<group>"; };
+		2DB116B721378B0F00D17A70 /* FDLivePhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FDLivePhotoView.swift; sourceTree = "<group>"; };
 		2DC6576E212C09AE001A2571 /* LineProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineProgress.swift; sourceTree = "<group>"; };
 		6EA227A6B6B79861372E3272 /* Pods-MyFirstGPUImage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyFirstGPUImage.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyFirstGPUImage/Pods-MyFirstGPUImage.release.xcconfig"; sourceTree = "<group>"; };
 		B90C9E859F51270B2744A7B8 /* Pods_MyFirstGPUImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyFirstGPUImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -468,10 +464,6 @@
 		2D85F250212A9808008AD54D /* Tools */ = {
 			isa = PBXGroup;
 			children = (
-				2DB116B32136B37D00D17A70 /* MTImageTool.h */,
-				2DB116B42136B37D00D17A70 /* MTImageTool.m */,
-				2DB116B22136B37500D17A70 /* MTMov.h */,
-				2DB116B02136B36E00D17A70 /* MTMov.m */,
 				2D3A15C321097969005131B8 /* Propoty.swift */,
 				2D85F24E212A97E5008AD54D /* SaveVideoManager.swift */,
 			);
@@ -481,11 +473,28 @@
 		2DB116A32135417400D17A70 /* LivePhoto */ = {
 			isa = PBXGroup;
 			children = (
-				2DB116AC2135441900D17A70 /* QuickTimeMov.swift */,
-				2DB116AA2135440F00D17A70 /* JPEG.swift */,
+				2DB116B92137C5BF00D17A70 /* Tools */,
+				2DB116B621378AE800D17A70 /* VIew */,
 				2DB116A6213541E100D17A70 /* LivePhotoPreviewViewController.swift */,
 			);
 			path = LivePhoto;
+			sourceTree = "<group>";
+		};
+		2DB116B621378AE800D17A70 /* VIew */ = {
+			isa = PBXGroup;
+			children = (
+				2DB116B721378B0F00D17A70 /* FDLivePhotoView.swift */,
+			);
+			path = VIew;
+			sourceTree = "<group>";
+		};
+		2DB116B92137C5BF00D17A70 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				2DB116AC2135441900D17A70 /* QuickTimeMov.swift */,
+				2DB116AA2135440F00D17A70 /* JPEG.swift */,
+			);
+			path = Tools;
 			sourceTree = "<group>";
 		};
 		2DC65770212E5E07001A2571 /* FaceDetection */ = {
@@ -705,7 +714,6 @@
 				2D378EC021115C2900A51DE8 /* IFSierraFilter.m in Sources */,
 				2DC6576F212C09AE001A2571 /* LineProgress.swift in Sources */,
 				2D363D64212E7E0100F24ED2 /* FaceLayerView.swift in Sources */,
-				2DB116B12136B36E00D17A70 /* MTMov.m in Sources */,
 				2D502351210AB8E200A7559A /* FillterSelectView.swift in Sources */,
 				2D85F24F212A97E5008AD54D /* SaveVideoManager.swift in Sources */,
 				2D396A1D211ABE2F0049FE40 /* RoundProgressButtonView.swift in Sources */,
@@ -718,7 +726,6 @@
 				2D378ED121115C6600A51DE8 /* GPUImageFiveInputFilter.m in Sources */,
 				2D378EBA21115C2900A51DE8 /* IFLordKelvinFilter.m in Sources */,
 				2D378EC221115C2900A51DE8 /* IF1977Filter.m in Sources */,
-				2DB116B52136B37D00D17A70 /* MTImageTool.m in Sources */,
 				2D378EC321115C2900A51DE8 /* IFHefeFilter.m in Sources */,
 				2D3A158921085257005131B8 /* AppDelegate.swift in Sources */,
 				2D378EBE21115C2900A51DE8 /* IFAmaroFilter.m in Sources */,
@@ -731,6 +738,7 @@
 				2D378EBC21115C2900A51DE8 /* IFWaldenFilter.m in Sources */,
 				2D2716422133B2E900A93EDB /* GPUImageBeautifyFilter.m in Sources */,
 				2DB116AB2135440F00D17A70 /* JPEG.swift in Sources */,
+				2DB116B821378B0F00D17A70 /* FDLivePhotoView.swift in Sources */,
 				2D2D6DA321215D3E005F8371 /* playView.swift in Sources */,
 				2D378EB721115C2900A51DE8 /* IFNashvilleFilter.m in Sources */,
 				2D378EBD21115C2900A51DE8 /* IFEarlybirdFilter.m in Sources */,

@@ -6,4 +6,3 @@
 #import "GPUImageBeautifyFilter.h"
 #import "InstaFilters.h"
 #import "DesignedGPUImageFilter.h"
-#import "MTMov.h"

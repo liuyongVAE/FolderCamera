@@ -81,16 +81,15 @@ class CheckViewController: UIViewController {
         return v
     }()
     
-    
-    lazy var livePhotoView: PHLivePhotoView =  {
-        let v = PHLivePhotoView()
+    //LivePhoto预览
+    lazy var livePhotoView: FDLivePhotoView =  {
+        let v = FDLivePhotoView()
         return v
     }()
     
     //展示类型
     //0:image,1:video,2:livePhoto
     var type:Int!
-    
     
     //视频地址
     var videoUrl:URL?
@@ -165,39 +164,12 @@ class CheckViewController: UIViewController {
     }
     
     
-    /// 获取图片像素
-    ///
-    /// - Returns: 像素元组
-    func getImageSize()->(w:Int,h:Int){
-        guard let fixelW = image?.cgImage?.width else{return (0,0)}
-        guard let fixelH = image?.cgImage?.height else{return (0,0)}
-        //  let fx  = movieFile?.
-        
-        return (fixelW,fixelH)
-    }
     
-    
-    /// 解决图片显示旋转问题
-    func changeImagePresent(){
-        if fixel == 1280{
-            photoView.snp.remakeConstraints({
-                make in
-                make.top.left.bottom.width.equalToSuperview()
-            })
-            self.view.layoutIfNeeded()
-            self.defaultBottomView.isHidden = true
-        }else{
-            photoView.contentMode = .scaleAspectFill
-            photoView.snp.remakeConstraints({
-                make in
-                make.top.left.width.equalToSuperview()
-                make.height.equalTo(SCREEN_HEIGHT*3/4)
-            })
-            self.view.layoutIfNeeded()
-        }
-    }
 }
 
+
+
+// MARK: - UI布局和初始化
 extension CheckViewController{
     
     // UI布局
@@ -255,6 +227,40 @@ extension CheckViewController{
         }
     }
     
+    
+    /// 获取图片像素
+    ///
+    /// - Returns: 像素元组
+    func getImageSize()->(w:Int,h:Int){
+        guard let fixelW = image?.cgImage?.width else{return (0,0)}
+        guard let fixelH = image?.cgImage?.height else{return (0,0)}
+        //  let fx  = movieFile?.
+        
+        return (fixelW,fixelH)
+    }
+    
+    
+    /// 解决图片显示旋转问题
+    func changeImagePresent(){
+        if fixel == 1280{
+            photoView.snp.remakeConstraints({
+                make in
+                make.top.left.bottom.width.equalToSuperview()
+            })
+            self.view.layoutIfNeeded()
+            self.defaultBottomView.isHidden = true
+        }else{
+            photoView.contentMode = .scaleAspectFill
+            photoView.snp.remakeConstraints({
+                make in
+                make.top.left.width.equalToSuperview()
+                make.height.equalTo(SCREEN_HEIGHT*3/4)
+            })
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    
     //创建视频预览页面
     func setPreview(){
         //带声音的视频播放
@@ -293,7 +299,7 @@ extension CheckViewController{
     }
     
     
-    //MARK: - 按钮点击
+    //MARK: 按钮点击
     //切换滤镜
     @objc func changeFilter(){
         //let centerBottom = cameraFilterView.center
@@ -349,10 +355,10 @@ extension CheckViewController{
                 self.dismiss(animated: false, completion: nil)
             }else if type == 1{
                 //如果没有传图片，进入此方法存储视频
-                 stopEc()
+                 stopEc(false)
                 //finishEdit()
             }else if type == 2{
-                self.exportLivePhoto()
+                 self.stopEc(true)
             }
             
         }else{
@@ -373,7 +379,9 @@ extension CheckViewController{
     
     
     /// 文件存储函数
-    func stopEc(){
+    ///
+    /// - Parameter isLivePhoto: true表示存储LivePhoto，false表示存储视频
+    func stopEc(_ isLivePhoto:Bool){
         movieFile = GPUImageMovie(url: videoUrl)
         //重新初始化滤镜，去掉不必要的链条
         ifFilter = FilterGroup.getFillter(filterType: filterIndex)
@@ -392,7 +400,6 @@ extension CheckViewController{
         movieFile?.enableSynchronizedEncoding(using: movieWriter)
         //开始录制，开始渲染
         movieWriter?.startRecording()
-        movieWriter?.assetWriter.metadata
         movieFile?.startProcessing()
         //成功回调
         
@@ -401,7 +408,12 @@ extension CheckViewController{
             pixellateFilter.removeTarget(weakSelf?.movieWriter)
             weakSelf?.movieWriter?.finishRecording()
             print("done")
-            UISaveVideoAtPathToSavedPhotosAlbum((movieURL.path), self,#selector(self.saveVideo(videoPath:didFinishSavingWithError:contextInfo:)), nil)
+            if isLivePhoto{
+                //调用livePhoto存储方法
+               weakSelf?.exportLivePhoto(videoURL: movieURL)
+            }else{
+                UISaveVideoAtPathToSavedPhotosAlbum((movieURL.path), self,#selector(self.saveVideo(videoPath:didFinishSavingWithError:contextInfo:)), nil)
+            }
         }
         //失败回调
         movieWriter?.failureBlock = {
@@ -434,6 +446,9 @@ extension CheckViewController{
     
     
 }
+
+
+// MARK: - 切换滤镜
 extension CheckViewController:FillterSelectViewDelegate{
     
     /// 切换滤镜
@@ -462,46 +477,23 @@ extension CheckViewController:FillterSelectViewDelegate{
             movieFile?.startProcessing()
         
         }else if type == 2{
+            //渲染视频
+            movieFile?.cancelProcessing()
+            movieFile?.removeAllTargets()
+            ifFilter?.removeAllTargets()
+            movieFile?.addTarget(ifFilter)
+            ifFilter?.addTarget(livePhotoView.videoPlayView)
+            movieFile?.startProcessing()
+            //渲染图片
             let asset = AVURLAsset(url: videoUrl!)
             let generator = AVAssetImageGenerator(asset: asset)
             generator.appliesPreferredTrackTransform = true
             let time = NSValue(time: CMTimeMakeWithSeconds(CMTimeGetSeconds(asset.duration)/2, asset.duration.timescale))
             generator.generateCGImagesAsynchronously(forTimes: [time]) { [weak self] _, image, _, _, _ in
-                
                 //生成livePhoto封面图
-                if let image = image, let data = UIImagePNGRepresentation((self?.ifFilter?.image(byFilteringImage: UIImage(cgImage: image)))!) {
-                    let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-                    let imageURL = urls[0].appendingPathComponent("image2.jpg")
-                    
-                    try? data.write(to: imageURL, options: [.atomic])
-                    
-                    let image = imageURL.path
-                    let mov = self!.videoUrl!.path
-                    let output = FilePaths.VidToLive.livePath
-                    let assetIdentifier = UUID().uuidString
-                    let _ = try? FileManager.default.createDirectory(atPath: output, withIntermediateDirectories: true, attributes: nil)
-                    do {
-                        try FileManager.default.removeItem(atPath: output + "/IMG2.JPG")
-                        try FileManager.default.removeItem(atPath: output + "/IMG2.MOV")
-                        
-                    } catch {
-                        
-                    }
-                    JPEG(path: image).write(output + "/IMG2.JPG",
-                                            assetIdentifier: assetIdentifier)
-                    QuickTimeMov(path: mov).write(output + "/IMG2.MOV", assetIdentifier: assetIdentifier, filter: nil)
-                    
-                      //MTMov.init(path: mov).write(toDirectory:output + "/IMG2.MOV" , withAssetIdentifier: assetIdentifier, filter: self?.ifFilter)
-                    
-                    _ =  DispatchQueue.main.sync {
-                        PHLivePhoto.request(withResourceFileURLs: [ URL(fileURLWithPath: FilePaths.VidToLive.livePath + "/IMG2.MOV"), URL(fileURLWithPath: FilePaths.VidToLive.livePath + "/IMG2.JPG")],
-                                            placeholderImage: nil,
-                                            targetSize: self!.view.bounds.size,
-                                            contentMode: PHImageContentMode.aspectFit,
-                                            resultHandler: { (livePhoto, info) -> Void in
-                                                self?.livePhotoView.livePhoto = livePhoto
-                                                self?.saveButton.isHidden = false
-                        })
+                if let image = image, let data = (self?.ifFilter?.image(byFilteringImage: UIImage(cgImage: image))!) {
+                    DispatchQueue.main.async {
+                        self?.livePhotoView.presentImageView.image = data
                     }
                 }
             }
@@ -511,14 +503,12 @@ extension CheckViewController:FillterSelectViewDelegate{
     }
     
 }
-//MARK: livePhoto
+//MARK: - livePhoto
 extension CheckViewController{
     
     
     @available(iOS 9.1, *)
     func loadVideoWithVideoURL(_ videoURL: URL) {
-        self.saveButton.isHidden = true
-       // self.filterButton.isHidden = true
         
         self.view.addSubview(livePhotoView)
        
@@ -538,59 +528,105 @@ extension CheckViewController{
             self.defaultBottomView.backgroundColor = UIColor.clear
         }
         
+
+
+        //带声音的视频播放
+        playView.videoUrl = videoUrl
+        //取消重复播放
+        playView.removeNotification()
+        //
+        //初始化滤镜页面
         
-        livePhotoView.livePhoto = nil
+        movieFile = GPUImageMovie.init(playerItem: playView.playerItem!)
+        movieFile?.playAtActualSpeed = false
+        movieFile?.addTarget(livePhotoView.videoPlayView)
+
+        movieFile?.startProcessing()
+        //设置长按点击的block，开始点击播放视频，放开时展示图片
+        livePhotoView.stateBlock = {
+            i in
+            if i == 0{
+                self.playView.play()
+            }else{
+                self.playView.pause()
+            }
+        }
+        
+       
         let asset = AVURLAsset(url: videoURL)
         let generator = AVAssetImageGenerator(asset: asset)
         generator.appliesPreferredTrackTransform = true
         let time = NSValue(time: CMTimeMakeWithSeconds(CMTimeGetSeconds(asset.duration)/2, asset.duration.timescale))
         generator.generateCGImagesAsynchronously(forTimes: [time]) { [weak self] _, image, _, _, _ in
-            
             //生成livePhoto封面图
-            if let image = image, let data = UIImagePNGRepresentation(UIImage(cgImage: image)) {
-                let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-                let imageURL = urls[0].appendingPathComponent("image.jpg")
-                try? data.write(to: imageURL, options: [.atomic])
-                
-                let image = imageURL.path
-                let mov = videoURL.path
-                let output = FilePaths.VidToLive.livePath
-                let assetIdentifier = UUID().uuidString
-                let _ = try? FileManager.default.createDirectory(atPath: output, withIntermediateDirectories: true, attributes: nil)
-                do {
-                    try FileManager.default.removeItem(atPath: output + "/IMG.JPG")
-                    try FileManager.default.removeItem(atPath: output + "/IMG.MOV")
-                    
-                } catch {
-                    
-                }
-                JPEG(path: image).write(output + "/IMG.JPG",
-                                        assetIdentifier: assetIdentifier)
-                
-             
-                QuickTimeMov(path: mov).write(output + "/IMG.MOV",assetIdentifier: assetIdentifier,filter: nil)
-                
-               _ =  DispatchQueue.main.sync {
-                    PHLivePhoto.request(withResourceFileURLs: [ URL(fileURLWithPath: FilePaths.VidToLive.livePath + "/IMG.MOV"), URL(fileURLWithPath: FilePaths.VidToLive.livePath + "/IMG.JPG")],
-                                        placeholderImage: nil,
-                                        targetSize: self!.view.bounds.size,
-                                        contentMode: PHImageContentMode.aspectFit,
-                                        resultHandler: { (livePhoto, info) -> Void in
-                                            self?.livePhotoView.livePhoto = livePhoto
-                                            self?.saveButton.isHidden = false
-                    })
-                }
+            if let image = image{
+               self?.livePhotoView.setImage(image: UIImage(cgImage: image))
+
             }
         }
     }
     
     
-    //保存livePhoto
-    func exportLivePhoto () {
+    //保存为livePhoto
+    func exportLivePhoto (videoURL:URL) {
+        //print("看看是谁在这里")
+        //获取当前展示的封面图
+        if let image = self.livePhotoView.presentImageView.image?.cgImage, let data = UIImagePNGRepresentation(UIImage(cgImage: image)) {
+            //为视频和图片分配url
+            let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            let imageURL = urls[0].appendingPathComponent("image.jpg")
+            try? data.write(to: imageURL, options: [.atomic])
+            
+            let image = imageURL.path
+            let mov = videoURL.path
+            let output = FilePaths.VidToLive.livePath
+            let assetIdentifier = UUID().uuidString
+            let _ = try? FileManager.default.createDirectory(atPath: output, withIntermediateDirectories: true, attributes: nil)
+            do {
+                try FileManager.default.removeItem(atPath: output + "/IMG.JPG")
+                try FileManager.default.removeItem(atPath: output + "/IMG.MOV")
+                
+            } catch {
+                
+            }
+            
+            //写入图片
+            JPEG(path: image).write(output + "/IMG.JPG",
+                                    assetIdentifier: assetIdentifier)
+            
+            //写入视频
+            QuickTimeMov(path: mov).write(output + "/IMG.MOV",assetIdentifier: assetIdentifier,filter: nil)
+            //写为LivePhoto
+            var inCounter = 1;
+            PHLivePhoto.request(withResourceFileURLs: [ URL(fileURLWithPath: FilePaths.VidToLive.livePath + "/IMG.MOV"), URL(fileURLWithPath: FilePaths.VidToLive.livePath + "/IMG.JPG")],
+                                placeholderImage: nil,
+                                targetSize: self.view.bounds.size,
+                                contentMode: PHImageContentMode.aspectFit,
+                                resultHandler: { (livePhoto, info) -> Void in
+                                    //ProgressHUD.showSuccess("对")
+                                   // print("我在这里",inte)
+                                    //防止多次保存
+                                    if inCounter <= 1{
+                                      self.saveAsLivePhoto()
+                                    }
+                                    inCounter += 1
+            })
+            
+            
+        }
+        
+    
+    }
+    
+    
+    /// 文件保存
+    func saveAsLivePhoto(){
+        
+        print("okyes")
+
         PHPhotoLibrary.shared().performChanges({ () -> Void in
             let creationRequest = PHAssetCreationRequest.forAsset()
             let options = PHAssetResourceCreationOptions()
-            
             
             creationRequest.addResource(with: PHAssetResourceType.pairedVideo, fileURL: URL(fileURLWithPath: FilePaths.VidToLive.livePath + "/IMG.MOV"), options: options)
             creationRequest.addResource(with: PHAssetResourceType.photo, fileURL: URL(fileURLWithPath: FilePaths.VidToLive.livePath + "/IMG.JPG"), options: options)
@@ -599,10 +635,11 @@ extension CheckViewController{
             if !success {
                 print((error?.localizedDescription)!)
                 ProgressHUD.showError("保存失败")
-
+                
             }else{
                 ProgressHUD.showSuccess("保存成功")
 
+                
             }
         })
     }
