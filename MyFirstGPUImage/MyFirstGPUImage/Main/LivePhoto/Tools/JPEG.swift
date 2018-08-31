@@ -22,6 +22,9 @@ class JPEG {
         guard let makerNote = metadata()?.object(forKey: kCGImagePropertyMakerAppleDictionary) as! NSDictionary? else {
             return nil
         }
+   
+        
+        
         return makerNote.object(forKey: kFigAppleMakerNote_AssetIdentifier) as! String?
     }
 

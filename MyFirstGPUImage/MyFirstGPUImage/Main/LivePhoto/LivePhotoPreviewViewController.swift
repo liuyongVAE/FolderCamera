@@ -76,8 +76,8 @@ class LivePhotoPreviewController:UIViewController{
                 
                 QuickTimeMov(path: mov).write(output + "/IMG.MOV",
                                               assetIdentifier: assetIdentifier, filter: nil)
-
-                 DispatchQueue.main.sync {
+ 
+              _ =   DispatchQueue.main.sync {
                     PHLivePhoto.request(withResourceFileURLs: [ URL(fileURLWithPath: FilePaths.VidToLive.livePath + "/IMG.MOV"), URL(fileURLWithPath: FilePaths.VidToLive.livePath + "/IMG.JPG")],
                                         placeholderImage: nil,
                                         targetSize: self!.view.bounds.size,

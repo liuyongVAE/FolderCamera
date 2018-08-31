@@ -20,7 +20,6 @@ class FDLivePhotoView: UIView {
     
     lazy var videoPlayView:GPUImageView = {
         let v = GPUImageView()
-        v.backgroundColor = UIColor.blue
         return v
     }()
     

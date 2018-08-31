@@ -15,21 +15,21 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.1</string>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>1</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>让我看看相机好不啦</string>
+	<string>折纸相机需要访问您的相机去拍照</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>让我看看音频好不啦</string>
+	<string>折纸相机需要通过您的音频去录像</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>让我用用相册好不啦</string>
+	<string>折纸相机需要访问您的相册来存储图片</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>让我用用相册好不啦</string>
+	<string>折纸相机需要访问您的相册来存储图片</string>
 	<key>UILaunchStoryboardName</key>
 	<string>Launch Screen</string>
 	<key>UIRequiredDeviceCapabilities</key>

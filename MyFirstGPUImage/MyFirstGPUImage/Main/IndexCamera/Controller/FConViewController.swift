@@ -110,6 +110,9 @@ class FConViewController: UIViewController {
     
     //判断是否正在拍摄livePhoto
     var isLivePhoto = false
+    var liveTimer:Timer?
+    var liveCounter:Int = 0;
+    
     
     //MARK: - 页面生命周期
     override func viewDidLoad() {
@@ -743,8 +746,11 @@ extension FConViewController:ProgresssButtonDelegate{
                 defaultBottomView.recordBackView.isHidden = true
                 control.tipLabel.isHidden = false
                 control.ifRecord = false
+            }else if isLivePhoto{
+                setLiveStart()
             }else{
                 takePhoto()
+
             }
         default:
             break
@@ -755,9 +761,7 @@ extension FConViewController:ProgresssButtonDelegate{
     func startRecord(){
         shotButton.reStartCount()
     
-        shotButton.ifLivePhoto  = isLivePhoto
-
-        
+        //shotButton.ifLivePhoto  = isLivePhoto
         mCamera.addAudioInputsAndOutputs()//避免录制第一帧黑屏
         let name = String(Int(arc4random() % 100000))
         videoUrl = URL(fileURLWithPath: "\(NSTemporaryDirectory())folder_demo\(name).mp4")
@@ -950,6 +954,11 @@ extension FConViewController:GPUImageVideoCameraDelegate{
             .compactMap{$0 as? CIFaceFeature}
             .map{ FaceArea(faceFeature: $0, applyingRatio: ratio, ifFront: iffront) }
         
+        if faceAreas.count == 0 {
+            //没有人脸时候取消美颜
+            beautyFilter?.updateMask(CGRect.zero)
+        }
+        
         for i in faceAreas {
             //扩大识别范围给美颜滤镜工作 用
            // print(i.bounds)
@@ -1000,7 +1009,6 @@ extension FConViewController:GPUImageVideoCameraDelegate{
     }
     
     @objc func update() {
-
    
         if let motion = motionManager.deviceMotion {
             //print(deviceMotion)
@@ -1029,14 +1037,36 @@ extension FConViewController:GPUImageVideoCameraDelegate{
             }
         }
     }
-    
-    
   
+}
+
+// MARK: - Live Photo 拍摄
+extension FConViewController{
+    func setLiveStart(){
+        shotButton.isUserInteractionEnabled = false
+        self.topView.liveCounter.isHidden = false
+        startRecord()
+        topView.setCounter(text: "3")
+        liveTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateLiveCounter), userInfo: nil, repeats: true)
+    }
+    @objc func updateLiveCounter(){
+        liveCounter = liveCounter + 1
+        print("正在拍摄LivePhoto: ",liveCounter)
+        topView.setCounter(text: "\(3 - liveCounter)")
+
+        if liveCounter == 3{
+            finishLiveRecord()
+        }
+    }
+    func finishLiveRecord(){
+        self.topView.liveCounter.isHidden = true
+        shotButton.isUserInteractionEnabled = true
+        liveTimer?.invalidate()
+        liveTimer = nil
+        liveCounter = 0
+        recordBtnFinish()
+    }
     
-    
-    
-    
-   
     
     
 }

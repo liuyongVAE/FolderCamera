@@ -57,6 +57,12 @@ class TopView: UIView {
         return btn
     }()
     
+    lazy var liveCounter:UILabel = {
+        var btn = UILabel()
+        btn.textColor = UIColor.white
+        return btn
+    }()
+    
     
     
     //Propoty，按钮点击的代理
@@ -72,6 +78,7 @@ class TopView: UIView {
         self.addSubview(turnScaleButton)
         self.addSubview(flashButton)
         self.addSubview(liveButton)
+        self.addSubview(liveCounter)
         let widthOfTop:CGFloat = 30
         turnScaleButton.snp.makeConstraints({
             make in
@@ -97,6 +104,13 @@ class TopView: UIView {
             make in
             make.width.height.equalTo(widthOfTop)
             make.right.equalTo(turnCameraButton.snp.left).offset(-20)
+            make.top.equalToSuperview().offset(15)
+            
+        })
+        liveCounter.snp.makeConstraints({
+            make in
+            make.width.height.equalTo(widthOfTop)
+            make.centerX.equalToSuperview()
             make.top.equalToSuperview().offset(15)
             
         })
@@ -131,8 +145,12 @@ class TopView: UIView {
             btn.isSelected = !btn.isSelected
             delegate?.liveMode()
         }
-        
-        
+    }
+    
+    func setCounter(text:String){
+        DispatchQueue.main.async {
+            self.liveCounter.text = text
+        }
     }
     
     

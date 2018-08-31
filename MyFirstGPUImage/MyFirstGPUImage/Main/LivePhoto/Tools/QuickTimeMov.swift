@@ -196,177 +196,7 @@ class QuickTimeMov {
     }
     
     
-    
-    
-//    func write(toDirectory path: String?, withAssetIdentifier assetIdentifier: String?, filter: (GPUImageOutput & GPUImageInput)?) {
-//        
-//        let track: AVAssetTrack? = self.track(AVMediaType.video)
-//        let audioTrack: AVAssetTrack? = self.track(AVMediaType.audio)
-//        if track == nil {
-//            return
-//        }
-//        var output: AVAssetReaderOutput? = nil
-//        if let aTrack = track {
-//            output = AVAssetReaderTrackOutput(track: aTrack, outputSettings: [kCVPixelBufferPixelFormatTypeKey as String: Int(truncating: NSNumber(kCVPixelFormatType_32BGRA))])
-//        }
-//        //声音输出
-//        let audioDic = [AVFormatIDKey: kAudioFormatLinearPCM, AVLinearPCMIsBigEndianKey: false, AVLinearPCMIsFloatKey: false, AVLinearPCMBitDepthKey: 16] as [String : Any]
-//
-//        var audioOutput: AVAssetReaderTrackOutput? = nil
-//        if let aTrack = audioTrack {
-//            audioOutput = AVAssetReaderTrackOutput(track: aTrack, outputSettings: audioDic)
-//        }
-//        var error: Error?
-//        let reader = try? AVAssetReader(asset: asset)
-//        if let anOutput = output {
-//            reader?.add(anOutput)
-//        }
-//        if let anOutput = audioOutput {
-//            reader?.add(anOutput)
-//        }
-//
-//        let input = AVAssetWriterInput(mediaType: .video, outputSettings: videoSettings(track?.naturalSize))
-//        //声音输入
-//        let audioSettings = [
-//            AVFormatIDKey : kAudioFormatMPEG4AAC,
-//            AVNumberOfChannelsKey : 1,
-//            AVSampleRateKey : 44100,
-//            AVEncoderBitRateKey : 128000
-//        ]
-//
-//        var audioInput = AVAssetWriterInput(mediaType: audioTrack.mediaType, outputSettings: audioSettings)
-//        input.expectsMediaDataInRealTime = true
-//        input.transform = track.preferredTransform
-//        var error_two: Error?
-//        var writer = try? AVAssetWriter(url: URL(fileURLWithPath: path), fileType: .mov)
-//
-//        writer?.metadata = [metaData(withAssetIdentifier: assetIdentifier)]
-//        writer?.add(input)
-//        writer?.add(audioInput)
-//        //pixel
-//        var sourcePixelBufferAttributesDictionary = [
-//            kCVPixelBufferPixelFormatTypeKey : kCVPixelFormatType_32BGRA
-//        ]
-//        var adaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: input, sourcePixelBufferAttributes: sourcePixelBufferAttributesDictionary as? [String : Any])
-//
-//        var adapter: AVAssetWriterInputMetadataAdaptor? = metadataAdapter()
-//        if let anInput = adapter?.assetWriterInput {
-//            writer?.add(anInput)
-//        }
-//
-//        writer?.startWriting()
-//        reader.startReading()
-//        writer?.startSession(atSourceTime: kCMTimeZero)
-//
-//        var dummyTimeRange: CMTimeRange = CMTimeRangeMake(CMTimeMake(0, 1000), CMTimeMake(200, 3000))
-//        if let aTime = [metadataForStillImageTime()] as? [AVMetadataItem] {
-//            adapter?.append(AVTimedMetadataGroup(items: aTime, timeRange: dummyTimeRange))
-//        }
-//        //不加滤镜的情况
-//        if type(of: filter) === GPUImageSaturationFilter.self {
-//            var innerFilter = filter as? GPUImageSaturationFilter
-//            if innerFilter?.saturation == 1 {
-//                filter = nil
-//            }
-//            //  The converted code is limited to 2 KB.
-//            //  Upgrade your plan to remove this limitation.
-//            //
-//            //  Converted to Swift 4 by Swiftify v4.1.6809 - https://objectivec2swift.com/
-//            var readDataQueue = DispatchQueue(label: "readDataQueue")
-//            readDataQueue.async(execute: {
-//                while reader.status == .reading {
-//                    var videoBuffer = output.copyNextSampleBuffer()
-//                    var audioBuffer = audioOutput.copyNextSampleBuffer()
-//
-//                    var startTime: CMTime = CMSampleBufferGetPresentationTimeStamp(videoBuffer)
-//                    var image: UIImage? = MTImageTool.image(from: videoBuffer)
-//
-//                    var buffer: CVPixelBuffer?
-//                    if image != nil && filter {
-//                        image = filter.image(byFilteringImage: image)
-//                        buffer = MTImageTool.pixelBuffer(from: image?.cgImage) as? CVPixelBuffer?
-//                    } else if image != nil && !filter {
-//                        buffer = MTImageTool.pixelBuffer(from: image?.cgImage) as? CVPixelBuffer?
-//                    } else {
-//                        //                CFRelease(buffer);
-//                        continue
-//                    }
-//
-//                    if buffer != nil {
-//                        while !input.isReadyForMoreMediaData || !audioInput.isReadyForMoreMediaData {
-//                            usleep(1)
-//                        }
-//                        if audioBuffer != nil {
-//                            if let aBuffer = audioBuffer {
-//                                audioInput.append(aBuffer)
-//                            }
-//                        }
-//                        if let aBuffer = buffer {
-//                            if !adaptor.append(aBuffer, withPresentationTime: startTime) {
-//                                print("fail")
-//                            }
-//                        }
-//                    } else {
-//                        continue
-//                    }
-//                }
-//                DispatchQueue.main.sync(execute: {
-//                    writer.finishWriting(completionHandler: {
-//                        //结束发通知
-//                        NotificationCenter.default.post(name: NSNotification.Name("MTAudioVideoFinished"), object: self)
-//
-//                    })
-//                })
-//            })
-//
-//
-//            while writer.status == .writing {
-//                RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.5))
-//            }
-//
-//
-//
-//
-//        }
-//    }
-//
-//    //  The converted code is limited to 2 KB.
-//    //  Upgrade your plan to remove this limitation.
-//    //
-//    //  Converted to Swift 4 by Swiftify v4.1.6809 - https://objectivec2swift.com/
-//    func track(_ type: String?) -> AVAssetTrack? {
-//        return asset.tracks(withMediaType: AVMediaType(type)).first
-//    }
-//
-//    func videoSetting(_ size: CGSize) -> [AnyHashable : Any]? {
-//        return [AVVideoCodecKey: AVVideoCodecH264, AVVideoWidthKey: Float(size.width), AVVideoHeightKey: Float(size.height)]
-//    }
-//
-//    func metaData(withAssetIdentifier assetIdentifier: String?) -> AVMetadataItem? {
-//        let item = AVMutableMetadataItem.metadataItem as? AVMutableMetadataItem
-//        item?.key = kKeyContentIdentifier
-//        item?.keySpace = kKeySpaceQuickTimeMetadata
-//        item?.value = assetIdentifier
-//        item?.dataType = "com.apple.metadata.datatype.UTF-8"
-//        return item
-//    }
-//
-//    func metadataForStillImageTime() -> AVMetadataItem? {
-//        let item = AVMutableMetadataItem.metadataItem as? AVMutableMetadataItem
-//        item?.key = kKeyStillImageTime
-//        item?.keySpace = kKeySpaceQuickTimeMetadata
-//        item?.value = nil
-//        item?.dataType = "com.apple.metadata.datatype.int8"
-//        return item
-//    }
-//
-    
-    
-    
-    
-    
-    
-    
+
     
     //s-----------
     
@@ -408,12 +238,12 @@ class QuickTimeMov {
     }
     
     fileprivate func metadataFor(_ assetIdentifier: String) -> AVMetadataItem {
-        let item = AVMutableMetadataItem()
-        item.key = kKeyContentIdentifier as (NSCopying & NSObjectProtocol)?
-        item.keySpace = AVMetadataKeySpace(rawValue: kKeySpaceQuickTimeMetadata)
-        item.value = assetIdentifier as (NSCopying & NSObjectProtocol)?
-        item.dataType = "com.apple.metadata.datatype.UTF-8"
-        return item
+        let items = AVMutableMetadataItem()
+        items.key = kKeyContentIdentifier as (NSCopying & NSObjectProtocol)?
+        items.keySpace = AVMetadataKeySpace(rawValue: kKeySpaceQuickTimeMetadata)
+        items.value = assetIdentifier as (NSCopying & NSObjectProtocol)?
+        items.dataType = "com.apple.metadata.datatype.UTF-8"
+        return items
     }
     
     fileprivate func metadataForStillImageTime() -> AVMetadataItem {

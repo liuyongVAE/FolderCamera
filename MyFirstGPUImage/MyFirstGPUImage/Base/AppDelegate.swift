@@ -20,7 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.backgroundColor = UIColor.white
         window?.makeKeyAndVisible()
        // UIApplication.shared.setStatusBarHidden(true, with: .none)
-
         // Override point for customization after application launch.
         return true
     }
