@@ -943,8 +943,7 @@ extension FConViewController:GPUImageVideoCameraDelegate{
         //使用陀螺仪判断屏幕旋转方向，然后给ciimage设置图片方向
         let featureDetectorOptions: [String : Any] = {
             return getRow_Col().0
-        }()
-        
+        }() 
         let iffront:Bool = {
            return getRow_Col().1
         }()
@@ -1042,6 +1041,8 @@ extension FConViewController:GPUImageVideoCameraDelegate{
 
 // MARK: - Live Photo 拍摄
 extension FConViewController{
+    
+    /// 开始录制LivePhoto
     func setLiveStart(){
         shotButton.isUserInteractionEnabled = false
         self.topView.liveCounter.isHidden = false
@@ -1049,6 +1050,7 @@ extension FConViewController{
         topView.setCounter(text: "3")
         liveTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateLiveCounter), userInfo: nil, repeats: true)
     }
+    //倒计时控制
     @objc func updateLiveCounter(){
         liveCounter = liveCounter + 1
         print("正在拍摄LivePhoto: ",liveCounter)
@@ -1058,6 +1060,8 @@ extension FConViewController{
             finishLiveRecord()
         }
     }
+    
+    /// 倒计时结束,结束录制
     func finishLiveRecord(){
         self.topView.liveCounter.isHidden = true
         shotButton.isUserInteractionEnabled = true
