@@ -43,6 +43,11 @@ class SaveVieoManager:NSObject{
         for i in 0...videoUrls.count-1{
             var videoAsset:AVURLAsset?
             videoAsset = AVURLAsset.init(url: videoUrls[i])
+
+            let tt = videoAsset!.duration
+            let getLengthOfVideo2 = Double(tt.value)/Double(tt.timescale)
+            print(getLengthOfVideo2)
+            
             let video_timeRange:CMTimeRange = CMTimeRange.init(start: kCMTimeZero, end: (videoAsset?.duration) ?? kCMTimeZero)
             /**
              *  依次加入每个asset
@@ -64,6 +69,75 @@ class SaveVieoManager:NSObject{
         }
         return mixComposition
     }
+    
+    
+    /// 剪辑视频
+    ///
+    /// - Parameters:
+    ///   - frontOffset: 前面剪几秒
+    ///   - endOffset: 后面剪几秒
+    ///   - index: url的下标
+    /// - Returns: 合成
+    func cutLiveVideo(frontOffset:Float64,endOffset:Float64,index:Int)->AVMutableComposition{
+        let composition = AVMutableComposition()
+        // Create the video composition track.
+        let compositionVideoTrack: AVMutableCompositionTrack? = composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid)
+        // Create the audio composition track.
+        let compositionAudioTrack: AVMutableCompositionTrack? = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)
+        let pathUrl = videoUrls[index]
+        let asset = AVURLAsset(url: pathUrl, options: nil)
+        
+        let videoTrack: AVAssetTrack = asset.tracks(withMediaType: .video)[0]
+        let audioTrack: AVAssetTrack = asset.tracks(withMediaType: .audio)[0]
+        compositionVideoTrack?.preferredTransform = videoTrack.preferredTransform
+        
+        // CMTime
+        let trackDuration: CMTime = videoTrack.timeRange.duration
+        let trackTimescale: CMTimeScale = trackDuration.timescale
+        // 用timescale构造前后截取位置的CMTime
+        let startTime: CMTime = CMTimeMakeWithSeconds(frontOffset, trackTimescale)
+        let endTime: CMTime = CMTimeMakeWithSeconds(endOffset, trackTimescale)
+        let intendedDuration: CMTime = CMTimeSubtract(asset.duration, CMTimeAdd(startTime, endTime))
+
+        try? compositionVideoTrack?.insertTimeRange(CMTimeRangeMake(startTime, intendedDuration), of: videoTrack, at: kCMTimeZero)
+        try? compositionAudioTrack?.insertTimeRange(CMTimeRangeMake(startTime, intendedDuration), of: audioTrack, at: kCMTimeZero)
+
+        return composition
+    
+    }
+    
+    
+    func combineLiveVideos(success:@escaping(_ mixComposition:AVMutableComposition)->()){
+
+        for i in 0...videoUrls.count-1{
+            //剪第一段
+            if i == 0{
+                //求liveVideo第二段长度n,需要用1.5 - 此长度作为第一段需要减去的长度
+                if videoUrls.count >= 1{
+                    var videoAsset2:AVURLAsset?
+                    videoAsset2 = AVURLAsset.init(url: videoUrls[1])
+                    let tt = videoAsset2!.duration
+                    let getLengthOfVideo2 = Double(tt.value)/Double(tt.timescale)
+                    //减掉开始 n 秒
+                    let video1Composition = cutLiveVideo(frontOffset: getLengthOfVideo2, endOffset: 0.0, index: 0)
+                    let newUrl = URL(fileURLWithPath: "\(NSTemporaryDirectory())foldercut_1.mp4")
+                    unlink(newUrl.path)
+                    videoUrls[0] = newUrl
+                    //裁剪完第一段视频后，开始进行三段视频的合成
+                    store(video1Composition, storeUrl: newUrl, success: {
+                        let mixCom = self.combineVideos()
+                        success(mixCom)
+                        
+                    })
+                    
+                }
+            }
+        }
+        
+   
+    }
+    
+    
     
     /**
      *  存储合成的视频

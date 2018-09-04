@@ -111,8 +111,11 @@ class FConViewController: UIViewController {
     //判断是否正在拍摄livePhoto
     var isLivePhoto = false
     var liveTimer:Timer?
-    var liveCounter:Int = 0;
-    
+    var liveTimer2:Timer?
+    var liveCounter:Double = 0.5;
+    var liveCounter2:Double = 0.5;
+    var liveUrl:URL!
+
     
     //MARK: - 页面生命周期
     override func viewDidLoad() {
@@ -531,14 +534,7 @@ extension FConViewController:topViewDelegate{
     }
     
     func liveMode(){
-        if !isLivePhoto{
-            isLivePhoto = true
-            shotButton.setDuratuin(3)
-        }else{
-            isLivePhoto = false
-            shotButton.setDuratuin(10)
-        }
-        
+        setLiveMode()
     }
     
     //拍照比例切换
@@ -747,7 +743,7 @@ extension FConViewController:ProgresssButtonDelegate{
                 control.tipLabel.isHidden = false
                 control.ifRecord = false
             }else if isLivePhoto{
-                setLiveStart()
+                finishLiveRecord()
             }else{
                 takePhoto()
 
@@ -760,10 +756,9 @@ extension FConViewController:ProgresssButtonDelegate{
     
     func startRecord(){
         shotButton.reStartCount()
-    
         //shotButton.ifLivePhoto  = isLivePhoto
         mCamera.addAudioInputsAndOutputs()//避免录制第一帧黑屏
-        let name = String(Int(arc4random() % 100000))
+        let name = String(Int(arc4random() % 10000000))
         videoUrl = URL(fileURLWithPath: "\(NSTemporaryDirectory())folder_demo\(name).mp4")
         unlink(videoUrl?.path)
         //获取视频大小，作为size
@@ -802,7 +797,7 @@ extension FConViewController:ProgresssButtonDelegate{
         // 录像状态结束
         //ProgressHUD.show("保存中")
         movieWriter?.finishRecording()
-        print(shotButton.timeCounter)
+ //       print(shotButton.timeCounter)
 //        if shotButton.timeCounter < 1{
 //            takePhoto()
 //            return
@@ -824,6 +819,11 @@ extension FConViewController:ProgresssButtonDelegate{
         vc.videoScale = self.scaleRate
         weak var weakSelf = self
         vc.willDismiss = {
+            
+            if (weakSelf?.isLivePhoto ?? false) {
+                weakSelf?.liveTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(self.updateLiveCounter), userInfo: nil, repeats: true)
+            }
+            
             //将美颜状态重置
             if (weakSelf?.isBeauty)!{
                 weakSelf?.isBeauty = false
@@ -1042,35 +1042,148 @@ extension FConViewController:GPUImageVideoCameraDelegate{
 // MARK: - Live Photo 拍摄
 extension FConViewController{
     
+    
+    func setLiveMode(){
+        if !isLivePhoto{
+            isLivePhoto = true
+            setLiveStart()
+        }else{
+            isLivePhoto = false
+            movieWriter?.finishRecording()
+            liveTimer?.invalidate()
+            liveTimer = nil
+        }
+    }
+    
     /// 开始录制LivePhoto
     func setLiveStart(){
-        shotButton.isUserInteractionEnabled = false
-        self.topView.liveCounter.isHidden = false
+        //shotButton.isUserInteractionEnabled = false
         startRecord()
-        topView.setCounter(text: "3")
-        liveTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateLiveCounter), userInfo: nil, repeats: true)
+        videoUrls.append(videoUrl!)
+        self.topView.liveCounter.isHidden = false
+        topView.setCounter(text: "0")
+        liveTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(updateLiveCounter), userInfo: nil, repeats: true)
+       // liveTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateLiveCounter), userInfo: nil, repeats: true)
     }
     //倒计时控制
     @objc func updateLiveCounter(){
-        liveCounter = liveCounter + 1
+        liveCounter = liveCounter + 0.5
         print("正在拍摄LivePhoto: ",liveCounter)
-        topView.setCounter(text: "\(3 - liveCounter)")
-
-        if liveCounter == 3{
-            finishLiveRecord()
+        topView.setCounter(text: "\(liveCounter)")
+//        if liveCounter == 3{
+//            finishLiveRecord()
+//        }
+        
+        if liveCounter == 1.5{
+            movieWriter?.finishRecording()
+            deleteLiveBuffer()
+            startRecord()
+            videoUrls.append(videoUrl!)
+            liveCounter = 0
         }
     }
     
     /// 倒计时结束,结束录制
     func finishLiveRecord(){
-        self.topView.liveCounter.isHidden = true
-        shotButton.isUserInteractionEnabled = true
+        movieWriter?.finishRecording()
+        shotButton.isUserInteractionEnabled = false
         liveTimer?.invalidate()
-        liveTimer = nil
-        liveCounter = 0
-        recordBtnFinish()
+        startRecord()
+        liveCounter2 = 0
+        liveTimer2 = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(setIntervalFinish), userInfo: nil, repeats: true)
+        
     }
     
+    
+    
+    //录制完成，进行合成和跳转
+    @objc func setIntervalFinish(){
+        liveCounter2 = liveCounter2 + 0.5
+        if liveCounter2 == 1.5{
+            deleteAdditionalBuffer()
+            shotButton.isUserInteractionEnabled = false
+            movieWriter?.failureBlock = {
+                Error in
+                print(Error as Any)
+            }
+           // movieWriter?.completionBlock = {
+                self.videoUrls.append(self.videoUrl!)
+                self.movieWriter?.finishRecording()
+                print("-------------:",self.videoUrls)
+                self.topView.liveCounter.isHidden = true
+                self.shotButton.isUserInteractionEnabled = true
+                self.liveTimer = nil
+                self.liveTimer2?.invalidate()
+                self.liveTimer2 = nil
+                self.liveCounter2 = 0
+            setLiveStart()
+            //视频合成
+           // ProgressHUD.show("合成中")
+            saveManager = SaveVieoManager(urls: videoUrls)
+            let newUrl = URL(fileURLWithPath: "\(NSTemporaryDirectory())folder_all.mp4")
+            unlink(newUrl.path)
+            videoUrl = newUrl
+            
+            //视频裁剪以及合成
+            saveManager?.combineLiveVideos(success: {
+                com in
+                self.saveManager?.store(com, storeUrl: newUrl, success:{
+                    DispatchQueue.main.async {
+                        let vc =  CheckViewController.init(image: nil, type: 2)
+                        vc.videoUrl = newUrl
+                        weak var weakSelf = self
+                        vc.videoScale = weakSelf?.scaleRate
+                        vc.willDismiss = {
+                            //将美颜状态重置
+                            if (weakSelf?.isBeauty)!{
+                                weakSelf?.isBeauty = false
+                                weakSelf?.defaultBottomView.beautyButton.isSelected = false
+                            }
+                            //使用闭包，在vc返回时将底部隐藏，点击切换时在取消隐藏
+                            if weakSelf?.scaleRate != 0{
+                                // weakSelf?.scaleRate = 0
+                                weakSelf?.defaultBottomView.backgroundColor = UIColor.clear
+                            }
+                            //LivePhoto录像状态重置
+                            
+                        }
+                        // ProgressHUD.showSuccess("合成成功")
+                        //  weakSelf?.videoUrls.removeAll()
+                        weakSelf?.present(vc, animated: true, completion: nil)
+                        //self.setLiveStart()
+                    }
+                    
+                })
+            })
+            
+            
+         
+        }
+
+    }
+    
+    func deleteLiveBuffer(){
+        
+        if videoUrls.count>=2{
+            do {
+                try FileManager.default.removeItem(atPath: (videoUrls.first!.path))
+                videoUrls.removeFirst()
+            } catch {
+            }
+        }
+        
+    }
+    
+    
+    func deleteAdditionalBuffer(){
+        while videoUrls.count>=3{
+            do {
+                try FileManager.default.removeItem(atPath: (videoUrls.first!.path))
+                videoUrls.removeFirst()
+            } catch {
+            }
+        }
+    }
     
     
 }
