@@ -309,7 +309,7 @@ extension FConViewController{
         ifaddFilter = false
  
         mCamera.delegate = self
-    
+
 
     }
     
@@ -758,7 +758,7 @@ extension FConViewController:ProgresssButtonDelegate{
         shotButton.reStartCount()
         //shotButton.ifLivePhoto  = isLivePhoto
         mCamera.addAudioInputsAndOutputs()//避免录制第一帧黑屏
-        let name = String(Int(arc4random() % 10000000))
+        let name = Date().timeIntervalSince1970
         videoUrl = URL(fileURLWithPath: "\(NSTemporaryDirectory())folder_demo\(name).mp4")
         unlink(videoUrl?.path)
         //获取视频大小，作为size
@@ -1057,40 +1057,38 @@ extension FConViewController{
     
     /// 开始录制LivePhoto
     func setLiveStart(){
-        //shotButton.isUserInteractionEnabled = false
+        shotButton.isUserInteractionEnabled = true
         startRecord()
         videoUrls.append(videoUrl!)
-        self.topView.liveCounter.isHidden = false
         topView.setCounter(text: "0")
-        liveTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(updateLiveCounter), userInfo: nil, repeats: true)
-       // liveTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateLiveCounter), userInfo: nil, repeats: true)
+        liveTimer = Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(updateLiveCounter), userInfo: nil, repeats: true)
     }
     //倒计时控制
     @objc func updateLiveCounter(){
-        liveCounter = liveCounter + 0.5
-        print("正在拍摄LivePhoto: ",liveCounter)
+       // print("正在拍摄LivePhoto: ",liveCounter)
+        weak var weakSelf = self
         topView.setCounter(text: "\(liveCounter)")
-//        if liveCounter == 3{
-//            finishLiveRecord()
-//        }
-        
-        if liveCounter == 1.5{
-            movieWriter?.finishRecording()
-            deleteLiveBuffer()
-            startRecord()
-            videoUrls.append(videoUrl!)
-            liveCounter = 0
-        }
+            liveFinishRecord(finish: {
+                 weakSelf?.deleteLiveBuffer()
+                 weakSelf?.startRecord()
+                 weakSelf?.videoUrls.append((weakSelf?.videoUrl!)!)
+            })
     }
     
     /// 倒计时结束,结束录制
     func finishLiveRecord(){
-        movieWriter?.finishRecording()
-        shotButton.isUserInteractionEnabled = false
-        liveTimer?.invalidate()
-        startRecord()
-        liveCounter2 = 0
-        liveTimer2 = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(setIntervalFinish), userInfo: nil, repeats: true)
+        weak var weakSelf = self
+        weakSelf?.shotButton.isUserInteractionEnabled = false
+        weakSelf?.liveTimer?.invalidate()
+        liveFinishRecord(finish: {
+             weakSelf?.startRecord()
+            //录制1.5秒后跳转
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5, execute: {
+                weakSelf?.setIntervalFinish()
+            })
+
+        })
+        
         
     }
     
@@ -1098,70 +1096,63 @@ extension FConViewController{
     
     //录制完成，进行合成和跳转
     @objc func setIntervalFinish(){
-        liveCounter2 = liveCounter2 + 0.5
-        if liveCounter2 == 1.5{
-            deleteAdditionalBuffer()
-            shotButton.isUserInteractionEnabled = false
-            movieWriter?.failureBlock = {
-                Error in
-                print(Error as Any)
-            }
-           // movieWriter?.completionBlock = {
-                self.videoUrls.append(self.videoUrl!)
-                self.movieWriter?.finishRecording()
-                print("-------------:",self.videoUrls)
-                self.topView.liveCounter.isHidden = true
-                self.shotButton.isUserInteractionEnabled = true
-                self.liveTimer = nil
-                self.liveTimer2?.invalidate()
-                self.liveTimer2 = nil
-                self.liveCounter2 = 0
-            setLiveStart()
-            //视频合成
-           // ProgressHUD.show("合成中")
-            saveManager = SaveVieoManager(urls: videoUrls)
-            let newUrl = URL(fileURLWithPath: "\(NSTemporaryDirectory())folder_all.mp4")
-            unlink(newUrl.path)
-            videoUrl = newUrl
-            
-            //视频裁剪以及合成
-            saveManager?.combineLiveVideos(success: {
-                com in
-                self.saveManager?.store(com, storeUrl: newUrl, success:{
-                    DispatchQueue.main.async {
-                        let vc =  CheckViewController.init(image: nil, type: 2)
-                        vc.videoUrl = newUrl
-                        weak var weakSelf = self
-                        vc.videoScale = weakSelf?.scaleRate
-                        vc.willDismiss = {
-                            //将美颜状态重置
-                            if (weakSelf?.isBeauty)!{
-                                weakSelf?.isBeauty = false
-                                weakSelf?.defaultBottomView.beautyButton.isSelected = false
-                            }
-                            //使用闭包，在vc返回时将底部隐藏，点击切换时在取消隐藏
-                            if weakSelf?.scaleRate != 0{
-                                // weakSelf?.scaleRate = 0
-                                weakSelf?.defaultBottomView.backgroundColor = UIColor.clear
-                            }
-                            //LivePhoto录像状态重置
-                            
-                        }
-                        // ProgressHUD.showSuccess("合成成功")
-                        //  weakSelf?.videoUrls.removeAll()
-                        weakSelf?.present(vc, animated: true, completion: nil)
-                        //self.setLiveStart()
-                    }
-                    
-                })
-            })
-            
-            
-         
-        }
-
+        deleteAdditionalBuffer()
+        shotButton.isUserInteractionEnabled = false
+        weak var weakSelf = self
+        self.videoUrls.append(self.videoUrl!)
+        weakSelf?.topView.liveCounter.isHidden = true
+        liveFinishRecord(finish: {
+            print("-------------:",self.videoUrls)
+            weakSelf?.liveTimer = nil
+            weakSelf?.saveLivePhoto()
+        })
     }
     
+    
+    func saveLivePhoto(){
+        //视频裁剪以及合成
+        saveManager = SaveVieoManager(urls: videoUrls)
+        let newUrl = URL(fileURLWithPath: "\(NSTemporaryDirectory())folder_all.mp4")
+        unlink(newUrl.path)
+        videoUrl = newUrl
+        saveManager?.combineLiveVideos(success: {
+            com in
+            weak var weakSelf = self
+            weakSelf?.saveManager?.store(com, storeUrl: newUrl, success:{
+                DispatchQueue.main.async {
+                    let vc =  CheckViewController.init(image: nil, type: 2)
+                    vc.videoUrl = newUrl
+                    vc.videoScale = weakSelf?.scaleRate
+                    vc.willDismiss = {
+                        if (weakSelf?.isBeauty)!{
+                            weakSelf?.isBeauty = false
+                            weakSelf?.defaultBottomView.beautyButton.isSelected = false
+                        }
+                        if weakSelf?.scaleRate != 0{
+                            weakSelf?.defaultBottomView.backgroundColor = UIColor.clear
+                        }
+                    }
+                    weakSelf?.present(vc, animated: true, completion: nil)
+                    weakSelf?.setLiveStart()
+                }
+            })
+        })
+    }
+    
+    
+    
+    /// 结束录制
+    ///
+    /// - Parameter finish: 完成回调
+    func liveFinishRecord(finish:@escaping ()->()){
+        ifFilter.removeTarget(movieWriter)
+        movieWriter?.finishRecording(completionHandler: {
+            finish()
+        })
+    }
+
+    
+    /// 录制过程中清空缓冲区
     func deleteLiveBuffer(){
         
         if videoUrls.count>=2{
@@ -1174,7 +1165,7 @@ extension FConViewController{
         
     }
     
-    
+    //录制结束后清空缓冲
     func deleteAdditionalBuffer(){
         while videoUrls.count>=3{
             do {
@@ -1184,6 +1175,11 @@ extension FConViewController{
             }
         }
     }
+    
+    
+    
+    
+    
     
     
 }

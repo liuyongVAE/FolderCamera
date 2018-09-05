@@ -113,7 +113,7 @@ class SaveVieoManager:NSObject{
             //剪第一段
             if i == 0{
                 //求liveVideo第二段长度n,需要用1.5 - 此长度作为第一段需要减去的长度
-                if videoUrls.count >= 1{
+                if videoUrls.count > 1{
                     var videoAsset2:AVURLAsset?
                     videoAsset2 = AVURLAsset.init(url: videoUrls[1])
                     let tt = videoAsset2!.duration
