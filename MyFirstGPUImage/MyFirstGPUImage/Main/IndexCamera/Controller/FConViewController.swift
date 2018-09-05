@@ -307,7 +307,8 @@ extension FConViewController{
         ifFilter.addTarget(mGpuimageView)
         mCamera.startCapture()
         ifaddFilter = false
- 
+        mCamera.addAudioInputsAndOutputs()//避免录制第一帧黑屏
+
         mCamera.delegate = self
 
 
@@ -757,7 +758,6 @@ extension FConViewController:ProgresssButtonDelegate{
     func startRecord(){
         shotButton.reStartCount()
         //shotButton.ifLivePhoto  = isLivePhoto
-        mCamera.addAudioInputsAndOutputs()//避免录制第一帧黑屏
         let name = Date().timeIntervalSince1970
         videoUrl = URL(fileURLWithPath: "\(NSTemporaryDirectory())folder_demo\(name).mp4")
         unlink(videoUrl?.path)
@@ -1080,11 +1080,15 @@ extension FConViewController{
         weak var weakSelf = self
         weakSelf?.shotButton.isUserInteractionEnabled = false
         weakSelf?.liveTimer?.invalidate()
+        //动画
+        weakSelf?.shotButton.setScaleAnimation(0.5)
         liveFinishRecord(finish: {
              weakSelf?.startRecord()
             //录制1.5秒后跳转
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5, execute: {
                 weakSelf?.setIntervalFinish()
+                weakSelf?.shotButton.setScaleAnimation(1)
+
             })
 
         })

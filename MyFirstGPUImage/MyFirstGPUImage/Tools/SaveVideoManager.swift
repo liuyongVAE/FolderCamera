@@ -66,7 +66,11 @@ class SaveVieoManager:NSObject{
                 try? audio?.insertTimeRange(video_timeRange, of: audioindex, at: CMTimeMakeWithSeconds(temDuration, 0))
             }
             temDuration += CMTimeGetSeconds(videoAsset?.duration ?? kCMTimeZero)
+
         }
+        let tt =  mixComposition.tracks[0].asset?.duration
+        let length = Double(tt!.value)/Double(tt!.timescale)
+        print("总长度:",length)
         return mixComposition
     }
     
@@ -109,11 +113,18 @@ class SaveVieoManager:NSObject{
     
     func combineLiveVideos(success:@escaping(_ mixComposition:AVMutableComposition)->()){
 
-        for i in 0...videoUrls.count-1{
             //剪第一段
-            if i == 0{
                 //求liveVideo第二段长度n,需要用1.5 - 此长度作为第一段需要减去的长度
-                if videoUrls.count > 1{
+                if videoUrls.count > 2{
+
+                    //最后一段剪黑屏
+                    let getBlack =  0.06
+                    //减黑屏
+                    let video3Composition = cutLiveVideo(frontOffset: 0, endOffset: Float64(getBlack), index: 2)
+                    let newUrl3 = URL(fileURLWithPath: "\(NSTemporaryDirectory())foldercut_3.mp4")
+                    unlink(newUrl3.path)
+                    videoUrls[2] = newUrl3
+
                     var videoAsset2:AVURLAsset?
                     videoAsset2 = AVURLAsset.init(url: videoUrls[1])
                     let tt = videoAsset2!.duration
@@ -125,16 +136,27 @@ class SaveVieoManager:NSObject{
                     videoUrls[0] = newUrl
                     //裁剪完第一段视频后，开始进行三段视频的合成
                     store(video1Composition, storeUrl: newUrl, success: {
-                        let mixCom = self.combineVideos()
-                        success(mixCom)
-                        
+                        self.store(video3Composition, storeUrl: newUrl3, success: {
+                            let mixCom = self.combineVideos()
+                            success(mixCom)
+                        })
                     })
                     
+                }else if videoUrls.count<3{
+
+                    let getBlack =  0.06
+                    //减黑屏
+                    let video3Composition = cutLiveVideo(frontOffset: 0, endOffset: Float64(getBlack), index: 1)
+                    let newUrl3 = URL(fileURLWithPath: "\(NSTemporaryDirectory())foldercut_3.mp4")
+                    unlink(newUrl3.path)
+                    videoUrls[1] = newUrl3
+                    //裁剪完第一段视频后，开始进行三段视频的合成
+                    store(video3Composition, storeUrl: newUrl3, success: {
+                            let mixCom = self.combineVideos()
+                            success(mixCom)
+                    })
                 }
-            }
-        }
-        
-   
+
     }
     
     

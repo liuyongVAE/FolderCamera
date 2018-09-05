@@ -369,6 +369,13 @@ extension RoundProgressButtonView{
     }
     
     
+    func setScaleAnimation(_ scale:CGFloat){
+        UIView.animate(withDuration: 0.3, animations: {
+            self.centerView.transform = CGAffineTransform(scaleX: scale , y: scale)
+        })
+    }
+    
+    
 }
 
 

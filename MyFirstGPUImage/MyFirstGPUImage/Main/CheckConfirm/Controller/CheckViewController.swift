@@ -538,7 +538,7 @@ extension CheckViewController{
         //初始化滤镜页面
         
         movieFile = GPUImageMovie.init(playerItem: playView.playerItem!)
-        movieFile?.playAtActualSpeed = false
+        movieFile?.playAtActualSpeed = true
         movieFile?.addTarget(livePhotoView.videoPlayView)
 
         movieFile?.startProcessing()

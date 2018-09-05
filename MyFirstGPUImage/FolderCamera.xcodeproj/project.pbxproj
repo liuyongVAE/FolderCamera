@@ -46,8 +46,6 @@
 		2D396A1D211ABE2F0049FE40 /* RoundProgressButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D396A1C211ABE2F0049FE40 /* RoundProgressButtonView.swift */; };
 		2D3A158921085257005131B8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A158821085257005131B8 /* AppDelegate.swift */; };
 		2D3A159021085258005131B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D3A158F21085258005131B8 /* Assets.xcassets */; };
-		2D3A159E21085258005131B8 /* MyFirstGPUImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A159D21085258005131B8 /* MyFirstGPUImageTests.swift */; };
-		2D3A15A921085258005131B8 /* MyFirstGPUImageUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A15A821085258005131B8 /* MyFirstGPUImageUITests.swift */; };
 		2D3A15B72108569C005131B8 /* FConViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A15B62108569C005131B8 /* FConViewController.swift */; };
 		2D3A15C421097969005131B8 /* Propoty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A15C321097969005131B8 /* Propoty.swift */; };
 		2D3A15C621099854005131B8 /* DefaultBotomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A15C521099854005131B8 /* DefaultBotomView.swift */; };
@@ -62,23 +60,6 @@
 		2DB116B821378B0F00D17A70 /* FDLivePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB116B721378B0F00D17A70 /* FDLivePhotoView.swift */; };
 		2DC6576F212C09AE001A2571 /* LineProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC6576E212C09AE001A2571 /* LineProgress.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		2D3A159A21085258005131B8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2D3A157D21085257005131B8 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2D3A158421085257005131B8;
-			remoteInfo = MyFirstGPUImage;
-		};
-		2D3A15A521085258005131B8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2D3A157D21085257005131B8 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2D3A158421085257005131B8;
-			remoteInfo = MyFirstGPUImage;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		2D03969E211D70B9004E87C0 /* DesignedGPUImageFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DesignedGPUImageFilter.h; sourceTree = "<group>"; };
@@ -147,10 +128,8 @@
 		2D3A158821085257005131B8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2D3A158F21085258005131B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2D3A159421085258005131B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2D3A159921085258005131B8 /* MyFirstGPUImageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyFirstGPUImageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D3A159D21085258005131B8 /* MyFirstGPUImageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFirstGPUImageTests.swift; sourceTree = "<group>"; };
 		2D3A159F21085258005131B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2D3A15A421085258005131B8 /* MyFirstGPUImageUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyFirstGPUImageUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D3A15A821085258005131B8 /* MyFirstGPUImageUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFirstGPUImageUITests.swift; sourceTree = "<group>"; };
 		2D3A15AA21085258005131B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2D3A15B62108569C005131B8 /* FConViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FConViewController.swift; sourceTree = "<group>"; };
@@ -177,20 +156,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0B10007E1569F76E1CAB1456 /* Pods_MyFirstGPUImage.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2D3A159621085258005131B8 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2D3A15A121085258005131B8 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,8 +301,6 @@
 			isa = PBXGroup;
 			children = (
 				2D3A158521085257005131B8 /* MyFirstGPUImage.app */,
-				2D3A159921085258005131B8 /* MyFirstGPUImageTests.xctest */,
-				2D3A15A421085258005131B8 /* MyFirstGPUImageUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -345,6 +308,7 @@
 		2D3A158721085257005131B8 /* MyFirstGPUImage */ = {
 			isa = PBXGroup;
 			children = (
+				2D85F250212A9808008AD54D /* Tools */,
 				2D2D6D98211D7923005F8371 /* myShader.fsh */,
 				2D378ED82112FB2B00A51DE8 /* Launch Screen.storyboard */,
 				2D3A159421085258005131B8 /* Info.plist */,
@@ -399,7 +363,6 @@
 		2D3A15BA210974C3005131B8 /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				2D85F250212A9808008AD54D /* Tools */,
 				2D3A158821085257005131B8 /* AppDelegate.swift */,
 			);
 			path = Base;
@@ -545,42 +508,6 @@
 			productReference = 2D3A158521085257005131B8 /* MyFirstGPUImage.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D3A159821085258005131B8 /* MyFirstGPUImageTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 2D3A15B021085258005131B8 /* Build configuration list for PBXNativeTarget "MyFirstGPUImageTests" */;
-			buildPhases = (
-				2D3A159521085258005131B8 /* Sources */,
-				2D3A159621085258005131B8 /* Frameworks */,
-				2D3A159721085258005131B8 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				2D3A159B21085258005131B8 /* PBXTargetDependency */,
-			);
-			name = MyFirstGPUImageTests;
-			productName = MyFirstGPUImageTests;
-			productReference = 2D3A159921085258005131B8 /* MyFirstGPUImageTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		2D3A15A321085258005131B8 /* MyFirstGPUImageUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 2D3A15B321085258005131B8 /* Build configuration list for PBXNativeTarget "MyFirstGPUImageUITests" */;
-			buildPhases = (
-				2D3A15A021085258005131B8 /* Sources */,
-				2D3A15A121085258005131B8 /* Frameworks */,
-				2D3A15A221085258005131B8 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				2D3A15A621085258005131B8 /* PBXTargetDependency */,
-			);
-			name = MyFirstGPUImageUITests;
-			productName = MyFirstGPUImageUITests;
-			productReference = 2D3A15A421085258005131B8 /* MyFirstGPUImageUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -594,14 +521,6 @@
 					2D3A158421085257005131B8 = {
 						CreatedOnToolsVersion = 9.4.1;
 						LastSwiftMigration = 0940;
-					};
-					2D3A159821085258005131B8 = {
-						CreatedOnToolsVersion = 9.4.1;
-						TestTargetID = 2D3A158421085257005131B8;
-					};
-					2D3A15A321085258005131B8 = {
-						CreatedOnToolsVersion = 9.4.1;
-						TestTargetID = 2D3A158421085257005131B8;
 					};
 				};
 			};
@@ -619,8 +538,6 @@
 			projectRoot = "";
 			targets = (
 				2D3A158421085257005131B8 /* MyFirstGPUImage */,
-				2D3A159821085258005131B8 /* MyFirstGPUImageTests */,
-				2D3A15A321085258005131B8 /* MyFirstGPUImageUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -634,20 +551,6 @@
 				2D378ED92112FB2B00A51DE8 /* Launch Screen.storyboard in Resources */,
 				2D378EC821115C2900A51DE8 /* GPUImage.InstagramFilter.bundle in Resources */,
 				2D3A159021085258005131B8 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2D3A159721085258005131B8 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2D3A15A221085258005131B8 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -751,36 +654,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2D3A159521085258005131B8 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2D3A159E21085258005131B8 /* MyFirstGPUImageTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2D3A15A021085258005131B8 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2D3A15A921085258005131B8 /* MyFirstGPUImageUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		2D3A159B21085258005131B8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 2D3A158421085257005131B8 /* MyFirstGPUImage */;
-			targetProxy = 2D3A159A21085258005131B8 /* PBXContainerItemProxy */;
-		};
-		2D3A15A621085258005131B8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 2D3A158421085257005131B8 /* MyFirstGPUImage */;
-			targetProxy = 2D3A15A521085258005131B8 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		2D3A15AB21085258005131B8 /* Debug */ = {
@@ -944,84 +818,6 @@
 			};
 			name = Release;
 		};
-		2D3A15B121085258005131B8 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = MyFirstGPUImageTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "-.MyFirstGPUImageTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyFirstGPUImage.app/MyFirstGPUImage";
-			};
-			name = Debug;
-		};
-		2D3A15B221085258005131B8 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = MyFirstGPUImageTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "-.MyFirstGPUImageTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyFirstGPUImage.app/MyFirstGPUImage";
-			};
-			name = Release;
-		};
-		2D3A15B421085258005131B8 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = MyFirstGPUImageUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "-.MyFirstGPUImageUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = MyFirstGPUImage;
-			};
-			name = Debug;
-		};
-		2D3A15B521085258005131B8 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = MyFirstGPUImageUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "-.MyFirstGPUImageUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = MyFirstGPUImage;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1039,24 +835,6 @@
 			buildConfigurations = (
 				2D3A15AE21085258005131B8 /* Debug */,
 				2D3A15AF21085258005131B8 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		2D3A15B021085258005131B8 /* Build configuration list for PBXNativeTarget "MyFirstGPUImageTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2D3A15B121085258005131B8 /* Debug */,
-				2D3A15B221085258005131B8 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		2D3A15B321085258005131B8 /* Build configuration list for PBXNativeTarget "MyFirstGPUImageUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2D3A15B421085258005131B8 /* Debug */,
-				2D3A15B521085258005131B8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
