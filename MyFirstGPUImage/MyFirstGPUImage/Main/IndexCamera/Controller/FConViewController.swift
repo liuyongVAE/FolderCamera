@@ -377,9 +377,13 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     func pushVideo(isRecord:Bool) {
         shotButton.ifLongRecord = isRecord
         shotButton.tipLabel.isHidden = isRecord
+        topView.liveButton.isHidden = true
+
         if !isRecord{
           shotButton.stop()
           shotButton.ifLongRecord = false
+          topView.liveButton.isHidden = false
+
         }
     }
     //MARK: - 切换滤镜的方法
@@ -859,9 +863,12 @@ extension FConViewController:ProgresssButtonDelegate{
         if isRecord{
             //录制时升起空白页
           weakSelf?.defaultBottomView.recordBackView.isHidden = false
+          weakSelf?.topView.turnScaleButton.isHidden = true
                 startRecord()
                 videoUrls.append(videoUrl!)
         }else{
+            weakSelf?.topView.turnScaleButton.isHidden = false
+
             weakSelf?.defaultBottomView.recordBackView.isHidden = true
             movieWriter?.finishRecording()
         }
@@ -871,6 +878,11 @@ extension FConViewController:ProgresssButtonDelegate{
     func finishRecordLongVideo() {
         shotButton.stop()
         if videoUrls.count <= 0{
+            shotButton.stop()
+            shotButton.ifLongRecord = false
+            defaultBottomView.selectionView.swipRight()
+            defaultBottomView.transmationAction(isSelected: false)
+            defaultBottomView.startLongRecord(isRecord: false)
             return
         }
         //视频合成
@@ -916,8 +928,10 @@ extension FConViewController:ProgresssButtonDelegate{
             shotButton.deletrLast()
         }else{
             shotButton.stop()
+            shotButton.ifLongRecord = false
+            defaultBottomView.selectionView.swipRight()
             defaultBottomView.transmationAction(isSelected: false)
-            defaultBottomView.recordButton.isSelected = false
+            defaultBottomView.startLongRecord(isRecord: false)
         }
     }
 }
@@ -971,7 +985,14 @@ extension FConViewController:GPUImageVideoCameraDelegate{
         for i in faceAreas {
             //扩大识别范围给美颜滤镜工作 用
            // print(i.bounds)
-            let rect = CGRect(x: i.bounds.origin.x, y: i.bounds.origin.y, width: i.bounds.width*3/2, height: (i.bounds.height*3/2 + 10))
+            let rect:CGRect = {
+                //如果是全屏模式
+                if scaleRate == 1{
+                    return CGRect(x: i.bounds.origin.x*2, y: i.bounds.origin.y*2, width: i.bounds.width*2, height: (i.bounds.height*2))
+                }else{
+                    return CGRect(x: i.bounds.origin.x, y: i.bounds.origin.y, width: i.bounds.width*3/2, height: (i.bounds.height*3/2 + 10))
+                }
+            }()
             beautyFilter?.updateMask(rect)
         }
         

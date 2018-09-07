@@ -93,7 +93,7 @@ class DefaultBotomView: UIView {
         return b
     }()
     
-    lazy var selectionView:UIView = {
+    lazy var selectionView:SelectionView = {
         let v = SelectionView.init(frame: CGRect.init(x: 0, y: 0, width: 120, height: 40), titles: ["拍照","视频"], parentViewController: nil)
         v.delegate = self
         return v
@@ -240,7 +240,7 @@ class DefaultBotomView: UIView {
         delegate?.pushVideo(isRecord:isRecord)
         //位置变换动画
         transmationAction(isSelected: isRecord)
-      
+   
         
     }
     
