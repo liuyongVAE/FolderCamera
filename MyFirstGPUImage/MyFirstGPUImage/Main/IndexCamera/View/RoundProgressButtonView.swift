@@ -35,6 +35,11 @@ class RoundProgressButtonView:UIView{
     //动画调用增量
     private var animationIncr:CGFloat = 0.0
     private var duration:Int? = 2
+    
+    //进度条高度
+    private var progressYRise = -0.87406*SCREEN_HEIGHT
+    private var progressY =  -0.81406*SCREEN_HEIGHT
+
     var centerViewWidth:CGFloat = 55
     var ifRecord:Bool = false
     var ifLivePhoto:Bool = false
@@ -309,7 +314,7 @@ extension RoundProgressButtonView{
     func setLinePath(){
         progressLineLayer.fillColor = nil
         progressLineLayer.lineCap = kCALineCapSquare//线端点类型
-        progressLineLayer.frame = CGRect.init(x: -152, y: -543, width: SCREEN_WIDTH, height: 5)
+        progressLineLayer.frame = CGRect.init(x: -152, y: progressY, width: SCREEN_WIDTH, height: 5)
         progressLineLayer.lineWidth = width
         progressLineLayer.strokeColor = bgColor.cgColor
         let progressPath = UIBezierPath()
@@ -327,7 +332,7 @@ extension RoundProgressButtonView{
         let progressLayer2 = CAShapeLayer()
         progressLayer2.fillColor = nil
         progressLayer2.lineCap = kCALineCapButt//线端点类型
-        progressLayer2.frame = CGRect.init(x: -152, y: -543, width: SCREEN_WIDTH, height: 5)
+        progressLayer2.frame = CGRect.init(x: -152, y: progressY, width: SCREEN_WIDTH, height: 5)
         progressLayer2.lineWidth = width
         progressLayer2.strokeColor = UIColor.white.cgColor
         progressLayer2.zPosition = 2
@@ -353,17 +358,21 @@ extension RoundProgressButtonView{
     
     //滤镜页面升起时，调用此方法将进度条移动到顶部
     func moveLine(){
-        progressLineLayer.frame = CGRect.init(x: -152, y: -583, width: SCREEN_WIDTH, height: 5)
+        //0.87406  583
+        print("进度条位置: ",583/SCREEN_HEIGHT)
+        progressLineLayer.frame = CGRect.init(x: -152, y: progressYRise, width: SCREEN_WIDTH, height: 5)
         for i in whiteOverlay{
-            i.frame = CGRect.init(x: -152, y: -583, width: SCREEN_WIDTH, height: 5)
+            i.frame = CGRect.init(x: -152, y: progressYRise, width: SCREEN_WIDTH, height: 5)
         }
 
     }
     //重设进度条位置
     func reSetLine(){
-        progressLineLayer.frame = CGRect.init(x: -152, y: -543, width: SCREEN_WIDTH, height: 5)
+       //0.814
+        print("进度条位置: ",543/SCREEN_HEIGHT)
+        progressLineLayer.frame = CGRect.init(x: -152, y: progressY, width: SCREEN_WIDTH, height: 5)
         for i in whiteOverlay{
-            i.frame = CGRect.init(x: -152, y: -543, width: SCREEN_WIDTH, height: 5)
+            i.frame = CGRect.init(x: -152, y: progressY, width: SCREEN_WIDTH, height: 5)
         }
 
     }

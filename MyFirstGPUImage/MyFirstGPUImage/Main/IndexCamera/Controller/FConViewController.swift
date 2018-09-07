@@ -148,6 +148,16 @@ class FConViewController: UIViewController {
         }
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if cameraFillterView.mb != nil{
+            UIView.animate(withDuration: 0.3, animations: {
+                self.cameraFillterView.mb!()
+                self.view.layoutIfNeeded()
+                
+            })
+        }
+    }
+    
     //MARK: - 析构注销函数()
     deinit{
         timer.invalidate()

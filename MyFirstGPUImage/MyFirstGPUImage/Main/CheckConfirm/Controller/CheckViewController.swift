@@ -110,7 +110,7 @@ class CheckViewController: UIViewController {
     var moviePreview:GPUImageView?
     
     
-    //初始化
+    //MARK: - 初始化
     init(image:UIImage?,type:Int){
         self.type = type
         if image != nil{
@@ -129,7 +129,7 @@ class CheckViewController: UIViewController {
         self.init(image: nil, type: 1)
     }
     
-
+    //MARK: - 生命周期
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
@@ -161,6 +161,16 @@ class CheckViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let block =  cameraFilterView.mb{
+            UIView.animate(withDuration: 0.3, animations: {
+                block()
+                self.view.layoutIfNeeded()
+            })
+        }
     }
     
     
@@ -528,8 +538,6 @@ extension CheckViewController{
             self.defaultBottomView.backgroundColor = UIColor.clear
         }
         
-
-
         //带声音的视频播放
         playView.videoUrl = videoUrl
         //取消重复播放
@@ -551,8 +559,7 @@ extension CheckViewController{
                 self.playView.pause()
             }
         }
-        
-       
+
         let asset = AVURLAsset(url: videoURL)
         let generator = AVAssetImageGenerator(asset: asset)
         generator.appliesPreferredTrackTransform = true
