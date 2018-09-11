@@ -21,6 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
        // UIApplication.shared.setStatusBarHidden(true, with: .none)
         // Override point for customization after application launch.
+
+      
+        
+        
+        
         return true
     }
 
@@ -32,6 +37,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        //记录app启动次数
+        if let time = UserDefaults.standard.value(forKey: "userTime"){
+            var timeD = time as! Int
+            timeD +=  1
+            UserDefaults.standard.set(timeD, forKey: "userTime")
+            print(timeD)
+        }else{
+            UserDefaults.standard.set(0, forKey: "userTime")
+        }
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {

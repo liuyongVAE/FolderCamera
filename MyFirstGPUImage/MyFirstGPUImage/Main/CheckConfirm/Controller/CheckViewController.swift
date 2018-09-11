@@ -146,6 +146,16 @@ class CheckViewController: UIViewController {
     
     
     override func viewDidAppear(_ animated: Bool) {
+        //检测用户使用次数，十次时候弹出好评弹窗
+        if let time = UserDefaults.standard.value(forKey: "userTime"){
+            let z = time as! Int
+            if z > 10 && z < 1024{
+                UpdateManager.presentCommentApp()
+                UserDefaults.standard.set(1024, forKey: "userTime")
+            }
+        }
+        
+        
         if type == 1{
             setPreview()
             playView.play()
