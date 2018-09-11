@@ -15,6 +15,7 @@ protocol topViewDelegate{
     func  turnCamera()
     func  flashMode()
     func  liveMode()
+    func  push(_ vc:UIViewController)
 }
 
 
@@ -32,16 +33,19 @@ class TopView: UIView {
     }()
     //    转换拍照比例
     lazy var turnScaleButton:UIButton = {
-        var btn = UIButton()
+        var btn = NewUIButton()
         btn.layer.cornerRadius = widthofme/2
         btn.setImage(#imageLiteral(resourceName: "屏幕比例"), for: .normal)
+        btn.setTitle("比例切换", for: .normal)
         btn.addTarget(self, action: #selector(turnScale), for: .touchUpInside)
         return btn
     }()
     lazy var flashButton:UIButton = {
-        var btn = UIButton()
+        var btn = NewUIButton()
         btn.layer.cornerRadius = widthofme/2
         btn.setImage(#imageLiteral(resourceName: "闪光灯关闭"), for: .normal)
+        btn.setTitle("闪光灯", for: .normal)
+
         btn.addTarget(self, action: #selector(self.flashMode(btn:)), for: .touchUpInside)
         
         return btn
@@ -57,35 +61,56 @@ class TopView: UIView {
         return btn
     }()
     
+    
+    lazy var moreButton:UIButton = {
+        var btn = UIButton()
+        btn.layer.cornerRadius = widthofme/2
+        btn.setImage(#imageLiteral(resourceName: "更多"), for: .normal)
+        btn.addTarget(self, action: #selector(touchMore), for: .touchUpInside)
+        
+        return btn
+    }()
+    
     lazy var liveCounter:UILabel = {
         var btn = UILabel()
         btn.textColor = UIColor.white
         return btn
     }()
     
+    lazy var popSetting:CallSettingView = {
+        var btn = CallSettingView(frame: CGRect.zero)
+       // btn.textColor = UIColor.white
+        return btn
+    }()
+    
+    lazy var settingButton:UIButton = {
+        var btn = NewUIButton()
+        btn.layer.cornerRadius = widthofme/2
+        btn.setImage(#imageLiteral(resourceName: "设置"), for: .normal)
+        btn.setTitle("设置", for: .normal)
+        btn.addTarget(self, action: #selector(self.push), for: .touchUpInside)
+        return btn
+    }()
     
     
     //Propoty，按钮点击的代理
     
     var delegate:topViewDelegate?
     
+    var upView:UIView?
     
-    
-    init() {
+    init(upView:UIView) {
         super.init(frame: CGRect.zero)
         self.backgroundColor = UIColor.white
         self.addSubview(turnCameraButton)
         self.addSubview(turnScaleButton)
-        self.addSubview(flashButton)
         self.addSubview(liveButton)
         self.addSubview(liveCounter)
+        //self.addSubview(popSetting)
+        self.addSubview(moreButton)
+
         let widthOfTop:CGFloat = 30
-        turnScaleButton.snp.makeConstraints({
-            make in
-            make.width.height.equalTo(widthOfTop)
-            make.left.equalToSuperview().offset(20)
-            make.top.equalToSuperview().offset(15)
-        })
+     
         
         turnCameraButton.snp.makeConstraints({
             make in
@@ -94,16 +119,11 @@ class TopView: UIView {
             make.top.equalToSuperview().offset(15)
         })
         
-        flashButton.snp.makeConstraints({
-            make in
-            make.width.height.equalTo(widthOfTop)
-            make.left.equalTo(turnScaleButton.snp.right).offset(20)
-            make.top.equalToSuperview().offset(15)
-        })
+
         liveButton.snp.makeConstraints({
             make in
             make.width.height.equalTo(widthOfTop)
-            make.right.equalTo(turnCameraButton.snp.left).offset(-20)
+            make.centerX.equalToSuperview()
             make.top.equalToSuperview().offset(15)
             
         })
@@ -114,6 +134,49 @@ class TopView: UIView {
             make.top.equalToSuperview().offset(15)
             
         })
+        moreButton.snp.makeConstraints({
+            make in
+            make.width.height.equalTo(widthOfTop)
+            make.left.equalToSuperview().offset(20)
+            make.top.equalToSuperview().offset(15)
+        })
+        
+        
+        //更多页面
+        upView.addSubview(popSetting)
+        popSetting.addSubview(flashButton)
+        popSetting.addSubview(turnScaleButton)
+        popSetting.addSubview(settingButton)
+        
+        popSetting.snp.makeConstraints({
+            make in
+            make.height.equalTo(widthOfTop*4)
+            make.width.equalTo(250)
+            make.left.equalToSuperview().offset(-80)
+            make.top.equalToSuperview().offset(-10)
+            
+        })
+        flashButton.snp.makeConstraints({
+            make in
+            make.width.height.equalTo(widthOfTop+30)
+            make.left.equalToSuperview().offset(15)
+            make.centerY.equalToSuperview().offset(-5)
+        })
+
+        turnScaleButton.snp.makeConstraints({
+            make in
+            make.width.height.equalTo(widthOfTop+30)
+            make.left.equalTo(flashButton.snp.right).offset(15)
+            make.centerY.equalToSuperview().offset(-5)
+        })
+
+        settingButton.snp.makeConstraints({
+            make in
+            make.width.height.equalTo(widthOfTop+30)
+            make.left.equalTo(turnScaleButton.snp.right).offset(15)
+            make.centerY.equalToSuperview().offset(-5)
+        })
+
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -134,7 +197,9 @@ class TopView: UIView {
     @objc func turnCamera(_ btn:UIButton){
         delegate?.turnCamera()
     }
-    @objc func pushVideo(){
+    @objc func push(){
+        delegate?.push(SettingViewController())
+        popSetting.close()
     }
     @objc func liveMode(_ btn:UIButton){
         
@@ -145,6 +210,18 @@ class TopView: UIView {
             btn.isSelected = !btn.isSelected
             delegate?.liveMode()
         }
+    }
+    
+    
+    @objc func touchMore(){
+        moreButton.isSelected = !moreButton.isSelected
+
+        if moreButton.isSelected{
+            popSetting.open()
+        }else{
+            popSetting.close()
+        }
+
     }
     
     func setCounter(text:String){

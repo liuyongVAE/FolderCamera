@@ -21,6 +21,12 @@ let filterSelectedColor = UIColor(red: 255/255, green: 224/255, blue: 130/255, a
 
 
 
-//获取屏幕旋转方向
+//自定义navigation
+public func setNavi(nav:UINavigationController){
+    //let dict:NSDictionary = [NSAttributedStringKey.foregroundColor: UIColor.black,NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 18)]
+   // nav.navigationBar.titleTextAttributes = dict as?  [NSAttributedStringKey : Any]
+    nav.navigationBar.tintColor = UIColor.black
+   //  nav.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
 
+}
 

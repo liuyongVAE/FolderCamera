@@ -40,7 +40,7 @@ class FConViewController: UIViewController {
     }()
     //  转换摄像头
     lazy var topView:TopView = {
-        let v = TopView()
+        let v = TopView(upView: self.view)
         v.backgroundColor = UIColor.clear
         v.delegate = self
         return v
@@ -607,6 +607,12 @@ extension FConViewController:topViewDelegate{
         }
     }
     
+    //跳转到下一页
+    func push(_ vc: UIViewController) {
+        setNavi(nav: navigationController!)
+        
+        navigationController?.pushViewController(vc, animated: true)
+    }
     
 }
 
@@ -998,7 +1004,16 @@ extension FConViewController:GPUImageVideoCameraDelegate{
         
         //主线程刷新UI并设置延迟
         DispatchQueue.main.async {
-            self.layersView.update(areas: faceAreas)
+            //判断是否开启识别框
+            guard let flag = UserDefaults.standard.value(forKey: "isFaceLayer")else{
+                self.layersView.update(areas: faceAreas)
+                return
+            }
+            if flag as! Bool {
+                self.layersView.update(areas: faceAreas)
+            }else{
+                self.layersView.removeAll()
+            }
         }
     }
     
@@ -1091,14 +1106,12 @@ extension FConViewController{
         shotButton.isUserInteractionEnabled = true
         startRecord()
         videoUrls.append(videoUrl!)
-        topView.setCounter(text: "0")
         liveTimer = Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(updateLiveCounter), userInfo: nil, repeats: true)
     }
     //倒计时控制
     @objc func updateLiveCounter(){
        // print("正在拍摄LivePhoto: ",liveCounter)
         weak var weakSelf = self
-        topView.setCounter(text: "\(liveCounter)")
             liveFinishRecord(finish: {
                  weakSelf?.deleteLiveBuffer()
                  weakSelf?.startRecord()

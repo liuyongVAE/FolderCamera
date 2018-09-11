@@ -58,7 +58,13 @@ final class FaceLayerView: UIView {
         removeCircles(of: Array(trackingIDsToBeRemoved))
     }
     
-    
+    func removeAll(){
+        if let zz = layer.sublayers {
+            for i in zz{
+                i.removeFromSuperlayer()
+            }
+        }
+    }
 
     private func moveCircles(of areas: [FaceArea]) {
         areas.forEach { moveCircle(of: $0) }

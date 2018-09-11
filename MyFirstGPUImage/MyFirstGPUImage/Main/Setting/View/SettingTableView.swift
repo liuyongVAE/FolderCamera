@@ -8,14 +8,98 @@
 
 import UIKit
 
-class SettingTableView: UITableView {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+//设置页面的展示view
+class SettingTableView: UIView {
+    
+    //MARK: -  Lazy Loading
+    lazy var tableView:UITableView = {
+        let tableview = UITableView(frame: CGRect.zero)
+        tableview.tableFooterView = UIView(frame: CGRect.zero)
+        tableview.isScrollEnabled = false
+        tableview.delegate = self
+        tableview.dataSource = self
+        return  tableview
+    }()
+    
+    
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.addSubview(tableView)
+        tableView.register(UINib(nibName: "SettingTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
+        tableView.snp.makeConstraints({
+            make in
+            make.width.height.left.top.equalToSuperview()
+        })
     }
-    */
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
 
+
+
+}
+
+
+// MARK: - TableViewDelegate
+extension SettingTableView:UITableViewDelegate,UITableViewDataSource{
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return SettingModel.share.section.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return  SettingModel.share.titles[section]!.count
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+       return SettingModel.share.section[section]
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 60
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+         let cell =  self.tableView.dequeueReusableCell(withIdentifier: "cell") as! SettingTableViewCell
+        cell.selectionStyle = .none
+ 
+        if(indexPath.section == 0){
+            cell.openSwitch.isHidden = false
+            cell.rightNextImage.isHidden = true
+        }else{
+            cell.openSwitch.isHidden = true
+            cell.rightNextImage.isHidden = false
+        }
+        
+        cell.textLabel?.text = SettingModel.share.titles[indexPath.section]?[indexPath.row]
+         return cell
+    }
+    
+    //点击跳转
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 { return }
+        switch indexPath.row {
+        case 0:
+            UpdateManager()
+
+        case 1:
+             break
+        case 2:
+            break
+        default:
+            break
+        }
+        
+        
+    }
+    
+    
+    
 }
