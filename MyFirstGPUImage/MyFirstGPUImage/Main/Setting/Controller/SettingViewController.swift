@@ -13,8 +13,10 @@ class SettingViewController: UIViewController {
     //MARK: - Lazy Loading
     lazy var tableView:UIView = {
         let v = SettingTableView(frame: CGRect.zero)
+        v.delegate = self
         return v
     }()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +33,7 @@ class SettingViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isHidden = true
+       //self.navigationController?.navigationBar.isHidden = true
     }
     
     
@@ -56,4 +58,11 @@ class SettingViewController: UIViewController {
     }
     */
 
+}
+extension SettingViewController:SettingViewDelegate{
+    func push(vc: UIViewController) {
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    
 }

@@ -12,7 +12,7 @@ class  SettingModel {
     var section = ["拍照设置","其他"]
     var titles = [
         0:["人脸识别框"],
-        1:["版本更新","意见反馈","许可证明","关于折纸","给我点赞吧~"]
+        1:["版本更新","意见反馈","关于作者","关于折纸","给我点赞吧~"]
     ]
     
     var selectedValue = [true]

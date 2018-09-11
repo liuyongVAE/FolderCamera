@@ -495,7 +495,6 @@
 				2DF4891B21464D0400423A6A /* SettingTableView.swift */,
 				2DB0291121466F86009A2821 /* SettingTableViewCell.swift */,
 				2DB0291221466F86009A2821 /* SettingTableViewCell.xib */,
-				2DB0291721478BBB009A2821 /* FolderWebViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -503,6 +502,7 @@
 		2DC0682021425BFC00551531 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				2DB0291721478BBB009A2821 /* FolderWebViewController.swift */,
 				2DF4891721464B1000423A6A /* SettingViewController.swift */,
 			);
 			path = Controller;

@@ -9,6 +9,10 @@
 import UIKit
 
 
+protocol SettingViewDelegate{
+    func push(vc:UIViewController)
+    
+}
 //设置页面的展示view
 class SettingTableView: UIView {
     
@@ -22,6 +26,7 @@ class SettingTableView: UIView {
         return  tableview
     }()
     
+    var delegate:SettingViewDelegate?
     
     
     override init(frame: CGRect) {
@@ -87,12 +92,16 @@ extension SettingTableView:UITableViewDelegate,UITableViewDataSource{
         if indexPath.section == 0 { return }
         switch indexPath.row {
         case 0:
-            UpdateManager()
-
+           _ =  UpdateManager()
         case 1:
-             break
+            
+            delegate?.push(vc: FolderWebViewController(weburl:URL(string: "https://www.jianshu.com/p/b8fe2bb0a9b6")! ))
         case 2:
-            break
+            delegate?.push(vc: FolderWebViewController(weburl:URL(string: "http://www.liuyongvae.com")! ))
+        case 3:
+            delegate?.push(vc: FolderWebViewController(weburl:URL(string: "https://github.com/liuyongVAE/FolderCamera/blob/master/README.md")! ))
+        case 4:
+             UpdateManager.commentApp()
         default:
             break
         }

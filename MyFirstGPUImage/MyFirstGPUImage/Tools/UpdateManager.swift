@@ -7,7 +7,8 @@
 //
 
 import Foundation
-
+import ProgressHUD
+import StoreKit
 class UpdateManager:NSObject{
     
     
@@ -19,8 +20,10 @@ class UpdateManager:NSObject{
         let appId:String = "1421026171"
         //获取appstore上的最新版本号
         let appUrl = URL.init(string: "http://itunes.apple.com/lookup?id=" + appId)
-        let appMsg = try? String.init(contentsOf: appUrl!, encoding: .utf8)
-        let appMsgDict:NSDictionary = getDictFromString(jString: appMsg!)
+        guard let appMsg = try? String.init(contentsOf: appUrl!, encoding: .utf8) else{
+            return
+        }
+        let appMsgDict:NSDictionary = getDictFromString(jString: appMsg)
         let appResultsArray:NSArray = (appMsgDict["results"] as? NSArray)!
         let appResultsDict:NSDictionary = appResultsArray.lastObject as! NSDictionary
         let appStoreVersion:String = appResultsDict["version"] as! String
@@ -47,6 +50,8 @@ class UpdateManager:NSObject{
             alertC.addAction(noAction)
             alertC.addAction(cancelAction)
             UIApplication.shared.keyWindow?.rootViewController?.present(alertC, animated: true, completion: nil)
+        }else{
+            ProgressHUD.showSuccess("已经是最新版本了哦")
         }
         
     }
@@ -56,6 +61,20 @@ class UpdateManager:NSObject{
         let updateUrl:URL = URL.init(string: "http://itunes.apple.com/app/id" + appId)!
         UIApplication.shared.openURL(updateUrl)
        // UIApplication.shared.open(updateUrl, options: [:], completionHandler: nil)
+    }
+    
+   static func commentApp(){
+
+        let updateUrl:URL = URL.init(string: "itms-apps://itunes.apple.com/app/id" + "1421026171")!
+        UIApplication.shared.openURL(updateUrl)
+    }
+    
+    static func presentCommentApp(){
+            if #available(iOS 10.3, *) {
+                SKStoreReviewController.requestReview()
+            } else {
+                // Fallback on earlier versions
+            }
     }
     
     //不再提示
