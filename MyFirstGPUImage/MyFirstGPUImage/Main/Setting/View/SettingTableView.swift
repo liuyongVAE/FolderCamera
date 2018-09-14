@@ -9,7 +9,7 @@
 import UIKit
 
 
-protocol SettingViewDelegate{
+protocol SettingViewDelegate: class{
     func push(vc:UIViewController)
     
 }
@@ -26,7 +26,7 @@ class SettingTableView: UIView {
         return  tableview
     }()
     
-    var delegate:SettingViewDelegate?
+   weak var delegate:SettingViewDelegate?
     
     
     override init(frame: CGRect) {

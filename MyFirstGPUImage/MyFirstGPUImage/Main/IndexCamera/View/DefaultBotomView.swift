@@ -11,7 +11,7 @@ import SnapKit
 
 
 
-protocol DefaultBottomViewDelegate{
+protocol DefaultBottomViewDelegate: class{
     func changeFillter()
     func beauty()
     func pushVideo(isRecord:Bool)
@@ -104,7 +104,7 @@ class DefaultBotomView: UIView {
     
     //Propoty，按钮点击的代理
     
-    var delegate:DefaultBottomViewDelegate?
+    weak var delegate:DefaultBottomViewDelegate?
     
 
 

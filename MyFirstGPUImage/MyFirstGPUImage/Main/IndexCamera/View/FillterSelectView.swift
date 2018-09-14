@@ -9,7 +9,7 @@
 import UIKit
 
 
-protocol FillterSelectViewDelegate {
+protocol FillterSelectViewDelegate : class {
     func switchFillter(index:Int)//滤镜选择
 }
 
@@ -26,7 +26,7 @@ class FillterSelectView: UIView {
     fileprivate let layout = UICollectionViewFlowLayout()
     var collectionView:UICollectionView!
     //滤镜选择代理
-    var filterDelegate:FillterSelectViewDelegate?
+    weak  var filterDelegate:FillterSelectViewDelegate?
     //传值闭包
     var mb:shotPositionResetBlock?
     //UI lazy loading

@@ -9,7 +9,7 @@
 import UIKit
 
 
-protocol getCellIndex{
+protocol getCellIndex: class{
     func getCellIndex()->Int
 }
 
@@ -18,7 +18,7 @@ class SettingTableViewCell: UITableViewCell {
 
     @IBOutlet weak var openSwitch: UISwitch!
     @IBOutlet weak var rightNextImage: UIImageView!
-    var delegate:getCellIndex?
+    weak var delegate:getCellIndex?
     override func awakeFromNib() {
         super.awakeFromNib()
         openSwitch.addTarget(self, action: #selector(switchValueChanged(_:)), for: .valueChanged)

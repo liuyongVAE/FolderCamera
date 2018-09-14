@@ -7,7 +7,7 @@
 //
 
 import UIKit
-protocol selectedDelegate {
+protocol selectedDelegate : class{
     
     /// 选中操作
     ///
@@ -27,7 +27,7 @@ class SelectionView: UIView {
     let topback = UIView()
     let ssWidth:CGFloat = 120
     var currentIndex = 0
-    var delegate:selectedDelegate?
+    weak var delegate:selectedDelegate?
     
     init(frame: CGRect,titles: [String],parentViewController: UIViewController?) {
         self.titles = titles

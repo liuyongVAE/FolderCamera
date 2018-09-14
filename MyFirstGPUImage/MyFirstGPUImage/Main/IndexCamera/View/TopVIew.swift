@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import ProgressHUD
 
-protocol topViewDelegate{
+protocol topViewDelegate : class{
     func  turnScale()
     func  turnCamera()
     func  flashMode()
@@ -95,7 +95,7 @@ class TopView: UIView {
     
     //Propoty，按钮点击的代理
     
-    var delegate:topViewDelegate?
+    weak var delegate:topViewDelegate?
     
     var upView:UIView?
     
