@@ -52,10 +52,10 @@
 		2D3A15CB2109B105005131B8 /* NewUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A15CA2109B105005131B8 /* NewUIButton.swift */; };
 		2D502351210AB8E200A7559A /* FillterSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D502350210AB8E200A7559A /* FillterSelectView.swift */; };
 		2D85F24F212A97E5008AD54D /* SaveVideoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D85F24E212A97E5008AD54D /* SaveVideoManager.swift */; };
+		2D895532214F75CB003E4B7A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D895531214F75CB003E4B7A /* Assets.xcassets */; };
 		2DB0290D21465AA8009A2821 /* SettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB0290C21465AA8009A2821 /* SettingModel.swift */; };
 		2DB0291321466F86009A2821 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB0291121466F86009A2821 /* SettingTableViewCell.swift */; };
 		2DB0291421466F86009A2821 /* SettingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2DB0291221466F86009A2821 /* SettingTableViewCell.xib */; };
-		2DB029162146710D009A2821 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2DB029152146710D009A2821 /* Assets.xcassets */; };
 		2DB0291821478BBB009A2821 /* FolderWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB0291721478BBB009A2821 /* FolderWebViewController.swift */; };
 		2DB0291B21478D5F009A2821 /* UpdateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB0291A21478D5F009A2821 /* UpdateManager.swift */; };
 		2DB116A7213541E100D17A70 /* LivePhotoPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB116A6213541E100D17A70 /* LivePhotoPreviewViewController.swift */; };
@@ -157,10 +157,10 @@
 		2D3A15CA2109B105005131B8 /* NewUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewUIButton.swift; sourceTree = "<group>"; };
 		2D502350210AB8E200A7559A /* FillterSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillterSelectView.swift; sourceTree = "<group>"; };
 		2D85F24E212A97E5008AD54D /* SaveVideoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveVideoManager.swift; sourceTree = "<group>"; };
+		2D895531214F75CB003E4B7A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2DB0290C21465AA8009A2821 /* SettingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingModel.swift; sourceTree = "<group>"; };
 		2DB0291121466F86009A2821 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		2DB0291221466F86009A2821 /* SettingTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingTableViewCell.xib; sourceTree = "<group>"; };
-		2DB029152146710D009A2821 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2DB0291721478BBB009A2821 /* FolderWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderWebViewController.swift; sourceTree = "<group>"; };
 		2DB0291A21478D5F009A2821 /* UpdateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateManager.swift; sourceTree = "<group>"; };
 		2DB116A6213541E100D17A70 /* LivePhotoPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivePhotoPreviewViewController.swift; sourceTree = "<group>"; };
@@ -411,7 +411,7 @@
 		2D3A15BB210974D7005131B8 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				2DB029152146710D009A2821 /* Assets.xcassets */,
+				2D895531214F75CB003E4B7A /* Assets.xcassets */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -681,9 +681,9 @@
 				2D378ED92112FB2B00A51DE8 /* Launch Screen.storyboard in Resources */,
 				2D378EC821115C2900A51DE8 /* GPUImage.InstagramFilter.bundle in Resources */,
 				2DD41328214917F6001EDC29 /* ItemCollectionViewCell.xib in Resources */,
+				2D895532214F75CB003E4B7A /* Assets.xcassets in Resources */,
 				2DD4131E2148FF97001EDC29 /* AlbumTableViewCell.xib in Resources */,
 				2DB0291421466F86009A2821 /* SettingTableViewCell.xib in Resources */,
-				2DB029162146710D009A2821 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
