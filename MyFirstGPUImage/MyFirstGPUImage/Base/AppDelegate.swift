@@ -15,8 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         self.window = UIWindow(frame:UIScreen.main.bounds)
-        //window?.rootViewController = CusTomTabBar()
-        window?.rootViewController = UINavigationController(rootViewController:AlbumViewController())
+        window?.rootViewController = UINavigationController(rootViewController:FConViewController())
         self.window?.backgroundColor = UIColor.white
         window?.makeKeyAndVisible()
        // UIApplication.shared.setStatusBarHidden(true, with: .none)

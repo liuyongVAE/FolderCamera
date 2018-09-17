@@ -98,7 +98,7 @@ class CheckViewController: UIViewController {
     var image:UIImage?
     var imageNormal:UIImage!
     //图片分辨率
-    var fixel:Int?
+    var fixel:Double?
     var videoScale:Int?
     var willDismiss:(()-> Void)? = nil
     //滤镜
@@ -251,25 +251,31 @@ extension CheckViewController{
     /// 获取图片像素
     ///
     /// - Returns: 像素元组
-    func getImageSize()->(w:Int,h:Int){
+    func getImageSize()->(w:Double,h:Double){
+        print(image?.imageOrientation.rawValue)
         guard let fixelW = image?.cgImage?.width else{return (0,0)}
         guard let fixelH = image?.cgImage?.height else{return (0,0)}
         //  let fx  = movieFile?.
         
-        return (fixelW,fixelH)
+        return (Double(fixelW),Double(fixelH))
     }
     
     
     /// 解决图片显示旋转问题
     func changeImagePresent(){
-        if fixel == 1280{
+        let fRate = getImageSize()
+        let fScale:Float =  (Float(fRate.h/fRate.w))
+        print(fScale)
+        if fScale > 1.7 &&  fScale < 2 //16:9
+        {
             photoView.snp.remakeConstraints({
                 make in
                 make.top.left.bottom.width.equalToSuperview()
             })
             self.view.layoutIfNeeded()
             self.defaultBottomView.isHidden = true
-        }else{
+        } else if fScale > 1.3 && fScale < 1.4//4:3
+        {
             photoView.contentMode = .scaleAspectFill
             photoView.snp.remakeConstraints({
                 make in
@@ -277,7 +283,12 @@ extension CheckViewController{
                 make.height.equalTo(SCREEN_HEIGHT*3/4)
             })
             self.view.layoutIfNeeded()
+            
+        }else//1:1
+        {
+            
         }
+        
     }
     
     

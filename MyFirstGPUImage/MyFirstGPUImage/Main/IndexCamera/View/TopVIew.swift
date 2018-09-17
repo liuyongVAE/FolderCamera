@@ -50,7 +50,7 @@ class TopView: UIView {
         
         return btn
     }()
-    
+    //Live Photo按钮
     lazy var liveButton:UIButton = {
         var btn = UIButton()
         btn.layer.cornerRadius = widthofme/2
@@ -61,7 +61,7 @@ class TopView: UIView {
         return btn
     }()
     
-    
+    //更多按钮
     lazy var moreButton:UIButton = {
         var btn = UIButton()
         btn.layer.cornerRadius = widthofme/2
@@ -82,13 +82,23 @@ class TopView: UIView {
        // btn.textColor = UIColor.white
         return btn
     }()
-    
+    //设置按钮
     lazy var settingButton:UIButton = {
         var btn = NewUIButton()
         btn.layer.cornerRadius = widthofme/2
         btn.setImage(#imageLiteral(resourceName: "设置"), for: .normal)
         btn.setTitle("设置", for: .normal)
         btn.addTarget(self, action: #selector(self.push), for: .touchUpInside)
+        return btn
+    }()
+    
+    //相册按钮
+    lazy var albumButton:UIButton = {
+        var btn = UIButton()
+        btn.layer.cornerRadius = widthofme/2
+        btn.setImage(#imageLiteral(resourceName: "相册"), for: .normal)
+        btn.addTarget(self, action: #selector(pushAlbum), for: .touchUpInside)
+        
         return btn
     }()
     
@@ -108,6 +118,7 @@ class TopView: UIView {
         self.addSubview(liveCounter)
         //self.addSubview(popSetting)
         self.addSubview(moreButton)
+        self.addSubview(albumButton)
 
         let widthOfTop:CGFloat = 30
      
@@ -123,7 +134,7 @@ class TopView: UIView {
         liveButton.snp.makeConstraints({
             make in
             make.width.height.equalTo(widthOfTop)
-            make.centerX.equalToSuperview()
+            make.right.equalTo(turnCameraButton.snp.left).offset(-40)
             make.top.equalToSuperview().offset(15)
             
         })
@@ -138,6 +149,12 @@ class TopView: UIView {
             make in
             make.width.height.equalTo(widthOfTop)
             make.left.equalToSuperview().offset(20)
+            make.top.equalToSuperview().offset(15)
+        })
+        albumButton.snp.makeConstraints({
+            make in
+            make.width.height.equalTo(widthOfTop)
+            make.left.equalTo(moreButton.snp.right).offset(40)
             make.top.equalToSuperview().offset(15)
         })
         
@@ -221,6 +238,11 @@ class TopView: UIView {
         }else{
             popSetting.close()
         }
+
+    }
+    
+    @objc func pushAlbum(){
+        delegate?.push(AlbumViewController())
 
     }
     
