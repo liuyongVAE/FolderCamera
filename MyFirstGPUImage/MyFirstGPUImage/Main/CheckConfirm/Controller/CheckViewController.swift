@@ -252,7 +252,7 @@ extension CheckViewController{
     ///
     /// - Returns: 像素元组
     func getImageSize()->(w:Double,h:Double){
-        print(image?.imageOrientation.rawValue)
+       // print(image?.imageOrientation.rawValue)
         guard let fixelW = image?.cgImage?.width else{return (0,0)}
         guard let fixelH = image?.cgImage?.height else{return (0,0)}
         //  let fx  = movieFile?.
