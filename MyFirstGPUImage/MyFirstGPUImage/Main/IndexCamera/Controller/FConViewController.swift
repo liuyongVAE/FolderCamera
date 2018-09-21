@@ -142,7 +142,7 @@ class FConViewController: UIViewController {
         checkCameraAuthorization()
         //检测比例显示问题
         //FIXME:不完美的黑屏解决方案
-        if !ifaddFilter{
+        if !(ifaddFilter ?? true){
             //默认美颜滤镜
             switchFillter(index:0);
         }
@@ -300,6 +300,15 @@ extension FConViewController{
     
     //初始化相机和默认滤镜
     func setCamera(){
+        
+        mGpuimageView = GPUImageView()
+        view.addSubview(mGpuimageView)
+        //判断是否是模拟器
+        #if arch(i386) || arch(x86_64)
+            mGpuimageView.backgroundColor =  UIColor.black
+            return
+        #endif
+        
         scaleRate = 0//默认设置为640大小比例
         mCamera = GPUImageStillCamera(sessionPreset:AVCaptureSession.Preset.vga640x480.rawValue , cameraPosition: AVCaptureDevice.Position.front)
         mCamera.outputImageOrientation = UIInterfaceOrientation.portrait
@@ -308,9 +317,7 @@ extension FConViewController{
         //滤镜
         ifFilter = IFNormalFilter()
         ifFilter.useNextFrameForImageCapture()
-        mGpuimageView = GPUImageView()
         mGpuimageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill
-        view.addSubview(mGpuimageView)
         mCamera.addTarget(ifFilter)
         //更改比例预定
         //ifFilter = GPUImageCropFilter.init(cropRegion: )

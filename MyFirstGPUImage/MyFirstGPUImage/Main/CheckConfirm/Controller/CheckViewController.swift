@@ -108,6 +108,8 @@ class CheckViewController: UIViewController {
     var movieWriter:GPUImageMovieWriter?
     var movieFile:GPUImageMovie?
     var moviePreview:GPUImageView?
+    //相册变量
+    var isSave:Bool = false
     
     
     //MARK: - 初始化
@@ -383,7 +385,8 @@ extension CheckViewController{
             if type ==  0{
                 UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
                 ProgressHUD.showSuccess("保存成功")
-                self.dismiss(animated: false, completion: nil)
+                isSave = true//存储图片标志
+                self.back()
             }else if type == 1{
                 //如果没有传图片，进入此方法存储视频
                  stopEc(false)
@@ -418,7 +421,7 @@ extension CheckViewController{
         ifFilter = FilterGroup.getFillter(filterType: filterIndex)
         let pixellateFilter = ifFilter ?? GPUImageFilter()
         //movie添加滤镜链
-        movieFile?.addTarget(pixellateFilter as! GPUImageInput)
+        movieFile?.addTarget(pixellateFilter as? GPUImageInput)
         let pathToMovie = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Documents/Movie.m4v")
        //创建新路径存储渲染后的视频
         unlink(pathToMovie.path)
@@ -465,7 +468,7 @@ extension CheckViewController{
             print("success！！！！！！！！！！！！！！！！！")
             //print(info)
             ProgressHUD.showSuccess("保存成功")
-            self.dismiss(animated: true, completion: nil)
+            self.back()
         }else{
             ProgressHUD.showError("保存失败")
         }
