@@ -16,7 +16,7 @@ class QuickTimeMov {
     fileprivate let kKeyStillImageTime = "com.apple.quicktime.still-image-time"
     fileprivate let kKeySpaceQuickTimeMetadata = "mdta"
     fileprivate let path : String
-    fileprivate let dummyTimeRange = CMTimeRangeMake(CMTimeMake(0, 1000), CMTimeMake(200, 3000))
+    fileprivate let dummyTimeRange = CMTimeRangeMake(start: CMTimeMake(value: 0, timescale: 1000), duration: CMTimeMake(value: 200, timescale: 3000))
     
     fileprivate lazy var asset : AVURLAsset = {
         let url = URL(fileURLWithPath: self.path)
@@ -127,7 +127,7 @@ class QuickTimeMov {
             // --------------------------------------------------
             writer.startWriting()
             reader.startReading()
-            writer.startSession(atSourceTime: kCMTimeZero)
+            writer.startSession(atSourceTime: CMTime.zero)
             
             // write metadata track
             adapter.append(AVTimedMetadataGroup(items: [metadataForStillImageTime()],
@@ -147,7 +147,7 @@ class QuickTimeMov {
                         input.markAsFinished()
                         if reader.status == .completed && aAudioAsset.tracks.count > 1 {
                             audioReader?.startReading()
-                            writer.startSession(atSourceTime: kCMTimeZero)
+                            writer.startSession(atSourceTime: CMTime.zero)
                             let media_queue = DispatchQueue(label: "assetAudioWriterQueue", attributes: [])
                             audioWriterInput?.requestMediaDataWhenReady(on: media_queue) {
                                 while (audioWriterInput?.isReadyForMoreMediaData)! {
@@ -223,7 +223,7 @@ class QuickTimeMov {
             "com.apple.metadata.datatype.int8"            ]
         
         var desc : CMFormatDescription? = nil
-        CMMetadataFormatDescriptionCreateWithMetadataSpecifications(kCFAllocatorDefault, kCMMetadataFormatType_Boxed, [spec] as CFArray, &desc)
+        CMMetadataFormatDescriptionCreateWithMetadataSpecifications(allocator: kCFAllocatorDefault, metadataType: kCMMetadataFormatType_Boxed, metadataSpecifications: [spec] as CFArray, formatDescriptionOut: &desc)
         let input = AVAssetWriterInput(mediaType: .metadata,
                                        outputSettings: nil, sourceFormatHint: desc)
         return AVAssetWriterInputMetadataAdaptor(assetWriterInput: input)

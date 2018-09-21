@@ -8,8 +8,13 @@
 
 import UIKit
 
+//不响应点击事件的Scrollview
+class FDUIScrollView: UIScrollView {
+    
+}
+
 //为解决ScrollView不能响应touches事件问题
-extension UIScrollView{
+extension FDUIScrollView{
     
     override  open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         //传给下一层响应者

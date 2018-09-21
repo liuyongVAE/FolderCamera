@@ -194,7 +194,7 @@ extension CheckViewController{
     
     // UI布局
     private func setUI(){
-        view.backgroundColor = UIColor.clear
+        view.backgroundColor = UIColor.white
         photoView.backgroundColor = UIColor.clear
         view.addSubview(photoView)
         view.addSubview(defaultBottomView)
@@ -320,7 +320,7 @@ extension CheckViewController{
                 make.top.left.width.height.equalToSuperview()
             })
             //将该view加到最后面
-            self.view.sendSubview(toBack: moviePreview!)
+            self.view.sendSubviewToBack(moviePreview!)
             moviePreview?.contentMode = .scaleAspectFill
             self.defaultBottomView.backgroundColor = UIColor.clear
         }
@@ -397,7 +397,7 @@ extension CheckViewController{
             
             let alertAction1 = UIAlertAction(title: "取消", style: .default, handler: nil)
             let alertAction2 = UIAlertAction(title: "系统设置", style: .default, handler: { (action) in
-                let url = URL(string: UIApplicationOpenSettingsURLString)
+                let url = URL(string: UIApplication.openSettingsURLString)
                 if(UIApplication.shared.canOpenURL(url!)) {
                     UIApplication.shared.openURL(url!)
                 }
@@ -519,7 +519,7 @@ extension CheckViewController:FillterSelectViewDelegate{
             let asset = AVURLAsset(url: videoUrl!)
             let generator = AVAssetImageGenerator(asset: asset)
             generator.appliesPreferredTrackTransform = true
-            let time = NSValue(time: CMTimeMakeWithSeconds(CMTimeGetSeconds(asset.duration)/2, asset.duration.timescale))
+            let time = NSValue(time: CMTimeMakeWithSeconds(CMTimeGetSeconds(asset.duration)/2, preferredTimescale: asset.duration.timescale))
             generator.generateCGImagesAsynchronously(forTimes: [time]) { [weak self] _, image, _, _, _ in
                 //生成livePhoto封面图
                 if let image = image, let data = (self?.ifFilter?.image(byFilteringImage: UIImage(cgImage: image))!) {
@@ -554,7 +554,7 @@ extension CheckViewController{
                 make.top.left.width.height.equalToSuperview()
             })
             //将该view加到最后面
-            self.view.sendSubview(toBack: livePhotoView)
+            self.view.sendSubviewToBack(livePhotoView)
             livePhotoView.contentMode = .scaleAspectFill
             self.defaultBottomView.backgroundColor = UIColor.clear
         }
@@ -584,7 +584,7 @@ extension CheckViewController{
         let asset = AVURLAsset(url: videoURL)
         let generator = AVAssetImageGenerator(asset: asset)
         generator.appliesPreferredTrackTransform = true
-        let time = NSValue(time: CMTimeMakeWithSeconds(CMTimeGetSeconds(asset.duration)/2, asset.duration.timescale))
+        let time = NSValue(time: CMTimeMakeWithSeconds(CMTimeGetSeconds(asset.duration)/2, preferredTimescale: asset.duration.timescale))
         generator.generateCGImagesAsynchronously(forTimes: [time]) { [weak self] _, image, _, _, _ in
             //生成livePhoto封面图
             if let image = image{
@@ -599,7 +599,7 @@ extension CheckViewController{
     func exportLivePhoto (videoURL:URL) {
         //print("看看是谁在这里")
         //获取当前展示的封面图
-        if let image = self.livePhotoView.presentImageView.image?.cgImage, let data = UIImagePNGRepresentation(UIImage(cgImage: image)) {
+        if let image = self.livePhotoView.presentImageView.image?.cgImage, let data = UIImage(cgImage: image).pngData() {
             //为视频和图片分配url
             let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
             let imageURL = urls[0].appendingPathComponent("image.jpg")

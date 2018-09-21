@@ -76,7 +76,7 @@ class FDLivePhotoView: UIView {
             
             DispatchQueue.main.async {
                 
-                self.bringSubview(toFront: self.videoPlayView)
+                self.bringSubviewToFront(self.videoPlayView)
                 self.stateBlock!(0)
             }
         case .ended:
@@ -88,7 +88,7 @@ class FDLivePhotoView: UIView {
             
         
             DispatchQueue.main.async {
-                self.bringSubview(toFront: self.presentImageView)
+                self.bringSubviewToFront(self.presentImageView)
                 self.stateBlock!(1)
             }
         default:

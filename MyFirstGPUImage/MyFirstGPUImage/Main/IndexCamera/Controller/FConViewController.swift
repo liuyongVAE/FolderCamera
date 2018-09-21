@@ -225,7 +225,7 @@ class FConViewController: UIViewController {
             
             let alertAction1 = UIAlertAction(title: "取消", style: .default, handler: nil)
             let alertAction2 = UIAlertAction(title: "系统设置", style: .default, handler: { (action) in
-                let url = URL(string: UIApplicationOpenSettingsURLString)
+                let url = URL(string: UIApplication.openSettingsURLString)
                 if(UIApplication.shared.canOpenURL(url!)) {
                     UIApplication.shared.openURL(url!)
                 }
@@ -320,7 +320,6 @@ extension FConViewController{
         mCamera.addAudioInputsAndOutputs()//避免录制第一帧黑屏
 
         mCamera.delegate = self
-
 
     }
     
@@ -424,7 +423,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     func changeFillter() {
         isBeauty = false
         defaultBottomView.beautyButton.isSelected = isBeauty
-        view.bringSubview(toFront: shotButton)
+        view.bringSubviewToFront(shotButton)
         
         self.shotButton.tipLabel.isHidden = true
         //记录两个view的center点
@@ -660,7 +659,7 @@ extension FConViewController:UIGestureRecognizerDelegate,CAAnimationDelegate{
             animation.duration = 0.3
             animation.repeatCount = 1
             animation.isRemovedOnCompletion = false
-            animation.fillMode = kCAFillModeForwards
+            animation.fillMode = CAMediaTimingFillMode.forwards
             focusLayer?.add(animation, forKey: "animation")
         }
     }
@@ -803,7 +802,7 @@ extension FConViewController:ProgresssButtonDelegate{
         //CGSize(width: 480, height: 640)
         movieWriter = GPUImageMovieWriter(movieURL:videoUrl, size:size )
        //解决录制MP4帧失败的问题
-        movieWriter?.assetWriter.movieFragmentInterval = kCMTimeInvalid
+        movieWriter?.assetWriter.movieFragmentInterval = CMTime.invalid
         movieWriter?.encodingLiveVideo = true
         movieWriter?.setHasAudioTrack(true, audioSettings: nil)
         //movieWriter?.shouldPassthroughAudio = true
@@ -948,7 +947,7 @@ extension FConViewController:GPUImageVideoCameraDelegate{
     func willOutputSampleBuffer(_ sampleBuffer: CMSampleBuffer!) {
         // 创建buffer的拷贝
         var bufferCopy:CMSampleBuffer?
-        let err = CMSampleBufferCreateCopy(kCFAllocatorDefault, sampleBuffer, &bufferCopy)
+        let err = CMSampleBufferCreateCopy(allocator: kCFAllocatorDefault, sampleBuffer: sampleBuffer, sampleBufferOut: &bufferCopy)
         if err == noErr{
             detect(bufferCopy!)
         }

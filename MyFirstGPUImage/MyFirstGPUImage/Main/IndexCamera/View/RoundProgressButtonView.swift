@@ -103,7 +103,7 @@ class RoundProgressButtonView:UIView{
         progressLayer = CAShapeLayer()
         outView.layer.addSublayer(progressLayer)
         progressLayer.fillColor = nil
-        progressLayer.lineCap = kCALineCapSquare//线端点类型
+        progressLayer.lineCap = CAShapeLayerLineCap.square//线端点类型
         progressLayer.frame = outView.bounds
         progressLayer.lineWidth = width
         progressLayer.strokeColor = lightPink.cgColor
@@ -313,7 +313,7 @@ extension RoundProgressButtonView{
 extension RoundProgressButtonView{
     func setLinePath(){
         progressLineLayer.fillColor = nil
-        progressLineLayer.lineCap = kCALineCapSquare//线端点类型
+        progressLineLayer.lineCap = CAShapeLayerLineCap.square//线端点类型
         progressLineLayer.frame = CGRect.init(x: -152, y: progressY, width: SCREEN_WIDTH, height: 5)
         progressLineLayer.lineWidth = width
         progressLineLayer.strokeColor = bgColor.cgColor
@@ -331,7 +331,7 @@ extension RoundProgressButtonView{
     func addIntervalPath(){
         let progressLayer2 = CAShapeLayer()
         progressLayer2.fillColor = nil
-        progressLayer2.lineCap = kCALineCapButt//线端点类型
+        progressLayer2.lineCap = CAShapeLayerLineCap.butt//线端点类型
         progressLayer2.frame = CGRect.init(x: -152, y: progressY, width: SCREEN_WIDTH, height: 5)
         progressLayer2.lineWidth = width
         progressLayer2.strokeColor = UIColor.white.cgColor

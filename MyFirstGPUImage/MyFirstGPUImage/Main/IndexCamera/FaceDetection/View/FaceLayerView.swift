@@ -81,7 +81,7 @@ final class FaceLayerView: UIView {
         moveAnimation.fromValue = NSValue(cgPoint: fromCentroid)
         moveAnimation.toValue = NSValue(cgPoint: toCentroid)
         moveAnimation.duration = 0.3
-        moveAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        moveAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
         drawnLayer.layer.position = toCentroid
         drawnLayer.layer.add(moveAnimation, forKey: "position")
     }

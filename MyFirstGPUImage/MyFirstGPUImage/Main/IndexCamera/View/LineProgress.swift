@@ -34,7 +34,7 @@ class lineProgress:UIView{
     
     func setLinePath(){
         progressLineLayer.fillColor = nil
-        progressLineLayer.lineCap = kCALineCapSquare//线端点类型
+        progressLineLayer.lineCap = CAShapeLayerLineCap.square//线端点类型
         progressLineLayer.frame = CGRect.init(x: -152, y: -543, width: SCREEN_WIDTH, height: 5)
         progressLineLayer.lineWidth = width
         progressLineLayer.strokeColor = bgColor.cgColor
@@ -51,7 +51,7 @@ class lineProgress:UIView{
     func addIntervalPath(){
         let progressLayer2 = CAShapeLayer()
         progressLayer2.fillColor = nil
-        progressLayer2.lineCap = kCALineCapButt//线端点类型
+        progressLayer2.lineCap = CAShapeLayerLineCap.butt//线端点类型
         progressLayer2.frame = CGRect.init(x: -152, y: -543, width: SCREEN_WIDTH, height: 5)
         progressLayer2.lineWidth = width
         progressLayer2.strokeColor = UIColor.white.cgColor

@@ -48,7 +48,7 @@ class SaveVieoManager:NSObject{
             let getLengthOfVideo2 = Double(tt.value)/Double(tt.timescale)
             print(getLengthOfVideo2)
             
-            let video_timeRange:CMTimeRange = CMTimeRange.init(start: kCMTimeZero, end: (videoAsset?.duration) ?? kCMTimeZero)
+            let video_timeRange:CMTimeRange = CMTimeRange.init(start: CMTime.zero, end: (videoAsset?.duration) ?? CMTime.zero)
             /**
              *  依次加入每个asset
              *
@@ -60,12 +60,12 @@ class SaveVieoManager:NSObject{
             //            var error:Error?
             //            var tbBool:Bool? = nil
             if let aindex = videoAsset?.tracks(withMediaType: .video).first{
-                try? a_compositionVideoTrack?.insertTimeRange(video_timeRange, of: aindex, at: CMTimeMakeWithSeconds(temDuration, 0))
+                try? a_compositionVideoTrack?.insertTimeRange(video_timeRange, of: aindex, at: CMTimeMakeWithSeconds(temDuration, preferredTimescale: 0))
             }
             if let audioindex = videoAsset?.tracks(withMediaType: .audio).first{
-                try? audio?.insertTimeRange(video_timeRange, of: audioindex, at: CMTimeMakeWithSeconds(temDuration, 0))
+                try? audio?.insertTimeRange(video_timeRange, of: audioindex, at: CMTimeMakeWithSeconds(temDuration, preferredTimescale: 0))
             }
-            temDuration += CMTimeGetSeconds(videoAsset?.duration ?? kCMTimeZero)
+            temDuration += CMTimeGetSeconds(videoAsset?.duration ?? CMTime.zero)
 
         }
         let tt =  mixComposition.tracks[0].asset?.duration
@@ -99,12 +99,12 @@ class SaveVieoManager:NSObject{
         let trackDuration: CMTime = videoTrack.timeRange.duration
         let trackTimescale: CMTimeScale = trackDuration.timescale
         // 用timescale构造前后截取位置的CMTime
-        let startTime: CMTime = CMTimeMakeWithSeconds(frontOffset, trackTimescale)
-        let endTime: CMTime = CMTimeMakeWithSeconds(endOffset, trackTimescale)
+        let startTime: CMTime = CMTimeMakeWithSeconds(frontOffset, preferredTimescale: trackTimescale)
+        let endTime: CMTime = CMTimeMakeWithSeconds(endOffset, preferredTimescale: trackTimescale)
         let intendedDuration: CMTime = CMTimeSubtract(asset.duration, CMTimeAdd(startTime, endTime))
 
-        try? compositionVideoTrack?.insertTimeRange(CMTimeRangeMake(startTime, intendedDuration), of: videoTrack, at: kCMTimeZero)
-        try? compositionAudioTrack?.insertTimeRange(CMTimeRangeMake(startTime, intendedDuration), of: audioTrack, at: kCMTimeZero)
+        try? compositionVideoTrack?.insertTimeRange(CMTimeRangeMake(start: startTime, duration: intendedDuration), of: videoTrack, at: CMTime.zero)
+        try? compositionAudioTrack?.insertTimeRange(CMTimeRangeMake(start: startTime, duration: intendedDuration), of: audioTrack, at: CMTime.zero)
 
         return composition
     

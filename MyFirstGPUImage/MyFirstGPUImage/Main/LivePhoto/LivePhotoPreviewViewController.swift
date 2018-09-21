@@ -50,11 +50,11 @@ class LivePhotoPreviewController:UIViewController{
         let asset = AVURLAsset(url: videoURL)
         let generator = AVAssetImageGenerator(asset: asset)
         generator.appliesPreferredTrackTransform = true
-        let time = NSValue(time: CMTimeMakeWithSeconds(CMTimeGetSeconds(asset.duration)/2, asset.duration.timescale))
+        let time = NSValue(time: CMTimeMakeWithSeconds(CMTimeGetSeconds(asset.duration)/2, preferredTimescale: asset.duration.timescale))
         generator.generateCGImagesAsynchronously(forTimes: [time]) { [weak self] _, image, _, _, _ in
             
             //生成livePhoto封面图
-            if let image = image, let data = UIImagePNGRepresentation(UIImage(cgImage: image)) {
+            if let image = image, let data = UIImage(cgImage: image).pngData() {
                 let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
                 let imageURL = urls[0].appendingPathComponent("image.jpg")
                 try? data.write(to: imageURL, options: [.atomic])
