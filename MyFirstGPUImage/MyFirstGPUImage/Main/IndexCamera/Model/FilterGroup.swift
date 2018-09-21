@@ -72,6 +72,7 @@ class FilterGroup {
         var filter = GPUImageFilterGroup()
         switch filterType {
         case 0:
+            
             return IFNormalFilter()
         case 1:
             filter = IF1977Filter()
