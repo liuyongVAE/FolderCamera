@@ -10,6 +10,7 @@ import Foundation
 //MARK: - UIDevice延展
 public extension UIDevice {
     
+    
     var modelName: String {
         var systemInfo = utsname()
         uname(&systemInfo)

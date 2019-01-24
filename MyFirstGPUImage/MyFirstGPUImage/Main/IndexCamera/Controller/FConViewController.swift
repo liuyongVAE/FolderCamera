@@ -281,7 +281,8 @@ extension FConViewController{
         
         topView.snp.makeConstraints({
             make in
-            make.left.right.top.equalToSuperview()
+            make.top.equalTo(isiPhoneX() ? IPHONEX_TOP_FIX : 0 )
+            make.left.right.equalToSuperview()
             make.height.equalTo(55)
         })
         
@@ -409,11 +410,14 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
         ifFilter = filterGroup
         //ifFilter.addFilter(GPUImageBeautifyFilter())
         //自定义滤镜
-//        if index == 13{
-//            let f = DesignedGPUImageFilter()
-//            f.addTarget(mGpuimageView)
-//            mCamera.addTarget(f)
-//        }
+        if index == 13{
+            let f = GPUImageLookupFilter()
+            let lookup =  GPUImagePicture.init(image:UIImage.init(named: "testlookup"));
+            lookup?.addTarget(f, atTextureLocation: 0);
+            f.useNextFrameForImageCapture()
+            f.addTarget(mGpuimageView)
+            mCamera.addTarget(f)
+        }
         ifFilter.addTarget(mGpuimageView)
         ifaddFilter = true
         mCamera.addTarget(ifFilter)
@@ -746,8 +750,6 @@ extension FConViewController:UIGestureRecognizerDelegate,CAAnimationDelegate{
 //MARK: - 拍照按钮代理,视频拍摄工厂方法
 extension FConViewController:ProgresssButtonDelegate{
    
-
-    
     func videoControl(control: RoundProgressButtonView, gest: UIGestureRecognizer) {
         //
         print(gest.state.hashValue)
@@ -817,11 +819,6 @@ extension FConViewController:ProgresssButtonDelegate{
         // 录像状态结束
         //ProgressHUD.show("保存中")
         movieWriter?.finishRecording()
- //       print(shotButton.timeCounter)
-//        if shotButton.timeCounter < 1{
-//            takePhoto()
-//            return
-//        }
         let vc:CheckViewController = {
             if isLivePhoto {
                 //LivePhoto拍摄
@@ -946,6 +943,8 @@ extension FConViewController:ProgresssButtonDelegate{
 extension FConViewController:GPUImageVideoCameraDelegate{
     
     func willOutputSampleBuffer(_ sampleBuffer: CMSampleBuffer!) {
+        print(self.mCamera.inputCamera.iso);
+
         // 创建buffer的拷贝
         var bufferCopy:CMSampleBuffer?
         let err = CMSampleBufferCreateCopy(kCFAllocatorDefault, sampleBuffer, &bufferCopy)

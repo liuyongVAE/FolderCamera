@@ -168,7 +168,7 @@ class DefaultBotomView: UIView {
         selectionView.snp.makeConstraints({
             make in
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.bottom.equalTo(isiPhoneX() ? -IPHONEX_BOTTOM_FIX : 0)
             make.width.equalToSuperview()
             make.height.equalTo(60)
             
