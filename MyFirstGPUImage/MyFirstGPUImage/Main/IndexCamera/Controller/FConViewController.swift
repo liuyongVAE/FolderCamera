@@ -11,6 +11,8 @@ import Photos
 import GPUImage
 import ProgressHUD
 import CoreMotion
+import CoreML
+
 class FConViewController: UIViewController {
     
     //UI
@@ -56,6 +58,12 @@ class FConViewController: UIViewController {
         slider.isContinuous = false
         slider.value = 0.5
         return slider
+    }()
+    
+    lazy var tipLabel:UILabel = {
+        let label = UILabel();
+        label.textColor = UIColor.orange;
+        return label;
     }()
     
  
@@ -115,6 +123,12 @@ class FConViewController: UIViewController {
     var liveCounter:Double = 0.5;
     var liveCounter2:Double = 0.5;
     var liveUrl:URL!
+    
+    //model
+    lazy var mlModel:Inceptionv3  = {
+        return Inceptionv3()
+    }()
+    
 
     
     //MARK: - 页面生命周期
@@ -146,6 +160,8 @@ class FConViewController: UIViewController {
             //默认美颜滤镜
             switchFillter(index:0);
         }
+        
+        //self.present(UINavigationController(rootViewController: AlbumViewController()), animated: true, completion: nil)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -249,6 +265,7 @@ extension FConViewController{
         view.addSubview(topView)
         view.addSubview(cameraFillterView)
         view.addSubview(Beautyslider)
+        view.addSubview(tipLabel)
         
         defaultBottomView.snp.makeConstraints({
             make in
@@ -294,15 +311,17 @@ extension FConViewController{
             make.centerX.equalToSuperview()
             make.top.equalTo(defaultBottomView).offset(-40)
         })
+        
+        tipLabel.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
    
-        
-        
     }
     
     //初始化相机和默认滤镜
     func setCamera(){
         scaleRate = 0//默认设置为640大小比例
-        mCamera = GPUImageStillCamera(sessionPreset:AVCaptureSession.Preset.vga640x480.rawValue , cameraPosition: AVCaptureDevice.Position.front)
+        mCamera = GPUImageStillCamera(sessionPreset:AVCaptureSession.Preset.hd1280x720.rawValue , cameraPosition: AVCaptureDevice.Position.front)
         mCamera.outputImageOrientation = UIInterfaceOrientation.portrait
         //MARK: - 开启镜面，人脸识别正常
         mCamera.horizontallyMirrorFrontFacingCamera = true
@@ -939,11 +958,53 @@ extension FConViewController:ProgresssButtonDelegate{
     }
 }
 
+// MARK: - coreMl拍摄识别
+extension FConViewController{
+    
+    func classifier(image:UIImage){
+        //修改图片sizes到model大小
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: 299, height: 299), true, 2.0)
+        image.draw(in: CGRect(x: 0, y: 0, width: 299, height: 299))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue, kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
+        var pixelBuffer : CVPixelBuffer?
+        let status = CVPixelBufferCreate(kCFAllocatorDefault, Int(newImage.size.width), Int(newImage.size.height), kCVPixelFormatType_32ARGB, attrs, &pixelBuffer)
+        guard (status == kCVReturnSuccess) else {
+            return
+        }
+        
+        CVPixelBufferLockBaseAddress(pixelBuffer!, CVPixelBufferLockFlags(rawValue: 0))
+        let pixelData = CVPixelBufferGetBaseAddress(pixelBuffer!)
+        
+        let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
+        let context = CGContext(data: pixelData, width: Int(newImage.size.width), height: Int(newImage.size.height), bitsPerComponent: 8, bytesPerRow: CVPixelBufferGetBytesPerRow(pixelBuffer!), space: rgbColorSpace, bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue) //3
+        
+        context?.translateBy(x: 0, y: newImage.size.height)
+        context?.scaleBy(x: 1.0, y: -1.0)
+        
+        UIGraphicsPushContext(context!)
+        newImage.draw(in: CGRect(x: 0, y: 0, width: newImage.size.width, height: newImage.size.height))
+        UIGraphicsPopContext()
+        CVPixelBufferUnlockBaseAddress(pixelBuffer!, CVPixelBufferLockFlags(rawValue: 0))
+        
+        // Core ML
+        guard let prediction = try? mlModel.prediction(image: pixelBuffer!) else {
+            return
+        }
+        print(prediction.classLabel)
+       //tipLabel.text = "I think this is a \(prediction.classLabel)."
+    }
+    
+    
+}
+
 //MARK: - 人脸识别
 extension FConViewController:GPUImageVideoCameraDelegate{
     
     func willOutputSampleBuffer(_ sampleBuffer: CMSampleBuffer!) {
-        print(self.mCamera.inputCamera.iso);
+       // print(self.mCamera.inputCamera.iso);
 
         // 创建buffer的拷贝
         var bufferCopy:CMSampleBuffer?
@@ -964,7 +1025,11 @@ extension FConViewController:GPUImageVideoCameraDelegate{
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
         else {return}
         let personciImage = CIImage.init(cvPixelBuffer: pixelBuffer)
-        //let testImage = UIImage.init(ciImage: personciImage)
+        let testImage = UIImage.init(ciImage: personciImage)
+        //ML
+        self.classifier(image: testImage)
+        
+        
        // print(testImage.imageOrientation.rawValue)
         
         let cvImageHeight = CGFloat(CVPixelBufferGetHeight(pixelBuffer))
@@ -1223,12 +1288,7 @@ extension FConViewController{
         }
     }
     
-    
-    
-    
-    
-    
-    
+
 }
 
 

@@ -10,6 +10,18 @@
 		0B10007E1569F76E1CAB1456 /* Pods_MyFirstGPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B90C9E859F51270B2744A7B8 /* Pods_MyFirstGPUImage.framework */; };
 		2D0396A0211D70B9004E87C0 /* DesignedGPUImageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D03969F211D70B9004E87C0 /* DesignedGPUImageFilter.m */; };
 		2D1F725D21F9AF2000536131 /* publicFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1F725C21F9AF2000536131 /* publicFunc.swift */; };
+		2D1F727721F9C3D800536131 /* ImageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1F726021F9C3D800536131 /* ImageDetailViewController.swift */; };
+		2D1F727821F9C3D800536131 /* ItemCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1F726121F9C3D800536131 /* ItemCollectionViewController.swift */; };
+		2D1F727921F9C3D800536131 /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1F726221F9C3D800536131 /* AlbumViewController.swift */; };
+		2D1F727A21F9C3D800536131 /* AlbumItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1F726521F9C3D800536131 /* AlbumItem.swift */; };
+		2D1F727B21F9C3D800536131 /* AlbumDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1F726721F9C3D800536131 /* AlbumDataSource.swift */; };
+		2D1F727C21F9C3D800536131 /* ItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1F726E21F9C3D800536131 /* ItemCollectionViewCell.swift */; };
+		2D1F727D21F9C3D800536131 /* AlbumTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1F726F21F9C3D800536131 /* AlbumTableViewCell.swift */; };
+		2D1F727E21F9C3D800536131 /* AlbumTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D1F727021F9C3D800536131 /* AlbumTableViewCell.xib */; };
+		2D1F727F21F9C3D800536131 /* ItemCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D1F727121F9C3D800536131 /* ItemCollectionViewCell.xib */; };
+		2D1F728021F9C3D800536131 /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1F727321F9C3D800536131 /* BannerView.swift */; };
+		2D1F728121F9C3D800536131 /* BannerLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1F727421F9C3D800536131 /* BannerLayout.swift */; };
+		2D1F728221F9C3D800536131 /* BannerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1F727521F9C3D800536131 /* BannerCollectionViewCell.swift */; };
 		2D2716422133B2E900A93EDB /* GPUImageBeautifyFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2716402133B2E800A93EDB /* GPUImageBeautifyFilter.m */; };
 		2D2716452133C64900A93EDB /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2716442133C64900A93EDB /* SelectionView.swift */; };
 		2D2D6D99211D7A9C005F8371 /* myShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 2D2D6D98211D7923005F8371 /* myShader.fsh */; };
@@ -66,6 +78,7 @@
 		2DB116B821378B0F00D17A70 /* FDLivePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB116B721378B0F00D17A70 /* FDLivePhotoView.swift */; };
 		2DC0682621425C7300551531 /* CallSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC0682521425C7300551531 /* CallSettingView.swift */; };
 		2DC6576F212C09AE001A2571 /* LineProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC6576E212C09AE001A2571 /* LineProgress.swift */; };
+		2DE7BE6C21FFF9330090F18E /* Inceptionv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2DE7BE6B21FFF9330090F18E /* Inceptionv3.mlmodel */; };
 		2DF4891821464B1000423A6A /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF4891721464B1000423A6A /* SettingViewController.swift */; };
 		2DF4891C21464D0400423A6A /* SettingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF4891B21464D0400423A6A /* SettingTableView.swift */; };
 /* End PBXBuildFile section */
@@ -75,6 +88,18 @@
 		2D03969F211D70B9004E87C0 /* DesignedGPUImageFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DesignedGPUImageFilter.m; sourceTree = "<group>"; };
 		2D1B88EB2110574D00773678 /* MyFirstGPUImage-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyFirstGPUImage-Bridging-Header.h"; sourceTree = "<group>"; };
 		2D1F725C21F9AF2000536131 /* publicFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = publicFunc.swift; sourceTree = "<group>"; };
+		2D1F726021F9C3D800536131 /* ImageDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDetailViewController.swift; sourceTree = "<group>"; };
+		2D1F726121F9C3D800536131 /* ItemCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCollectionViewController.swift; sourceTree = "<group>"; };
+		2D1F726221F9C3D800536131 /* AlbumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
+		2D1F726521F9C3D800536131 /* AlbumItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumItem.swift; sourceTree = "<group>"; };
+		2D1F726721F9C3D800536131 /* AlbumDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumDataSource.swift; sourceTree = "<group>"; };
+		2D1F726E21F9C3D800536131 /* ItemCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCollectionViewCell.swift; sourceTree = "<group>"; };
+		2D1F726F21F9C3D800536131 /* AlbumTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumTableViewCell.swift; sourceTree = "<group>"; };
+		2D1F727021F9C3D800536131 /* AlbumTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlbumTableViewCell.xib; sourceTree = "<group>"; };
+		2D1F727121F9C3D800536131 /* ItemCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemCollectionViewCell.xib; sourceTree = "<group>"; };
+		2D1F727321F9C3D800536131 /* BannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerView.swift; sourceTree = "<group>"; };
+		2D1F727421F9C3D800536131 /* BannerLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerLayout.swift; sourceTree = "<group>"; };
+		2D1F727521F9C3D800536131 /* BannerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerCollectionViewCell.swift; sourceTree = "<group>"; };
 		2D2716402133B2E800A93EDB /* GPUImageBeautifyFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageBeautifyFilter.m; sourceTree = "<group>"; };
 		2D2716412133B2E800A93EDB /* GPUImageBeautifyFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageBeautifyFilter.h; sourceTree = "<group>"; };
 		2D2716442133C64900A93EDB /* SelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
@@ -161,6 +186,7 @@
 		2DB116B721378B0F00D17A70 /* FDLivePhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FDLivePhotoView.swift; sourceTree = "<group>"; };
 		2DC0682521425C7300551531 /* CallSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallSettingView.swift; sourceTree = "<group>"; };
 		2DC6576E212C09AE001A2571 /* LineProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineProgress.swift; sourceTree = "<group>"; };
+		2DE7BE6B21FFF9330090F18E /* Inceptionv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Inceptionv3.mlmodel; sourceTree = "<group>"; };
 		2DF4891721464B1000423A6A /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		2DF4891B21464D0400423A6A /* SettingTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableView.swift; sourceTree = "<group>"; };
 		6EA227A6B6B79861372E3272 /* Pods-MyFirstGPUImage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyFirstGPUImage.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyFirstGPUImage/Pods-MyFirstGPUImage.release.xcconfig"; sourceTree = "<group>"; };
@@ -187,6 +213,121 @@
 				2D378E3C2111516A00A51DE8 /* Filter */,
 			);
 			path = Framework;
+			sourceTree = "<group>";
+		};
+		2D1F725E21F9C3D800536131 /* Album */ = {
+			isa = PBXGroup;
+			children = (
+				2D1F725F21F9C3D800536131 /* Controller */,
+				2D1F726421F9C3D800536131 /* Model */,
+				2D1F726821F9C3D800536131 /* View */,
+			);
+			path = Album;
+			sourceTree = "<group>";
+		};
+		2D1F725F21F9C3D800536131 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2D1F726021F9C3D800536131 /* ImageDetailViewController.swift */,
+				2D1F726121F9C3D800536131 /* ItemCollectionViewController.swift */,
+				2D1F726221F9C3D800536131 /* AlbumViewController.swift */,
+				2D1F726321F9C3D800536131 /* New Group */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		2D1F726321F9C3D800536131 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		2D1F726421F9C3D800536131 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2D1F726521F9C3D800536131 /* AlbumItem.swift */,
+				2D1F726621F9C3D800536131 /* w Group */,
+				2D1F726721F9C3D800536131 /* AlbumDataSource.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2D1F726621F9C3D800536131 /* w Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "w Group";
+			sourceTree = "<group>";
+		};
+		2D1F726821F9C3D800536131 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2D1F726921F9C3D800536131 /* Expend */,
+				2D1F726E21F9C3D800536131 /* ItemCollectionViewCell.swift */,
+				2D1F726F21F9C3D800536131 /* AlbumTableViewCell.swift */,
+				2D1F727021F9C3D800536131 /* AlbumTableViewCell.xib */,
+				2D1F727121F9C3D800536131 /* ItemCollectionViewCell.xib */,
+				2D1F727221F9C3D800536131 /* Banner */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2D1F726921F9C3D800536131 /* Expend */ = {
+			isa = PBXGroup;
+			children = (
+				2D1F726A21F9C3D800536131 /* Framework */,
+			);
+			path = Expend;
+			sourceTree = "<group>";
+		};
+		2D1F726A21F9C3D800536131 /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				2D1F726B21F9C3D800536131 /* Filter */,
+			);
+			path = Framework;
+			sourceTree = "<group>";
+		};
+		2D1F726B21F9C3D800536131 /* Filter */ = {
+			isa = PBXGroup;
+			children = (
+				2D1F726C21F9C3D800536131 /* FilterSource */,
+			);
+			path = Filter;
+			sourceTree = "<group>";
+		};
+		2D1F726C21F9C3D800536131 /* FilterSource */ = {
+			isa = PBXGroup;
+			children = (
+				2D1F726D21F9C3D800536131 /* New Group */,
+			);
+			path = FilterSource;
+			sourceTree = "<group>";
+		};
+		2D1F726D21F9C3D800536131 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		2D1F727221F9C3D800536131 /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				2D1F727321F9C3D800536131 /* BannerView.swift */,
+				2D1F727421F9C3D800536131 /* BannerLayout.swift */,
+				2D1F727521F9C3D800536131 /* BannerCollectionViewCell.swift */,
+				2D1F727621F9C3D800536131 /* New Group */,
+			);
+			path = Banner;
+			sourceTree = "<group>";
+		};
+		2D1F727621F9C3D800536131 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 		2D2D6D9E21215CD4005F8371 /* CheckConfirm */ = {
@@ -326,6 +467,7 @@
 		2D3A158721085257005131B8 /* MyFirstGPUImage */ = {
 			isa = PBXGroup;
 			children = (
+				2DE7BE6B21FFF9330090F18E /* Inceptionv3.mlmodel */,
 				2D85F250212A9808008AD54D /* Tools */,
 				2D2D6D98211D7923005F8371 /* myShader.fsh */,
 				2D378ED82112FB2B00A51DE8 /* Launch Screen.storyboard */,
@@ -371,6 +513,7 @@
 		2D3A15B9210974B2005131B8 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				2D1F725E21F9C3D800536131 /* Album */,
 				2DC0681D21425BDF00551531 /* Setting */,
 				2DB116A32135417400D17A70 /* LivePhoto */,
 				2D2D6D9E21215CD4005F8371 /* CheckConfirm */,
@@ -610,8 +753,10 @@
 				2D2D6D99211D7A9C005F8371 /* myShader.fsh in Resources */,
 				2D378ED92112FB2B00A51DE8 /* Launch Screen.storyboard in Resources */,
 				2D378EC821115C2900A51DE8 /* GPUImage.InstagramFilter.bundle in Resources */,
+				2D1F727F21F9C3D800536131 /* ItemCollectionViewCell.xib in Resources */,
 				2DB0291421466F86009A2821 /* SettingTableViewCell.xib in Resources */,
 				2DB029162146710D009A2821 /* Assets.xcassets in Resources */,
+				2D1F727E21F9C3D800536131 /* AlbumTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -685,10 +830,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D378EB821115C2900A51DE8 /* IFInkwellFilter.m in Sources */,
+				2D1F728121F9C3D800536131 /* BannerLayout.swift in Sources */,
 				2D378ED52111607600A51DE8 /* FilterGroup.swift in Sources */,
 				2D378EBF21115C2900A51DE8 /* IFRiseFilter.m in Sources */,
 				2D378EC921115C2900A51DE8 /* IFNormalFilter.m in Sources */,
 				2D378EB921115C2900A51DE8 /* IFBrannanFilter.m in Sources */,
+				2D1F727C21F9C3D800536131 /* ItemCollectionViewCell.swift in Sources */,
 				2DC0682621425C7300551531 /* CallSettingView.swift in Sources */,
 				2DB116AF213639C300D17A70 /* DeviceExtension.swift in Sources */,
 				2DB0291821478BBB009A2821 /* FolderWebViewController.swift in Sources */,
@@ -697,20 +844,27 @@
 				2D3A15CB2109B105005131B8 /* NewUIButton.swift in Sources */,
 				2D378ED7211181CE00A51DE8 /* FilterCollectionViewCell.swift in Sources */,
 				2D378ED321115C6600A51DE8 /* GPUImageFourInputFilter.m in Sources */,
+				2D1F728021F9C3D800536131 /* BannerView.swift in Sources */,
 				2D378EC021115C2900A51DE8 /* IFSierraFilter.m in Sources */,
+				2D1F727D21F9C3D800536131 /* AlbumTableViewCell.swift in Sources */,
+				2D1F728221F9C3D800536131 /* BannerCollectionViewCell.swift in Sources */,
 				2DC6576F212C09AE001A2571 /* LineProgress.swift in Sources */,
 				2D363D64212E7E0100F24ED2 /* FaceLayerView.swift in Sources */,
 				2D502351210AB8E200A7559A /* FillterSelectView.swift in Sources */,
+				2D1F727A21F9C3D800536131 /* AlbumItem.swift in Sources */,
 				2D85F24F212A97E5008AD54D /* SaveVideoManager.swift in Sources */,
 				2D396A1D211ABE2F0049FE40 /* RoundProgressButtonView.swift in Sources */,
+				2D1F727B21F9C3D800536131 /* AlbumDataSource.swift in Sources */,
 				2D378EC621115C2900A51DE8 /* IFToasterFilter.m in Sources */,
 				2D1F725D21F9AF2000536131 /* publicFunc.swift in Sources */,
 				2D378EC121115C2900A51DE8 /* IFValenciaFilter.m in Sources */,
 				2D378ED221115C6600A51DE8 /* GPUImageSixInputFilter.m in Sources */,
+				2D1F727721F9C3D800536131 /* ImageDetailViewController.swift in Sources */,
 				2D363D61212E7D3800F24ED2 /* FaceArea.swift in Sources */,
 				2D3A15B72108569C005131B8 /* FConViewController.swift in Sources */,
 				2D378EC521115C2900A51DE8 /* IFHudsonFilter.m in Sources */,
 				2D378ED121115C6600A51DE8 /* GPUImageFiveInputFilter.m in Sources */,
+				2D1F727921F9C3D800536131 /* AlbumViewController.swift in Sources */,
 				2D378EBA21115C2900A51DE8 /* IFLordKelvinFilter.m in Sources */,
 				2D378EC221115C2900A51DE8 /* IF1977Filter.m in Sources */,
 				2D378EC321115C2900A51DE8 /* IFHefeFilter.m in Sources */,
@@ -718,6 +872,7 @@
 				2D378EBE21115C2900A51DE8 /* IFAmaroFilter.m in Sources */,
 				2D3A15C621099854005131B8 /* DefaultBotomView.swift in Sources */,
 				2D378EBB21115C2900A51DE8 /* IFSutroFilter.m in Sources */,
+				2D1F727821F9C3D800536131 /* ItemCollectionViewController.swift in Sources */,
 				2D378ECA21115C2900A51DE8 /* IFImageFilter.m in Sources */,
 				2D378EC421115C2900A51DE8 /* IFXproIIFilter.m in Sources */,
 				2DB116A7213541E100D17A70 /* LivePhotoPreviewViewController.swift in Sources */,
@@ -729,6 +884,7 @@
 				2DB116B821378B0F00D17A70 /* FDLivePhotoView.swift in Sources */,
 				2D2D6DA321215D3E005F8371 /* playView.swift in Sources */,
 				2DF4891C21464D0400423A6A /* SettingTableView.swift in Sources */,
+				2DE7BE6C21FFF9330090F18E /* Inceptionv3.mlmodel in Sources */,
 				2D378EB721115C2900A51DE8 /* IFNashvilleFilter.m in Sources */,
 				2D378EBD21115C2900A51DE8 /* IFEarlybirdFilter.m in Sources */,
 				2D3A15C82109A038005131B8 /* CheckViewController.swift in Sources */,
@@ -870,7 +1026,7 @@
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 9A68XXWLG6;
 				INFOPLIST_FILE = MyFirstGPUImage/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -896,7 +1052,7 @@
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 9A68XXWLG6;
 				INFOPLIST_FILE = MyFirstGPUImage/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
