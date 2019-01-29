@@ -1027,7 +1027,7 @@ extension FConViewController:GPUImageVideoCameraDelegate{
         let personciImage = CIImage.init(cvPixelBuffer: pixelBuffer)
         let testImage = UIImage.init(ciImage: personciImage)
         //ML
-        self.classifier(image: testImage)
+        //self.classifier(image: testImage)
         
         
        // print(testImage.imageOrientation.rawValue)
@@ -1048,8 +1048,9 @@ extension FConViewController:GPUImageVideoCameraDelegate{
             .map{ FaceArea(faceFeature: $0, applyingRatio: ratio, ifFront: iffront) }
         
         if faceAreas.count == 0 {
-            //没有人脸时候取消美颜
-            beautyFilter?.updateMask(CGRect.zero)
+            //没有人脸时候全屏美颜
+            let fullRect = CGRect(x: self.view.frame.origin.x, y: self.view.frame.origin.y*2, width: self.view.frame.width*2, height: (self.view.frame.height*2))
+            beautyFilter?.updateMask(fullRect)
         }
         
         for i in faceAreas {
@@ -1057,11 +1058,11 @@ extension FConViewController:GPUImageVideoCameraDelegate{
            // print(i.bounds)
             let rect:CGRect = {
                 //如果是全屏模式
-                if scaleRate == 1{
-                    return CGRect(x: i.bounds.origin.x*2, y: i.bounds.origin.y*2, width: i.bounds.width*2, height: (i.bounds.height*2))
-                }else{
-                    return CGRect(x: i.bounds.origin.x, y: i.bounds.origin.y, width: i.bounds.width*3/2, height: (i.bounds.height*3/2 + 10))
-                }
+               // if scaleRate = 1{
+                    return CGRect(x: i.bounds.origin.x, y: i.bounds.origin.y*2, width: i.bounds.width*2, height: (i.bounds.height*2))
+//                }else{
+//                    return CGRect(x: i.bounds.origin.x, y: i.bounds.origin.y, width: i.bounds.width*3/2, height: (i.bounds.height*3/2 + 10))
+//                }
             }()
             beautyFilter?.updateMask(rect)
         }
