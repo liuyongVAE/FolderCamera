@@ -79,6 +79,8 @@
 		2DB8F7382212775900F1C266 /* CameraEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB8F7372212775900F1C266 /* CameraEnum.swift */; };
 		2DB8F73A2212815C00F1C266 /* BackImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB8F7392212815C00F1C266 /* BackImageView.swift */; };
 		2DB8F73C2212902500F1C266 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB8F73B2212902500F1C266 /* ViewControllerExtension.swift */; };
+		2DB8F73E2212C4EC00F1C266 /* RoutingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB8F73D2212C4EC00F1C266 /* RoutingService.swift */; };
+		2DB8F7412212C98C00F1C266 /* cameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB8F7402212C98C00F1C266 /* cameraManager.swift */; };
 		2DC0682621425C7300551531 /* CallSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC0682521425C7300551531 /* CallSettingView.swift */; };
 		2DC6576F212C09AE001A2571 /* LineProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC6576E212C09AE001A2571 /* LineProgress.swift */; };
 		2DE7BE6C21FFF9330090F18E /* Inceptionv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2DE7BE6B21FFF9330090F18E /* Inceptionv3.mlmodel */; };
@@ -190,6 +192,8 @@
 		2DB8F7372212775900F1C266 /* CameraEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraEnum.swift; sourceTree = "<group>"; };
 		2DB8F7392212815C00F1C266 /* BackImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackImageView.swift; sourceTree = "<group>"; };
 		2DB8F73B2212902500F1C266 /* ViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
+		2DB8F73D2212C4EC00F1C266 /* RoutingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingService.swift; sourceTree = "<group>"; };
+		2DB8F7402212C98C00F1C266 /* cameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cameraManager.swift; sourceTree = "<group>"; };
 		2DC0682521425C7300551531 /* CallSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallSettingView.swift; sourceTree = "<group>"; };
 		2DC6576E212C09AE001A2571 /* LineProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineProgress.swift; sourceTree = "<group>"; };
 		2DE7BE6B21FFF9330090F18E /* Inceptionv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Inceptionv3.mlmodel; sourceTree = "<group>"; };
@@ -508,6 +512,7 @@
 		2D3A15B821097408005131B8 /* IndexCamera */ = {
 			isa = PBXGroup;
 			children = (
+				2DB8F73F2212C8DC00F1C266 /* Manager */,
 				2DC65770212E5E07001A2571 /* FaceDetection */,
 				2D3A15BE21097537005131B8 /* Model */,
 				2D3A15BD21097531005131B8 /* View */,
@@ -602,6 +607,7 @@
 				2D3A15C321097969005131B8 /* Propoty.swift */,
 				2D85F24E212A97E5008AD54D /* SaveVideoManager.swift */,
 				2DB0291A21478D5F009A2821 /* UpdateManager.swift */,
+				2DB8F73D2212C4EC00F1C266 /* RoutingService.swift */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -631,6 +637,14 @@
 				2DB116AA2135440F00D17A70 /* JPEG.swift */,
 			);
 			path = Tools;
+			sourceTree = "<group>";
+		};
+		2DB8F73F2212C8DC00F1C266 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				2DB8F7402212C98C00F1C266 /* cameraManager.swift */,
+			);
+			path = Manager;
 			sourceTree = "<group>";
 		};
 		2DC0681D21425BDF00551531 /* Setting */ = {
@@ -850,6 +864,7 @@
 				2DC0682621425C7300551531 /* CallSettingView.swift in Sources */,
 				2DB116AF213639C300D17A70 /* DeviceExtension.swift in Sources */,
 				2DB0291821478BBB009A2821 /* FolderWebViewController.swift in Sources */,
+				2DB8F73E2212C4EC00F1C266 /* RoutingService.swift in Sources */,
 				2DB0291B21478D5F009A2821 /* UpdateManager.swift in Sources */,
 				2D2716452133C64900A93EDB /* SelectionView.swift in Sources */,
 				2D3A15CB2109B105005131B8 /* NewUIButton.swift in Sources */,
@@ -868,6 +883,7 @@
 				2D396A1D211ABE2F0049FE40 /* RoundProgressButtonView.swift in Sources */,
 				2DB8F73C2212902500F1C266 /* ViewControllerExtension.swift in Sources */,
 				2D1F727B21F9C3D800536131 /* AlbumDataSource.swift in Sources */,
+				2DB8F7412212C98C00F1C266 /* cameraManager.swift in Sources */,
 				2D378EC621115C2900A51DE8 /* IFToasterFilter.m in Sources */,
 				2D1F725D21F9AF2000536131 /* publicFunc.swift in Sources */,
 				2DB8F73A2212815C00F1C266 /* BackImageView.swift in Sources */,

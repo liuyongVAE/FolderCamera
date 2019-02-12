@@ -134,9 +134,21 @@ class FConViewController: UIViewController {
         return Inceptionv3()
     }()
     
-
     
-    //MARK: - 页面生命周期
+    deinit{
+        timer.invalidate()
+        motionManager.stopGyroUpdates()
+        motionManager.stopDeviceMotionUpdates()
+        motionManager.stopAccelerometerUpdates()
+        motionManager.stopMagnetometerUpdates()
+    }
+    
+}
+
+
+//MARK: - 生命周期
+extension FConViewController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
@@ -153,22 +165,27 @@ class FConViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-      self.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.navigationBar.isHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
         
         //检测相册权限
-        checkCameraAuthorization()
+        cameraManager.checkAlbumAndCameraAuthority()
         //检测比例显示问题
         //FIXME:不完美的黑屏解决方案
         if !ifaddFilter{
             //默认美颜滤镜
             switchFillter(index:0);
         }
-        
-        //self.present(UINavigationController(rootViewController: AlbumViewController()), animated: true, completion: nil)
     }
+    
+
+}
+
+
+//MARK: - 动作事件
+extension FConViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if cameraFillterView.mb != nil{
@@ -180,26 +197,9 @@ class FConViewController: UIViewController {
         }
     }
     
-    //MARK: - 析构注销函数()
-    deinit{
-        timer.invalidate()
-        motionManager.stopGyroUpdates()
-        motionManager.stopDeviceMotionUpdates()
-        motionManager.stopAccelerometerUpdates()
-        motionManager.stopMagnetometerUpdates()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    //MARK: - 自定义方法
-    
     /// 拍照动作
     @objc func  takePhoto(){
         weak var  weakSelf = self
-   
         
         mCamera.capturePhotoAsJPEGProcessedUp(toFilter: ifFilter, withCompletionHandler: {
             processedJPEG, error in
@@ -210,58 +210,31 @@ class FConViewController: UIViewController {
                     //将美颜状态重置
                     if (weakSelf?.isBeauty)!{
                         weakSelf?.isBeauty = false
-                       weakSelf?.defaultBottomView.beautyButton.isSelected = false
+                        weakSelf?.defaultBottomView.beautyButton.isSelected = false
                         // weakSelf?.beauty()
                     }
                     //使用闭包，在vc返回时将底部隐藏，点击切换时在取消隐藏
-
+                    
                     if weakSelf?.scaleRate != CameraScale.CameraScale43.rawValue{
                         //weakSelf?.scaleRate = 0
                         weakSelf?.defaultBottomView.isHidden = true
-
                     }
                 }
                 weakSelf?.present(vc, animated: true, completion: nil)
             }
         })
-      
-    }
-    
-    
-    /// 检查相机权限
-    func checkCameraAuthorization(){
-        let authStatus = AVCaptureDevice.authorizationStatus(for: .video)
-        if authStatus == .notDetermined{
-            AVCaptureDevice.requestAccess(for: .video, completionHandler: ({
-                status in
-                if status{
-                    print("同意")
-                }else{
-                    print("不同意")
-                }
-            }))
-        }else if (authStatus == .authorized ){
-            return
-        }else{
-            let alertController = UIAlertController(title: "提示", message: "您已经关闭相机权限，该功能无法使用，请点击系统设置设置", preferredStyle: .alert)
-            
-            let alertAction1 = UIAlertAction(title: "取消", style: .default, handler: nil)
-            let alertAction2 = UIAlertAction(title: "系统设置", style: .default, handler: { (action) in
-                let url = URL(string: UIApplicationOpenSettingsURLString)
-                if(UIApplication.shared.canOpenURL(url!)) {
-                    UIApplication.shared.openURL(url!)
-                }
-            })
-            alertController.addAction(alertAction1)
-            alertController.addAction(alertAction2)
-            self.present(alertController, animated: true, completion: nil)
-        }
+        
     }
     
 }
 
 
-//MARK: - UI工厂方法
+
+
+
+
+
+//MARK: - 初始化方法
 extension FConViewController{
     
     //初始化View布局
@@ -326,7 +299,6 @@ extension FConViewController{
         
         mCamera = GPUImageStillCamera(sessionPreset:AVCaptureSession.Preset.hd1280x720.rawValue , cameraPosition: AVCaptureDevice.Position.front)
         mCamera.outputImageOrientation = UIInterfaceOrientation.portrait
-        //MARK: - 开启镜面，人脸识别正常
         mCamera.horizontallyMirrorFrontFacingCamera = true
         //滤镜
         ifFilter = IFNormalFilter()
@@ -409,7 +381,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
 
         }
     }
-    //MARK: - 切换滤镜的方法
+    //MARK:  切换滤镜的方法
     ///
     /// - Parameter index: 滤镜代码
     func switchFillter(index: Int) {
@@ -805,20 +777,6 @@ extension FConViewController:ProgresssButtonDelegate{
             size = CGSize(width: 720, height: 1280)
         }
         
-//        let orientation: UIInterfaceOrientation = UIApplication.shared.statusBarOrientation
-//        if orientation == .portrait || orientation == .portraitUpsideDown {
-//        } else {
-//            size = CGSize.init(width: size.width, height: size.height)
-//        }
-        //解决Size不是16的倍数，出现绿边
-//        while (size.width.truncatingRemainder(dividingBy: 16) > 0) {
-//            print(size.width)
-//            size.width = size.width+1
-//        }
-//        while (size.height.truncatingRemainder(dividingBy: 16) > 0) {
-//            size.height = size.height+1
-//        }
-        //CGSize(width: 480, height: 640)
         movieWriter = GPUImageMovieWriter(movieURL:videoUrl, size:size )
        //解决录制MP4帧失败的问题
         movieWriter?.assetWriter.movieFragmentInterval = kCMTimeInvalid
