@@ -8,8 +8,8 @@
 
 import Foundation
 
-let IPHONEX_TOP_FIX = 24;
-let IPHONEX_BOTTOM_FIX = 34;
+let IPHONEX_TOP_FIX:CGFloat = 24;
+let IPHONEX_BOTTOM_FIX:CGFloat = 34;
 
 func isiPhoneX() ->Bool {
     let screenHeight = UIScreen.main.nativeBounds.size.height;

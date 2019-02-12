@@ -14,7 +14,8 @@ import CoreMotion
 import CoreML
 
 class FConViewController: UIViewController {
-    
+    let widthOfShot:CGFloat = 80
+
     //UI
     //  拍照按钮
     lazy var shotButton:RoundProgressButtonView = {
@@ -48,7 +49,7 @@ class FConViewController: UIViewController {
         return v
     }()
 
-    lazy var Beautyslider:UISlider = {
+    lazy var beautySlider:UISlider = {
         let slider = UISlider()
         slider.tintColor = naviColor
         // slider.backgroundColor = UIColor.brown
@@ -80,6 +81,7 @@ class FConViewController: UIViewController {
 
    // var mFillter:GPUImageFilterGroup!
     var ifFilter:GPUImageFilterGroup!
+    var cropFilter:GPUImageCropFilter!
     var mGpuimageView:GPUImageView!
     /*
      拍摄比例
@@ -87,6 +89,9 @@ class FConViewController: UIViewController {
      在setCamera初始化
      */
     var scaleRate:Int?
+    var cameraRect:CameraScaleRect! = {
+      return CameraScaleRect(scaleRate: .CameraScale43, cropRect: nil, previewRect: nil)
+    }()
     var ifaddFilter:Bool!
     var beautyFilter:GPUImageBeautifyFilter?
     var isBeauty = false
@@ -143,6 +148,7 @@ class FConViewController: UIViewController {
         //设置聚焦图片
         setFocusImage(#imageLiteral(resourceName: "聚焦 "))
         setFaceDetectionImage()
+        UIApplication.shared.applicationSupportsShakeToEdit = true
         // Do any additional setup after loading sthe view.
     }
     
@@ -209,7 +215,7 @@ class FConViewController: UIViewController {
                     }
                     //使用闭包，在vc返回时将底部隐藏，点击切换时在取消隐藏
 
-                    if weakSelf?.scaleRate != 0{
+                    if weakSelf?.scaleRate != CameraScale.CameraScale43.rawValue{
                         //weakSelf?.scaleRate = 0
                         weakSelf?.defaultBottomView.isHidden = true
 
@@ -264,7 +270,7 @@ extension FConViewController{
         view.addSubview(shotButton)
         view.addSubview(topView)
         view.addSubview(cameraFillterView)
-        view.addSubview(Beautyslider)
+        view.addSubview(beautySlider)
         view.addSubview(tipLabel)
         
         defaultBottomView.snp.makeConstraints({
@@ -272,10 +278,9 @@ extension FConViewController{
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview()
             make.width.equalToSuperview()
-            make.height.equalTo(SCREEN_HEIGHT*1/4)
+            make.height.equalTo(isiPhoneX() ? IPHONEX_BOTTOM_FIX + cameraRect.bottomHeight : cameraRect.bottomHeight)
         })
         
-        let widthOfShot:CGFloat = 75
         shotButton.snp.makeConstraints({
             make in
             make.center.equalTo(defaultBottomView)
@@ -289,22 +294,16 @@ extension FConViewController{
             make.width.equalToSuperview()
             make.height.equalTo(SCREEN_HEIGHT*1/4)
         })
-        mGpuimageView.snp.makeConstraints({
-            make in
-            make.top.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalTo(SCREEN_HEIGHT*3/4)
-        })
         
         topView.snp.makeConstraints({
             make in
-            make.top.equalTo(isiPhoneX() ? IPHONEX_TOP_FIX : 0 )
+            make.top.equalTo(0)
             make.left.right.equalToSuperview()
-            make.height.equalTo(55)
+            make.height.equalTo(isiPhoneX() ? IPHONEX_TOP_FIX + cameraRect.topHegiht : cameraRect.topHegiht )
         })
         
-        Beautyslider.isHidden = true
-        Beautyslider.snp.makeConstraints({
+        beautySlider.isHidden = true
+        beautySlider.snp.makeConstraints({
             make in
             make.height.equalTo(40)
             make.width.equalTo(300)
@@ -320,7 +319,11 @@ extension FConViewController{
     
     //初始化相机和默认滤镜
     func setCamera(){
-        scaleRate = 0//默认设置为640大小比例
+        scaleRate = CameraScale.CameraScale43.rawValue//默认设置为4:3大小比例
+        self.cameraRect.scaleRate = .CameraScale43
+        cropFilter = GPUImageCropFilter(cropRegion:self.cameraRect.cropRect)
+
+        
         mCamera = GPUImageStillCamera(sessionPreset:AVCaptureSession.Preset.hd1280x720.rawValue , cameraPosition: AVCaptureDevice.Position.front)
         mCamera.outputImageOrientation = UIInterfaceOrientation.portrait
         //MARK: - 开启镜面，人脸识别正常
@@ -328,7 +331,7 @@ extension FConViewController{
         //滤镜
         ifFilter = IFNormalFilter()
         ifFilter.useNextFrameForImageCapture()
-        mGpuimageView = GPUImageView()
+        mGpuimageView = GPUImageView(frame: self.cameraRect.previewRect)
         mGpuimageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill
         view.addSubview(mGpuimageView)
         mCamera.addTarget(ifFilter)
@@ -411,32 +414,26 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     /// - Parameter index: 滤镜代码
     func switchFillter(index: Int) {
         //隐藏滑动条，重置美颜
-        Beautyslider.isHidden = true
+        beautySlider.isHidden = true
         isBeauty = false
-        //defaultBottomView.beautyButton.isSelected = false
         //使用INS自定义滤镜
         mCamera.removeAllTargets()
         let filterGroup = GPUImageFilterGroup()//创建滤镜组
         beautyFilter = GPUImageBeautifyFilter()//美颜
-        let ifFilter2 = FilterGroup.getFillter(filterType: index)
-
+        let customFilter = FilterGroup.getFillter(filterType: index)
+    
         //添加滤镜组链
         filterGroup.addTarget(beautyFilter!)
-        filterGroup.addTarget(ifFilter2)
-        beautyFilter?.addTarget(ifFilter2)
+        filterGroup.addTarget(customFilter)
+        filterGroup.addTarget(cropFilter)
+        //滤镜链接
+        beautyFilter?.addTarget(customFilter)
+        customFilter.addTarget(cropFilter)
+        //初始化组
         filterGroup.initialFilters = [beautyFilter!]
-        filterGroup.terminalFilter = ifFilter2
+        filterGroup.terminalFilter = cropFilter
+        
         ifFilter = filterGroup
-        //ifFilter.addFilter(GPUImageBeautifyFilter())
-        //自定义滤镜
-        if index == 13{
-            let f = GPUImageLookupFilter()
-            let lookup =  GPUImagePicture.init(image:UIImage.init(named: "testlookup"));
-            lookup?.addTarget(f, atTextureLocation: 0);
-            f.useNextFrameForImageCapture()
-            f.addTarget(mGpuimageView)
-            mCamera.addTarget(f)
-        }
         ifFilter.addTarget(mGpuimageView)
         ifaddFilter = true
         mCamera.addTarget(ifFilter)
@@ -498,13 +495,13 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
         print(isBeauty)
         if !isBeauty{
             //初始化滑动条
-            Beautyslider.value = 0.5
+            beautySlider.value = 0.5
             isBeauty = true
-             Beautyslider.isHidden = false
+             beautySlider.isHidden = false
             
         }else{
             //取消美颜
-            Beautyslider.isHidden = true
+            beautySlider.isHidden = true
             isBeauty = false
 
         }
@@ -514,7 +511,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     //滑动条事件
     @objc func  sliderChange(){
         //print(beautyFilter?.getCom())
-        let newCom:CGFloat = CGFloat(Beautyslider.value)
+        let newCom:CGFloat = CGFloat(beautySlider.value)
 
         if  beautyFilter != nil{
             beautyFilter?.setCom(newCom)

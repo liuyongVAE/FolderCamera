@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "转换.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "前后置切换.png",
       "scale" : "2x"
     },
     {

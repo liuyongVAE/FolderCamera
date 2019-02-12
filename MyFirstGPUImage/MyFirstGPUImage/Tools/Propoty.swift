@@ -16,6 +16,9 @@ let naviColor = UIColor.init(red: 245/255, green: 0/255, blue: 87/255, alpha: 1)
 let bgColor = UIColor.init(red: 213/255, green: 0/255, blue: 249/255, alpha: 1)
 let lightPink = UIColor.init(red: 252/255, green: 228/255, blue: 236/255, alpha: 1)
 let filterSelectedColor = UIColor(red: 255/255, green: 224/255, blue: 130/255, alpha: 1)
+let topFix = isiPhoneX() ? IPHONEX_TOP_FIX : 0
+let bottomFix = isiPhoneX() ? IPHONEX_BOTTOM_FIX : 0
+
 //240 207 120
 //e89abe
 

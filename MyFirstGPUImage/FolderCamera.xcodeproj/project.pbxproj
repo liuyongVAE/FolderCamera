@@ -76,6 +76,9 @@
 		2DB116AD2135441900D17A70 /* QuickTimeMov.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB116AC2135441900D17A70 /* QuickTimeMov.swift */; };
 		2DB116AF213639C300D17A70 /* DeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB116AE213639C300D17A70 /* DeviceExtension.swift */; };
 		2DB116B821378B0F00D17A70 /* FDLivePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB116B721378B0F00D17A70 /* FDLivePhotoView.swift */; };
+		2DB8F7382212775900F1C266 /* CameraEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB8F7372212775900F1C266 /* CameraEnum.swift */; };
+		2DB8F73A2212815C00F1C266 /* BackImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB8F7392212815C00F1C266 /* BackImageView.swift */; };
+		2DB8F73C2212902500F1C266 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB8F73B2212902500F1C266 /* ViewControllerExtension.swift */; };
 		2DC0682621425C7300551531 /* CallSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC0682521425C7300551531 /* CallSettingView.swift */; };
 		2DC6576F212C09AE001A2571 /* LineProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC6576E212C09AE001A2571 /* LineProgress.swift */; };
 		2DE7BE6C21FFF9330090F18E /* Inceptionv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2DE7BE6B21FFF9330090F18E /* Inceptionv3.mlmodel */; };
@@ -184,6 +187,9 @@
 		2DB116AC2135441900D17A70 /* QuickTimeMov.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickTimeMov.swift; sourceTree = "<group>"; };
 		2DB116AE213639C300D17A70 /* DeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceExtension.swift; sourceTree = "<group>"; };
 		2DB116B721378B0F00D17A70 /* FDLivePhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FDLivePhotoView.swift; sourceTree = "<group>"; };
+		2DB8F7372212775900F1C266 /* CameraEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraEnum.swift; sourceTree = "<group>"; };
+		2DB8F7392212815C00F1C266 /* BackImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackImageView.swift; sourceTree = "<group>"; };
+		2DB8F73B2212902500F1C266 /* ViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
 		2DC0682521425C7300551531 /* CallSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallSettingView.swift; sourceTree = "<group>"; };
 		2DC6576E212C09AE001A2571 /* LineProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineProgress.swift; sourceTree = "<group>"; };
 		2DE7BE6B21FFF9330090F18E /* Inceptionv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Inceptionv3.mlmodel; sourceTree = "<group>"; };
@@ -556,6 +562,7 @@
 				2D2D6D9A211D8561005F8371 /* TopVIew.swift */,
 				2DC6576E212C09AE001A2571 /* LineProgress.swift */,
 				2D2716442133C64900A93EDB /* SelectionView.swift */,
+				2DB8F7392212815C00F1C266 /* BackImageView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -564,6 +571,7 @@
 			isa = PBXGroup;
 			children = (
 				2D378ED42111607600A51DE8 /* FilterGroup.swift */,
+				2DB8F7372212775900F1C266 /* CameraEnum.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -582,6 +590,7 @@
 				2D3A15CA2109B105005131B8 /* NewUIButton.swift */,
 				2D363D65212E80D500F24ED2 /* LayerExtension.swift */,
 				2DB116AE213639C300D17A70 /* DeviceExtension.swift */,
+				2DB8F73B2212902500F1C266 /* ViewControllerExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -807,12 +816,14 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-MyFirstGPUImage/Pods-MyFirstGPUImage-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/FLEX/FLEX.framework",
 				"${BUILT_PRODUCTS_DIR}/GPUImage/GPUImage.framework",
 				"${BUILT_PRODUCTS_DIR}/ProgressHUD/ProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLEX.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GPUImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
@@ -852,11 +863,14 @@
 				2D363D64212E7E0100F24ED2 /* FaceLayerView.swift in Sources */,
 				2D502351210AB8E200A7559A /* FillterSelectView.swift in Sources */,
 				2D1F727A21F9C3D800536131 /* AlbumItem.swift in Sources */,
+				2DB8F7382212775900F1C266 /* CameraEnum.swift in Sources */,
 				2D85F24F212A97E5008AD54D /* SaveVideoManager.swift in Sources */,
 				2D396A1D211ABE2F0049FE40 /* RoundProgressButtonView.swift in Sources */,
+				2DB8F73C2212902500F1C266 /* ViewControllerExtension.swift in Sources */,
 				2D1F727B21F9C3D800536131 /* AlbumDataSource.swift in Sources */,
 				2D378EC621115C2900A51DE8 /* IFToasterFilter.m in Sources */,
 				2D1F725D21F9AF2000536131 /* publicFunc.swift in Sources */,
+				2DB8F73A2212815C00F1C266 /* BackImageView.swift in Sources */,
 				2D378EC121115C2900A51DE8 /* IFValenciaFilter.m in Sources */,
 				2D378ED221115C6600A51DE8 /* GPUImageSixInputFilter.m in Sources */,
 				2D1F727721F9C3D800536131 /* ImageDetailViewController.swift in Sources */,

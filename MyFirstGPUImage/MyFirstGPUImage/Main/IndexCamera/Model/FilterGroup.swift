@@ -98,7 +98,12 @@ class FilterGroup {
         case 12:
             filter = IFRiseFilter()
         case 13:
-            filter = IFSierraFilter()
+//            let f = GPUImageLookupFilter()
+//            let lookup =  GPUImagePicture.init(image:UIImage.init(named: "testlookup"));
+//            lookup?.addTarget(f, atTextureLocation: 0);
+//            filter = f;
+            filter = IFRiseFilter()
+            
         case 14:
             filter = GPUImageBeautifyFilter()
         default:

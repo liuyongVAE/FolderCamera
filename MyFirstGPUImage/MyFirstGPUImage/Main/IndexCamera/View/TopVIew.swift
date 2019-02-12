@@ -41,10 +41,9 @@ class TopView: UIView {
         return btn
     }()
     lazy var flashButton:UIButton = {
-        var btn = NewUIButton()
+        var btn = UIButton()
         btn.layer.cornerRadius = widthofme/2
         btn.setImage(#imageLiteral(resourceName: "闪光灯关闭"), for: .normal)
-        btn.setTitle("闪光灯", for: .normal)
 
         btn.addTarget(self, action: #selector(self.flashMode(btn:)), for: .touchUpInside)
         
@@ -92,6 +91,20 @@ class TopView: UIView {
         return btn
     }()
     
+    lazy var AI_fillterButton:UIButton = {
+        var btn =  UIButton()
+        btn.layer.cornerRadius = widthofme/2
+        btn.setImage(UIImage.init(named: "AI滤镜开"), for: .normal)
+        btn.setImage(UIImage.init(named: "AI滤镜关"), for: .selected)
+        btn.addTarget(self, action: #selector(self.push), for: .touchUpInside)
+        return btn
+    }()
+    
+    lazy var backImage:BackImageView = {
+        let imagev = BackImageView()
+        return imagev
+    }()
+    
     
     //Propoty，按钮点击的代理
     
@@ -101,16 +114,69 @@ class TopView: UIView {
     
     init(upView:UIView) {
         super.init(frame: CGRect.zero)
+        self.addSubview(backImage)
+        self.addSubview(flashButton)
+        self.addSubview(liveButton)
+        self.addSubview(AI_fillterButton)
+        self.addSubview(turnCameraButton)
+        let widthOfTop:CGFloat = 32
+        
+        backImage.snp.makeConstraints({
+            make in
+            make.edges.equalToSuperview()
+        })
+        
+        turnCameraButton.snp.makeConstraints({
+            make in
+            make.width.height.equalTo(widthOfTop)
+            make.right.equalToSuperview().offset(-15)
+            make.top.equalTo(topFix+26)
+        })
+        
+        
+        liveButton.snp.makeConstraints({
+            make in
+            make.width.height.equalTo(widthOfTop)
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().offset(topFix+26)
+            
+        })
+        
+        AI_fillterButton.snp.makeConstraints({
+            make in
+            make.width.height.equalTo(widthOfTop)
+            make.right.equalTo(self.turnCameraButton.snp.right).offset(-61)
+            make.top.equalToSuperview().offset(topFix+26)
+        })
+        
+        flashButton.snp.makeConstraints({
+            make in
+            make.width.height.equalTo(widthOfTop)
+            make.left.equalToSuperview().offset(15)
+            make.top.equalTo(topFix+26)
+        })
+        
+
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+  
+    
+    
+    //老页面，保留
+    func remakeTopView(){
         self.backgroundColor = UIColor.white
+        self.addSubview(backImage)
         self.addSubview(turnCameraButton)
         self.addSubview(turnScaleButton)
         self.addSubview(liveButton)
         self.addSubview(liveCounter)
         //self.addSubview(popSetting)
         self.addSubview(moreButton)
-
+        
         let widthOfTop:CGFloat = 30
-     
         
         turnCameraButton.snp.makeConstraints({
             make in
@@ -119,7 +185,7 @@ class TopView: UIView {
             make.top.equalToSuperview().offset(15)
         })
         
-
+        
         liveButton.snp.makeConstraints({
             make in
             make.width.height.equalTo(widthOfTop)
@@ -143,10 +209,16 @@ class TopView: UIView {
         
         
         //更多页面
-        upView.addSubview(popSetting)
+        self.addSubview(popSetting)
         popSetting.addSubview(flashButton)
         popSetting.addSubview(turnScaleButton)
         popSetting.addSubview(settingButton)
+        
+        backImage.snp.makeConstraints({
+            make in
+            make.edges.equalToSuperview()
+        })
+        
         
         popSetting.snp.makeConstraints({
             make in
@@ -162,27 +234,26 @@ class TopView: UIView {
             make.left.equalToSuperview().offset(15)
             make.centerY.equalToSuperview().offset(-5)
         })
-
+        
         turnScaleButton.snp.makeConstraints({
             make in
             make.width.height.equalTo(widthOfTop+30)
             make.left.equalTo(flashButton.snp.right).offset(15)
             make.centerY.equalToSuperview().offset(-5)
         })
-
+        
         settingButton.snp.makeConstraints({
             make in
             make.width.height.equalTo(widthOfTop+30)
             make.left.equalTo(turnScaleButton.snp.right).offset(15)
             make.centerY.equalToSuperview().offset(-5)
         })
-
+        
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 
+    
+    
     //按钮点击
     
     @objc func turnScale(){

@@ -74,13 +74,29 @@ class RoundProgressButtonView:UIView{
     
     override init(frame:CGRect){
         super.init(frame: frame)
-        setUI()
+        setPhotoUI()
+        //setUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //设置拍照时的图片按钮
+    func setPhotoUI(){
+        let imagev = UIImageView()
+        imagev.image = UIImage.init(named: "拍照");
+        self.addSubview(imagev)
+        imagev.snp.makeConstraints({
+          $0.edges.equalToSuperview()
+        })
+        imagev.contentMode = .scaleAspectFit
+
+        outView = UIView(frame: self.bounds)
+        centerView = UIView(frame: CGRect(x:0,y:0,width:centerViewWidth,height:centerViewWidth))
+
+
+    }
     
     func setUI(){
         self.backgroundColor = UIColor.clear

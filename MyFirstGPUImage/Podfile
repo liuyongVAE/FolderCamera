@@ -4,6 +4,7 @@ use_frameworks!
 target ‘MyFirstGPUImage’ do
   pod ‘GPUImage'
   pod 'SnapKit'
+  pod 'FLEX', '~> 2.0', :configurations => ['Debug']
   pod 'ProgressHUD'
 end
 

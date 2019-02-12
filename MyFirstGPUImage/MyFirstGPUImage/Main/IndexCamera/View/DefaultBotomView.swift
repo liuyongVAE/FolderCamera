@@ -28,9 +28,8 @@ class DefaultBotomView: UIView {
 //   滤镜选择按钮
     lazy var fillterButton:UIButton = {
         //frame: CGRect(x:getWidth(109), y: getHeight(150), width:getWidth(78) , height: getHeight(154))
-        var btn = NewUIButton()
+        var btn = UIButton()
         btn.setImage(#imageLiteral(resourceName: "滤镜") , for: .normal)
-        btn.setTitle("风格滤镜", for: .normal)
         btn.setTitleColor(UIColor.black, for: .normal)
         btn.addTarget(self, action: #selector(self.changeFillter), for: .touchUpInside)
         return btn
@@ -38,9 +37,8 @@ class DefaultBotomView: UIView {
 //  美颜按钮
     lazy var beautyButton:UIButton = {
         //CGRect(x:SCREEN_WIDTH - getWidth(109) - getWidth(78), y: getHeight(150), width:getWidth(78) , height: getHeight(154))
-        var btn = NewUIButton()
+        var btn = UIButton()
         btn.setImage(#imageLiteral(resourceName: "美颜1"), for: .normal)
-        btn.setTitle("轻美颜", for: .normal)
         btn.setImage(#imageLiteral(resourceName: "美颜2"), for: .selected)
         btn.setTitleColor(UIColor.black, for: .normal)
         
@@ -94,9 +92,14 @@ class DefaultBotomView: UIView {
     }()
     
     lazy var selectionView:SelectionView = {
-        let v = SelectionView.init(frame: CGRect.init(x: 0, y: 0, width: 120, height: 40), titles: ["拍照","视频"], parentViewController: nil)
+        let v = SelectionView.init(frame: CGRect.init(x: 0, y: 0, width: 505, height: 40), titles: ["映画","人像","风景","美食","胶片"], parentViewController: nil)
         v.delegate = self
         return v
+    }()
+    
+    lazy var backImage:BackImageView = {
+        let imagev = BackImageView()
+        return imagev
     }()
     
     
@@ -112,6 +115,7 @@ class DefaultBotomView: UIView {
     
         super.init(frame: CGRect.zero)
         self.backgroundColor = UIColor.white
+        self.addSubview(backImage)
         self.addSubview(beautyButton)
         self.addSubview(fillterButton)
         self.addSubview(videoButton)
@@ -120,18 +124,24 @@ class DefaultBotomView: UIView {
         self.addSubview(deletePreviousButton)
         self.addSubview(recordBackView)
         self.addSubview(selectionView)
+        
+        backImage.snp.makeConstraints({
+            make in
+            make.edges.equalToSuperview()
+        })
 
         fillterButton.snp.makeConstraints({
             (make) in
             make.centerY.equalToSuperview()
             make.width.height.equalTo(49)
-            make.left.equalToSuperview().offset(30)
+            make.right.equalToSuperview().offset(-30)
+            
         })
-       beautyButton.snp.makeConstraints({
+        beautyButton.snp.makeConstraints({
             (make) in
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(49)
-            make.right.equalToSuperview().offset(-30)
+            make.width.height.equalTo(32)
+            make.left.equalToSuperview().offset(36)
         })
        videoButton.snp.makeConstraints({
             (make) in
@@ -168,7 +178,7 @@ class DefaultBotomView: UIView {
         selectionView.snp.makeConstraints({
             make in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(isiPhoneX() ? -IPHONEX_BOTTOM_FIX : 0)
+            make.top.equalTo(0)
             make.width.equalToSuperview()
             make.height.equalTo(60)
             
