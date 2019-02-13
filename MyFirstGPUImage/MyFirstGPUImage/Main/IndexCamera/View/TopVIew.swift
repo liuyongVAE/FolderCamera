@@ -100,11 +100,6 @@ class TopView: UIView {
         return btn
     }()
     
-    lazy var backImage:BackImageView = {
-        let imagev = BackImageView()
-        return imagev
-    }()
-    
     
     //Propoty，按钮点击的代理
     
@@ -114,23 +109,17 @@ class TopView: UIView {
     
     init(upView:UIView) {
         super.init(frame: CGRect.zero)
-        self.addSubview(backImage)
         self.addSubview(flashButton)
         self.addSubview(liveButton)
         self.addSubview(AI_fillterButton)
         self.addSubview(turnCameraButton)
-        let widthOfTop:CGFloat = 32
-        
-        backImage.snp.makeConstraints({
-            make in
-            make.edges.equalToSuperview()
-        })
+        let widthOfTop:CGFloat = 26
         
         turnCameraButton.snp.makeConstraints({
             make in
             make.width.height.equalTo(widthOfTop)
             make.right.equalToSuperview().offset(-15)
-            make.top.equalTo(topFix+26)
+            make.top.equalTo(topFix*2+11)
         })
         
         
@@ -138,7 +127,7 @@ class TopView: UIView {
             make in
             make.width.height.equalTo(widthOfTop)
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(topFix+26)
+            make.top.equalToSuperview().offset(topFix*2+11)
             
         })
         
@@ -146,14 +135,14 @@ class TopView: UIView {
             make in
             make.width.height.equalTo(widthOfTop)
             make.right.equalTo(self.turnCameraButton.snp.right).offset(-61)
-            make.top.equalToSuperview().offset(topFix+26)
+            make.top.equalToSuperview().offset(topFix*2+11)
         })
         
         flashButton.snp.makeConstraints({
             make in
             make.width.height.equalTo(widthOfTop)
             make.left.equalToSuperview().offset(15)
-            make.top.equalTo(topFix+26)
+            make.top.equalTo(topFix*2+11)
         })
         
 
@@ -167,8 +156,7 @@ class TopView: UIView {
     
     //老页面，保留
     func remakeTopView(){
-        self.backgroundColor = UIColor.white
-        self.addSubview(backImage)
+        self.backgroundColor = UIColor.clear
         self.addSubview(turnCameraButton)
         self.addSubview(turnScaleButton)
         self.addSubview(liveButton)
@@ -176,13 +164,13 @@ class TopView: UIView {
         //self.addSubview(popSetting)
         self.addSubview(moreButton)
         
-        let widthOfTop:CGFloat = 30
+        let widthOfTop:CGFloat = 26
         
         turnCameraButton.snp.makeConstraints({
             make in
             make.width.height.equalTo(widthOfTop)
-            make.right.equalToSuperview().offset(-20)
-            make.top.equalToSuperview().offset(15)
+            make.right.equalToSuperview().offset(-15)
+            make.top.equalToSuperview().offset(11)
         })
         
         
@@ -190,21 +178,21 @@ class TopView: UIView {
             make in
             make.width.height.equalTo(widthOfTop)
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(15)
+            make.top.equalToSuperview().offset(11)
             
         })
         liveCounter.snp.makeConstraints({
             make in
             make.width.height.equalTo(widthOfTop)
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(15)
+            make.top.equalToSuperview().offset(11)
             
         })
         moreButton.snp.makeConstraints({
             make in
             make.width.height.equalTo(widthOfTop)
             make.left.equalToSuperview().offset(20)
-            make.top.equalToSuperview().offset(15)
+            make.top.equalToSuperview().offset(11)
         })
         
         
@@ -213,11 +201,6 @@ class TopView: UIView {
         popSetting.addSubview(flashButton)
         popSetting.addSubview(turnScaleButton)
         popSetting.addSubview(settingButton)
-        
-        backImage.snp.makeConstraints({
-            make in
-            make.edges.equalToSuperview()
-        })
         
         
         popSetting.snp.makeConstraints({

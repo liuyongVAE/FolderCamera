@@ -21,13 +21,13 @@ class SelectionView: UIView {
     var titles = [String]()
     let point = UIView()
     var titleWidth:CGFloat = 0
-    let interval:CGFloat = 25//title高度
+    let interval:CGFloat = 18//title高度
     let naviOffset:CGFloat = 64 // 导航栏偏移
     var titleButton = [UIButton]()
     let topback = UIView()
     //总宽度
-    let ssWidth:CGFloat = 260
-    var currentIndex = 0
+    let ssWidth:CGFloat = 250
+    var currentIndex = CameraModeManage.shared.currentMode.rawValue
     var delegate:selectedDelegate?
     
     init(frame: CGRect,titles: [String],parentViewController: UIViewController?) {
@@ -35,11 +35,24 @@ class SelectionView: UIView {
         super.init(frame: frame)
         self.setTitle()
         addGesture()
+        let notify = Notification.Name.init("CameraModeDidChanged")
+        NotificationCenter.default.addObserver(self, selector: #selector(modeDidChanged), name: notify, object: nil)
+        
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc func modeDidChanged(){
+        self.transfrom(index: CameraModeManage.shared.currentMode.rawValue)
+    }
+    
     
     func setTitle(){
         
@@ -63,7 +76,7 @@ class SelectionView: UIView {
             tyest.setTitleColor(UIColor.white, for: .normal)
             tyest.frame = CGRect(x: CGFloat(i)*titleWidth,y:10,width: (titleWidth),height:interval)
             tyest.backgroundColor = UIColor.clear
-            tyest.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
+            tyest.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
             tyest.setTitleColor(UIColor.white, for: .normal)
             tyest.tag = i
             tyest.titleLabel?.adjustsFontSizeToFitWidth = true
@@ -100,12 +113,9 @@ class SelectionView: UIView {
     
     
     @objc  func  changeto(btn:UIButton){
-        currentIndex = btn.tag
-        print(currentIndex)
-        //如果是点击事件，和滑动的index是相反的，这里需要进行处理
-        let ff = self.titles.count-currentIndex-1
-        delegate?.didSelected(index:ff)
-        transfrom(index:currentIndex)
+        //currentIndex = btn.tag
+        print(btn.tag)
+        delegate?.didSelected(index:btn.tag)
     }
  
  
@@ -125,23 +135,18 @@ extension SelectionView{
     }
 
     @objc func swipLeft(){
-        print("left",currentIndex)
+        currentIndex = CameraModeManage.shared.currentMode.rawValue
         if currentIndex < titleButton.count-1 && currentIndex >= 0 {
-            delegate?.didSelected(index: currentIndex)
-
             currentIndex = currentIndex+1
-            transfrom(index: currentIndex)
-            
+            delegate?.didSelected(index: currentIndex)
         }
     }
     @objc func swipRight(){
-        print("right",currentIndex)
-
+        currentIndex = CameraModeManage.shared.currentMode.rawValue
+       // print("right",currentIndex)
         if currentIndex < titleButton.count && currentIndex > 0{
-            delegate?.didSelected(index: currentIndex)
-
             currentIndex = currentIndex-1
-            transfrom(index: currentIndex)
+            delegate?.didSelected(index: currentIndex)
         }
     }
 

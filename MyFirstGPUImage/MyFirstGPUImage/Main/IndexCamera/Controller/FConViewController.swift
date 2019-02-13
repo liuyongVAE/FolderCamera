@@ -14,7 +14,7 @@ import CoreMotion
 import CoreML
 
 class FConViewController: UIViewController {
-    let widthOfShot:CGFloat = 80
+    let widthOfShot:CGFloat = 78
 
     //UI
     //  拍照按钮
@@ -66,8 +66,6 @@ class FConViewController: UIViewController {
         label.textColor = UIColor.orange;
         return label;
     }()
-    
- 
 
     
     //MAKR: - 属性
@@ -151,12 +149,15 @@ extension FConViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //初始化mode
+        CameraModeManage.shared.currentMode = .CameraModeMovie
+        
         navigationController?.navigationBar.isHidden = true
         beginGestureScale = 1
         effectiveScale = 1
-        setCamera()
         //设置底部view
         setDefaultView()
+        setCamera()
         //设置聚焦图片
         setFocusImage(#imageLiteral(resourceName: "聚焦 "))
         setFaceDetectionImage()
@@ -239,24 +240,32 @@ extension FConViewController{
     
     //初始化View布局
     func setDefaultView(){
+        view.addSubview(CameraModeManage.shared.currentBackImageView)
         view.addSubview(defaultBottomView)
         view.addSubview(shotButton)
         view.addSubview(topView)
+
         view.addSubview(cameraFillterView)
         view.addSubview(beautySlider)
         view.addSubview(tipLabel)
+        
+        
+        CameraModeManage.shared.currentBackImageView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
         
         defaultBottomView.snp.makeConstraints({
             make in
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview()
             make.width.equalToSuperview()
-            make.height.equalTo(isiPhoneX() ? IPHONEX_BOTTOM_FIX + cameraRect.bottomHeight : cameraRect.bottomHeight)
+            make.height.equalTo(cameraRect.bottomHeight)
         })
         
         shotButton.snp.makeConstraints({
             make in
-            make.center.equalTo(defaultBottomView)
+            make.top.equalTo(defaultBottomView.snp.top).offset(40 + topFix)
+            make.centerX.equalToSuperview()
             make.width.height.equalTo(widthOfShot)
         })
         
@@ -272,7 +281,7 @@ extension FConViewController{
             make in
             make.top.equalTo(0)
             make.left.right.equalToSuperview()
-            make.height.equalTo(isiPhoneX() ? IPHONEX_TOP_FIX + cameraRect.topHegiht : cameraRect.topHegiht )
+            make.height.equalTo(cameraRect.topHegiht )
         })
         
         beautySlider.isHidden = true
@@ -295,7 +304,15 @@ extension FConViewController{
         scaleRate = CameraScale.CameraScale43.rawValue//默认设置为4:3大小比例
         self.cameraRect.scaleRate = .CameraScale43
         cropFilter = GPUImageCropFilter(cropRegion:self.cameraRect.cropRect)
-
+       
+        //模拟器支持
+        if Platform.isSimulator {
+            ifaddFilter = true
+            mGpuimageView = GPUImageView(frame: self.cameraRect.previewRect)
+            mGpuimageView.backgroundColor = UIColor.black
+            view.addSubview(mGpuimageView)
+            return
+        }
         
         mCamera = GPUImageStillCamera(sessionPreset:AVCaptureSession.Preset.hd1280x720.rawValue , cameraPosition: AVCaptureDevice.Position.front)
         mCamera.outputImageOrientation = UIInterfaceOrientation.portrait
@@ -307,9 +324,11 @@ extension FConViewController{
         mGpuimageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill
         view.addSubview(mGpuimageView)
         mCamera.addTarget(ifFilter)
-        //更改比例预定
-        //ifFilter = GPUImageCropFilter.init(cropRegion: )
+
         ifFilter.addTarget(mGpuimageView)
+       
+ 
+        
         mCamera.startCapture()
         ifaddFilter = false
         mCamera.addAudioInputsAndOutputs()//避免录制第一帧黑屏
@@ -421,7 +440,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
         self.shotButton.tipLabel.isHidden = true
         //记录两个view的center点
         let centerBottom = cameraFillterView.center
-        let centerReset = defaultBottomView.center
+        let centerReset = self.shotButton.center
         //对两个底部View做动画平移,交换位置
         UIView.animate(withDuration: 0.2, animations: {
             self.cameraFillterView.snp.remakeConstraints({
@@ -430,7 +449,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
             })
             self.shotButton.snp.remakeConstraints({
                 make in
-                make.width.height.equalTo(75)
+                make.width.height.equalTo(self.widthOfShot)
                 make.centerX.equalToSuperview()
                 make.centerY.equalTo(centerReset.y*16/15)
             })
@@ -447,7 +466,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
             })
             self.shotButton.snp.remakeConstraints({
                 make in
-                make.width.height.equalTo(75)
+                make.width.height.equalTo(self.widthOfShot)
                 make.centerX.equalToSuperview()
                 make.centerY.equalTo(centerReset.y)
             })
@@ -971,6 +990,7 @@ extension FConViewController:GPUImageVideoCameraDelegate{
     
     
     func  setFaceDetectionImage(){
+        layersView.frame = CGRect.init(x: 0, y: 0, width: mGpuimageView.frame.width, height: mGpuimageView.frame.height)
         self.mGpuimageView.addSubview(layersView)
         getOrientation()
     }

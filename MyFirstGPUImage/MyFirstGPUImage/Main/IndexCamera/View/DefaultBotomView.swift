@@ -27,7 +27,6 @@ class DefaultBotomView: UIView {
     //MARK: - lazy loading
 //   滤镜选择按钮
     lazy var fillterButton:UIButton = {
-        //frame: CGRect(x:getWidth(109), y: getHeight(150), width:getWidth(78) , height: getHeight(154))
         var btn = UIButton()
         btn.setImage(#imageLiteral(resourceName: "滤镜") , for: .normal)
         btn.setTitleColor(UIColor.black, for: .normal)
@@ -97,13 +96,6 @@ class DefaultBotomView: UIView {
         return v
     }()
     
-    lazy var backImage:BackImageView = {
-        let imagev = BackImageView()
-        return imagev
-    }()
-    
-    
-    
     
     //Propoty，按钮点击的代理
     
@@ -115,7 +107,6 @@ class DefaultBotomView: UIView {
     
         super.init(frame: CGRect.zero)
         self.backgroundColor = UIColor.white
-        self.addSubview(backImage)
         self.addSubview(beautyButton)
         self.addSubview(fillterButton)
         self.addSubview(videoButton)
@@ -124,22 +115,20 @@ class DefaultBotomView: UIView {
         self.addSubview(deletePreviousButton)
         self.addSubview(recordBackView)
         self.addSubview(selectionView)
-        
-        backImage.snp.makeConstraints({
-            make in
-            make.edges.equalToSuperview()
-        })
+        self.backgroundColor = UIColor.clear
 
+        let topMagin = 49+topFix
+        
         fillterButton.snp.makeConstraints({
             (make) in
-            make.centerY.equalToSuperview()
+            make.top.equalTo(topMagin)
             make.width.height.equalTo(49)
             make.right.equalToSuperview().offset(-30)
             
         })
         beautyButton.snp.makeConstraints({
             (make) in
-            make.centerY.equalToSuperview()
+            make.top.equalTo(topMagin)
             make.width.height.equalTo(32)
             make.left.equalToSuperview().offset(36)
         })
@@ -290,12 +279,18 @@ class DefaultBotomView: UIView {
  extension DefaultBotomView:selectedDelegate{
     
     func didSelected(index: Int) {
+        
+        print(index)
+        CameraModeManage.shared.currentMode = CameraMode(rawValue:index) ?? .CameraModeMovie;
+        
         switch index {
         case 0://left
-            startLongRecord(isRecord:true )
+            break;
+          //  startLongRecord(isRecord:true )
             
         case 1://right
-            startLongRecord(isRecord:false )
+            break;
+           // startLongRecord(isRecord:false )
 
         default:
             break

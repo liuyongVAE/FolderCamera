@@ -20,11 +20,11 @@ struct CameraScaleRect{
             switch scaleRate {
             case .CameraScale43:
                 self.cropRect = CGRect(x: 0, y: topHegiht/SCREEN_HEIGHT, width: 1, height: 3/4)
-                self.previewRect = CGRect(x: 0, y: topHegiht, width: SCREEN_WIDTH, height: (3*SCREEN_HEIGHT )/4)
+                self.previewRect = CGRect(x: 0, y: topHegiht, width: SCREEN_WIDTH, height: (4*SCREEN_WIDTH)/3)
             case .CameraScale11:
                 self.topHegiht = (SCREEN_HEIGHT-SCREEN_WIDTH)/2
                 self.cropRect = CGRect(x: 0, y: topHegiht/SCREEN_HEIGHT, width: 1, height: SCREEN_WIDTH/SCREEN_HEIGHT)
-                 self.previewRect = CGRect(x: 0, y: topHegiht, width: SCREEN_WIDTH, height: SCREEN_HEIGHT)
+                 self.previewRect = CGRect(x: 0, y: topHegiht, width: SCREEN_WIDTH, height: SCREEN_WIDTH)
             default:
                 break;
             }
@@ -32,8 +32,10 @@ struct CameraScaleRect{
     }
     var cropRect:CGRect!
     var previewRect:CGRect!
-    var topHegiht:CGFloat = 95
-    var bottomHeight:CGFloat = (1/4)*SCREEN_HEIGHT - 95
+    var topHegiht:CGFloat = 47 + topFix*2
+    //(95/1334)*SCREEN_HEIGHT + topFix
+    var bottomHeight:CGFloat = SCREEN_HEIGHT - (4*SCREEN_WIDTH)/3 - 47 - topFix*2
+        //SCREEN_HEIGHT - (4*SCREEN_WIDTH)/3 - (95/1334)*SCREEN_HEIGHT - topFix
 
     
     init(scaleRate:CameraScale, cropRect: CGRect?,previewRect:CGRect?) {
