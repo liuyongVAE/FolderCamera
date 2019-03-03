@@ -32,11 +32,21 @@ class CameraModeManage {
         }
     }
     var currentBackImageView:UIImageView = {
-        let z = UIImageView.init()
-        z.image = UIImage(named: "faceModeBackground");
-        return z
+        let this = UIImageView.init()
+        return this
     }()
     
+    var currentCameraFrame:UIImageView = {
+        let imageview = UIImageView.init()
+        imageview.isHidden = true;
+        imageview.contentMode = .scaleToFill
+        return imageview
+    }()
+    
+    var currentFilterButton:UIButton = {
+        let button = UIButton()
+        return button;
+    }()
     
     private init(){
 
@@ -46,23 +56,39 @@ class CameraModeManage {
     private func cameraModeDidChanged(){
         
         var backImage = UIImage()
+        var filterImage = UIImage()
+        var frameImage:UIImage?
         switch currentMode {
         case .CameraModeMovie:
             backImage = UIImage(named: "movieModeBack")!;
+            filterImage = UIImage(named: "滤镜movie")!;
+            frameImage = UIImage(named: "movieFrame")!;
         case .CameraModePeople:
             backImage = UIImage(named: "faceModeBackground")!;
+            filterImage = UIImage(named: "滤镜")!;
         case .CameraModeScenery:
             backImage = UIImage(named: "landscapeModeBack")!;
+            filterImage = UIImage(named: "滤镜landscape")!;
         case .CameraModeFood:
-            backImage = UIImage(named: "foodModeback")!;
+            backImage = UIImage(named: "foodModeback")!
+            filterImage = UIImage(named: "滤镜food")!;
         case .CameraModeFilm:
             backImage = UIImage(named: "filmModeBack")!;
+            filterImage = UIImage(named: "滤镜film")!;
+            frameImage = UIImage(named: "filmFrame")!;
         default:
             break;
         }
         
         self.currentBackImageView.image = backImage;
-        
+        self.currentFilterButton.setImage(filterImage, for: .normal);
+        if let currentFrame = frameImage {
+            self.currentCameraFrame.image = currentFrame;
+            currentCameraFrame.isHidden = false;
+        } else {
+            currentCameraFrame.isHidden = true;
+        }
+            
         let notify = Notification.Name.init("CameraModeDidChanged")
         NotificationCenter.default.post(name: notify, object: self)
         

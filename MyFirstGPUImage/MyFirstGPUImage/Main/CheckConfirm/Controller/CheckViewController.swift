@@ -102,7 +102,7 @@ class CheckViewController: UIViewController {
     var videoScale:Int?
     var willDismiss:(()-> Void)? = nil
     //滤镜
-    var ifFilter:GPUImageFilterGroup?
+    var ifFilter: (GPUImageOutput & GPUImageInput)?
     var filterIndex:Int = 0
     //视频
     var movieWriter:GPUImageMovieWriter?

@@ -27,9 +27,7 @@ class DefaultBotomView: UIView {
     //MARK: - lazy loading
 //   滤镜选择按钮
     lazy var fillterButton:UIButton = {
-        var btn = UIButton()
-        btn.setImage(#imageLiteral(resourceName: "滤镜") , for: .normal)
-        btn.setTitleColor(UIColor.black, for: .normal)
+        var btn = CameraModeManage.shared.currentFilterButton
         btn.addTarget(self, action: #selector(self.changeFillter), for: .touchUpInside)
         return btn
     }()

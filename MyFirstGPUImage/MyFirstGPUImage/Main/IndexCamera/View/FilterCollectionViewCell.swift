@@ -33,16 +33,16 @@ class FilterCollectionViewCell: UICollectionViewCell {
         self.addSubview(filterLabel)
         filterImage.snp.makeConstraints({
             make in
-            make.centerX.equalToSuperview()
-            make.width.equalToSuperview().offset(-20)
-            make.height.equalToSuperview().offset(-20)
-            make.bottom.equalToSuperview().offset(-16)
+            make.edges.equalToSuperview()
+//            make.centerX.equalToSuperview()
+//            make.width.equalToSuperview().offset(-20)
+//            make.height.equalToSuperview().offset(-20)
+//            make.bottom.equalToSuperview().offset(-16)
         })
         filterLabel.snp.makeConstraints({
             make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(self.filterImage.snp.bottom)
-            make.left.right.equalTo(0)
+            make.bottom.equalTo(4)
+            make.leading.trailing.equalToSuperview();
             make.height.equalTo(15)
         })
     }

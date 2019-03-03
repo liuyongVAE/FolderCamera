@@ -257,13 +257,15 @@ class TopView: UIView {
     }
     @objc func liveMode(_ btn:UIButton){
         
-        let deviceName = UIDevice.current.modelName
-        if deviceName == "iPhone 5c" || deviceName == "iPhone 5s" || deviceName == "iPhone 4s" || deviceName == "iPhone "{
-            ProgressHUD.showError("当前设备不支持LivePhoto")
-        }else{
-            btn.isSelected = !btn.isSelected
-            delegate?.liveMode()
-        }
+        RoutingService.getTopVC()?.present(UINavigationController(rootViewController: AlbumViewController()), animated: true, completion: nil);
+        
+//        let deviceName = UIDevice.current.modelName
+//        if deviceName == "iPhone 5c" || deviceName == "iPhone 5s" || deviceName == "iPhone 4s" || deviceName == "iPhone "{
+//            ProgressHUD.showError("当前设备不支持LivePhoto")
+//        }else{
+//            btn.isSelected = !btn.isSelected
+//            delegate?.liveMode()
+//        }
     }
     
     

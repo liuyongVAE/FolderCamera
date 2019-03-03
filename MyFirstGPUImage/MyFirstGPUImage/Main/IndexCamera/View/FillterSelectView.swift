@@ -20,13 +20,14 @@ typealias shotPositionResetBlock = ()->(Void)
 class FillterSelectView: UIView {
     
     
-    fileprivate let cell_width:CGFloat = 70
-    fileprivate let cell_height:CGFloat = 70
+    fileprivate let cell_width:CGFloat = 58
+    fileprivate let cell_height:CGFloat = 58
     fileprivate var images = [UIImage]()
     fileprivate let layout = UICollectionViewFlowLayout()
     var collectionView:UICollectionView!
     //滤镜选择代理
     var filterDelegate:FillterSelectViewDelegate?
+    var isShow:Bool
     //传值闭包
     var mb:shotPositionResetBlock?
     //UI lazy loading
@@ -39,8 +40,14 @@ class FillterSelectView: UIView {
         btn.addTarget(self, action: #selector(self.back), for: .touchUpInside)
         return btn
     }()
+    
+    lazy var bacImage:UIImageView = {
+        var img = UIImageView()
+        return img
+    }()
 
     override init(frame: CGRect) {
+        self.isShow = false
         super.init(frame: frame)
         setCollectionView()
     }
@@ -57,18 +64,18 @@ extension FillterSelectView:UICollectionViewDelegate,UICollectionViewDataSource{
         layout.itemSize = CGSize(width: cell_width, height: cell_height)
         layout.minimumInteritemSpacing = 2
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 0
+        layout.minimumLineSpacing = 3
         layout.sectionInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
         collectionView = UICollectionView(frame: self.frame, collectionViewLayout: layout)
         collectionView.register(FilterCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         collectionView.dataSource = self
         collectionView.delegate = self
-        self.backgroundColor = UIColor.white
-        collectionView.backgroundColor = UIColor.white
+        collectionView.backgroundColor = UIColor.clear
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.allowsMultipleSelection = false
+        self.addSubview(bacImage)
         self.addSubview(collectionView)
-        self.addSubview(backButton)
+        //self.addSubview(backButton)
         setUI()
     }
     
@@ -79,15 +86,18 @@ extension FillterSelectView:UICollectionViewDelegate,UICollectionViewDataSource{
             make in
             make.width.equalToSuperview()
             make.left.equalToSuperview()
-            make.top.equalToSuperview()
+            make.top.equalToSuperview().offset(4)
             make.height.equalTo(cH)
         })
-        backButton.snp.makeConstraints({
-            make in
-            make.centerY.equalToSuperview().offset(50)
-            make.width.height.equalTo(70)
-            make.right.equalToSuperview().offset(-20)
-        })
+    bacImage.snp.makeConstraints ({ (ConstraintMaker) in
+        ConstraintMaker.edges.equalToSuperview()
+    })
+//        backButton.snp.makeConstraints({
+//            make in
+//            make.centerY.equalToSuperview().offset(50)
+//            make.width.height.equalTo(70)
+//            make.right.equalToSuperview().offset(-20)
+//        })
         setImage()
     
     }
@@ -137,7 +147,7 @@ extension FillterSelectView:UICollectionViewDelegate,UICollectionViewDataSource{
         cell.filterImage.image = images[indexPath.row]
         cell.filterLabel.text = FilterGroup.getFillterName(filterType: indexPath.row)
    
-        cell.backgroundColor = UIColor.white
+        cell.backgroundColor = UIColor.clear
         return cell
         
     }

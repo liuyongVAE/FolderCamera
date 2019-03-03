@@ -68,8 +68,8 @@ class FilterGroup {
   ///
   /// - Parameter filterType: 滤镜代码
   /// - Returns: 滤镜
-  class func getFillter(filterType:Int)->GPUImageFilterGroup{
-        var filter = GPUImageFilterGroup()
+  class func getFillter(filterType:Int)->GPUImageOutput & GPUImageInput{
+    var filter:(GPUImageOutput & GPUImageInput)!
         switch filterType {
         case 0:
             return IFNormalFilter()
@@ -98,10 +98,6 @@ class FilterGroup {
         case 12:
             filter = IFRiseFilter()
         case 13:
-//            let f = GPUImageLookupFilter()
-//            let lookup =  GPUImagePicture.init(image:UIImage.init(named: "testlookup"));
-//            lookup?.addTarget(f, atTextureLocation: 0);
-//            filter = f;
             filter = IFRiseFilter()
             
         case 14:
@@ -111,6 +107,31 @@ class FilterGroup {
         }
         return filter
         
+    }
+    
+    
+   class func addGPUImageFilter(_ filter: (GPUImageOutput & GPUImageInput)?) -> GPUImageFilterGroup {
+        let filterGroup = GPUImageFilterGroup()
+        filterGroup.addFilter(filter)
+        
+        let newTerminalFilter: (GPUImageOutput & GPUImageInput)? = filter
+        
+        let count = filterGroup.filterCount() as UInt;
+        
+        if count == 1 {
+            filterGroup.initialFilters = [newTerminalFilter!]
+            filterGroup.terminalFilter = newTerminalFilter
+        } else {
+            let terminalFilter: (GPUImageOutput & GPUImageInput)? = filterGroup.terminalFilter
+            let initialFilters = filterGroup.initialFilters
+            
+            terminalFilter?.addTarget(newTerminalFilter)
+            
+            filterGroup.initialFilters = [initialFilters![0]]
+            filterGroup.terminalFilter = newTerminalFilter
+        }
+        
+        return filterGroup;
     }
     
     

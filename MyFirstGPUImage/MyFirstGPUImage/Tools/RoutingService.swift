@@ -49,6 +49,8 @@ class RoutingService: NSObject {
     
     
     
+    
+    
     // 获取顶层控制器 根据window
    class func getTopVC() -> (UIViewController?) {
         var window = UIApplication.shared.keyWindow
@@ -94,6 +96,7 @@ class RoutingService: NSObject {
             return VC
         }
     }
+
     
 }
 

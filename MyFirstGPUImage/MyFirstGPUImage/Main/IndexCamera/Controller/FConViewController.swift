@@ -36,8 +36,6 @@ class FConViewController: UIViewController {
     //    选择滤镜view
     lazy var cameraFillterView:FillterSelectView = {
         let v = FillterSelectView()
-        v.backgroundColor = UIColor.white
-        
         v.filterDelegate = self
         return v
     }()
@@ -274,7 +272,7 @@ extension FConViewController{
             make in
             make.top.equalTo(SCREEN_HEIGHT)
             make.width.equalToSuperview()
-            make.height.equalTo(SCREEN_HEIGHT*1/4)
+            make.height.equalTo(self.defaultBottomView)
         })
         
         topView.snp.makeConstraints({
@@ -309,8 +307,13 @@ extension FConViewController{
         if Platform.isSimulator {
             ifaddFilter = true
             mGpuimageView = GPUImageView(frame: self.cameraRect.previewRect)
-            mGpuimageView.backgroundColor = UIColor.black
+            mGpuimageView.backgroundColor = UIColor.purple
+            
+            //添加边框
+            CameraModeManage.shared.currentCameraFrame.frame  = CGRect.init(x: 0, y: 0, width: mGpuimageView.frame.width, height: mGpuimageView.frame.height)
             view.addSubview(mGpuimageView)
+            self.mGpuimageView.addSubview(CameraModeManage.shared.currentCameraFrame)
+
             return
         }
         
@@ -334,6 +337,10 @@ extension FConViewController{
         mCamera.addAudioInputsAndOutputs()//避免录制第一帧黑屏
 
         mCamera.delegate = self
+        
+        //添加边框
+        CameraModeManage.shared.currentCameraFrame.frame = mGpuimageView.frame;
+        mGpuimageView.addSubview(CameraModeManage.shared.currentCameraFrame);
 
 
     }
@@ -404,6 +411,9 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     ///
     /// - Parameter index: 滤镜代码
     func switchFillter(index: Int) {
+        
+        
+        
         //隐藏滑动条，重置美颜
         beautySlider.isHidden = true
         isBeauty = false
@@ -425,6 +435,16 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
         filterGroup.terminalFilter = cropFilter
         
         ifFilter = filterGroup
+        
+        if index == 13{
+            let f = GPUImageLookupFilter()
+            let lookup =  GPUImagePicture.init(image:UIImage.init(named: "testlookup"));
+            lookup?.addTarget(f, atTextureLocation: 0);
+            f.useNextFrameForImageCapture()
+            f.addTarget(mGpuimageView)
+            mCamera.addTarget(f)
+        }
+        
         ifFilter.addTarget(mGpuimageView)
         ifaddFilter = true
         mCamera.addTarget(ifFilter)
@@ -436,7 +456,11 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
         isBeauty = false
         defaultBottomView.beautyButton.isSelected = isBeauty
         view.bringSubview(toFront: shotButton)
-        
+        let smallShotWidth  = 48;
+        let smallShotCenterY = 28;
+        cameraFillterView.bacImage.image = CameraModeManage.shared.currentBackImageView.image
+
+
         self.shotButton.tipLabel.isHidden = true
         //记录两个view的center点
         let centerBottom = cameraFillterView.center
@@ -449,9 +473,9 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
             })
             self.shotButton.snp.remakeConstraints({
                 make in
-                make.width.height.equalTo(self.widthOfShot)
+                make.width.height.equalTo(smallShotWidth)
                 make.centerX.equalToSuperview()
-                make.centerY.equalTo(centerReset.y*16/15)
+                make.centerY.equalTo(self.defaultBottomView.snp.bottom).offset(-smallShotCenterY)
             })
             self.shotButton.moveLine()
             self.view.layoutIfNeeded()
@@ -462,7 +486,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
                 make in
                 make.center.equalTo(centerBottom)
                 make.width.equalToSuperview()
-                make.height.equalTo(SCREEN_HEIGHT*1/4)
+                make.height.equalTo(self.defaultBottomView)
             })
             self.shotButton.snp.remakeConstraints({
                 make in
