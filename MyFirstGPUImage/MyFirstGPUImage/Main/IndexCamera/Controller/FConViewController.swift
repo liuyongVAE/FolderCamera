@@ -436,15 +436,6 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
         
         ifFilter = filterGroup
         
-        if index == 13{
-            let f = GPUImageLookupFilter()
-            let lookup =  GPUImagePicture.init(image:UIImage.init(named: "testlookup"));
-            lookup?.addTarget(f, atTextureLocation: 0);
-            f.useNextFrameForImageCapture()
-            f.addTarget(mGpuimageView)
-            mCamera.addTarget(f)
-        }
-        
         ifFilter.addTarget(mGpuimageView)
         ifaddFilter = true
         mCamera.addTarget(ifFilter)

@@ -98,7 +98,7 @@ class FilterGroup {
         case 12:
             filter = IFRiseFilter()
         case 13:
-            filter = IFRiseFilter()
+            filter = TestLookUpFilter()
             
         case 14:
             filter = GPUImageBeautifyFilter()

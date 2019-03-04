@@ -76,6 +76,8 @@
 		2DB116AD2135441900D17A70 /* QuickTimeMov.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB116AC2135441900D17A70 /* QuickTimeMov.swift */; };
 		2DB116AF213639C300D17A70 /* DeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB116AE213639C300D17A70 /* DeviceExtension.swift */; };
 		2DB116B821378B0F00D17A70 /* FDLivePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB116B721378B0F00D17A70 /* FDLivePhotoView.swift */; };
+		2DB83507222BE0EC00923B00 /* testHello.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DB83506222BE0EC00923B00 /* testHello.png */; };
+		2DB8350A222BE10700923B00 /* TestLookUpFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DB83508222BE10700923B00 /* TestLookUpFilter.m */; };
 		2DB8F7382212775900F1C266 /* CameraEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB8F7372212775900F1C266 /* CameraEnum.swift */; };
 		2DB8F73C2212902500F1C266 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB8F73B2212902500F1C266 /* ViewControllerExtension.swift */; };
 		2DB8F73E2212C4EC00F1C266 /* RoutingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB8F73D2212C4EC00F1C266 /* RoutingService.swift */; };
@@ -189,6 +191,9 @@
 		2DB116AC2135441900D17A70 /* QuickTimeMov.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickTimeMov.swift; sourceTree = "<group>"; };
 		2DB116AE213639C300D17A70 /* DeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceExtension.swift; sourceTree = "<group>"; };
 		2DB116B721378B0F00D17A70 /* FDLivePhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FDLivePhotoView.swift; sourceTree = "<group>"; };
+		2DB83506222BE0EC00923B00 /* testHello.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testHello.png; sourceTree = "<group>"; };
+		2DB83508222BE10700923B00 /* TestLookUpFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestLookUpFilter.m; sourceTree = "<group>"; };
+		2DB83509222BE10700923B00 /* TestLookUpFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestLookUpFilter.h; sourceTree = "<group>"; };
 		2DB8F7372212775900F1C266 /* CameraEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraEnum.swift; sourceTree = "<group>"; };
 		2DB8F73B2212902500F1C266 /* ViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
 		2DB8F73D2212C4EC00F1C266 /* RoutingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingService.swift; sourceTree = "<group>"; };
@@ -477,6 +482,7 @@
 		2D3A158721085257005131B8 /* MyFirstGPUImage */ = {
 			isa = PBXGroup;
 			children = (
+				2DB83504222BE0BF00923B00 /* CustomFilter */,
 				2DE7BE6B21FFF9330090F18E /* Inceptionv3.mlmodel */,
 				2D85F250212A9808008AD54D /* Tools */,
 				2D2D6D98211D7923005F8371 /* myShader.fsh */,
@@ -638,6 +644,24 @@
 			path = Tools;
 			sourceTree = "<group>";
 		};
+		2DB83504222BE0BF00923B00 /* CustomFilter */ = {
+			isa = PBXGroup;
+			children = (
+				2DB83509222BE10700923B00 /* TestLookUpFilter.h */,
+				2DB83508222BE10700923B00 /* TestLookUpFilter.m */,
+				2DB83505222BE0D200923B00 /* Resource */,
+			);
+			path = CustomFilter;
+			sourceTree = "<group>";
+		};
+		2DB83505222BE0D200923B00 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				2DB83506222BE0EC00923B00 /* testHello.png */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
 		2DB8F73F2212C8DC00F1C266 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
@@ -777,6 +801,7 @@
 				2D378ED92112FB2B00A51DE8 /* Launch Screen.storyboard in Resources */,
 				2D378EC821115C2900A51DE8 /* GPUImage.InstagramFilter.bundle in Resources */,
 				2D1F727F21F9C3D800536131 /* ItemCollectionViewCell.xib in Resources */,
+				2DB83507222BE0EC00923B00 /* testHello.png in Resources */,
 				2DB0291421466F86009A2821 /* SettingTableViewCell.xib in Resources */,
 				2DB029162146710D009A2821 /* Assets.xcassets in Resources */,
 				2D1F727E21F9C3D800536131 /* AlbumTableViewCell.xib in Resources */,
@@ -883,6 +908,7 @@
 				2D396A1D211ABE2F0049FE40 /* RoundProgressButtonView.swift in Sources */,
 				2DB8F73C2212902500F1C266 /* ViewControllerExtension.swift in Sources */,
 				2D1F727B21F9C3D800536131 /* AlbumDataSource.swift in Sources */,
+				2DB8350A222BE10700923B00 /* TestLookUpFilter.m in Sources */,
 				2DB8F7412212C98C00F1C266 /* cameraManager.swift in Sources */,
 				2D378EC621115C2900A51DE8 /* IFToasterFilter.m in Sources */,
 				2D1F725D21F9AF2000536131 /* publicFunc.swift in Sources */,
