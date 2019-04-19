@@ -46,6 +46,11 @@ class AlbumViewController: UIViewController{
     }
     
     
+    @objc func back(){
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    
     func setUI(){
         self.view.addSubview(tableView)
         tableView.register(UINib(nibName: "AlbumTableViewCell", bundle: nil), forCellReuseIdentifier: identify)
@@ -53,8 +58,16 @@ class AlbumViewController: UIViewController{
             make in
             make.width.height.left.top.equalToSuperview()
         })
+        let leftBtn:UIBarButtonItem=UIBarButtonItem(title: "返回", style: UIBarButtonItemStyle.plain, target: self, action: #selector(back))
+        
+        leftBtn.title="返回";
+        
+        leftBtn.tintColor = naviColor;
+        
+        self.navigationItem.leftBarButtonItem=leftBtn;
     }
 
+    
     //开启相册
     func openAlbum(){
         PHPhotoLibrary.requestAuthorization({ (status) in

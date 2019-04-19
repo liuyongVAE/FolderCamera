@@ -37,6 +37,7 @@ class SelectionView: UIView {
         addGesture()
         let notify = Notification.Name.init("CameraModeDidChanged")
         NotificationCenter.default.addObserver(self, selector: #selector(modeDidChanged), name: notify, object: nil)
+        self.transfrom(index: CameraModeManage.shared.currentMode.rawValue)
         
         
     }

@@ -49,7 +49,7 @@ class FConViewController: UIViewController {
 
     lazy var beautySlider:UISlider = {
         let slider = UISlider()
-        slider.tintColor = naviColor
+        slider.tintColor = UIColor.white
         // slider.backgroundColor = UIColor.brown
         slider.minimumValue = 0.0
         slider.maximumValue = 0.8
@@ -126,9 +126,9 @@ class FConViewController: UIViewController {
     var liveUrl:URL!
     
     //model
-    lazy var mlModel:Inceptionv3  = {
-        return Inceptionv3()
-    }()
+//    lazy var mlModel:Inceptionv3  = {
+//        return Inceptionv3()
+//    }()
     
     
     deinit{
@@ -148,7 +148,8 @@ extension FConViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //初始化mode
-        CameraModeManage.shared.currentMode = .CameraModeMovie
+        CameraModeManage.shared.currentMode = .CameraModePeople
+        
         
         navigationController?.navigationBar.isHidden = true
         beginGestureScale = 1
@@ -160,6 +161,8 @@ extension FConViewController {
         setFocusImage(#imageLiteral(resourceName: "聚焦 "))
         setFaceDetectionImage()
         UIApplication.shared.applicationSupportsShakeToEdit = true
+        let notify = Notification.Name.init("CameraModeDidChanged")
+        NotificationCenter.default.addObserver(self, selector: #selector(modeDidChanged), name: notify, object: nil)
         // Do any additional setup after loading sthe view.
     }
     
@@ -176,6 +179,17 @@ extension FConViewController {
         if !ifaddFilter{
             //默认美颜滤镜
             switchFillter(index:0);
+        }
+    }
+    
+    @objc func modeDidChanged(){
+        if (CameraModeManage.shared.currentMode != .CameraModePeople) {
+            self.defaultBottomView.beautyButton.isHidden = true;
+            beautySlider.isHidden = true
+            isBeauty = false
+        } else {
+            self.defaultBottomView.beautyButton.isHidden = false
+
         }
     }
     
@@ -204,7 +218,11 @@ extension FConViewController {
             processedJPEG, error in
             if let aJPEG = processedJPEG {
                 guard let imageview = UIImage(data: aJPEG) else{  return }
-                let vc  = CheckViewController(image: self.normalizedImage(image: imageview),type:0)
+                //摄影边框和图片结合
+                let zimage = addImage(imageview, withImage: CameraModeManage.shared.currentCameraFrame.image)
+                
+                let vc  = CheckViewController(image: self.normalizedImage(image: zimage!),type:0)
+                vc.refVc = weakSelf
                 vc.willDismiss = {
                     //将美颜状态重置
                     if (weakSelf?.isBeauty)!{
@@ -317,14 +335,15 @@ extension FConViewController{
             return
         }
         
-        mCamera = GPUImageStillCamera(sessionPreset:AVCaptureSession.Preset.hd1280x720.rawValue , cameraPosition: AVCaptureDevice.Position.front)
+        mCamera = GPUImageStillCamera(sessionPreset:AVCaptureSession.Preset.photo.rawValue , cameraPosition: AVCaptureDevice.Position.front)
         mCamera.outputImageOrientation = UIInterfaceOrientation.portrait
         mCamera.horizontallyMirrorFrontFacingCamera = true
         //滤镜
         ifFilter = IFNormalFilter()
         ifFilter.useNextFrameForImageCapture()
         mGpuimageView = GPUImageView(frame: self.cameraRect.previewRect)
-        mGpuimageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill
+        mGpuimageView.center.x = self.view.center.x;
+        mGpuimageView.fillMode = kGPUImageFillModePreserveAspectRatio
         view.addSubview(mGpuimageView)
         mCamera.addTarget(ifFilter)
 
@@ -339,7 +358,7 @@ extension FConViewController{
         mCamera.delegate = self
         
         //添加边框
-        CameraModeManage.shared.currentCameraFrame.frame = mGpuimageView.frame;
+        CameraModeManage.shared.currentCameraFrame.frame = mGpuimageView.bounds;
         mGpuimageView.addSubview(CameraModeManage.shared.currentCameraFrame);
 
 
@@ -413,7 +432,6 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     func switchFillter(index: Int) {
         
         
-        
         //隐藏滑动条，重置美颜
         beautySlider.isHidden = true
         isBeauty = false
@@ -421,36 +439,31 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
         mCamera.removeAllTargets()
         let filterGroup = GPUImageFilterGroup()//创建滤镜组
         beautyFilter = GPUImageBeautifyFilter()//美颜
-        let customFilter = FilterGroup.getFillter(filterType: index)
-    
+        let customFilter = FilterGroup.shared.getFilterWithIndex(index: index).filter
+        
         //添加滤镜组链
         filterGroup.addTarget(beautyFilter!)
         filterGroup.addTarget(customFilter)
-        filterGroup.addTarget(cropFilter)
+        //filterGroup.addTarget(cropFilter)
         //滤镜链接
         beautyFilter?.addTarget(customFilter)
-        customFilter.addTarget(cropFilter)
+        //customFilter.addTarget(cropFilter)
         //初始化组
         filterGroup.initialFilters = [beautyFilter!]
-        filterGroup.terminalFilter = cropFilter
+        filterGroup.terminalFilter = customFilter
         
         ifFilter = filterGroup
-        
-        if index == 13{
-            let f = GPUImageLookupFilter()
-            let lookup =  GPUImagePicture.init(image:UIImage.init(named: "testlookup"));
-            lookup?.addTarget(f, atTextureLocation: 0);
-            f.useNextFrameForImageCapture()
-            f.addTarget(mGpuimageView)
-            mCamera.addTarget(f)
-        }
         
         ifFilter.addTarget(mGpuimageView)
         ifaddFilter = true
         mCamera.addTarget(ifFilter)
         mCamera.startCapture()
+
         
     }
+    
+
+    
     /// 切换滤镜方法
     func changeFillter() {
         isBeauty = false
@@ -513,6 +526,7 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
             beautySlider.value = 0.5
             isBeauty = true
              beautySlider.isHidden = false
+            view.bringSubview(toFront: beautySlider)
             
         }else{
             //取消美颜
@@ -988,10 +1002,10 @@ extension FConViewController{
         CVPixelBufferUnlockBaseAddress(pixelBuffer!, CVPixelBufferLockFlags(rawValue: 0))
         
         // Core ML
-        guard let prediction = try? mlModel.prediction(image: pixelBuffer!) else {
-            return
-        }
-        print(prediction.classLabel)
+//        guard let prediction = try? mlModel.prediction(image: pixelBuffer!) else {
+//            return
+//        }
+      //  print(prediction.classLabel)
        //tipLabel.text = "I think this is a \(prediction.classLabel)."
     }
     
@@ -1049,7 +1063,11 @@ extension FConViewController:GPUImageVideoCameraDelegate{
         if faceAreas.count == 0 {
             //没有人脸时候全屏美颜
             let fullRect = CGRect(x: self.view.frame.origin.x, y: self.view.frame.origin.y*2, width: self.view.frame.width*2, height: (self.view.frame.height*2))
-            beautyFilter?.updateMask(fullRect)
+            if (CameraModeManage.shared.currentMode == .CameraModePeople) {
+                beautyFilter?.updateMask(fullRect)
+            } else {
+                beautyFilter?.updateMask(CGRect.zero)
+            }
         }
         
         for i in faceAreas {
@@ -1063,7 +1081,11 @@ extension FConViewController:GPUImageVideoCameraDelegate{
 //                    return CGRect(x: i.bounds.origin.x, y: i.bounds.origin.y, width: i.bounds.width*3/2, height: (i.bounds.height*3/2 + 10))
 //                }
             }()
-            beautyFilter?.updateMask(rect)
+            if (CameraModeManage.shared.currentMode == .CameraModePeople) {
+                beautyFilter?.updateMask(rect)
+            } else {
+                beautyFilter?.updateMask(CGRect.zero)
+            }
         }
         
         //主线程刷新UI并设置延迟

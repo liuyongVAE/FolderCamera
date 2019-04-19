@@ -139,7 +139,7 @@ class QuickTimeMov {
                     if reader.status == .reading {
                         if let buffer = output.copyNextSampleBuffer() {
                             if !input.append(buffer) {
-                                print("cannot write: \((describing: writer.error?.localizedDescription))")
+                                //print("cannot write: \((?.localizedDescription))")
                                 reader.cancelReading()
                             }
                         }

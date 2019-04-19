@@ -7,16 +7,20 @@
 //
 
 import Foundation
+#if DEBUG
 import FLEX
-
+#endif
 //debug
 extension FConViewController {
     
     
     override open func motionBegan(_ motion: UIEventSubtype, with event: UIEvent?) {
+        #if DEBUG
         if motion == .motionShake {
             FLEXManager.shared()?.showExplorer()
         }
+        #endif
+
     }
     
 }

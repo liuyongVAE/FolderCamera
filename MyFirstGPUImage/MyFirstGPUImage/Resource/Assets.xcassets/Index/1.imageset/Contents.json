@@ -2,15 +2,16 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "QQ20180731-162029iPadApp_76pt.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "应用ICONiPhoneApp_60pt@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "应用ICONiPhoneApp_60pt@3x.png",
       "scale" : "3x"
     }
   ],

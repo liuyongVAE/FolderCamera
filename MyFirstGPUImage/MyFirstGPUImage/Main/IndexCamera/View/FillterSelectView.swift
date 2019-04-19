@@ -50,10 +50,20 @@ class FillterSelectView: UIView {
         self.isShow = false
         super.init(frame: frame)
         setCollectionView()
+        let notify = Notification.Name.init("CameraModeDidChanged")
+        NotificationCenter.default.addObserver(self, selector: #selector(modeDidChanged), name: notify, object: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func modeDidChanged(){
+        self.collectionView.reloadData()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
 }
@@ -73,6 +83,8 @@ extension FillterSelectView:UICollectionViewDelegate,UICollectionViewDataSource{
         collectionView.backgroundColor = UIColor.clear
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.allowsMultipleSelection = false
+        bacImage.image = CameraModeManage.shared.currentBackImageView.image
+
         self.addSubview(bacImage)
         self.addSubview(collectionView)
         //self.addSubview(backButton)
@@ -85,7 +97,7 @@ extension FillterSelectView:UICollectionViewDelegate,UICollectionViewDataSource{
         collectionView.snp.makeConstraints({
             make in
             make.width.equalToSuperview()
-            make.left.equalToSuperview()
+            make.left.equalToSuperview().offset(4)
             make.top.equalToSuperview().offset(4)
             make.height.equalTo(cH)
         })
@@ -98,20 +110,9 @@ extension FillterSelectView:UICollectionViewDelegate,UICollectionViewDataSource{
 //            make.width.height.equalTo(70)
 //            make.right.equalToSuperview().offset(-20)
 //        })
-        setImage()
     
     }
  //设置图片
-    
-    func setImage(){
-        images.append(#imageLiteral(resourceName: "斜线"))
-        for _ in 1...FilterGroup.count{
-            //TODO: 渲染太多滤镜导致黑屏
-          //let filter = FilterGroup.getFillter(filterType: i)
-         // let image = filter.image(byFilteringImage:#imageLiteral(resourceName: "FilterBeauty") )
-            images.append(#imageLiteral(resourceName: "FilterBeauty"))
-        }
-    }
     
     
     
@@ -137,15 +138,16 @@ extension FillterSelectView:UICollectionViewDelegate,UICollectionViewDataSource{
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return FilterGroup.count + 1
+        return FilterGroup.shared.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier:"cell", for: indexPath) as! FilterCollectionViewCell
         
         //为每个cell添加image
-        cell.filterImage.image = images[indexPath.row]
-        cell.filterLabel.text = FilterGroup.getFillterName(filterType: indexPath.row)
+        cell.filterLabel.text = FilterGroup.shared.getFilterWithIndex(index: indexPath.row).name
+        cell.filterImage.image = UIImage(named:FilterGroup.shared.getFilterWithIndex(index: indexPath.row).imageCode)
+        cell.selectedLayer.isHidden = true
    
         cell.backgroundColor = UIColor.clear
         return cell
@@ -162,7 +164,10 @@ extension FillterSelectView:UICollectionViewDelegate,UICollectionViewDataSource{
 //  点击cell的操作，调用代理切换滤镜
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        collectionView.cellForItem(at: indexPath)?.backgroundColor = filterSelectedColor
+        if let cell =  collectionView.cellForItem(at: indexPath) as? FilterCollectionViewCell {
+            cell.selectedLayer.isHidden = false
+        }
+        
         filterDelegate?.switchFillter(index: indexPath.row)
     }
     
@@ -172,7 +177,10 @@ extension FillterSelectView:UICollectionViewDelegate,UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
          collectionView.reloadItems(at: [indexPath])
-         collectionView.cellForItem(at: indexPath)?.backgroundColor = UIColor.white
+        
+        if let cell =  collectionView.cellForItem(at: indexPath) as? FilterCollectionViewCell {
+            cell.selectedLayer.isHidden = true
+        }
     }
     
 }

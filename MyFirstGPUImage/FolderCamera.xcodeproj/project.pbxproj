@@ -8,6 +8,45 @@
 
 /* Begin PBXBuildFile section */
 		0B10007E1569F76E1CAB1456 /* Pods_MyFirstGPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B90C9E859F51270B2744A7B8 /* Pods_MyFirstGPUImage.framework */; };
+		1893F2442262DEC50095BB5D /* 胶片-K2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F2252262DE990095BB5D /* 胶片-K2.png */; };
+		1893F2452262DEC50095BB5D /* 风景-02清淡.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F2262262DE9B0095BB5D /* 风景-02清淡.png */; };
+		1893F2462262DEC50095BB5D /* 人像-02竹翠.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F2272262DE9C0095BB5D /* 人像-02竹翠.png */; };
+		1893F2472262DEC50095BB5D /* 风景-01鲜明.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F2282262DE9E0095BB5D /* 风景-01鲜明.png */; };
+		1893F2482262DEC50095BB5D /* 美食-c1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F2292262DE9F0095BB5D /* 美食-c1.png */; };
+		1893F2492262DEC50095BB5D /* 美食-c2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F22A2262DEA10095BB5D /* 美食-c2.png */; };
+		1893F24A2262DEC50095BB5D /* 美食-c3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F22B2262DEA20095BB5D /* 美食-c3.png */; };
+		1893F24B2262DEC50095BB5D /* 人像-05安静.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F22C2262DEA40095BB5D /* 人像-05安静.png */; };
+		1893F24C2262DEC50095BB5D /* 人像-08浅粉.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F22D2262DEA50095BB5D /* 人像-08浅粉.png */; };
+		1893F24D2262DEC50095BB5D /* 胶片-F3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F22E2262DEA70095BB5D /* 胶片-F3.png */; };
+		1893F24E2262DEC50095BB5D /* 风景-04若苗.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F22F2262DEA80095BB5D /* 风景-04若苗.png */; };
+		1893F24F2262DEC50095BB5D /* 人像-04清晨.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F2302262DEAA0095BB5D /* 人像-04清晨.png */; };
+		1893F2502262DEC50095BB5D /* 人像-01照花.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F2312262DEAB0095BB5D /* 人像-01照花.png */; };
+		1893F2512262DEC50095BB5D /* 胶片-F1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F2322262DEAC0095BB5D /* 胶片-F1.png */; };
+		1893F2522262DEC50095BB5D /* 胶片-K3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F2332262DEAE0095BB5D /* 胶片-K3.png */; };
+		1893F2532262DEC50095BB5D /* 美食-s1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F2342262DEAF0095BB5D /* 美食-s1.png */; };
+		1893F2542262DEC50095BB5D /* 胶片-F2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F2352262DEB10095BB5D /* 胶片-F2.png */; };
+		1893F2552262DEC50095BB5D /* Origion.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F2362262DEB20095BB5D /* Origion.png */; };
+		1893F2562262DEC50095BB5D /* 人像-03流光.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F2372262DEB40095BB5D /* 人像-03流光.png */; };
+		1893F2572262DEC50095BB5D /* 美食-a1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F2382262DEB50095BB5D /* 美食-a1.png */; };
+		1893F2582262DEC50095BB5D /* 美食-a3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F2392262DEB70095BB5D /* 美食-a3.png */; };
+		1893F2592262DEC50095BB5D /* 风景-05故宫红.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F23A2262DEB80095BB5D /* 风景-05故宫红.png */; };
+		1893F25A2262DEC50095BB5D /* 美食-a2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F23B2262DEBA0095BB5D /* 美食-a2.png */; };
+		1893F25B2262DEC50095BB5D /* 风景-03对比.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F23C2262DEBB0095BB5D /* 风景-03对比.png */; };
+		1893F25C2262DEC50095BB5D /* 人像-06浪漫.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F23D2262DEBD0095BB5D /* 人像-06浪漫.png */; };
+		1893F25D2262DEC50095BB5D /* 美食-s2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F23E2262DEBE0095BB5D /* 美食-s2.png */; };
+		1893F25E2262DEC50095BB5D /* 人像-09高级灰.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F23F2262DEBF0095BB5D /* 人像-09高级灰.png */; };
+		1893F25F2262DEC50095BB5D /* 美食-s3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F2402262DEC10095BB5D /* 美食-s3.png */; };
+		1893F2602262DEC50095BB5D /* 人像-07质感.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F2412262DEC20095BB5D /* 人像-07质感.png */; };
+		1893F2612262DEC50095BB5D /* 风景-06岩井茶.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F2422262DEC40095BB5D /* 风景-06岩井茶.png */; };
+		1893F2622262DEC50095BB5D /* 胶片-K1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1893F2432262DEC50095BB5D /* 胶片-K1.png */; };
+		1893F26422630BA90095BB5D /* FCSceneryFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1893F26322630BA90095BB5D /* FCSceneryFilter.swift */; };
+		1893F266226310680095BB5D /* FilterSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1893F265226310680095BB5D /* FilterSource.swift */; };
+		18B4987522631A8700ECC0DC /* FCPeopleFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B4987422631A8700ECC0DC /* FCPeopleFilter.swift */; };
+		18B4987722631DD300ECC0DC /* FCFilmFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B4987622631DD300ECC0DC /* FCFilmFilter.swift */; };
+		18B4987922631DE800ECC0DC /* FCFoodFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B4987822631DE800ECC0DC /* FCFoodFilter.swift */; };
+		18B4987B22631DF900ECC0DC /* FCMovieFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B4987A22631DF900ECC0DC /* FCMovieFilter.swift */; };
+		18B57757225B3C6900A60C60 /* testHello.png in Resources */ = {isa = PBXBuildFile; fileRef = 18B57756225B3C6900A60C60 /* testHello.png */; };
+		18B5775A225B3C7700A60C60 /* TestLookUpFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B57759225B3C7700A60C60 /* TestLookUpFilter.m */; };
 		2D0396A0211D70B9004E87C0 /* DesignedGPUImageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D03969F211D70B9004E87C0 /* DesignedGPUImageFilter.m */; };
 		2D1F725D21F9AF2000536131 /* publicFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1F725C21F9AF2000536131 /* publicFunc.swift */; };
 		2D1F727721F9C3D800536131 /* ImageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1F726021F9C3D800536131 /* ImageDetailViewController.swift */; };
@@ -83,12 +122,51 @@
 		2DB8F7432213C7E200F1C266 /* CameraModeManage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB8F7422213C7E200F1C266 /* CameraModeManage.swift */; };
 		2DC0682621425C7300551531 /* CallSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC0682521425C7300551531 /* CallSettingView.swift */; };
 		2DC6576F212C09AE001A2571 /* LineProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC6576E212C09AE001A2571 /* LineProgress.swift */; };
-		2DE7BE6C21FFF9330090F18E /* Inceptionv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2DE7BE6B21FFF9330090F18E /* Inceptionv3.mlmodel */; };
 		2DF4891821464B1000423A6A /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF4891721464B1000423A6A /* SettingViewController.swift */; };
 		2DF4891C21464D0400423A6A /* SettingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF4891B21464D0400423A6A /* SettingTableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1893F2252262DE990095BB5D /* 胶片-K2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "胶片-K2.png"; sourceTree = "<group>"; };
+		1893F2262262DE9B0095BB5D /* 风景-02清淡.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "风景-02清淡.png"; sourceTree = "<group>"; };
+		1893F2272262DE9C0095BB5D /* 人像-02竹翠.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "人像-02竹翠.png"; sourceTree = "<group>"; };
+		1893F2282262DE9E0095BB5D /* 风景-01鲜明.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "风景-01鲜明.png"; sourceTree = "<group>"; };
+		1893F2292262DE9F0095BB5D /* 美食-c1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "美食-c1.png"; sourceTree = "<group>"; };
+		1893F22A2262DEA10095BB5D /* 美食-c2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "美食-c2.png"; sourceTree = "<group>"; };
+		1893F22B2262DEA20095BB5D /* 美食-c3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "美食-c3.png"; sourceTree = "<group>"; };
+		1893F22C2262DEA40095BB5D /* 人像-05安静.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "人像-05安静.png"; sourceTree = "<group>"; };
+		1893F22D2262DEA50095BB5D /* 人像-08浅粉.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "人像-08浅粉.png"; sourceTree = "<group>"; };
+		1893F22E2262DEA70095BB5D /* 胶片-F3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "胶片-F3.png"; sourceTree = "<group>"; };
+		1893F22F2262DEA80095BB5D /* 风景-04若苗.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "风景-04若苗.png"; sourceTree = "<group>"; };
+		1893F2302262DEAA0095BB5D /* 人像-04清晨.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "人像-04清晨.png"; sourceTree = "<group>"; };
+		1893F2312262DEAB0095BB5D /* 人像-01照花.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "人像-01照花.png"; sourceTree = "<group>"; };
+		1893F2322262DEAC0095BB5D /* 胶片-F1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "胶片-F1.png"; sourceTree = "<group>"; };
+		1893F2332262DEAE0095BB5D /* 胶片-K3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "胶片-K3.png"; sourceTree = "<group>"; };
+		1893F2342262DEAF0095BB5D /* 美食-s1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "美食-s1.png"; sourceTree = "<group>"; };
+		1893F2352262DEB10095BB5D /* 胶片-F2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "胶片-F2.png"; sourceTree = "<group>"; };
+		1893F2362262DEB20095BB5D /* Origion.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Origion.png; sourceTree = "<group>"; };
+		1893F2372262DEB40095BB5D /* 人像-03流光.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "人像-03流光.png"; sourceTree = "<group>"; };
+		1893F2382262DEB50095BB5D /* 美食-a1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "美食-a1.png"; sourceTree = "<group>"; };
+		1893F2392262DEB70095BB5D /* 美食-a3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "美食-a3.png"; sourceTree = "<group>"; };
+		1893F23A2262DEB80095BB5D /* 风景-05故宫红.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "风景-05故宫红.png"; sourceTree = "<group>"; };
+		1893F23B2262DEBA0095BB5D /* 美食-a2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "美食-a2.png"; sourceTree = "<group>"; };
+		1893F23C2262DEBB0095BB5D /* 风景-03对比.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "风景-03对比.png"; sourceTree = "<group>"; };
+		1893F23D2262DEBD0095BB5D /* 人像-06浪漫.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "人像-06浪漫.png"; sourceTree = "<group>"; };
+		1893F23E2262DEBE0095BB5D /* 美食-s2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "美食-s2.png"; sourceTree = "<group>"; };
+		1893F23F2262DEBF0095BB5D /* 人像-09高级灰.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "人像-09高级灰.png"; sourceTree = "<group>"; };
+		1893F2402262DEC10095BB5D /* 美食-s3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "美食-s3.png"; sourceTree = "<group>"; };
+		1893F2412262DEC20095BB5D /* 人像-07质感.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "人像-07质感.png"; sourceTree = "<group>"; };
+		1893F2422262DEC40095BB5D /* 风景-06岩井茶.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "风景-06岩井茶.png"; sourceTree = "<group>"; };
+		1893F2432262DEC50095BB5D /* 胶片-K1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "胶片-K1.png"; sourceTree = "<group>"; };
+		1893F26322630BA90095BB5D /* FCSceneryFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCSceneryFilter.swift; sourceTree = "<group>"; };
+		1893F265226310680095BB5D /* FilterSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSource.swift; sourceTree = "<group>"; };
+		18B4987422631A8700ECC0DC /* FCPeopleFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCPeopleFilter.swift; sourceTree = "<group>"; };
+		18B4987622631DD300ECC0DC /* FCFilmFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCFilmFilter.swift; sourceTree = "<group>"; };
+		18B4987822631DE800ECC0DC /* FCFoodFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCFoodFilter.swift; sourceTree = "<group>"; };
+		18B4987A22631DF900ECC0DC /* FCMovieFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMovieFilter.swift; sourceTree = "<group>"; };
+		18B57756225B3C6900A60C60 /* testHello.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testHello.png; sourceTree = "<group>"; };
+		18B57758225B3C7700A60C60 /* TestLookUpFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestLookUpFilter.h; sourceTree = "<group>"; };
+		18B57759225B3C7700A60C60 /* TestLookUpFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestLookUpFilter.m; sourceTree = "<group>"; };
 		2D03969E211D70B9004E87C0 /* DesignedGPUImageFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DesignedGPUImageFilter.h; sourceTree = "<group>"; };
 		2D03969F211D70B9004E87C0 /* DesignedGPUImageFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DesignedGPUImageFilter.m; sourceTree = "<group>"; };
 		2D1B88EB2110574D00773678 /* MyFirstGPUImage-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyFirstGPUImage-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -196,7 +274,6 @@
 		2DB8F7422213C7E200F1C266 /* CameraModeManage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraModeManage.swift; sourceTree = "<group>"; };
 		2DC0682521425C7300551531 /* CallSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallSettingView.swift; sourceTree = "<group>"; };
 		2DC6576E212C09AE001A2571 /* LineProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineProgress.swift; sourceTree = "<group>"; };
-		2DE7BE6B21FFF9330090F18E /* Inceptionv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Inceptionv3.mlmodel; sourceTree = "<group>"; };
 		2DF4891721464B1000423A6A /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		2DF4891B21464D0400423A6A /* SettingTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableView.swift; sourceTree = "<group>"; };
 		6EA227A6B6B79861372E3272 /* Pods-MyFirstGPUImage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyFirstGPUImage.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyFirstGPUImage/Pods-MyFirstGPUImage.release.xcconfig"; sourceTree = "<group>"; };
@@ -216,6 +293,61 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		18B5774F225B337700A60C60 /* CustomFilter */ = {
+			isa = PBXGroup;
+			children = (
+				18B4987A22631DF900ECC0DC /* FCMovieFilter.swift */,
+				18B4987822631DE800ECC0DC /* FCFoodFilter.swift */,
+				18B4987622631DD300ECC0DC /* FCFilmFilter.swift */,
+				18B4987422631A8700ECC0DC /* FCPeopleFilter.swift */,
+				1893F26322630BA90095BB5D /* FCSceneryFilter.swift */,
+				18B57759225B3C7700A60C60 /* TestLookUpFilter.m */,
+				18B57758225B3C7700A60C60 /* TestLookUpFilter.h */,
+				18B57753225B389000A60C60 /* Resource */,
+				1893F265226310680095BB5D /* FilterSource.swift */,
+			);
+			path = CustomFilter;
+			sourceTree = "<group>";
+		};
+		18B57753225B389000A60C60 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				1893F2282262DE9E0095BB5D /* 风景-01鲜明.png */,
+				1893F2262262DE9B0095BB5D /* 风景-02清淡.png */,
+				1893F23C2262DEBB0095BB5D /* 风景-03对比.png */,
+				1893F22F2262DEA80095BB5D /* 风景-04若苗.png */,
+				1893F23A2262DEB80095BB5D /* 风景-05故宫红.png */,
+				1893F2422262DEC40095BB5D /* 风景-06岩井茶.png */,
+				1893F2322262DEAC0095BB5D /* 胶片-F1.png */,
+				1893F2352262DEB10095BB5D /* 胶片-F2.png */,
+				1893F22E2262DEA70095BB5D /* 胶片-F3.png */,
+				1893F2432262DEC50095BB5D /* 胶片-K1.png */,
+				1893F2252262DE990095BB5D /* 胶片-K2.png */,
+				1893F2332262DEAE0095BB5D /* 胶片-K3.png */,
+				1893F2382262DEB50095BB5D /* 美食-a1.png */,
+				1893F23B2262DEBA0095BB5D /* 美食-a2.png */,
+				1893F2392262DEB70095BB5D /* 美食-a3.png */,
+				1893F2292262DE9F0095BB5D /* 美食-c1.png */,
+				1893F22A2262DEA10095BB5D /* 美食-c2.png */,
+				1893F22B2262DEA20095BB5D /* 美食-c3.png */,
+				1893F2342262DEAF0095BB5D /* 美食-s1.png */,
+				1893F23E2262DEBE0095BB5D /* 美食-s2.png */,
+				1893F2402262DEC10095BB5D /* 美食-s3.png */,
+				1893F2312262DEAB0095BB5D /* 人像-01照花.png */,
+				1893F2272262DE9C0095BB5D /* 人像-02竹翠.png */,
+				1893F2372262DEB40095BB5D /* 人像-03流光.png */,
+				1893F2302262DEAA0095BB5D /* 人像-04清晨.png */,
+				1893F22C2262DEA40095BB5D /* 人像-05安静.png */,
+				1893F23D2262DEBD0095BB5D /* 人像-06浪漫.png */,
+				1893F2412262DEC20095BB5D /* 人像-07质感.png */,
+				1893F22D2262DEA50095BB5D /* 人像-08浅粉.png */,
+				1893F23F2262DEBF0095BB5D /* 人像-09高级灰.png */,
+				1893F2362262DEB20095BB5D /* Origion.png */,
+				18B57756225B3C6900A60C60 /* testHello.png */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
 		2D1B88EA2110572B00773678 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
@@ -477,7 +609,7 @@
 		2D3A158721085257005131B8 /* MyFirstGPUImage */ = {
 			isa = PBXGroup;
 			children = (
-				2DE7BE6B21FFF9330090F18E /* Inceptionv3.mlmodel */,
+				18B5774F225B337700A60C60 /* CustomFilter */,
 				2D85F250212A9808008AD54D /* Tools */,
 				2D2D6D98211D7923005F8371 /* myShader.fsh */,
 				2D378ED82112FB2B00A51DE8 /* Launch Screen.storyboard */,
@@ -723,7 +855,6 @@
 				2D3A158221085257005131B8 /* Frameworks */,
 				2D3A158321085257005131B8 /* Resources */,
 				BBE33E35398736B73C600FE6 /* [CP] Embed Pods Frameworks */,
-				A857D288A82F8D3DEF2105B2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -773,13 +904,45 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1893F2602262DEC50095BB5D /* 人像-07质感.png in Resources */,
 				2D2D6D99211D7A9C005F8371 /* myShader.fsh in Resources */,
+				1893F25D2262DEC50095BB5D /* 美食-s2.png in Resources */,
+				1893F2562262DEC50095BB5D /* 人像-03流光.png in Resources */,
+				1893F2622262DEC50095BB5D /* 胶片-K1.png in Resources */,
+				1893F2582262DEC50095BB5D /* 美食-a3.png in Resources */,
+				1893F2552262DEC50095BB5D /* Origion.png in Resources */,
+				1893F2462262DEC50095BB5D /* 人像-02竹翠.png in Resources */,
+				1893F25E2262DEC50095BB5D /* 人像-09高级灰.png in Resources */,
+				1893F2572262DEC50095BB5D /* 美食-a1.png in Resources */,
+				1893F2532262DEC50095BB5D /* 美食-s1.png in Resources */,
+				1893F24C2262DEC50095BB5D /* 人像-08浅粉.png in Resources */,
 				2D378ED92112FB2B00A51DE8 /* Launch Screen.storyboard in Resources */,
+				1893F2502262DEC50095BB5D /* 人像-01照花.png in Resources */,
+				1893F2522262DEC50095BB5D /* 胶片-K3.png in Resources */,
+				1893F2492262DEC50095BB5D /* 美食-c2.png in Resources */,
+				1893F2472262DEC50095BB5D /* 风景-01鲜明.png in Resources */,
 				2D378EC821115C2900A51DE8 /* GPUImage.InstagramFilter.bundle in Resources */,
 				2D1F727F21F9C3D800536131 /* ItemCollectionViewCell.xib in Resources */,
+				1893F2542262DEC50095BB5D /* 胶片-F2.png in Resources */,
+				1893F25C2262DEC50095BB5D /* 人像-06浪漫.png in Resources */,
+				1893F24E2262DEC50095BB5D /* 风景-04若苗.png in Resources */,
+				1893F2452262DEC50095BB5D /* 风景-02清淡.png in Resources */,
+				1893F2442262DEC50095BB5D /* 胶片-K2.png in Resources */,
 				2DB0291421466F86009A2821 /* SettingTableViewCell.xib in Resources */,
+				1893F2592262DEC50095BB5D /* 风景-05故宫红.png in Resources */,
 				2DB029162146710D009A2821 /* Assets.xcassets in Resources */,
+				1893F24F2262DEC50095BB5D /* 人像-04清晨.png in Resources */,
+				1893F24B2262DEC50095BB5D /* 人像-05安静.png in Resources */,
+				1893F25B2262DEC50095BB5D /* 风景-03对比.png in Resources */,
+				1893F24D2262DEC50095BB5D /* 胶片-F3.png in Resources */,
+				1893F24A2262DEC50095BB5D /* 美食-c3.png in Resources */,
+				1893F2612262DEC50095BB5D /* 风景-06岩井茶.png in Resources */,
+				1893F25A2262DEC50095BB5D /* 美食-a2.png in Resources */,
 				2D1F727E21F9C3D800536131 /* AlbumTableViewCell.xib in Resources */,
+				1893F25F2262DEC50095BB5D /* 美食-s3.png in Resources */,
+				1893F2512262DEC50095BB5D /* 胶片-F1.png in Resources */,
+				18B57757225B3C6900A60C60 /* testHello.png in Resources */,
+				1893F2482262DEC50095BB5D /* 美食-c1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -804,32 +967,13 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A857D288A82F8D3DEF2105B2 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyFirstGPUImage/Pods-MyFirstGPUImage-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		BBE33E35398736B73C600FE6 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-MyFirstGPUImage/Pods-MyFirstGPUImage-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-MyFirstGPUImage/Pods-MyFirstGPUImage-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/FLEX/FLEX.framework",
 				"${BUILT_PRODUCTS_DIR}/GPUImage/GPUImage.framework",
 				"${BUILT_PRODUCTS_DIR}/ProgressHUD/ProgressHUD.framework",
@@ -844,7 +988,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyFirstGPUImage/Pods-MyFirstGPUImage-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MyFirstGPUImage/Pods-MyFirstGPUImage-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -862,6 +1006,7 @@
 				2D378EB921115C2900A51DE8 /* IFBrannanFilter.m in Sources */,
 				2D1F727C21F9C3D800536131 /* ItemCollectionViewCell.swift in Sources */,
 				2DC0682621425C7300551531 /* CallSettingView.swift in Sources */,
+				1893F26422630BA90095BB5D /* FCSceneryFilter.swift in Sources */,
 				2DB116AF213639C300D17A70 /* DeviceExtension.swift in Sources */,
 				2DB0291821478BBB009A2821 /* FolderWebViewController.swift in Sources */,
 				2DB8F73E2212C4EC00F1C266 /* RoutingService.swift in Sources */,
@@ -872,6 +1017,7 @@
 				2D378ED321115C6600A51DE8 /* GPUImageFourInputFilter.m in Sources */,
 				2D1F728021F9C3D800536131 /* BannerView.swift in Sources */,
 				2D378EC021115C2900A51DE8 /* IFSierraFilter.m in Sources */,
+				1893F266226310680095BB5D /* FilterSource.swift in Sources */,
 				2D1F727D21F9C3D800536131 /* AlbumTableViewCell.swift in Sources */,
 				2D1F728221F9C3D800536131 /* BannerCollectionViewCell.swift in Sources */,
 				2DC6576F212C09AE001A2571 /* LineProgress.swift in Sources */,
@@ -882,22 +1028,27 @@
 				2D85F24F212A97E5008AD54D /* SaveVideoManager.swift in Sources */,
 				2D396A1D211ABE2F0049FE40 /* RoundProgressButtonView.swift in Sources */,
 				2DB8F73C2212902500F1C266 /* ViewControllerExtension.swift in Sources */,
+				18B5775A225B3C7700A60C60 /* TestLookUpFilter.m in Sources */,
 				2D1F727B21F9C3D800536131 /* AlbumDataSource.swift in Sources */,
 				2DB8F7412212C98C00F1C266 /* cameraManager.swift in Sources */,
 				2D378EC621115C2900A51DE8 /* IFToasterFilter.m in Sources */,
 				2D1F725D21F9AF2000536131 /* publicFunc.swift in Sources */,
 				2D378EC121115C2900A51DE8 /* IFValenciaFilter.m in Sources */,
 				2D378ED221115C6600A51DE8 /* GPUImageSixInputFilter.m in Sources */,
+				18B4987522631A8700ECC0DC /* FCPeopleFilter.swift in Sources */,
 				2D1F727721F9C3D800536131 /* ImageDetailViewController.swift in Sources */,
 				2D363D61212E7D3800F24ED2 /* FaceArea.swift in Sources */,
+				18B4987B22631DF900ECC0DC /* FCMovieFilter.swift in Sources */,
 				2D3A15B72108569C005131B8 /* FConViewController.swift in Sources */,
 				2D378EC521115C2900A51DE8 /* IFHudsonFilter.m in Sources */,
 				2D378ED121115C6600A51DE8 /* GPUImageFiveInputFilter.m in Sources */,
 				2D1F727921F9C3D800536131 /* AlbumViewController.swift in Sources */,
+				18B4987922631DE800ECC0DC /* FCFoodFilter.swift in Sources */,
 				2D378EBA21115C2900A51DE8 /* IFLordKelvinFilter.m in Sources */,
 				2D378EC221115C2900A51DE8 /* IF1977Filter.m in Sources */,
 				2D378EC321115C2900A51DE8 /* IFHefeFilter.m in Sources */,
 				2D3A158921085257005131B8 /* AppDelegate.swift in Sources */,
+				18B4987722631DD300ECC0DC /* FCFilmFilter.swift in Sources */,
 				2D378EBE21115C2900A51DE8 /* IFAmaroFilter.m in Sources */,
 				2D3A15C621099854005131B8 /* DefaultBotomView.swift in Sources */,
 				2D378EBB21115C2900A51DE8 /* IFSutroFilter.m in Sources */,
@@ -914,7 +1065,6 @@
 				2DB116B821378B0F00D17A70 /* FDLivePhotoView.swift in Sources */,
 				2D2D6DA321215D3E005F8371 /* playView.swift in Sources */,
 				2DF4891C21464D0400423A6A /* SettingTableView.swift in Sources */,
-				2DE7BE6C21FFF9330090F18E /* Inceptionv3.mlmodel in Sources */,
 				2D378EB721115C2900A51DE8 /* IFNashvilleFilter.m in Sources */,
 				2D378EBD21115C2900A51DE8 /* IFEarlybirdFilter.m in Sources */,
 				2D3A15C82109A038005131B8 /* CheckViewController.swift in Sources */,
@@ -1067,7 +1217,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "MyFirstGPUImage/Expend/Framework/MyFirstGPUImage-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1092,7 +1242,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MyFirstGPUImage/Expend/Framework/MyFirstGPUImage-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

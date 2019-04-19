@@ -43,6 +43,7 @@ class CameraModeManage {
         return imageview
     }()
     
+    
     var currentFilterButton:UIButton = {
         let button = UIButton()
         return button;
@@ -50,13 +51,14 @@ class CameraModeManage {
     
     private init(){
 
-        self.currentMode = CameraMode.CameraModeMovie
+        self.currentMode = CameraMode.CameraModePeople
     }
     
     private func cameraModeDidChanged(){
         
         var backImage = UIImage()
         var filterImage = UIImage()
+
         var frameImage:UIImage?
         switch currentMode {
         case .CameraModeMovie:

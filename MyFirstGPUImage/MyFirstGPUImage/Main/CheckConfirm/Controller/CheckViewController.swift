@@ -22,6 +22,9 @@ struct FilePaths {
 
 
 class CheckViewController: UIViewController {
+    
+    var refVc:FConViewController!
+    
     //UI
     lazy var saveButton:UIButton = {
         let widthofme:CGFloat = 35
@@ -54,14 +57,13 @@ class CheckViewController: UIViewController {
     //滤镜页面
     lazy var cameraFilterView:FillterSelectView = {
         let v = FillterSelectView()
-        v.backgroundColor = UIColor.white
         
         v.filterDelegate = self
         return v
     }()
     lazy var defaultBottomView:UIView = {
         let v = UIView()
-        v.backgroundColor = UIColor.white
+        v.backgroundColor = UIColor.clear
         
         return v
     }()
@@ -196,25 +198,33 @@ extension CheckViewController{
     private func setUI(){
         view.backgroundColor = UIColor.clear
         photoView.backgroundColor = UIColor.clear
+        
+        let back = UIImageView(frame: CameraModeManage.shared.currentBackImageView.frame)
+        back.image =  CameraModeManage.shared.currentBackImageView.image
+        view.addSubview(back)
         view.addSubview(photoView)
         view.addSubview(defaultBottomView)
         view.addSubview(saveButton)
         view.addSubview(backButton)
         view.addSubview(filterButton)
         view.addSubview(cameraFilterView)
+        photoView.frame = refVc.mGpuimageView.frame;
+        defaultBottomView.frame = refVc.defaultBottomView.frame;
         
-        photoView.snp.makeConstraints({
-            make in
-            make.top.width.equalToSuperview()
-            make.height.equalTo(SCREEN_HEIGHT*3/4)
-        })
-        defaultBottomView.snp.makeConstraints({
-            make in
-            make.left.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalTo(SCREEN_HEIGHT*1/4)
-        })
+
+        
+//        photoView.snp.makeConstraints({
+//            make in
+//            make.top.width.equalToSuperview()
+//            make.height.equalTo(SCREEN_HEIGHT*3/4)
+//        })
+//        defaultBottomView.snp.makeConstraints({
+//            make in
+//            make.left.equalToSuperview()
+//            make.bottom.equalToSuperview()
+//            make.width.equalToSuperview()
+//            make.height.equalTo(SCREEN_HEIGHT*1/4)
+//        })
         cameraFilterView.snp.makeConstraints({
             make in
             make.top.equalTo(SCREEN_HEIGHT)
@@ -262,22 +272,22 @@ extension CheckViewController{
     
     /// 解决图片显示旋转问题
     func changeImagePresent(){
-        if fixel == 1280{
-            photoView.snp.remakeConstraints({
-                make in
-                make.top.left.bottom.width.equalToSuperview()
-            })
-            self.view.layoutIfNeeded()
-            self.defaultBottomView.isHidden = true
-        }else{
-            photoView.contentMode = .scaleAspectFill
-            photoView.snp.remakeConstraints({
-                make in
-                make.top.left.width.equalToSuperview()
-                make.height.equalTo(SCREEN_HEIGHT*3/4)
-            })
-            self.view.layoutIfNeeded()
-        }
+//        if fixel == 1280{
+//            photoView.snp.remakeConstraints({
+//                make in
+//                make.top.left.bottom.width.equalToSuperview()
+//            })
+//            self.view.layoutIfNeeded()
+//            self.defaultBottomView.isHidden = true
+//        }else{
+//            photoView.contentMode = .scaleAspectFill
+//            photoView.snp.remakeConstraints({
+//                make in
+//                make.top.left.width.equalToSuperview()
+//                make.height.equalTo(SCREEN_HEIGHT*3/4)
+//            })
+//            self.view.layoutIfNeeded()
+//        }
     }
     
     
@@ -404,7 +414,7 @@ extension CheckViewController{
     func stopEc(_ isLivePhoto:Bool){
         movieFile = GPUImageMovie(url: videoUrl)
         //重新初始化滤镜，去掉不必要的链条
-        ifFilter = FilterGroup.getFillter(filterType: filterIndex)
+        ifFilter = FilterGroup.shared.currentFilter.filter
         let pixellateFilter = ifFilter ?? GPUImageFilter()
         //movie添加滤镜链
         movieFile?.addTarget(pixellateFilter as! GPUImageInput)
@@ -476,7 +486,7 @@ extension CheckViewController:FillterSelectViewDelegate{
     /// - Parameter index: 滤镜代码
     func switchFillter(index: Int) {
         filterIndex = index
-        ifFilter =  FilterGroup.getFillter(filterType: index)
+        ifFilter =  FilterGroup.shared.getFilterWithIndex(index: index).filter;
         if image != nil{
             //GPUImageFilterGroup的实例对象有这样的方法返回UIimage对象
             image =  ifFilter?.image(byFilteringImage:imageNormal )

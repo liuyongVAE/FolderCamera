@@ -94,6 +94,9 @@ class RoundProgressButtonView:UIView{
 
         outView = UIView(frame: self.bounds)
         centerView = UIView(frame: CGRect(x:0,y:0,width:centerViewWidth,height:centerViewWidth))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.tapAction(_:)))
+        self.addGestureRecognizer(tap)
+        self.isUserInteractionEnabled = true
 
 
     }

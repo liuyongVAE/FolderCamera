@@ -89,7 +89,7 @@ class DefaultBotomView: UIView {
     }()
     
     lazy var selectionView:SelectionView = {
-        let v = SelectionView.init(frame: CGRect.init(x: 0, y: 0, width: 505, height: 40), titles: ["映画","人像","风景","美食","胶片"], parentViewController: nil)
+        let v = SelectionView.init(frame: CGRect.init(x: 0, y: 0, width: 505, height: 40), titles: ["映画模式","人像","风景","美食","胶片"], parentViewController: nil)
         v.delegate = self
         return v
     }()

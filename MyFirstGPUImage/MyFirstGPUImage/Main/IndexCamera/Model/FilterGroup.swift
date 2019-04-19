@@ -8,14 +8,111 @@
 
 import Foundation
 
+struct FCFilter {
+    var name:String
+    var imageCode:String
+    var filter:GPUImageOutput & GPUImageInput
+}
+
 
 //获取自定义滤镜组Model
 class FilterGroup {
     
+    var currentFilter:FCFilter!
     
-    static var count = 13//滤镜个数
+    var count:Int {
+        
+        switch CameraModeManage.shared.currentMode {
+        case .CameraModePeople:
+            return peopleSourceNames.count;
+        case .CameraModeMovie:
+            return movieSourceNames.count;
+        case .CameraModeScenery:
+            return scenerySourceNames.count;
+        case .CameraModeFilm:
+            return filmSourceNames.count;
+        case .CameraModeFood:
+            return foodSourceNames.count;
+        default :
+            return 0;
+    }
+    }
     
-    init() {
+    static let shared:FilterGroup = {
+        return FilterGroup.init()
+    }()
+    
+    private init(){
+        
+        self.currentFilter = FCFilter(name: "原图", imageCode: "原图",filter: IFNormalFilter());
+    }
+    
+    
+    func getFilterWithIndex(index:Int) -> FCFilter {
+        
+        var cuFilter = FCFilter(name: "原图", imageCode: "原图",filter: IFNormalFilter());
+        if (index == 0) {
+            return cuFilter;
+        }
+        
+        switch CameraModeManage.shared.currentMode {
+        case .CameraModePeople:
+            cuFilter = getPeopleFilter(index: index);
+        case .CameraModeMovie:
+            cuFilter = getMovieFilter(index: index);
+        case .CameraModeScenery:
+            cuFilter = getSceneryFilter(index: index)
+        case .CameraModeFilm:
+            cuFilter = getFilmFilter(index: index);
+        case .CameraModeFood:
+            cuFilter = getFoodFilter(index: index)
+        default:
+            break;
+        }
+        
+        self.currentFilter = cuFilter;
+        return cuFilter;
+    
+    }
+    
+
+    func getMovieFilter(index:Int) -> FCFilter {
+        
+        let cufilter = FCFilter(name: movieFilterNames[index], imageCode: movieIconNames[index],filter: FCMovieFilter(index: index))
+
+        return cufilter
+    }
+    
+   func getPeopleFilter(index:Int) -> FCFilter {
+        
+       let cufilter = FCFilter(name: peopleFilterNames[index], imageCode: peopleIconNames[index],filter: FCPeopleFilter(index: index))
+
+        return cufilter
+        
+    }
+    func getSceneryFilter(index:Int) -> FCFilter {
+        
+        let cufilter = FCFilter(name: sceneryFilterNames[index], imageCode: sceneryIconNames[index],filter: FCSceneryFilter(index: index))
+
+        return cufilter
+        
+    }
+    
+     func getFoodFilter(index:Int) -> FCFilter {
+        
+         let cufilter = FCFilter(name: foodFilterNames[index], imageCode: foodIconNames[index],filter: FCFoodFilter(index: index))
+        
+     
+        return cufilter
+        
+    }
+    
+     func getFilmFilter(index:Int) -> FCFilter {
+        
+        let cufilter = FCFilter(name: filmFilterNames[index], imageCode: filmIconNames[index],filter: FCFilmFilter(index: index))
+   
+        return cufilter
+        
     }
     
     
@@ -23,7 +120,7 @@ class FilterGroup {
     ///
     /// - Parameter filterType: 滤镜代码
     /// - Returns: 滤镜名称
-    class func getFillterName(filterType:Int)->String{
+   private  func getFillterName(filterType:Int)->String{
         var title = ""
         switch filterType {
         case 0:
@@ -68,8 +165,10 @@ class FilterGroup {
   ///
   /// - Parameter filterType: 滤镜代码
   /// - Returns: 滤镜
-  class func getFillter(filterType:Int)->GPUImageOutput & GPUImageInput{
+  private func getFillter(filterType:Int)->GPUImageOutput & GPUImageInput{
     var filter:(GPUImageOutput & GPUImageInput)!
+
+    
         switch filterType {
         case 0:
             return IFNormalFilter()
@@ -98,7 +197,7 @@ class FilterGroup {
         case 12:
             filter = IFRiseFilter()
         case 13:
-            filter = IFRiseFilter()
+            filter = TestLookUpFilter()
             
         case 14:
             filter = GPUImageBeautifyFilter()
@@ -110,7 +209,7 @@ class FilterGroup {
     }
     
     
-   class func addGPUImageFilter(_ filter: (GPUImageOutput & GPUImageInput)?) -> GPUImageFilterGroup {
+  private func addGPUImageFilter(_ filter: (GPUImageOutput & GPUImageInput)?) -> GPUImageFilterGroup {
         let filterGroup = GPUImageFilterGroup()
         filterGroup.addFilter(filter)
         

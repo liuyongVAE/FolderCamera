@@ -32,9 +32,20 @@ struct CameraScaleRect{
     }
     var cropRect:CGRect!
     var previewRect:CGRect!
-    var topHegiht:CGFloat = 47 + topFix*2
+    var topHegiht:CGFloat = {
+        return 47 + topFix*2;
+    }()
     //(95/1334)*SCREEN_HEIGHT + topFix
-    var bottomHeight:CGFloat = SCREEN_HEIGHT - (4*SCREEN_WIDTH)/3 - 47 - topFix*2
+    
+    var bottomHeight:CGFloat = {
+        let z =  47 + topFix*2
+        //iF Ipad
+        if (SCREEN_HEIGHT - (4*SCREEN_WIDTH)/3 - z) < 0 {
+            return SCREEN_HEIGHT - SCREEN_WIDTH
+        }
+        
+        return SCREEN_HEIGHT - (4*SCREEN_WIDTH)/3 - z;
+    }()
         //SCREEN_HEIGHT - (4*SCREEN_WIDTH)/3 - (95/1334)*SCREEN_HEIGHT - topFix
 
     
