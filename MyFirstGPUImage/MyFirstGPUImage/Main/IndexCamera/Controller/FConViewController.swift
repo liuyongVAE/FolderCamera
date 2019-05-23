@@ -12,6 +12,8 @@ import GPUImage
 import ProgressHUD
 import CoreMotion
 import CoreML
+import Vision
+
 
 class FConViewController: UIViewController {
     let widthOfShot:CGFloat = 78
@@ -26,6 +28,12 @@ class FConViewController: UIViewController {
         //btn.frame = CGRect.init(x: 0, y: 0, width: widthofme, height: widthofme)
         btn.center = self.defaultBottomView.center
         return btn
+    }()
+    
+    //
+    lazy var sceneLabel:SceneDetectView = {
+        let label = SceneDetectView()
+        return label
     }()
     //  底部白色VIEW
     lazy var defaultBottomView:DefaultBotomView = {
@@ -65,7 +73,25 @@ class FConViewController: UIViewController {
         return label;
     }()
 
+    //节流
+    /// Throttle engine
+    private var throttler: Throttler? = nil
     
+    /// Throttling interval
+    public var throttlingInterval: Double? = 0 {
+        didSet {
+            guard let interval = throttlingInterval else {
+                self.throttler = nil
+                return
+            }
+            self.throttler = Throttler(minimumDelay: interval)
+        }
+    }
+    
+    var sceneRECFlag:Bool!
+    
+
+        
     //MAKR: - 属性
     var mCamera:GPUImageStillCamera!
     //拍摄视频camera
@@ -148,6 +174,15 @@ extension FConViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //初始化mode
+        self.throttlingInterval = 0.5
+        sceneRECFlag = true
+        
+        Timer.scheduledTimer(withTimeInterval: throttlingInterval!, repeats: true) { _ in
+            self.sceneRECFlag = !self.sceneRECFlag
+        }
+        
+        
+        
         CameraModeManage.shared.currentMode = .CameraModePeople
         
         
@@ -213,7 +248,7 @@ extension FConViewController {
     /// 拍照动作
     @objc func  takePhoto(){
         weak var  weakSelf = self
-        
+        ProgressHUD.show("处理中")
         mCamera.capturePhotoAsJPEGProcessedUp(toFilter: ifFilter, withCompletionHandler: {
             processedJPEG, error in
             if let aJPEG = processedJPEG {
@@ -237,7 +272,9 @@ extension FConViewController {
                         weakSelf?.defaultBottomView.isHidden = true
                     }
                 }
-                weakSelf?.present(vc, animated: true, completion: nil)
+                weakSelf?.present(vc, animated: true, completion: {
+                    ProgressHUD.dismiss()
+                })
             }
         })
         
@@ -312,6 +349,7 @@ extension FConViewController{
         tipLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
+ 
    
     }
     
@@ -430,35 +468,48 @@ extension FConViewController:FillterSelectViewDelegate,DefaultBottomViewDelegate
     ///
     /// - Parameter index: 滤镜代码
     func switchFillter(index: Int) {
+        //手动切换滤镜时会把AI滤镜关掉
+        CameraModeManage.shared.currentAIFilterStates = false
+        topView.AI_fillterButton.isSelected = true
+        
         
         
         //隐藏滑动条，重置美颜
         beautySlider.isHidden = true
         isBeauty = false
-        //使用INS自定义滤镜
-        mCamera.removeAllTargets()
-        let filterGroup = GPUImageFilterGroup()//创建滤镜组
-        beautyFilter = GPUImageBeautifyFilter()//美颜
+        //使用INS自定义滤镜Ø
         let customFilter = FilterGroup.shared.getFilterWithIndex(index: index).filter
+        setToFilter(filter: customFilter)
         
-        //添加滤镜组链
-        filterGroup.addTarget(beautyFilter!)
-        filterGroup.addTarget(customFilter)
-        //filterGroup.addTarget(cropFilter)
-        //滤镜链接
-        beautyFilter?.addTarget(customFilter)
-        //customFilter.addTarget(cropFilter)
-        //初始化组
-        filterGroup.initialFilters = [beautyFilter!]
-        filterGroup.terminalFilter = customFilter
-        
-        ifFilter = filterGroup
-        
-        ifFilter.addTarget(mGpuimageView)
-        ifaddFilter = true
-        mCamera.addTarget(ifFilter)
-        mCamera.startCapture()
 
+      }
+    
+    func setToFilter(filter:GPUImageOutput & GPUImageInput){
+        if (filter != nil) {
+            
+            mCamera.removeAllTargets()
+            let filterGroup = GPUImageFilterGroup()//创建滤镜组
+            beautyFilter = GPUImageBeautifyFilter()//美颜
+            let customFilter = filter
+            //添加滤镜组链
+            filterGroup.addTarget(beautyFilter!)
+            filterGroup.addTarget(customFilter)
+            //filterGroup.addTarget(cropFilter)
+            //滤镜链接
+            beautyFilter?.addTarget(customFilter)
+            //customFilter.addTarget(cropFilter)
+            //初始化组
+            filterGroup.initialFilters = [beautyFilter!]
+            filterGroup.terminalFilter = customFilter
+            
+            ifFilter = filterGroup
+            
+            ifFilter.addTarget(mGpuimageView)
+            ifaddFilter = true
+            mCamera.addTarget(ifFilter)
+            mCamera.startCapture()
+            
+        }
         
     }
     
@@ -1019,17 +1070,89 @@ extension FConViewController:GPUImageVideoCameraDelegate{
        // print(self.mCamera.inputCamera.iso);
 
         // 创建buffer的拷贝
+
         var bufferCopy:CMSampleBuffer?
         let err = CMSampleBufferCreateCopy(kCFAllocatorDefault, sampleBuffer, &bufferCopy)
         if err == noErr{
             detect(bufferCopy!)
+            if (self.sceneRECFlag) {
+                self.sceneRecognition(bufferCopy!)
+            }
+
         }
     }
     
     
+    
+
+
+    
+    //MARK: 场景识别
+    @objc func sceneRecognition(_ sampleBuffer: CMSampleBuffer!){
+        
+        
+        DispatchQueue.global().async {
+            
+            
+            guard let model = try? VNCoreMLModel(for: ss().model) else { return }
+            
+            // run an inference with CoreML
+            let request = VNCoreMLRequest(model: model) { (finishedRequest, error) in
+                
+                // grab the inference results
+                guard let results = finishedRequest.results as? [VNClassificationObservation] else { return }
+                
+                // grab the highest confidence result
+                guard let Observation = results.first else { return }
+                
+                // create the label text components
+                let predclass = "\(Observation.identifier)"
+                let predconfidence = String(format: "%.02f", Observation.confidence * 100)
+            
+                // set the label text
+                DispatchQueue.main.async(execute: {
+                    if (Observation.confidence * 100 > 50) {
+                        self.sceneLabel.labelText = "\(predclass)"
+                    } else {
+                        print(predclass,predconfidence)
+                        self.sceneLabel.labelText = "风景"
+                    }
+                    
+            
+                        if (CameraModeManage.shared.currentAIFilterStates) {
+                        
+                            self.setToFilter(filter: FilterGroup.shared.getAIFilter(index: self.sceneLabel.currentAIFilterIndex).filter)
+                        } else {
+                        }
+                        
+                    
+                    
+                })
+                
+            }
+            
+            // create a Core Video pixel buffer which is an image buffer that holds pixels in main memory
+            // Applications generating frames, compressing or decompressing video, or using Core Image
+            // can all make use of Core Video pixel buffers
+            guard let pixelBuffer: CVPixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+            
+            // execute the request
+            try? VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:]).perform([request])
+        }
+    }
+    
+    
+    //MARK: 设置人脸框和场景识别提示
     func  setFaceDetectionImage(){
         layersView.frame = CGRect.init(x: 0, y: 0, width: mGpuimageView.frame.width, height: mGpuimageView.frame.height)
         self.mGpuimageView.addSubview(layersView)
+        self.mGpuimageView.addSubview(sceneLabel)
+        sceneLabel.snp.makeConstraints{ make in
+            make.bottom.equalTo(self.defaultBottomView.snp.top).offset(-5)
+            make.width.equalTo(55)
+            make.height.equalTo(18)
+            make.centerX.equalToSuperview()
+        }
         getOrientation()
     }
     
@@ -1076,7 +1199,7 @@ extension FConViewController:GPUImageVideoCameraDelegate{
             let rect:CGRect = {
                 //如果是全屏模式
                // if scaleRate = 1{
-                    return CGRect(x: i.bounds.origin.x, y: i.bounds.origin.y*2, width: i.bounds.width*2, height: (i.bounds.height*2))
+                    return CGRect(x: i.bounds.origin.x*3/2, y: i.bounds.origin.y*2, width: i.bounds.width*2.5, height: (i.bounds.height*2))
 //                }else{
 //                    return CGRect(x: i.bounds.origin.x, y: i.bounds.origin.y, width: i.bounds.width*3/2, height: (i.bounds.height*3/2 + 10))
 //                }

@@ -94,9 +94,10 @@ class TopView: UIView {
     lazy var AI_fillterButton:UIButton = {
         var btn =  UIButton()
         btn.layer.cornerRadius = widthofme/2
+       // btn.setImage(#imageLiteral(resourceName: "设置"), for: .normal)
         btn.setImage(UIImage.init(named: "AI滤镜开"), for: .normal)
         btn.setImage(UIImage.init(named: "AI滤镜关"), for: .selected)
-        btn.addTarget(self, action: #selector(self.push), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(self.push(_:)), for: .touchUpInside)
         return btn
     }()
     
@@ -251,9 +252,11 @@ class TopView: UIView {
     @objc func turnCamera(_ btn:UIButton){
         delegate?.turnCamera()
     }
-    @objc func push(){
-        delegate?.push(SettingViewController())
-        popSetting.close()
+    @objc func push(_ sender:UIButton){
+        sender.isSelected = !sender.isSelected
+        CameraModeManage.shared.currentAIFilterStates = !CameraModeManage.shared.currentAIFilterStates
+        //delegate?.push(SettingViewController())
+        //popSetting.close()
     }
     @objc func liveMode(_ btn:UIButton){
         

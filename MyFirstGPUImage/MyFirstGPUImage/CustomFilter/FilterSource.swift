@@ -34,3 +34,4 @@ var movieIconNames = ["原图","01鲜明","02清淡","03对比","04若苗","05�
 var foodSourceNames = ["原图.png","美食-a1.png","美食-a2.png","美食-a3.png","美食-c1.png","美食-c2.png","美食-c3.png","美食-s1.png","美食-s2.png","美食-s3.png"]
 var foodFilterNames = ["原图","a1","a2","a3","c1","c2","c3","s1","s2","s3"]
 var foodIconNames = ["原图","a1","a2","a3","c1","c2","c3","s1","s2","s3"]
+var aiFilterName = ["原图","草地自动","天空自动"]

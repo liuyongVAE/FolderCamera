@@ -102,6 +102,10 @@
 		2D3A15C621099854005131B8 /* DefaultBotomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A15C521099854005131B8 /* DefaultBotomView.swift */; };
 		2D3A15C82109A038005131B8 /* CheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A15C72109A038005131B8 /* CheckViewController.swift */; };
 		2D3A15CB2109B105005131B8 /* NewUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A15CA2109B105005131B8 /* NewUIButton.swift */; };
+		2D4E9A6A22969B7A00AFBFD6 /* SceneDetectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4E9A6922969B7A00AFBFD6 /* SceneDetectView.swift */; };
+		2D4E9A6C2296B9DD00AFBFD6 /* 草地自动.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D4E9A6B2296B9DD00AFBFD6 /* 草地自动.png */; };
+		2D4E9A6E2296B9E300AFBFD6 /* 天空自动.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D4E9A6D2296B9E300AFBFD6 /* 天空自动.png */; };
+		2D4E9A702296BA1500AFBFD6 /* FCAIFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4E9A6F2296BA1500AFBFD6 /* FCAIFilter.swift */; };
 		2D502351210AB8E200A7559A /* FillterSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D502350210AB8E200A7559A /* FillterSelectView.swift */; };
 		2D85F24F212A97E5008AD54D /* SaveVideoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D85F24E212A97E5008AD54D /* SaveVideoManager.swift */; };
 		2DB0290D21465AA8009A2821 /* SettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB0290C21465AA8009A2821 /* SettingModel.swift */; };
@@ -122,6 +126,8 @@
 		2DB8F7432213C7E200F1C266 /* CameraModeManage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB8F7422213C7E200F1C266 /* CameraModeManage.swift */; };
 		2DC0682621425C7300551531 /* CallSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC0682521425C7300551531 /* CallSettingView.swift */; };
 		2DC6576F212C09AE001A2571 /* LineProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC6576E212C09AE001A2571 /* LineProgress.swift */; };
+		2DE1A5762296628300CCA6A8 /* ss.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2DE1A5752296628300CCA6A8 /* ss.mlmodel */; };
+		2DE1A5782296654600CCA6A8 /* Throtter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE1A5772296654600CCA6A8 /* Throtter.swift */; };
 		2DF4891821464B1000423A6A /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF4891721464B1000423A6A /* SettingViewController.swift */; };
 		2DF4891C21464D0400423A6A /* SettingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF4891B21464D0400423A6A /* SettingTableView.swift */; };
 /* End PBXBuildFile section */
@@ -254,6 +260,10 @@
 		2D3A15C521099854005131B8 /* DefaultBotomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultBotomView.swift; sourceTree = "<group>"; };
 		2D3A15C72109A038005131B8 /* CheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckViewController.swift; sourceTree = "<group>"; };
 		2D3A15CA2109B105005131B8 /* NewUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewUIButton.swift; sourceTree = "<group>"; };
+		2D4E9A6922969B7A00AFBFD6 /* SceneDetectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDetectView.swift; sourceTree = "<group>"; };
+		2D4E9A6B2296B9DD00AFBFD6 /* 草地自动.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "草地自动.png"; sourceTree = "<group>"; };
+		2D4E9A6D2296B9E300AFBFD6 /* 天空自动.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "天空自动.png"; sourceTree = "<group>"; };
+		2D4E9A6F2296BA1500AFBFD6 /* FCAIFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCAIFilter.swift; sourceTree = "<group>"; };
 		2D502350210AB8E200A7559A /* FillterSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillterSelectView.swift; sourceTree = "<group>"; };
 		2D85F24E212A97E5008AD54D /* SaveVideoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveVideoManager.swift; sourceTree = "<group>"; };
 		2DB0290C21465AA8009A2821 /* SettingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingModel.swift; sourceTree = "<group>"; };
@@ -274,6 +284,8 @@
 		2DB8F7422213C7E200F1C266 /* CameraModeManage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraModeManage.swift; sourceTree = "<group>"; };
 		2DC0682521425C7300551531 /* CallSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallSettingView.swift; sourceTree = "<group>"; };
 		2DC6576E212C09AE001A2571 /* LineProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineProgress.swift; sourceTree = "<group>"; };
+		2DE1A5752296628300CCA6A8 /* ss.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = ss.mlmodel; sourceTree = "<group>"; };
+		2DE1A5772296654600CCA6A8 /* Throtter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Throtter.swift; sourceTree = "<group>"; };
 		2DF4891721464B1000423A6A /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		2DF4891B21464D0400423A6A /* SettingTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableView.swift; sourceTree = "<group>"; };
 		6EA227A6B6B79861372E3272 /* Pods-MyFirstGPUImage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyFirstGPUImage.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyFirstGPUImage/Pods-MyFirstGPUImage.release.xcconfig"; sourceTree = "<group>"; };
@@ -296,6 +308,7 @@
 		18B5774F225B337700A60C60 /* CustomFilter */ = {
 			isa = PBXGroup;
 			children = (
+				2D4E9A6F2296BA1500AFBFD6 /* FCAIFilter.swift */,
 				18B4987A22631DF900ECC0DC /* FCMovieFilter.swift */,
 				18B4987822631DE800ECC0DC /* FCFoodFilter.swift */,
 				18B4987622631DD300ECC0DC /* FCFilmFilter.swift */,
@@ -312,6 +325,8 @@
 		18B57753225B389000A60C60 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				2D4E9A6D2296B9E300AFBFD6 /* 天空自动.png */,
+				2D4E9A6B2296B9DD00AFBFD6 /* 草地自动.png */,
 				1893F2282262DE9E0095BB5D /* 风景-01鲜明.png */,
 				1893F2262262DE9B0095BB5D /* 风景-02清淡.png */,
 				1893F23C2262DEBB0095BB5D /* 风景-03对比.png */,
@@ -609,6 +624,7 @@
 		2D3A158721085257005131B8 /* MyFirstGPUImage */ = {
 			isa = PBXGroup;
 			children = (
+				2DE1A5752296628300CCA6A8 /* ss.mlmodel */,
 				18B5774F225B337700A60C60 /* CustomFilter */,
 				2D85F250212A9808008AD54D /* Tools */,
 				2D2D6D98211D7923005F8371 /* myShader.fsh */,
@@ -699,6 +715,7 @@
 				2D2D6D9A211D8561005F8371 /* TopVIew.swift */,
 				2DC6576E212C09AE001A2571 /* LineProgress.swift */,
 				2D2716442133C64900A93EDB /* SelectionView.swift */,
+				2D4E9A6922969B7A00AFBFD6 /* SceneDetectView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -708,6 +725,7 @@
 			children = (
 				2D378ED42111607600A51DE8 /* FilterGroup.swift */,
 				2DB8F7372212775900F1C266 /* CameraEnum.swift */,
+				2DE1A5772296654600CCA6A8 /* Throtter.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -914,6 +932,7 @@
 				1893F2462262DEC50095BB5D /* 人像-02竹翠.png in Resources */,
 				1893F25E2262DEC50095BB5D /* 人像-09高级灰.png in Resources */,
 				1893F2572262DEC50095BB5D /* 美食-a1.png in Resources */,
+				2D4E9A6E2296B9E300AFBFD6 /* 天空自动.png in Resources */,
 				1893F2532262DEC50095BB5D /* 美食-s1.png in Resources */,
 				1893F24C2262DEC50095BB5D /* 人像-08浅粉.png in Resources */,
 				2D378ED92112FB2B00A51DE8 /* Launch Screen.storyboard in Resources */,
@@ -942,6 +961,7 @@
 				1893F25F2262DEC50095BB5D /* 美食-s3.png in Resources */,
 				1893F2512262DEC50095BB5D /* 胶片-F1.png in Resources */,
 				18B57757225B3C6900A60C60 /* testHello.png in Resources */,
+				2D4E9A6C2296B9DD00AFBFD6 /* 草地自动.png in Resources */,
 				1893F2482262DEC50095BB5D /* 美食-c1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1031,7 +1051,10 @@
 				18B5775A225B3C7700A60C60 /* TestLookUpFilter.m in Sources */,
 				2D1F727B21F9C3D800536131 /* AlbumDataSource.swift in Sources */,
 				2DB8F7412212C98C00F1C266 /* cameraManager.swift in Sources */,
+				2DE1A5782296654600CCA6A8 /* Throtter.swift in Sources */,
+				2D4E9A6A22969B7A00AFBFD6 /* SceneDetectView.swift in Sources */,
 				2D378EC621115C2900A51DE8 /* IFToasterFilter.m in Sources */,
+				2DE1A5762296628300CCA6A8 /* ss.mlmodel in Sources */,
 				2D1F725D21F9AF2000536131 /* publicFunc.swift in Sources */,
 				2D378EC121115C2900A51DE8 /* IFValenciaFilter.m in Sources */,
 				2D378ED221115C6600A51DE8 /* GPUImageSixInputFilter.m in Sources */,
@@ -1056,6 +1079,7 @@
 				2D378ECA21115C2900A51DE8 /* IFImageFilter.m in Sources */,
 				2D378EC421115C2900A51DE8 /* IFXproIIFilter.m in Sources */,
 				2DB116A7213541E100D17A70 /* LivePhotoPreviewViewController.swift in Sources */,
+				2D4E9A702296BA1500AFBFD6 /* FCAIFilter.swift in Sources */,
 				2DB0291321466F86009A2821 /* SettingTableViewCell.swift in Sources */,
 				2DB8F7432213C7E200F1C266 /* CameraModeManage.swift in Sources */,
 				2D378EC721115C2900A51DE8 /* IFLomofiFilter.m in Sources */,

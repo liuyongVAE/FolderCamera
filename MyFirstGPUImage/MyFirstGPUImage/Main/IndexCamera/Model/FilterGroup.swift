@@ -115,6 +115,17 @@ class FilterGroup {
         
     }
     
+    func getAIFilter(index:Int) -> FCFilter {
+        var cuFilter = FCFilter(name: "原图", imageCode: "原图",filter: IFNormalFilter());
+        if (index == 0) {
+            return cuFilter;
+        }
+        cuFilter = FCFilter(name: aiFilterName[index], imageCode: filmIconNames[index],filter: FCAIFilter(index: index))
+        
+        return cuFilter
+        
+    }
+    
     
     /// 获取滤镜名称
     ///

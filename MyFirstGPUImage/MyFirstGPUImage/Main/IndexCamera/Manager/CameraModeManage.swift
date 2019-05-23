@@ -43,6 +43,7 @@ class CameraModeManage {
         return imageview
     }()
     
+    var currentAIFilterStates:Bool!
     
     var currentFilterButton:UIButton = {
         let button = UIButton()
@@ -52,6 +53,7 @@ class CameraModeManage {
     private init(){
 
         self.currentMode = CameraMode.CameraModePeople
+        self.currentAIFilterStates = true
     }
     
     private func cameraModeDidChanged(){
@@ -68,12 +70,17 @@ class CameraModeManage {
         case .CameraModePeople:
             backImage = UIImage(named: "faceModeBackground")!;
             filterImage = UIImage(named: "滤镜")!;
+            frameImage = nil
+
         case .CameraModeScenery:
             backImage = UIImage(named: "landscapeModeBack")!;
             filterImage = UIImage(named: "滤镜landscape")!;
+            frameImage = nil
+
         case .CameraModeFood:
             backImage = UIImage(named: "foodModeback")!
             filterImage = UIImage(named: "滤镜food")!;
+             frameImage = nil
         case .CameraModeFilm:
             backImage = UIImage(named: "filmModeBack")!;
             filterImage = UIImage(named: "滤镜film")!;
@@ -84,8 +91,9 @@ class CameraModeManage {
         
         self.currentBackImageView.image = backImage;
         self.currentFilterButton.setImage(filterImage, for: .normal);
+        self.currentCameraFrame.image = frameImage;
+
         if let currentFrame = frameImage {
-            self.currentCameraFrame.image = currentFrame;
             currentCameraFrame.isHidden = false;
         } else {
             currentCameraFrame.isHidden = true;

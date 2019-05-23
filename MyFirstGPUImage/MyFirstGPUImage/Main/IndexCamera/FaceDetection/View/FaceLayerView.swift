@@ -18,7 +18,7 @@ struct FaceLayer {
 final class FaceLayerView: UIView {
     //脸部layer数组
     private var drawnFaceLayers = [FaceLayer]()
-    private var layerColor = UIColor.init(red: 252/255, green: 228/255, blue: 236/255, alpha: 0.7)
+    private var layerColor = UIColor.init(red: 252/255, green: 228/255, blue: 236/255, alpha: 0.5)
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = UIColor.clear
@@ -104,7 +104,9 @@ final class FaceLayerView: UIView {
        
         //定义完贝塞尔曲线，添加到layer，更新path
        // Layer.path = progressPath.cgPath
-        circleLayer.strokeColor = lightPink.cgColor
+        circleLayer.strokeColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.8).cgColor
+        circleLayer.lineWidth = 0.5
+
         drawnFaceLayers.append(FaceLayer(layer: circleLayer, area: area))
     
         layer.addSublayer(drawnFaceLayers.last!.layer)
