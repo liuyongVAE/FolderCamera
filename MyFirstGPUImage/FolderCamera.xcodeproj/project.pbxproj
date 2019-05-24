@@ -106,6 +106,15 @@
 		2D4E9A6C2296B9DD00AFBFD6 /* 草地自动.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D4E9A6B2296B9DD00AFBFD6 /* 草地自动.png */; };
 		2D4E9A6E2296B9E300AFBFD6 /* 天空自动.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D4E9A6D2296B9E300AFBFD6 /* 天空自动.png */; };
 		2D4E9A702296BA1500AFBFD6 /* FCAIFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4E9A6F2296BA1500AFBFD6 /* FCAIFilter.swift */; };
+		2D4E9A822296D79C00AFBFD6 /* 人像-N4.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D4E9A792296D79A00AFBFD6 /* 人像-N4.png */; };
+		2D4E9A832296D79C00AFBFD6 /* 电影-5黑白.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D4E9A7A2296D79B00AFBFD6 /* 电影-5黑白.png */; };
+		2D4E9A842296D79C00AFBFD6 /* 电影-1山鸠.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D4E9A7B2296D79B00AFBFD6 /* 电影-1山鸠.png */; };
+		2D4E9A852296D79C00AFBFD6 /* 电影-3藤鼠.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D4E9A7C2296D79B00AFBFD6 /* 电影-3藤鼠.png */; };
+		2D4E9A862296D79C00AFBFD6 /* 人像-N1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D4E9A7D2296D79B00AFBFD6 /* 人像-N1.png */; };
+		2D4E9A872296D79C00AFBFD6 /* 电影-4蜂蜜.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D4E9A7E2296D79B00AFBFD6 /* 电影-4蜂蜜.png */; };
+		2D4E9A882296D79C00AFBFD6 /* 人像-N2.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D4E9A7F2296D79B00AFBFD6 /* 人像-N2.png */; };
+		2D4E9A892296D79C00AFBFD6 /* 电影-2青碧.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D4E9A802296D79B00AFBFD6 /* 电影-2青碧.png */; };
+		2D4E9A8A2296D79C00AFBFD6 /* 人像-N3.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D4E9A812296D79C00AFBFD6 /* 人像-N3.png */; };
 		2D502351210AB8E200A7559A /* FillterSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D502350210AB8E200A7559A /* FillterSelectView.swift */; };
 		2D85F24F212A97E5008AD54D /* SaveVideoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D85F24E212A97E5008AD54D /* SaveVideoManager.swift */; };
 		2DB0290D21465AA8009A2821 /* SettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB0290C21465AA8009A2821 /* SettingModel.swift */; };
@@ -264,6 +273,15 @@
 		2D4E9A6B2296B9DD00AFBFD6 /* 草地自动.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "草地自动.png"; sourceTree = "<group>"; };
 		2D4E9A6D2296B9E300AFBFD6 /* 天空自动.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "天空自动.png"; sourceTree = "<group>"; };
 		2D4E9A6F2296BA1500AFBFD6 /* FCAIFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCAIFilter.swift; sourceTree = "<group>"; };
+		2D4E9A792296D79A00AFBFD6 /* 人像-N4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "人像-N4.png"; sourceTree = "<group>"; };
+		2D4E9A7A2296D79B00AFBFD6 /* 电影-5黑白.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "电影-5黑白.png"; sourceTree = "<group>"; };
+		2D4E9A7B2296D79B00AFBFD6 /* 电影-1山鸠.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "电影-1山鸠.png"; sourceTree = "<group>"; };
+		2D4E9A7C2296D79B00AFBFD6 /* 电影-3藤鼠.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "电影-3藤鼠.png"; sourceTree = "<group>"; };
+		2D4E9A7D2296D79B00AFBFD6 /* 人像-N1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "人像-N1.png"; sourceTree = "<group>"; };
+		2D4E9A7E2296D79B00AFBFD6 /* 电影-4蜂蜜.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "电影-4蜂蜜.png"; sourceTree = "<group>"; };
+		2D4E9A7F2296D79B00AFBFD6 /* 人像-N2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "人像-N2.png"; sourceTree = "<group>"; };
+		2D4E9A802296D79B00AFBFD6 /* 电影-2青碧.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "电影-2青碧.png"; sourceTree = "<group>"; };
+		2D4E9A812296D79C00AFBFD6 /* 人像-N3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "人像-N3.png"; sourceTree = "<group>"; };
 		2D502350210AB8E200A7559A /* FillterSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillterSelectView.swift; sourceTree = "<group>"; };
 		2D85F24E212A97E5008AD54D /* SaveVideoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveVideoManager.swift; sourceTree = "<group>"; };
 		2DB0290C21465AA8009A2821 /* SettingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingModel.swift; sourceTree = "<group>"; };
@@ -325,6 +343,15 @@
 		18B57753225B389000A60C60 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				2D4E9A7B2296D79B00AFBFD6 /* 电影-1山鸠.png */,
+				2D4E9A802296D79B00AFBFD6 /* 电影-2青碧.png */,
+				2D4E9A7C2296D79B00AFBFD6 /* 电影-3藤鼠.png */,
+				2D4E9A7E2296D79B00AFBFD6 /* 电影-4蜂蜜.png */,
+				2D4E9A7A2296D79B00AFBFD6 /* 电影-5黑白.png */,
+				2D4E9A7D2296D79B00AFBFD6 /* 人像-N1.png */,
+				2D4E9A7F2296D79B00AFBFD6 /* 人像-N2.png */,
+				2D4E9A812296D79C00AFBFD6 /* 人像-N3.png */,
+				2D4E9A792296D79A00AFBFD6 /* 人像-N4.png */,
 				2D4E9A6D2296B9E300AFBFD6 /* 天空自动.png */,
 				2D4E9A6B2296B9DD00AFBFD6 /* 草地自动.png */,
 				1893F2282262DE9E0095BB5D /* 风景-01鲜明.png */,
@@ -923,29 +950,37 @@
 			buildActionMask = 2147483647;
 			files = (
 				1893F2602262DEC50095BB5D /* 人像-07质感.png in Resources */,
+				2D4E9A8A2296D79C00AFBFD6 /* 人像-N3.png in Resources */,
+				2D4E9A872296D79C00AFBFD6 /* 电影-4蜂蜜.png in Resources */,
 				2D2D6D99211D7A9C005F8371 /* myShader.fsh in Resources */,
 				1893F25D2262DEC50095BB5D /* 美食-s2.png in Resources */,
 				1893F2562262DEC50095BB5D /* 人像-03流光.png in Resources */,
 				1893F2622262DEC50095BB5D /* 胶片-K1.png in Resources */,
 				1893F2582262DEC50095BB5D /* 美食-a3.png in Resources */,
+				2D4E9A842296D79C00AFBFD6 /* 电影-1山鸠.png in Resources */,
 				1893F2552262DEC50095BB5D /* Origion.png in Resources */,
 				1893F2462262DEC50095BB5D /* 人像-02竹翠.png in Resources */,
 				1893F25E2262DEC50095BB5D /* 人像-09高级灰.png in Resources */,
 				1893F2572262DEC50095BB5D /* 美食-a1.png in Resources */,
+				2D4E9A862296D79C00AFBFD6 /* 人像-N1.png in Resources */,
 				2D4E9A6E2296B9E300AFBFD6 /* 天空自动.png in Resources */,
 				1893F2532262DEC50095BB5D /* 美食-s1.png in Resources */,
 				1893F24C2262DEC50095BB5D /* 人像-08浅粉.png in Resources */,
 				2D378ED92112FB2B00A51DE8 /* Launch Screen.storyboard in Resources */,
 				1893F2502262DEC50095BB5D /* 人像-01照花.png in Resources */,
+				2D4E9A882296D79C00AFBFD6 /* 人像-N2.png in Resources */,
 				1893F2522262DEC50095BB5D /* 胶片-K3.png in Resources */,
 				1893F2492262DEC50095BB5D /* 美食-c2.png in Resources */,
 				1893F2472262DEC50095BB5D /* 风景-01鲜明.png in Resources */,
+				2D4E9A832296D79C00AFBFD6 /* 电影-5黑白.png in Resources */,
 				2D378EC821115C2900A51DE8 /* GPUImage.InstagramFilter.bundle in Resources */,
+				2D4E9A852296D79C00AFBFD6 /* 电影-3藤鼠.png in Resources */,
 				2D1F727F21F9C3D800536131 /* ItemCollectionViewCell.xib in Resources */,
 				1893F2542262DEC50095BB5D /* 胶片-F2.png in Resources */,
 				1893F25C2262DEC50095BB5D /* 人像-06浪漫.png in Resources */,
 				1893F24E2262DEC50095BB5D /* 风景-04若苗.png in Resources */,
 				1893F2452262DEC50095BB5D /* 风景-02清淡.png in Resources */,
+				2D4E9A822296D79C00AFBFD6 /* 人像-N4.png in Resources */,
 				1893F2442262DEC50095BB5D /* 胶片-K2.png in Resources */,
 				2DB0291421466F86009A2821 /* SettingTableViewCell.xib in Resources */,
 				1893F2592262DEC50095BB5D /* 风景-05故宫红.png in Resources */,
@@ -955,6 +990,7 @@
 				1893F25B2262DEC50095BB5D /* 风景-03对比.png in Resources */,
 				1893F24D2262DEC50095BB5D /* 胶片-F3.png in Resources */,
 				1893F24A2262DEC50095BB5D /* 美食-c3.png in Resources */,
+				2D4E9A892296D79C00AFBFD6 /* 电影-2青碧.png in Resources */,
 				1893F2612262DEC50095BB5D /* 风景-06岩井茶.png in Resources */,
 				1893F25A2262DEC50095BB5D /* 美食-a2.png in Resources */,
 				2D1F727E21F9C3D800536131 /* AlbumTableViewCell.xib in Resources */,

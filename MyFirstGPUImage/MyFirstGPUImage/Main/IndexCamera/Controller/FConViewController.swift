@@ -237,7 +237,7 @@ extension FConViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if cameraFillterView.mb != nil{
-            UIView.animate(withDuration: 0.3, animations: {
+            UIView.animate(withDuration: 0.3, animations: { 
                 self.cameraFillterView.mb!()
                 self.view.layoutIfNeeded()
                 
