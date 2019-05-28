@@ -128,6 +128,7 @@
 		2DB116AD2135441900D17A70 /* QuickTimeMov.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB116AC2135441900D17A70 /* QuickTimeMov.swift */; };
 		2DB116AF213639C300D17A70 /* DeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB116AE213639C300D17A70 /* DeviceExtension.swift */; };
 		2DB116B821378B0F00D17A70 /* FDLivePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB116B721378B0F00D17A70 /* FDLivePhotoView.swift */; };
+		2DB8A23B229CF50400962373 /* GenderNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2DB8A23A229CF50400962373 /* GenderNet.mlmodel */; };
 		2DB8F7382212775900F1C266 /* CameraEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB8F7372212775900F1C266 /* CameraEnum.swift */; };
 		2DB8F73C2212902500F1C266 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB8F73B2212902500F1C266 /* ViewControllerExtension.swift */; };
 		2DB8F73E2212C4EC00F1C266 /* RoutingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB8F73D2212C4EC00F1C266 /* RoutingService.swift */; };
@@ -295,6 +296,7 @@
 		2DB116AC2135441900D17A70 /* QuickTimeMov.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickTimeMov.swift; sourceTree = "<group>"; };
 		2DB116AE213639C300D17A70 /* DeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceExtension.swift; sourceTree = "<group>"; };
 		2DB116B721378B0F00D17A70 /* FDLivePhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FDLivePhotoView.swift; sourceTree = "<group>"; };
+		2DB8A23A229CF50400962373 /* GenderNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = GenderNet.mlmodel; sourceTree = "<group>"; };
 		2DB8F7372212775900F1C266 /* CameraEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraEnum.swift; sourceTree = "<group>"; };
 		2DB8F73B2212902500F1C266 /* ViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
 		2DB8F73D2212C4EC00F1C266 /* RoutingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingService.swift; sourceTree = "<group>"; };
@@ -652,6 +654,7 @@
 			isa = PBXGroup;
 			children = (
 				2DE1A5752296628300CCA6A8 /* ss.mlmodel */,
+				2DB8A23A229CF50400962373 /* GenderNet.mlmodel */,
 				18B5774F225B337700A60C60 /* CustomFilter */,
 				2D85F250212A9808008AD54D /* Tools */,
 				2D2D6D98211D7923005F8371 /* myShader.fsh */,
@@ -1060,6 +1063,7 @@
 				2D378EBF21115C2900A51DE8 /* IFRiseFilter.m in Sources */,
 				2D378EC921115C2900A51DE8 /* IFNormalFilter.m in Sources */,
 				2D378EB921115C2900A51DE8 /* IFBrannanFilter.m in Sources */,
+				2DB8A23B229CF50400962373 /* GenderNet.mlmodel in Sources */,
 				2D1F727C21F9C3D800536131 /* ItemCollectionViewCell.swift in Sources */,
 				2DC0682621425C7300551531 /* CallSettingView.swift in Sources */,
 				1893F26422630BA90095BB5D /* FCSceneryFilter.swift in Sources */,

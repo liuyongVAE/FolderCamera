@@ -1095,6 +1095,9 @@ extension FConViewController:GPUImageVideoCameraDelegate{
             
             
             guard let model = try? VNCoreMLModel(for: ss().model) else { return }
+            //guard let ageModel = try? VNCoreMLModel(for: AgeNet().model) else { return }
+            guard let genderModel = try? VNCoreMLModel(for: GenderNet().model) else { return }
+
             
             // run an inference with CoreML
             let request = VNCoreMLRequest(model: model) { (finishedRequest, error) in
@@ -1108,26 +1111,32 @@ extension FConViewController:GPUImageVideoCameraDelegate{
                 // create the label text components
                 let predclass = "\(Observation.identifier)"
                 let predconfidence = String(format: "%.02f", Observation.confidence * 100)
-            
-                // set the label text
-                DispatchQueue.main.async(execute: {
-                    if (Observation.confidence * 100 > 50) {
-                        self.sceneLabel.labelText = "\(predclass)"
-                    } else {
-                        print(predclass,predconfidence)
-                        self.sceneLabel.labelText = "风景"
-                    }
-                    
-            
-                        if (CameraModeManage.shared.currentAIFilterStates) {
+                
+                //如果检测到人像，就检测年龄和性别
+                if (predclass == "人像" && Observation.confidence * 100 > 50) {
+                    self.genderREC(model: genderModel, sampleBuffer)
+   
+                } else {
+                    // set the label text
+                    DispatchQueue.main.async(execute: {
+                        if (Observation.confidence * 100 > 50) {
+                            self.sceneLabel.labelText = "\(predclass)"
+                        } else {
+                            print(predclass,predconfidence)
+                            self.sceneLabel.labelText = "风景"
+                        }
                         
+                        
+                        if (CameraModeManage.shared.currentAIFilterStates) {
+                            
                             self.setToFilter(filter: FilterGroup.shared.getAIFilter(index: self.sceneLabel.currentAIFilterIndex).filter)
                         } else {
                         }
                         
-                    
-                    
-                })
+                    })
+                }
+
+
                 
             }
             
@@ -1140,6 +1149,52 @@ extension FConViewController:GPUImageVideoCameraDelegate{
             try? VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:]).perform([request])
         }
     }
+    
+    func genderREC(model: VNCoreMLModel!,_ sampleBuffer: CMSampleBuffer!){
+        // run an inference with CoreML
+        let request = VNCoreMLRequest(model:model) { (finishedRequest, error) in
+            
+            // grab the inference results
+            guard let results = finishedRequest.results as? [VNClassificationObservation] else { return }
+            
+            // grab the highest confidence result
+            guard let Observation = results.first else { return }
+            
+            // create the label text components
+            let predclass = "\(Observation.identifier)"
+            let predconfidence = String(format: "%.02f", Observation.confidence * 100)
+            
+
+            // set the label text
+            DispatchQueue.main.async(execute: {
+                print(predclass,predconfidence)
+                if (predclass == "Male") {
+                    self.sceneLabel.labelText = "帅哥"
+                } else {
+                    self.sceneLabel.labelText = "美女"
+                }
+
+//                if (Observation.confidence * 100 > 50) {
+//                    self.sceneLabel.labelText = "\(predclass)"
+//                } else {
+//                    print(predclass,predconfidence)
+//                    self.sceneLabel.labelText = "风景"
+//                }
+                
+                
+            })
+            
+        }
+        
+        // create a Core Video pixel buffer which is an image buffer that holds pixels in main memory
+        // Applications generating frames, compressing or decompressing video, or using Core Image
+        // can all make use of Core Video pixel buffers
+        guard let pixelBuffer: CVPixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+        
+        // execute the request
+        try? VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:]).perform([request])
+    }
+    
     
     
     //MARK: 设置人脸框和场景识别提示
